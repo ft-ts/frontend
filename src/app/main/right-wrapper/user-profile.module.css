@@ -1,0 +1,25 @@
+/* 유저 프로필 배경 */
+.userProfileBackground{
+    box-sizing: border-box;
+    position: absolute;
+    width: 288px;
+    height: 396px;
+    left: 1152px;
+    top: 0px;
+    background: #292929;
+    border: 1px solid #000000;
+    border-radius: 5px;
+}
+
+/* 유저 프로필 사진 */
+.userProfilePicture{
+    position: absolute;
+    width: 128px;
+    height: 104px;
+    left: 80px;
+    top: 30.04px;
+    border-radius: 5px;
+}
+
+
+
