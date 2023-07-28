@@ -16,10 +16,68 @@
     position: absolute;
     width: 128px;
     height: 104px;
-    left: 80px;
+    left: 1232px;
     top: 30.04px;
     border-radius: 5px;
 }
+
+/* 유저 이름 */
+.userProfileName{
+    position: absolute;
+    width: 290.67px;
+    height: 72.87px;
+    left: 1228.67px;
+    top: 120.3px;
+    font-family: 'ArcadeClassic';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 40px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+/* 게임 상태 */
+.GameState{
+    position: absolute;
+    width: 120px;
+    height: 43.72px;
+    left: 1234px;
+    top: 176px;
+    font-family: 'ArcadeClassic';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 32px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #B1D276;
+}
+
+.outGameState{
+    position: absolute;
+    width: 200px;
+    height: 43.72px;
+    left: 1204px;
+    top: 176px;
+    font-family: 'ArcadeClassic';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 32px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #B1D276;
+}
+
+
+
+
+
 
 
 
