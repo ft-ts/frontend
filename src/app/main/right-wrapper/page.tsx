@@ -27,6 +27,7 @@ export default function RightWrapper(props: UserProps) {
       <DisplayUserGameState gameState={false} />
       <DisplayMatchNumber winCount={30} loseCount={30} />
       <DisplayLadderPoint ladderPoint={1100} />
+      <DisplayEditButton />
     </div>
   )
 }
@@ -93,4 +94,12 @@ const DisplayLadderPoint = (props: {ladderPoint: number}) => {
             <h3>Ladder: {props.ladderPoint}</h3>
         </div>
     )
+}
+
+const DisplayEditButton = (props: {}) => {
+    return (
+        <div className={styles.editButtonRectangle}>
+            <h3 className={styles.editButtonFont}>edit my profile</h3>
+        </div>
+    );
 }

@@ -111,6 +111,35 @@
     color: #FFFFFF;
 }
 
+  /* Rectangle 27 */
+.editButtonRectangle{
+    box-sizing: border-box;
+    position: absolute;
+    width: 200.67px;
+    height: 40px;
+    left: 1200.67px;
+    top: 310px;
+    border: 2px solid #FF3333;
+    border-radius: 5px;
+}
+
+/* edit my info */
+.editButtonFont{
+    position: absolute;
+    width: 180px;
+    height: 51.84px;
+    left: 11.33px;
+    top: -7px;
+    font-family: 'ArcadeClassic';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 30px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #FF3A3A;
+}
 
 
 
