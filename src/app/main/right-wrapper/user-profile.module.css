@@ -24,14 +24,14 @@
 /* 유저 이름 */
 .userProfileName{
     position: absolute;
-    width: 290.67px;
-    height: 72.87px;
-    left: 1228.67px;
-    top: 120.3px;
+    width: auto;
+    height: auto;
+    left: 1242.67px;
+    margin-top: 105px;
     font-family: 'ArcadeClassic';
     font-style: normal;
     font-weight: 400;
-    font-size: 32px;
+    font-size: 24px;
     line-height: 40px;
     display: flex;
     align-items: center;
@@ -44,12 +44,12 @@
     position: absolute;
     width: 120px;
     height: 43.72px;
-    left: 1234px;
-    top: 176px;
+    left: 1252px;
+    top: 162px;
     font-family: 'ArcadeClassic';
     font-style: normal;
     font-weight: 400;
-    font-size: 32px;
+    font-size: 24px;
     line-height: 32px;
     display: flex;
     align-items: center;
@@ -61,18 +61,57 @@
     position: absolute;
     width: 200px;
     height: 43.72px;
-    left: 1204px;
-    top: 176px;
+    left: 1224px;
+    top: 162px;
     font-family: 'ArcadeClassic';
     font-style: normal;
     font-weight: 400;
-    font-size: 32px;
+    font-size: 24px;
     line-height: 32px;
     display: flex;
     align-items: center;
     text-align: center;
     color: #B1D276;
 }
+
+/* 승리횟수 */
+.userCount{
+    position: absolute;
+    width: auto;
+    height: auto;
+    left: 1244px;
+    top: 200px;
+    font-family: 'ArcadeClassic';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+.ladderPoint{
+    position: absolute;
+    width: auto;
+    height: auto;
+    left: 1220px;
+    top: 264px;
+    font-family: 'ArcadeClassic';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+
 
 
 

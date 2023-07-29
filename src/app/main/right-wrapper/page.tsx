@@ -14,29 +14,31 @@ interface UserProps{
     gameState: boolean;
     winCount: number;
     loseCount: number;
-    ladder: number;
+    ladderPoint: number;
 }
 
 export default function RightWrapper(props: UserProps) {
   return (
     <div id="right-wrapper">
       <h1>RightWrapper</h1>
-      <UserProfileBackground  />
-      <UserProfileImage />
-      <UserProfileName nickname="DOHYULEE" />
-      <UserGameState gameState={false} />
+      <DisplayUserProfileBackground  />
+      <DisplayUserProfileImage />
+      <DisplayUserProfileName nickname="DOHYULEE" />
+      <DisplayUserGameState gameState={false} />
+      <DisplayMatchNumber winCount={30} loseCount={30} />
+      <DisplayLadderPoint ladderPoint={1100} />
     </div>
   )
 }
 
-const UserProfileBackground = (props: {}) => {
+const DisplayUserProfileBackground = (props: {}) => {
     return (
         <div className={styles.userProfileBackground}>
         </div>
     )
 }
 
-const UserProfileImage = (props: {}) => {
+const DisplayUserProfileImage = (props: {}) => {
     return (
         <Image src="/asset/profile_dumy.png" 
         className={styles.userProfilePicture}
@@ -47,7 +49,7 @@ const UserProfileImage = (props: {}) => {
     )
 }
 
-const UserProfileName = (props: {nickname: string}) => {
+const DisplayUserProfileName = (props: {nickname: string}) => {
     return (
         <div className={styles.userProfileName}>
             <h2>{props.nickname}</h2>
@@ -55,7 +57,7 @@ const UserProfileName = (props: {nickname: string}) => {
     )
 }
 
-const UserGameState = ({gameState}: {gameState: boolean}) => {
+const DisplayUserGameState = ({gameState}: {gameState: boolean}) => {
     
     const [status, setStatus] = useState("");
     const [style, setStyle] = useState({});
@@ -72,6 +74,23 @@ const UserGameState = ({gameState}: {gameState: boolean}) => {
     return (
         <div className={style}>
             <h3>{status}</h3>
+        </div>
+    )
+}
+
+const DisplayMatchNumber = (props: {winCount: number, loseCount: number}) => {
+    return (
+        <div className={styles.userCount}>
+            <h3 style={{ marginTop: '0px'}}>Win: {props.winCount}</h3>
+            <h3 style={{ marginTop: '0px'}}>Lose: {props.loseCount}</h3>
+        </div>
+    )
+}
+
+const DisplayLadderPoint = (props: {ladderPoint: number}) => {
+    return (
+        <div className={styles.ladderPoint}>
+            <h3>Ladder: {props.ladderPoint}</h3>
         </div>
     )
 }
