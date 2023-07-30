@@ -1,35 +1,44 @@
 'use client';
 
 import React, { useEffect, useState } from "react";
-import { LargeNumberLike } from 'crypto';
 import './right-wrapper.css'
 import styles from './user-profile.module.css'
 import Image from "next/image"
+import {UserProfileProps, UserListProps} from "../userType"
+import DisplayUserList from "./userList"
 
 
+type RightWrapperProps = UserProfileProps & UserListProps;
 
-interface UserProps{
-    userProfilePicture: string; // type을 어떻게 할 지 미정
-    nickname: string;
-    gameState: boolean;
-    winCount: number;
-    loseCount: number;
-    ladderPoint: number;
+export default function RightWrapper(props: RightWrapperProps) {
+//   return (
+//     <div id="right-wrapper">
+//         <h1>RightWrapper</h1>
+//         <DisplayUserProfile {...props} />
+//         <DisplayUserList >
+//     </div>
+//   )
+    return (
+        <div id="right-wrapper">
+            <h1>RightWrapper</h1>
+            <DisplayUserProfile {...props} />
+            <DisplayUserList {...props} />
+        </div>
+    )
 }
 
-export default function RightWrapper(props: UserProps) {
-  return (
-    <div id="right-wrapper">
-      <h1>RightWrapper</h1>
-      <DisplayUserProfileBackground  />
-      <DisplayUserProfileImage />
-      <DisplayUserProfileName nickname="DOHYULEE" />
-      <DisplayUserGameState gameState={false} />
-      <DisplayMatchNumber winCount={30} loseCount={30} />
-      <DisplayLadderPoint ladderPoint={1100} />
-      <DisplayEditButton />
-    </div>
-  )
+const DisplayUserProfile = (props: UserProfileProps) => {
+    return (
+        <div>
+            <DisplayUserProfileBackground  />
+            <DisplayUserProfileImage />
+            <DisplayUserProfileName nickname="DOHYULEE" />
+            <DisplayUserGameState gameState={false} />
+            <DisplayMatchNumber winCount={30} loseCount={30} />
+            <DisplayLadderPoint ladderPoint={1100} />
+            <DisplayEditButton />
+        </div>
+    )
 }
 
 const DisplayUserProfileBackground = (props: {}) => {
