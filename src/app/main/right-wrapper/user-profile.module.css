@@ -44,7 +44,6 @@
     position: absolute;
     width: 120px;
     height: 43.72px;
-    left: 1252px;
     top: 162px;
     font-family: 'ArcadeClassic';
     font-style: normal;
@@ -57,11 +56,10 @@
     color: #B1D276;
 }
 
-.outGameState{
+.onlineState{
     position: absolute;
     width: 200px;
     height: 43.72px;
-    left: 1224px;
     top: 162px;
     font-family: 'ArcadeClassic';
     font-style: normal;
@@ -71,7 +69,23 @@
     display: flex;
     align-items: center;
     text-align: center;
-    color: #B1D276;
+    color: #7ECFF2;
+}
+
+.offlineState{
+    position: absolute;
+    width: 200px;
+    height: 43.72px;
+    top: 162px;
+    font-family: 'ArcadeClassic';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 32px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #A7A7A7;
 }
 
 /* 승리횟수 */
@@ -91,6 +105,18 @@
     align-items: center;
     text-align: center;
     color: #FFFFFF;
+}
+
+.GameState {
+    left: 1246px;
+}
+
+.onlineState {
+    left: 1250px;
+}
+
+.offlineState {
+    left: 1246px;
 }
 
 .ladderPoint{
@@ -141,6 +167,17 @@
     color: #FF3A3A;
 }
 
+.userListBoxRectangle{
+    box-sizing: border-box;
+    position: absolute;
+    width: 400px;
+    height: 80px;
+    left: 0px;
+    top: 0px;
+    background: #292929;
+    border: 1px solid #000000;
+    border-radius: 5px;
+}
 
 
 

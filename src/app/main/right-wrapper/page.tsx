@@ -4,20 +4,14 @@ import React, { useEffect, useState } from "react";
 import './right-wrapper.css'
 import styles from './user-profile.module.css'
 import Image from "next/image"
-import {UserProfileProps, UserListProps} from "../userType"
+import {UserProfileProps, UserListProps, gameStateProps} from "../userType"
 import DisplayUserList from "./userList"
+import { on } from "events";
 
 
 type RightWrapperProps = UserProfileProps & UserListProps;
 
 export default function RightWrapper(props: RightWrapperProps) {
-//   return (
-//     <div id="right-wrapper">
-//         <h1>RightWrapper</h1>
-//         <DisplayUserProfile {...props} />
-//         <DisplayUserList >
-//     </div>
-//   )
     return (
         <div id="right-wrapper">
             <h1>RightWrapper</h1>
@@ -33,7 +27,7 @@ const DisplayUserProfile = (props: UserProfileProps) => {
             <DisplayUserProfileBackground  />
             <DisplayUserProfileImage />
             <DisplayUserProfileName nickname="DOHYULEE" />
-            <DisplayUserGameState gameState={false} />
+            <DisplayUserGameState gameState={true} online={false} />
             <DisplayMatchNumber winCount={30} loseCount={30} />
             <DisplayLadderPoint ladderPoint={1100} />
             <DisplayEditButton />
@@ -67,20 +61,27 @@ const DisplayUserProfileName = (props: {nickname: string}) => {
     )
 }
 
-const DisplayUserGameState = ({gameState}: {gameState: boolean}) => {
+
+const DisplayUserGameState = (props: gameStateProps) => {
     
     const [status, setStatus] = useState("");
     const [style, setStyle] = useState({});
 
     useEffect(() => {
-        if (gameState){
-            setStatus("In-Game");
-            setStyle(styles.GameState);
-        }else {
-            setStatus("out-of-Game");
-            setStyle(styles.outGameState);
+        if (props.online){
+            console.log(props.online);
+            if (props.gameState){
+                setStatus("In-Game");
+                setStyle(styles.GameState);
+            }else {
+                setStatus("online");
+                setStyle(styles.onlineState);
+            }
+        }else{
+            setStatus("offline");
+            setStyle(styles.offlineState)
         }
-    }, [gameState]);
+    }, [props.gameState, props.online]);
     return (
         <div className={style}>
             <h3>{status}</h3>
@@ -107,8 +108,10 @@ const DisplayLadderPoint = (props: {ladderPoint: number}) => {
 
 const DisplayEditButton = (props: {}) => {
     return (
-        <div className={styles.editButtonRectangle}>
+        <button className={styles.editButtonRectangle}>
             <h3 className={styles.editButtonFont}>edit my profile</h3>
-        </div>
+        </button>
     );
 }
+
+export { DisplayUserGameState }

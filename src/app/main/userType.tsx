@@ -2,6 +2,7 @@
 export interface UserProfileProps{
     userProfilePicture: string; // type을 어떻게 할 지 미정
     nickname: string;
+    online: boolean;
     gameState: boolean;
     winCount: number;
     loseCount: number;
@@ -9,5 +10,16 @@ export interface UserProfileProps{
 }
 
 export interface UserListProps{
+    userProfilePicture: string // type을 어떻게 할 지 미정
     nickName: string;
+    gameState: boolean;
+    online: boolean;
 };
+export interface gameStateProps{
+    gameState: boolean;
+    online: boolean;
+}
+
+export interface UserListContainerProps{
+    users: UserListProps[];
+}
