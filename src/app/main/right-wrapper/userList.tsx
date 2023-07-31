@@ -16,7 +16,8 @@ export default function DisplayUserList(props: UserListProps){
             <DisplayUserAllList />
             <DisplayUserListSearch />
             {/* <ScrollComponent /> */}
-            <UserListBox user={users[0]}/>
+            {/* <UserListBox user={users[0]}/> */}
+            <UserListContainer users={users}/>
         </div>
     )
 }
@@ -56,24 +57,17 @@ const DisplayUserListSearch = (props: {}) => {
         </button>
     )
 }
-// scorllbar have to be made completely
-function ScrollComponent()  {
+
+  const UserListContainer = (props: UserListContainerProps) => {
     return (
-      <div className="scrollContainer">
-        <div style={{ height: '400px' }}></div>
+      <div>
+        {props.users.map((user, index) => (
+          <UserListBox key={index} user={user} />
+        ))}
       </div>
     );
-  }
-
-//   const UserListContainer = (props: UserListContainerProps) => {
-//     return (
-//       <div>
-//         {props.users.map((user, index) => (
-//           <UserListBox key={index} {...user} />
-//         ))}
-//       </div>
-//     );
-//   };
+  };
+  
 
   interface UserListBoxProps{
     user: UserListProps;
