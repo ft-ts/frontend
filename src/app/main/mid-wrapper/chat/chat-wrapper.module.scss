@@ -33,6 +33,13 @@ $backgroundBorderWidth: 820px;
     top: 14px;
 }
 
+.userlistButton{
+    box-sizing: border-box;
+    position: absolute;
+    left: $backgroundWidth - 66.45px;
+    top: 14px;
+}
+
 $messageTop: 75.53px;
 
 .LobbyMessageFont{
@@ -62,4 +69,45 @@ $messageTop: 75.53px;
     border: 2px solid #FFEA2D;
     transform: matrix(1, 0, 0, 1, 0, 0);
 
+}
+
+$inputHeight: 28px;
+$inputTop: 335px;
+
+.inputMessageBox{
+    position: absolute;
+    width: 680px;
+    height: $inputHeight;
+    left: 44px;
+    top: $inputTop;
+    background: #FFFFFF;
+    border-radius: 5px;
+}
+
+.messageSendBox{
+    box-sizing: border-box;
+    position: absolute;
+    width: 80px;
+    height: $inputHeight + 2;
+    left: 737px;
+    top: $inputTop - 1;
+    border: 3px solid #35C2FF;
+    border-radius: 5px;
+}
+
+.messageSendFont{
+    position: absolute;
+    width: 112px;
+    height: $inputHeight + 2;
+    left: 752px;
+    top: $inputTop - 1;
+    font-family: 'ArcadeClassic';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 24px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #35C2FF;
 }

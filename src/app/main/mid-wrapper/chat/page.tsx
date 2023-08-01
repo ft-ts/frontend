@@ -11,16 +11,15 @@ export default function ChatWrapper() {
   )
 }
 
-interface messageDecoProps{
-    left: string;
-}
 
 const ChatBackground = (props: {}) => {
     return (
         <div className={styles.chatBackground}>
             <div className={styles.chatBackgroundBorder}></div>
             <ChatSettingButton />
+            <UserlistButton />
             <LobbyNewMessage />
+            <InputMessage />
         </div>
     )
 }
@@ -38,6 +37,18 @@ const ChatSettingButton = (props: {}) => {
     )
 }
 
+const UserlistButton = (props: {}) => {
+    return (
+        <button className={styles.userlistButton}>
+            <Image
+                src="/asset/user_list_button.svg"
+                alt="userlist button"
+                width = {44.45}
+                height={38}></Image>
+        </button>
+    )
+}
+
 
 
 const LobbyNewMessage = (props: {}) => {
@@ -48,5 +59,15 @@ const LobbyNewMessage = (props: {}) => {
             <span className={styles.lobbyMessageBar} style={{left: '563px'}}></span>
         </div>
         
+    )
+}
+
+const InputMessage = (props: {}) => {
+    return (
+        <span>
+            <input className={styles.inputMessageBox}></input>
+            <div className={styles.messageSendBox}></div>
+            <h1 className={styles.messageSendFont}>send</h1>
+        </span>
     )
 }
