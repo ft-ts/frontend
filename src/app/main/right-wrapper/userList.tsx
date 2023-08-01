@@ -58,20 +58,24 @@ const DisplayUserListSearch = (props: {}) => {
     )
 }
 
-  const UserListContainer = (props: UserListContainerProps) => {
+const UserListContainer = (props: UserListContainerProps) => {
     return (
       <div>
         {props.users.map((user, index) => (
-          <UserListBox key={index} user={user} />
+          <UserListBox key={index} user={user} top={`${107 + index * 60}px`} />
         ))}
       </div>
     );
   };
   
+  
+  
 
-  interface UserListBoxProps{
+  interface UserListBoxProps {
     user: UserListProps;
+    top: string;
   }
+  
 
   const DisplayUserGameState = (props: gameStateProps) => {
     
@@ -100,19 +104,22 @@ const DisplayUserListSearch = (props: {}) => {
     )
 }
 
-  const UserListBox = (props: UserListBoxProps) => {
+const UserListBox = (props: UserListBoxProps) => {
     return (
-        <button className={styles.userListRectangle}>
-             <img src={props.user.userProfilePicture} alt="profile" style={{ width: '50px', height: '50px', marginLeft: "10px" }} />
-             <div className={styles.userProfileName}>
-                {props.user.nickName}
-             </div>
-             <div>
-                <DisplayUserGameState 
-                    gameState={props.user.gameState} 
-                    online={props.user.online}
-                     />
-             </div>
-        </button>
-    )
-  }
+      <button className={styles.userListRectangle} style={{ top: props.top }}>
+        <img src={props.user.userProfilePicture} alt="profile" style={{ width: '50px', height: '50px', marginLeft: "10px" }} />
+        <div className={styles.userProfileName}>
+          {props.user.nickName}
+        </div>
+        <div>
+          <DisplayUserGameState 
+            gameState={props.user.gameState} 
+            online={props.user.online}
+          />
+        </div>
+      </button>
+    );
+  };
+  
+
+  
