@@ -1,0 +1,65 @@
+.chatWrapper {
+  background-color: blue;
+}
+
+$backgroundWidth: 864px;
+$backgroundBorderWidth: 820px;
+
+/* 배경 */
+.chatBackground{
+    position: absolute;
+    width: $backgroundWidth;
+    height: 399px;
+    left: 288px;
+    top: 390px;
+    background: #414141;
+}
+
+.chatBackgroundBorder{
+    box-sizing: border-box;
+    position: absolute;
+    width: $backgroundBorderWidth;
+    height: 320px;
+    left: ($backgroundWidth - $backgroundBorderWidth) / 2;
+    top: 64px;
+    border: 3px solid #FFFFFF;
+    border-radius: 10px;
+}
+
+.settingButton{
+    box-sizing: border-box;
+    position: absolute;
+    left: 22px;
+    top: 14px;
+}
+
+$messageTop: 75.53px;
+
+.LobbyMessageFont{
+    position: absolute;
+    width: 200px;
+    height: 43.62px;
+    left: $backgroundWidth / 2 - 66;
+    top: $messageTop;
+    font-family: 'ArcadeClassic';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 20px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #FFEA2D;
+}
+
+.lobbyMessageBar{
+
+    position: absolute;
+    width: 250.99px;
+    height: 1.32px;
+    top: $messageTop + 18.47px;
+
+    border: 2px solid #FFEA2D;
+    transform: matrix(1, 0, 0, 1, 0, 0);
+
+}
