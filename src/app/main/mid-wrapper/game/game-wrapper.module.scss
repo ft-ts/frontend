@@ -1,0 +1,46 @@
+.midWrapper {
+  background-color: red;
+}
+
+$backgroundWidth: 866px;
+$backgroundHeigth: 390px;
+.gameBackground{
+    box-sizing: border-box;
+    position: absolute;
+    left: 288px;
+    height: $backgroundHeigth;
+    width: $backgroundWidth;
+    top: 0px;
+    bottom: 540px;
+    background: #000000;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+$MatchWidth: 300px;
+
+.gameMatchButton{
+    position: absolute;
+    width: 300px;
+    height: 40.2px;
+    left: ($backgroundWidth / 2) - ($MatchWidth / 2);
+    top: 330px;
+    background: #D9D9D9;
+    border-radius: 20px;
+}
+
+.gameMatchFont{
+    position: absolute;
+    width: 250px;
+    height: 32px;
+    left: 40px;
+    top: 7px;
+    font-family: 'ArcadeClassic';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 32px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #000000;
+}
