@@ -4,6 +4,8 @@
 
 $backgroundWidth: 866px;
 $backgroundHeigth: 390px;
+$MatchWidth: 300px;
+
 .gameBackground{
     box-sizing: border-box;
     position: absolute;
@@ -16,7 +18,6 @@ $backgroundHeigth: 390px;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
-$MatchWidth: 300px;
 
 .gameMatchButton{
     position: absolute;
@@ -43,4 +44,35 @@ $MatchWidth: 300px;
     align-items: center;
     text-align: center;
     color: #000000;
+}
+
+.gameDisplayBackground{
+    position: absolute;
+    width: $backgroundWidth - 100px;
+    height: $backgroundHeigth - 100px;
+    left: 50px; 
+    top: 30px;
+    background: #D9D9D9;
+    border-radius: 20px;
+}
+
+$gameRecordSearchBoxWidth: 240px;
+$gameRecordSearchBoxTop: 260px;
+
+.gameRecordSearchBox{
+    box-sizing: border-box;
+    position: absolute;
+    width: $gameRecordSearchBoxWidth;
+    height: 40px;
+    left: ($backgroundWidth / 2) - ($gameRecordSearchBoxWidth / 2);
+    top: $gameRecordSearchBoxTop;
+    background: #5F5F5F;
+    border: 4px solid #000000;
+    border-radius: 5px;
+}
+
+.gameRecordIcon{
+    position: absolute;
+    left: ($backgroundWidth / 2) + ($gameRecordSearchBoxWidth / 2) - 37.5px;
+    top: $gameRecordSearchBoxTop + 5.75px;
 }
