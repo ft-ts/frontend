@@ -11,17 +11,17 @@ import { on } from "events";
 
 type RightWrapperProps = UserProfileProps & UserListProps;
 
-export default function RightWrapper(props: RightWrapperProps) {
+export default function RightWrapper(props: {}) {
     return (
         <div id="right-wrapper">
             <h1>RightWrapper</h1>
-            <DisplayUserProfile {...props} />
-            <DisplayUserList {...props} />
+            <DisplayUserProfile />
+            <DisplayUserList  />
         </div>
     )
 }
 
-const DisplayUserProfile = (props: UserProfileProps) => {
+const DisplayUserProfile = (props: {}) => {
     return (
         <div>
             <DisplayUserProfileBackground  />
@@ -65,7 +65,7 @@ const DisplayUserProfileName = (props: {nickname: string}) => {
 const DisplayUserGameState = (props: gameStateProps) => {
     
     const [status, setStatus] = useState("");
-    const [style, setStyle] = useState({});
+    const [style, setStyle] = useState("");
 
     useEffect(() => {
         if (props.online){

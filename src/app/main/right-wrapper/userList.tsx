@@ -8,7 +8,7 @@ const users: UserListProps[] = [
     { userProfilePicture: "/asset/profile_dumy.png", nickName: 'Jane', gameState: true, online: true },
   ];
 
-export default function DisplayUserList(props: UserListProps){
+export default function DisplayUserList(props: {}){
     return (
         <div className={styles.userListBackground}>
             <DisplayUserFriendList />
