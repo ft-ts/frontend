@@ -4,7 +4,6 @@ import Image from "next/image"
 export default function GameWrapper() {
   return (
     <div className={styles.midWrapper}>
-      <h1>GameWrapper</h1>
       <GameBackground />
     </div>
   )
@@ -13,9 +12,10 @@ export default function GameWrapper() {
 const GameBackground = (props: {}) => {
     return (
         <div className={styles.gameBackground}>
-            <div className={styles.gameDisplayBackground}></div>
-            <GameMatch />
-            <GameRecordSearch />
+            <div className={styles.gameDisplayBackground}>
+                <GameMatch />
+                <GameRecordSearch />
+            </div>
         </div>
     )
 }

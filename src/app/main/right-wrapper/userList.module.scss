@@ -1,7 +1,7 @@
 
     /* 배경 */
 .userListBackground{
-    position: absolute;
+    position: relative;
     width: 288px;
     height: 394px;
     left: 1152px;
@@ -46,7 +46,7 @@
    /* 배경 */
   .listSearchButton{
     box-sizing: border-box;
-    position: absolute;
+    position: relative;
     width: 288px;
     height: 53.36px;
     left: 0px;
@@ -57,7 +57,7 @@
 
 /* Vector */  
   .listSearchVector{
-    position: absolute;
+    position: relative;
     left: 85.25%;
     right: 3.75%;
     top: 11.96%;
@@ -66,7 +66,7 @@
 
  .userListRectangle{
     box-sizing: border-box;
-    position: absolute;
+    position: relative;
     width: 288px;
     height: 60px;
     left: 0px;
@@ -83,7 +83,7 @@ $fontTop: 18px;
 
 
  .GameState{
-    position: absolute;
+    position: relative;
     width: 120px;
     height: 43.72px;
     left: $fontLeft;
@@ -100,7 +100,7 @@ $fontTop: 18px;
 }
 
  .onlineState{
-    position: absolute;
+    position: relative;
     width: 200px;
     height: 43.72px;
     left: $fontLeft;
@@ -117,7 +117,7 @@ $fontTop: 18px;
 }
 
 .offlineState{
-    position: absolute;
+    position: relative;
     width: 200px;
     height: 43.72px;
     left: $fontLeft;
@@ -134,7 +134,7 @@ $fontTop: 18px;
 }
 
 .userProfileName{
-    position: absolute;
+    position: relative;
     width: auto;
     height: auto;
     left: 75px;

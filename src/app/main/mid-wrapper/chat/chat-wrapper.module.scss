@@ -7,7 +7,7 @@ $backgroundBorderWidth: 820px;
 
 /* 배경 */
 .chatBackground{
-    position: absolute;
+    position: relative;
     width: $backgroundWidth;
     height: 399px;
     left: 288px;
@@ -17,7 +17,7 @@ $backgroundBorderWidth: 820px;
 
 .chatBackgroundBorder{
     box-sizing: border-box;
-    position: absolute;
+    position: relative;
     width: $backgroundBorderWidth;
     height: 320px;
     left: ($backgroundWidth - $backgroundBorderWidth) / 2;
@@ -28,14 +28,14 @@ $backgroundBorderWidth: 820px;
 
 .settingButton{
     box-sizing: border-box;
-    position: absolute;
+    position: relative;
     left: 22px;
     top: 14px;
 }
 
 .userlistButton{
     box-sizing: border-box;
-    position: absolute;
+    position: relative;
     left: $backgroundWidth - 66.45px;
     top: 14px;
 }
@@ -43,7 +43,7 @@ $backgroundBorderWidth: 820px;
 $messageTop: 75.53px;
 
 .LobbyMessageFont{
-    position: absolute;
+    position: relative;
     width: 200px;
     height: 43.62px;
     left: $backgroundWidth / 2 - 66;
@@ -61,7 +61,7 @@ $messageTop: 75.53px;
 
 .lobbyMessageBar{
 
-    position: absolute;
+    position: relative;
     width: 250.99px;
     height: 1.32px;
     top: $messageTop + 18.47px;
@@ -75,7 +75,7 @@ $inputHeight: 28px;
 $inputTop: 335px;
 
 .inputMessageBox{
-    position: absolute;
+    position: relative;
     width: 680px;
     height: $inputHeight;
     left: 44px;
@@ -86,7 +86,7 @@ $inputTop: 335px;
 
 .messageSendBox{
     box-sizing: border-box;
-    position: absolute;
+    position: relative;
     width: 80px;
     height: $inputHeight + 2;
     left: 737px;
@@ -96,7 +96,7 @@ $inputTop: 335px;
 }
 
 .messageSendFont{
-    position: absolute;
+    position: relative;
     width: 112px;
     height: $inputHeight + 2;
     left: 752px;
