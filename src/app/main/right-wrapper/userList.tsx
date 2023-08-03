@@ -80,7 +80,7 @@ const UserListContainer = (props: UserListContainerProps) => {
   const DisplayUserGameState = (props: gameStateProps) => {
     
     const [status, setStatus] = useState("");
-    const [style, setStyle] = useState({});
+    const [style, setStyle] = useState("");
 
     useEffect(() => {
         if (props.online){

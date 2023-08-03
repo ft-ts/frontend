@@ -63,9 +63,8 @@ const DisplayUserProfileName = (props: {nickname: string}) => {
 
 
 const DisplayUserGameState = (props: gameStateProps) => {
-    
     const [status, setStatus] = useState("");
-    const [style, setStyle] = useState("");
+    const [style, setStyle] = useState(""); // Initialize as a string
 
     useEffect(() => {
         if (props.online){
@@ -73,21 +72,23 @@ const DisplayUserGameState = (props: gameStateProps) => {
             if (props.gameState){
                 setStatus("In-Game");
                 setStyle(styles.GameState);
-            }else {
+            } else {
                 setStatus("online");
                 setStyle(styles.onlineState);
             }
-        }else{
+        } else {
             setStatus("offline");
-            setStyle(styles.offlineState)
+            setStyle(styles.offlineState);
         }
     }, [props.gameState, props.online]);
+
     return (
         <div className={style}>
             <h3>{status}</h3>
         </div>
-    )
-}
+    );
+  }
+  
 
 const DisplayMatchNumber = (props: {winCount: number, loseCount: number}) => {
     return (
