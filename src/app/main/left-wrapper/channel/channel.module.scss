@@ -5,7 +5,7 @@
 $leftWrapperWidth: 288px;
 $CreChaBoxH: 67px;
 $CrePanBoxH: 50px;
-$CrePanBoxTop: $CreChaBoxH - 1;
+$CrePanBoxTop: $CreChaBoxH + 5;
 $SelPanBoxH: 60px;
 $SelPanBoxTop: $CreChaBoxH + $CrePanBoxH - 2;
 
@@ -42,7 +42,7 @@ $SelPanBoxTop: $CreChaBoxH + $CrePanBoxH - 2;
     box-sizing: border-box;
     position: relative;
     width: $leftWrapperWidth;
-    height: $CrePanBoxH;
+    height: $CrePanBoxH + 5px;
     left: 0px;
     top: $CrePanBoxTop;
     background: #FFFFFF;

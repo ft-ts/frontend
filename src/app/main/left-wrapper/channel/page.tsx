@@ -1,9 +1,8 @@
-import styles from "./left-wrapper.module.scss"
+import styles from "./channel.module.scss"
 
-export default function LeftWrapper() {
+export default function Channel() {
   return (
     <div className={styles.leftWrapper}>
-      <h1>LeftWrapper</h1>
       <CreateChannel />
       <ChannelPannel />
       <SelectChannelAll />
@@ -11,6 +10,7 @@ export default function LeftWrapper() {
     </div>
   )
 }
+
 
 const CreateChannel = (props: {}) => {
     return (
