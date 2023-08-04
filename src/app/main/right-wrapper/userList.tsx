@@ -71,7 +71,7 @@ const UserListContainer = (props: UserListContainerProps) => {
     return (
       <div>
         {props.users.map((user, index) => (
-          <UserListBox key={index} user={user} top={`${200 + index * 60}px`} />
+          <UserListBox key={index} user={user} top={`${207 + index * 96}px`} />
         ))}
       </div>
     );
@@ -116,11 +116,9 @@ const UserListContainer = (props: UserListContainerProps) => {
 const UserListBox = (props: UserListBoxProps) => {
     return (
       <button className={styles.userListRectangle} style={{ top: props.top }}>
-        <img src={props.user.userProfilePicture} alt="profile" style={{ width: '50px', height: '50px', marginLeft: "10px" }} />
+        <img src={props.user.userProfilePicture} alt="profile" style={{ width: '75px', height: '75px', marginLeft: "10px" }} />
         <div className={styles.userProfileName}>
           {props.user.nickName}
-        </div>
-        <div>
           <DisplayUserGameState 
             gameState={props.user.gameState} 
             online={props.user.online}

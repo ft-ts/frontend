@@ -72,10 +72,9 @@
  .userListRectangle{
     box-sizing: border-box;
     position: absolute;
-    width: 288px;
-    height: 60px;
+    width: $userListBackgroundWidth;
+    height: ($userListBackgroundHeight - 100 - 106) / 5;
     left: 0px;
-    top: 400px;
     background: #292929;
     border: 1px solid #000000;
     border-radius: 5px;
@@ -83,8 +82,8 @@
 
 /* In your CSS Module */
 
-$fontLeft: 74px;
-$fontTop: 18px;
+$fontLeft: -60px;
+$fontTop: 50px;
 
 
  .GameState{
@@ -96,7 +95,7 @@ $fontTop: 18px;
     font-family: 'ArcadeClassic';
     font-style: normal;
     font-weight: 400;
-    font-size: 18px;
+    font-size: $SelectfontSize;
     line-height: 32px;
     display: flex;
     align-items: center;
@@ -113,7 +112,7 @@ $fontTop: 18px;
     font-family: 'ArcadeClassic';
     font-style: normal;
     font-weight: 400;
-    font-size: 18px;
+    font-size: $SelectfontSize;;
     line-height: 32px;
     display: flex;
     align-items: center;
@@ -130,7 +129,7 @@ $fontTop: 18px;
     font-family: 'ArcadeClassic';
     font-style: normal;
     font-weight: 400;
-    font-size: 18px;
+    font-size: $SelectfontSize;
     line-height: 32px;
     display: flex;
     align-items: center;
@@ -142,12 +141,12 @@ $fontTop: 18px;
     position: relative;
     width: auto;
     height: auto;
-    left: 75px;
-    top: -3px;
+    left: 200px;
+    top: -70px;
     font-family: 'ArcadeClassic';
     font-style: normal;
     font-weight: 400;
-    font-size: 18px;
+    font-size: $SelectfontSize;
     line-height: 40px;
     display: flex;
     align-items: center;
