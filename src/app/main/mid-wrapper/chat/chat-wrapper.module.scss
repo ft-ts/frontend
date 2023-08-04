@@ -2,16 +2,16 @@
   background-color: blue;
 }
 
-$backgroundWidth: 864px;
-$backgroundBorderWidth: 820px;
+$backgroundWidth: 1280px;
+$backgroundBorderWidth: 1200px;
 
 /* 배경 */
 .chatBackground{
     position: relative;
     width: $backgroundWidth;
-    height: 399px;
-    left: 288px;
-    top: 390px;
+    height: 685px;
+    left: 0px;
+    top: 0px;
     background: #414141;
 }
 
@@ -19,9 +19,9 @@ $backgroundBorderWidth: 820px;
     box-sizing: border-box;
     position: relative;
     width: $backgroundBorderWidth;
-    height: 320px;
+    height: 540px;
     left: ($backgroundWidth - $backgroundBorderWidth) / 2;
-    top: 64px;
+    top: 40px;
     border: 3px solid #FFFFFF;
     border-radius: 10px;
 }
@@ -29,14 +29,14 @@ $backgroundBorderWidth: 820px;
 .settingButton{
     box-sizing: border-box;
     position: relative;
-    left: 22px;
-    top: 14px;
+    left: 30px;
+    top: 10px;
 }
 
 .userlistButton{
     box-sizing: border-box;
-    position: relative;
-    left: $backgroundWidth - 66.45px;
+    position: absolute;
+    left: $backgroundWidth - 94.45px;
     top: 14px;
 }
 
@@ -44,14 +44,14 @@ $messageTop: 75.53px;
 
 .LobbyMessageFont{
     position: relative;
-    width: 200px;
+    width: 250px;
     height: 43.62px;
-    left: $backgroundWidth / 2 - 66;
+    left: $backgroundWidth / 2 - (250 / 2) - 40;
     top: $messageTop;
     font-family: 'ArcadeClassic';
     font-style: normal;
     font-weight: 500;
-    font-size: 24px;
+    font-size: 42px;
     line-height: 20px;
     display: flex;
     align-items: center;
@@ -61,24 +61,23 @@ $messageTop: 75.53px;
 
 .lobbyMessageBar{
 
-    position: relative;
-    width: 250.99px;
+    position: absolute;
+    width: 400px;
     height: 1.32px;
     top: $messageTop + 18.47px;
-
     border: 2px solid #FFEA2D;
     transform: matrix(1, 0, 0, 1, 0, 0);
 
 }
 
-$inputHeight: 28px;
-$inputTop: 335px;
+$inputHeight: 44px;
+$inputTop: 424px;
 
 .inputMessageBox{
     position: relative;
-    width: 680px;
+    width: 990px;
     height: $inputHeight;
-    left: 44px;
+    left: 24px;
     top: $inputTop;
     background: #FFFFFF;
     border-radius: 5px;
@@ -86,25 +85,25 @@ $inputTop: 335px;
 
 .messageSendBox{
     box-sizing: border-box;
-    position: relative;
-    width: 80px;
+    position: absolute;
+    width: 150px;
     height: $inputHeight + 2;
-    left: 737px;
-    top: $inputTop - 1;
+    left: 1026px;
+    top: $inputTop + 43;
     border: 3px solid #35C2FF;
     border-radius: 5px;
 }
 
 .messageSendFont{
-    position: relative;
+    position: absolute;
     width: 112px;
     height: $inputHeight + 2;
-    left: 752px;
-    top: $inputTop - 1;
+    left: 1055px;
+    top: $inputTop + 43;
     font-family: 'ArcadeClassic';
     font-style: normal;
     font-weight: 500;
-    font-size: 24px;
+    font-size: 42px;
     line-height: 24px;
     display: flex;
     align-items: center;
