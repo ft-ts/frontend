@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import './right-wrapper.css'
-import styles from './user-profile.module.css'
+import styles from './user-profile.module.scss'
 import Image from "next/image"
 import {UserProfileProps, UserListProps, gameStateProps} from "../userType"
 import DisplayUserList from "./userList"
@@ -14,7 +14,6 @@ type RightWrapperProps = UserProfileProps & UserListProps;
 export default function RightWrapper(props: {}) {
     return (
         <div id="right-wrapper">
-            <h1>RightWrapper</h1>
             <DisplayUserProfile />
             <DisplayUserList  />
         </div>
@@ -25,12 +24,6 @@ const DisplayUserProfile = (props: {}) => {
     return (
         <div>
             <DisplayUserProfileBackground  />
-            <DisplayUserProfileImage />
-            <DisplayUserProfileName nickname="DOHYULEE" />
-            <DisplayUserGameState gameState={true} online={false} />
-            <DisplayMatchNumber winCount={30} loseCount={30} />
-            <DisplayLadderPoint ladderPoint={1100} />
-            <DisplayEditButton />
         </div>
     )
 }
@@ -38,6 +31,12 @@ const DisplayUserProfile = (props: {}) => {
 const DisplayUserProfileBackground = (props: {}) => {
     return (
         <div className={styles.userProfileBackground}>
+            <DisplayUserProfileImage />
+            <DisplayUserProfileName nickname="DOHYULEE" />
+            <DisplayUserGameState gameState={true} online={false} />
+            <DisplayMatchNumber winCount={30} loseCount={30} />
+            <DisplayLadderPoint ladderPoint={1100} />
+            <DisplayEditButton />
         </div>
     )
 }
@@ -94,7 +93,7 @@ const DisplayMatchNumber = (props: {winCount: number, loseCount: number}) => {
     return (
         <div className={styles.userCount}>
             <h3 style={{ marginTop: '0px'}}>Win: {props.winCount}</h3>
-            <h3 style={{ marginTop: '0px'}}>Lose: {props.loseCount}</h3>
+            <h3 style={{ marginTop: '30px'}}>Lose: {props.loseCount}</h3>
         </div>
     )
 }

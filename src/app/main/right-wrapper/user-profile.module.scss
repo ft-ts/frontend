@@ -1,10 +1,16 @@
 /* 유저 프로필 배경 */
+
+$userProfileFontWidth: 180px;
+$userProfileBackgroundWidth: 634px;
+
+$userProfileFontLeft: ($userProfileBackgroundWidth / 2) - ($userProfileFontWidth / 2);
+
 .userProfileBackground{
     box-sizing: border-box;
-    position: absolute;
-    width: 288px;
-    height: 396px;
-    left: 1152px;
+    position: relative;
+    width: $userProfileBackgroundWidth;
+    height: 686px;
+    left:0px;
     top: 0px;
     background: #292929;
     border: 1px solid #000000;
@@ -13,25 +19,25 @@
 
 /* 유저 프로필 사진 */
 .userProfilePicture{
-    position: absolute;
-    width: 128px;
-    height: 104px;
-    left: 1232px;
-    top: 30.04px;
+    position: relative;
+    width: 140px;
+    height: 144px;
+    left: ($userProfileBackgroundWidth / 2) - (140 / 2);
+    top: 30px;
     border-radius: 5px;
 }
 
 /* 유저 이름 */
 .userProfileName{
-    position: absolute;
+    position: relative;
     width: auto;
     height: auto;
-    left: 1242.67px;
-    margin-top: 105px;
+    left: $userProfileFontLeft;
+    top:60px;
     font-family: 'ArcadeClassic';
     font-style: normal;
     font-weight: 400;
-    font-size: 24px;
+    font-size: 42px;
     line-height: 40px;
     display: flex;
     align-items: center;
@@ -39,16 +45,20 @@
     color: #FFFFFF;
 }
 
+$stateTop: 80px;
+$fontSize: 42px;
+
 /* 게임 상태 */
 .GameState{
-    position: absolute;
+    position: relative;
     width: 120px;
     height: 43.72px;
-    top: 162px;
+    top: $stateTop;
+    left: $userProfileFontLeft;
     font-family: 'ArcadeClassic';
     font-style: normal;
     font-weight: 400;
-    font-size: 24px;
+    font-size: $fontSize;
     line-height: 32px;
     display: flex;
     align-items: center;
@@ -57,14 +67,15 @@
 }
 
 .onlineState{
-    position: absolute;
+    position: relative;
     width: 200px;
     height: 43.72px;
-    top: 162px;
+    top: $stateTop;
+    left: $userProfileFontLeft;
     font-family: 'ArcadeClassic';
     font-style: normal;
     font-weight: 400;
-    font-size: 24px;
+    font-size: $fontSize;
     line-height: 32px;
     display: flex;
     align-items: center;
@@ -73,14 +84,15 @@
 }
 
 .offlineState{
-    position: absolute;
+    position: relative;
     width: 200px;
     height: 43.72px;
-    top: 162px;
+    top: $stateTop;
+    left: $userProfileFontLeft;
     font-family: 'ArcadeClassic';
     font-style: normal;
     font-weight: 400;
-    font-size: 24px;
+    font-size: $fontSize;
     line-height: 32px;
     display: flex;
     align-items: center;
@@ -90,15 +102,15 @@
 
 /* 승리횟수 */
 .userCount{
-    position: absolute;
+    position: relative;
     width: auto;
     height: auto;
-    left: 1244px;
-    top: 200px;
+    left: 0px;
+    top: $stateTop + 25px;
     font-family: 'ArcadeClassic';
     font-style: normal;
     font-weight: 400;
-    font-size: 24px;
+    font-size: $fontSize;
     line-height: 32px;
     display: flex;
     flex-direction: column;
@@ -107,28 +119,16 @@
     color: #FFFFFF;
 }
 
-.GameState {
-    left: 1246px;
-}
-
-.onlineState {
-    left: 1250px;
-}
-
-.offlineState {
-    left: 1246px;
-}
-
 .ladderPoint{
-    position: absolute;
+    position: relative;
     width: auto;
     height: auto;
-    left: 1220px;
-    top: 264px;
+    left: 0px;
+    top: 150px;
     font-family: 'ArcadeClassic';
     font-style: normal;
     font-weight: 400;
-    font-size: 24px;
+    font-size: $fontSize;
     line-height: 32px;
     display: flex;
     flex-direction: column;
@@ -140,18 +140,18 @@
   /* Rectangle 27 */
 .editButtonRectangle{
     box-sizing: border-box;
-    position: absolute;
-    width: 200.67px;
+    position: relative;
+    width: 200px;
     height: 40px;
-    left: 1200.67px;
-    top: 310px;
+    left: ($userProfileBackgroundWidth / 2) - 100;
+    top: 220px;
     border: 2px solid #FF3333;
     border-radius: 5px;
 }
 
 /* edit my info */
 .editButtonFont{
-    position: absolute;
+    position: relative;
     width: 180px;
     height: 51.84px;
     left: 11.33px;
@@ -169,7 +169,7 @@
 
 .userListBoxRectangle{
     box-sizing: border-box;
-    position: absolute;
+    position: relative;
     width: 400px;
     height: 80px;
     left: 0px;

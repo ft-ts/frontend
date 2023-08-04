@@ -22,6 +22,16 @@ export default function DisplayUserList(props: {}){
     )
 }
 
+const SelectUserList = (props: {}) => {
+    return (
+        <div>
+            <DisplayUserFriendList />
+            <DisplayUserChannelList />
+            <DisplayUserAllList />
+        </div>
+    )
+}
+
 const DisplayUserFriendList = (props: {}) => {
     return (
         <button className={styles.listButton}>
@@ -32,7 +42,7 @@ const DisplayUserFriendList = (props: {}) => {
 
 const DisplayUserChannelList = (props: {}) => {
     return (
-        <button className={styles.listButton}>
+        <button className={styles.listButton} style={{left: "96px"}}>
             <h3 className={styles.listButtonText}>Channel</h3>
         </button>
     )
@@ -40,7 +50,7 @@ const DisplayUserChannelList = (props: {}) => {
 
 const DisplayUserAllList = (props: {}) => {
     return (
-        <button className={styles.listButtonAll}>
+        <button className={styles.listButtonAll} style={{left: "192px"}}>
             <h3 className={styles.listButtonText}>All</h3>
         </button>
     )
