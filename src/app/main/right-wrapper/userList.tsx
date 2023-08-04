@@ -12,12 +12,11 @@ export default function DisplayUserList(props: {}){
     return (
         <div className={styles.userListBackground}>
             <DisplayUserFriendList />
-            <DisplayUserChannelList />
-            <DisplayUserAllList />
+            <SelectUserList />
             <DisplayUserListSearch />
+            <UserListContainer users={users}/>
             {/* <ScrollComponent /> */}
             {/* <UserListBox user={users[0]}/> */}
-            <UserListContainer users={users}/>
         </div>
     )
 }
@@ -42,7 +41,7 @@ const DisplayUserFriendList = (props: {}) => {
 
 const DisplayUserChannelList = (props: {}) => {
     return (
-        <button className={styles.listButton} style={{left: "96px"}}>
+        <button className={styles.listButton} style={{left: "211px"}}>
             <h3 className={styles.listButtonText}>Channel</h3>
         </button>
     )
@@ -50,7 +49,7 @@ const DisplayUserChannelList = (props: {}) => {
 
 const DisplayUserAllList = (props: {}) => {
     return (
-        <button className={styles.listButtonAll} style={{left: "192px"}}>
+        <button className={styles.listButtonAll} style={{left: "422px"}}>
             <h3 className={styles.listButtonText}>All</h3>
         </button>
     )
@@ -72,7 +71,7 @@ const UserListContainer = (props: UserListContainerProps) => {
     return (
       <div>
         {props.users.map((user, index) => (
-          <UserListBox key={index} user={user} top={`${107 + index * 60}px`} />
+          <UserListBox key={index} user={user} top={`${200 + index * 60}px`} />
         ))}
       </div>
     );
