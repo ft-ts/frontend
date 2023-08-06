@@ -21,3 +21,39 @@ $userListBackgroundWidth: 634px;
     left: 5px;
     top: 410px;
 }
+
+.DisplayFont{
+    /* SIELEE */
+    position: absolute;
+    width: 400px;
+    height: 60px;
+    left: ($userListBackgroundWidth / 2) - (130 / 2);
+    top: 11px;
+    font-family: 'ArcadeClassic';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 48px;
+    line-height: 24px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: rgba(0, 0, 0, 0.8);
+}
+
+.showSetting {
+    position: absolute; 
+    width: $userListBackgroundWidth;
+    height: 80px;
+    left: 0px;
+    // top: 207 + 60px; 
+    opacity: 0.8;
+    background: rgba(237, 233, 233, 0.8);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+}
+
+.showSetting:hover{
+    background-color: rgb(125, 125, 122);
+}

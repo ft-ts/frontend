@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styles from "./userList.module.scss"
-import { UserListProps, UserListContainerProps, gameStateProps } from "../userType";
+import { UserListProps, UserListContainerProps, gameStateProps, UserProps } from "../userType";
 import Image from "next/image";
 import DisplayUserlistSetting from "./userListSetting"
 
@@ -8,6 +8,21 @@ const users: UserListProps[] = [
     { userProfilePicture: "/asset/profile_dumy.png", nickName: 'John', gameState: false, online: true },
     { userProfilePicture: "/asset/profile_dumy.png", nickName: 'Jane', gameState: true, online: true },
   ];
+
+const user: UserProps = {
+    id: 1,
+    uid: 1207,
+    name: "junoh",
+    avatar: "string",
+    email: "string",
+    twoFactorAuth: true,
+    hashedRt: "string",
+    qrSecret:"string",
+    rating: 1000,
+    createdAt: "string",
+    updatedAt: "string",
+}
+
 
 export default function DisplayUserList(props: {}){
     return (
@@ -133,7 +148,7 @@ const UserListBox = (props: UserListBoxProps) => {
           />
         </div>
       </button>
-      {showSetting && <DisplayUserlistSetting />} {/* Conditionally render the component */}
+      {showSetting && <DisplayUserlistSetting user={user}/>} {/* Conditionally render the component */}
     </div>
   );
 };

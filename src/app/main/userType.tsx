@@ -1,4 +1,19 @@
 
+export interface UserProps{
+    id: number;
+    uid: number;
+    name: string;
+    avatar: string;
+    email: string;
+    twoFactorAuth: boolean;
+    // status: "OFFLINE",
+    hashedRt: string;
+    qrSecret: string;
+    rating: number;
+    createdAt: string;
+    updatedAt: string;
+}
+
 export interface UserProfileProps{
     userProfilePicture: string; // type을 어떻게 할 지 미정
     nickname: string;
@@ -22,4 +37,8 @@ export interface gameStateProps{
 
 export interface UserListContainerProps{
     users: UserListProps[];
+}
+
+export interface UserInfoContainer{
+    user: UserProps;
 }
