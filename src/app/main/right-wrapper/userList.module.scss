@@ -38,6 +38,14 @@
     background: #FFFFFF; /* Replace with the color you want for the "All" button */
   }
   
+.listButton:hover{
+    background-color: #bbbbbb;
+}
+
+.listButtonAll:hover{
+    background-color: #bbbbbb;
+}
+
   .listButtonText {
     font-family: 'ArcadeClassic';
     font-style: normal;
@@ -78,6 +86,10 @@
     background: #292929;
     border: 1px solid #000000;
     border-radius: 5px;
+ }
+
+ .userListRectangle:hover{
+    background-color: #4f4f4f;
  }
 
 /* In your CSS Module */

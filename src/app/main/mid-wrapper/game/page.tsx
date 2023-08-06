@@ -35,8 +35,8 @@ const GameRecordSearch = (props: {}) => {
                 className={styles.gameRecordIcon}
                 src="asset/RecordSearch.svg"
                 alt="RecordSearch icon"
-                width={26}
-                height={26}
+                width={43}
+                height={43}
                 ></Image>
         </div>
         

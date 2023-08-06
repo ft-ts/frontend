@@ -33,6 +33,7 @@ $backgroundBorderWidth: 1200px;
     top: 10px;
 }
 
+
 .userlistButton{
     box-sizing: border-box;
     position: absolute;
@@ -40,7 +41,7 @@ $backgroundBorderWidth: 1200px;
     top: 14px;
 }
 
-$messageTop: 75.53px;
+$messageTop: 20.53px;
 
 .LobbyMessageFont{
     position: relative;
@@ -92,6 +93,10 @@ $inputTop: 424px;
     top: $inputTop + 43;
     border: 3px solid #35C2FF;
     border-radius: 5px;
+}
+
+.messageSendBox:hover{
+    background-color: #0b82b5;
 }
 
 .messageSendFont{
