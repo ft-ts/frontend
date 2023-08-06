@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styles from "./userList.module.scss"
 import { UserListProps, UserListContainerProps, gameStateProps } from "../userType";
 import Image from "next/image";
+import DisplayUserlistSetting from "./userListSetting"
 
 const users: UserListProps[] = [
     { userProfilePicture: "/asset/profile_dumy.png", nickName: 'John', gameState: false, online: true },
@@ -114,8 +115,15 @@ const UserListContainer = (props: UserListContainerProps) => {
 }
 
 const UserListBox = (props: UserListBoxProps) => {
-    return (
-      <button className={styles.userListRectangle} style={{ top: props.top }}>
+  const [showSetting, setShowSetting] = useState(false); // Initialize the state variable
+
+  const handleClick = () => {
+    setShowSetting(true); // Set the state variable to true when the button is clicked
+  };
+
+  return (
+    <div>
+      <button onClick={handleClick} className={styles.userListRectangle} style={{ top: props.top }}>
         <img src={props.user.userProfilePicture} alt="profile" style={{ width: '75px', height: '75px', marginLeft: "10px" }} />
         <div className={styles.userProfileName}>
           {props.user.nickName}
@@ -125,8 +133,11 @@ const UserListBox = (props: UserListBoxProps) => {
           />
         </div>
       </button>
-    );
-  };
+      {showSetting && <DisplayUserlistSetting />} {/* Conditionally render the component */}
+    </div>
+  );
+};
+
   
 
   

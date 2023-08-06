@@ -1,0 +1,23 @@
+
+$userListBackgroundHeight: 686px;
+$userListBackgroundWidth: 634px; 
+
+.userListSettingBackground {
+    position: absolute; 
+    width: $userListBackgroundWidth;
+    height: $userListBackgroundHeight - 207;
+    left: 0px;
+    top: 207px; 
+    opacity: 0.8;
+    background: rgba(237, 233, 233, 0.8);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+}
+
+.backdoorButton{
+    position: absolute;
+    left: 5px;
+    top: 410px;
+}
