@@ -12,10 +12,9 @@ export default function GameWrapper() {
 const GameBackground = (props: {}) => {
     return (
         <div className={styles.gameBackground}>
-            <div className={styles.gameDisplayBackground}>
-                <GameMatch />
-                <GameRecordSearch />
-            </div>
+            <div className={styles.gameDisplayBackground}></div>
+            <GameMatch />
+            <GameRecordSearch />
         </div>
     )
 }

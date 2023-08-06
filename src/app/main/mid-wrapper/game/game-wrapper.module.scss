@@ -4,7 +4,7 @@
   
   $backgroundWidth: 1280px;
   $backgroundHeigth: 686px;
-  $MatchWidth: 300px;
+  $MatchWidth: 400px;
   
   .gameBackground{
       box-sizing: border-box;
@@ -21,24 +21,24 @@
   
   .gameMatchButton{
       position: relative;
-      width: 300px;
-      height: 40.2px;
+      width: $MatchWidth;
+      height: 70px;
       left: ($backgroundWidth / 2) - ($MatchWidth / 2);
-      top: $backgroundHeigth - 87;
+      top: 60px;
       background: #D9D9D9;
       border-radius: 20px;
   }
   
   .gameMatchFont{
       position: relative;
-      width: 250px;
+      width: 300px;
       height: 32px;
-      left: 40px;
-      top: 7px;
+      left: ($MatchWidth / 2) - (300 / 2);
+      top: 2px;
       font-family: 'ArcadeClassic';
       font-style: normal;
       font-weight: 400;
-      font-size: 32px;
+      font-size: 42px;
       line-height: 32px;
       display: flex;
       align-items: center;
@@ -56,14 +56,14 @@
       border-radius: 20px;
   }
   
-  $gameRecordSearchBoxWidth: 240px;
-  $gameRecordSearchBoxTop: 450px;
+  $gameRecordSearchBoxWidth: 400px;
+  $gameRecordSearchBoxTop: -120px;
   
   .gameRecordSearchBox{
       box-sizing: border-box;
       position: relative;
       width: $gameRecordSearchBoxWidth;
-      height: 40px;
+      height: 60px;
       left: ($backgroundWidth / 2) - ($gameRecordSearchBoxWidth / 2);
       top: $gameRecordSearchBoxTop;
       background: #5F5F5F;
