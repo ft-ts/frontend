@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styles from "./userList.module.scss"
-import { UserListProps, UserListContainerProps, gameStateProps, UserProps } from "../userType";
+import { UserListProps, UserListContainerProps, gameStateProps, UserProps, UserInfoContainer } from "../userType";
 import Image from "next/image";
 import DisplayUserlistSetting from "./userListSetting"
 
@@ -21,6 +21,10 @@ const user: UserProps = {
     rating: 1000,
     createdAt: "string",
     updatedAt: "string",
+}
+
+const junohTest: UserInfoContainer = {
+    OneUser: user
 }
 
 
@@ -136,6 +140,10 @@ const UserListBox = (props: UserListBoxProps) => {
     setShowSetting(true); // Set the state variable to true when the button is clicked
   };
 
+  const handleHideSetting = () => {
+    setShowSetting(false); // Set the state variable to false to hide the setting component
+  };
+
   return (
     <div>
       <button onClick={handleClick} className={styles.userListRectangle} style={{ top: props.top }}>
@@ -148,7 +156,7 @@ const UserListBox = (props: UserListBoxProps) => {
           />
         </div>
       </button>
-      {showSetting && <DisplayUserlistSetting user={user}/>} {/* Conditionally render the component */}
+      {showSetting && <DisplayUserlistSetting userProps={junohTest} onBack={handleHideSetting}/>}
     </div>
   );
 };

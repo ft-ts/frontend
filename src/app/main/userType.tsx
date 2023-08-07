@@ -1,4 +1,8 @@
 
+export interface UserInfoContainer{
+    OneUser: UserProps;
+}
+
 export interface UserProps{
     id: number;
     uid: number;
@@ -37,8 +41,4 @@ export interface gameStateProps{
 
 export interface UserListContainerProps{
     users: UserListProps[];
-}
-
-export interface UserInfoContainer{
-    user: UserProps;
 }

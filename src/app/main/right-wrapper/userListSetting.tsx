@@ -3,26 +3,27 @@ import styles from "./userListSetting.module.scss"
 import Image from "next/image";
 import { UserProps, UserInfoContainer } from "../userType"
 
-const DisplayUserlistSetting = (props: UserInfoContainer, SettingState: boolean) => {
+const DisplayUserlistSetting = (props: {userProps: UserInfoContainer,  onBack: () => void }) => {
 
     return (
         <div className={styles.userListSettingBackground}>
-            <DisplayName user={props.user} />
+            <DisplayName  user={props.userProps.OneUser}/>
             <DisplayProfile />
             <DisplayInvite />
             <DisplayAskMatch />
             <DisplayAskBlocking />
             <DisplayAddFriend />
-            <BackToUserList SettingState={true}/>
+            <BackToUserList onBack={props.onBack} />
         </div>
     )
 }
 
-const DisplayName = (props: UserInfoContainer) => {
+
+const DisplayName = (props: { user: UserProps }) => {
     return (
-        <h2 className={styles.DisplayFont}>{props.user.name}</h2>
+      <h2 className={styles.DisplayFont}>{props.user.name}</h2>
     )
-}
+  }
 
 const DisplayProfile = (props: {}) => {
     return (
@@ -64,16 +65,22 @@ const DisplayAddFriend = (props: {}) => {
     )
 }
 
-const BackToUserList = (SettingState: boolean) => {
+const BackToUserList = (props: { onBack: () => void }) => {
     return (
-        <button className={styles.backdoorButton}>
-            <Image src="/asset/back_door.svg" 
-                alt="뒤로가기"
-                width={52}
-                height={52} />
-        </button>
-    )
-}
+      <button className={styles.backdoorButton} onClick={props.onBack}>
+          <Image src="/asset/back_door.svg" 
+              alt="뒤로가기"
+              width={52}
+              height={52} />
+      </button>
+    );
+  };
+  
+  
+  
+  
+  
+  
 
 
 
