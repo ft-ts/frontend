@@ -1,0 +1,56 @@
+.leftWrapper {
+	background-color: #999;
+	width: 500px;
+  }
+  
+  $leftWrapperWidth: 100%;
+  $ChannelListH: 90px;
+
+  $SideMargin: 15px;
+  $TopDownMargin: 3px;
+  
+.channelItemContainer {
+	display: flex;
+	flex-direction: column;
+    box-sizing: border-box;
+    position: relative;
+    height: $ChannelListH;
+	width: $leftWrapperWidth;
+    background: #686868;
+    border: 3px solid #000000;
+    border-radius: 10px;
+  }
+  
+  .title {
+	font-size: 28px;
+	font-weight: 200;
+    font-style: normal;
+	width: 70%;
+	margin-top: $TopDownMargin;
+	margin-left: $SideMargin;
+	color: #FFFFFF;
+	font-family: 'ArcadeClassic';
+    font-style: normal;
+  }
+  
+  .members {
+	font-size: 20px;
+	position: absolute;
+	bottom: $TopDownMargin;
+	right: $SideMargin;
+	color: #b5b3b3;
+	font-family: 'ArcadeClassic';
+    font-style: normal;
+
+  }
+  
+  .mode {
+	font-size: 20px;
+	position: absolute;
+	bottom: $TopDownMargin;
+	left: $SideMargin;
+	color: #b5b3b3;
+	font-family: 'ArcadeClassic';
+    font-style: normal;
+  }
+  
