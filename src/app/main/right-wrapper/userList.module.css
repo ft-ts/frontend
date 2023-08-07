@@ -1,0 +1,145 @@
+@charset "UTF-8";
+/* 배경 */
+.userListBackground {
+  position: relative;
+  width: 634px;
+  height: 686px;
+  left: 0px;
+  top: 0px;
+  background: #606060;
+}
+
+.userListBackground {
+  display: flex;
+  flex-direction: row;
+}
+
+.listButton, .listButtonAll { /* Shared styles between "Friend", "Channel", and "All" buttons */
+  position: absolute;
+  width: 211px;
+  height: 100px;
+  border: 1px solid #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.listButton {
+  background: #D9D9D9;
+}
+
+.listButtonAll { /* Specific style for "All" button */
+  background: #FFFFFF; /* Replace with the color you want for the "All" button */
+}
+
+.listButtonText {
+  font-family: "ArcadeClassic";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 24px;
+  text-align: center;
+  color: #000000;
+}
+
+/* 배경 */
+.listSearchButton {
+  box-sizing: border-box;
+  position: relative;
+  width: 634px;
+  height: 106px;
+  left: 0px;
+  top: 100px;
+  background: #5F5F5F;
+  border: 3px solid #FF25A8;
+}
+
+/* Vector */
+.listSearchVector {
+  position: relative;
+  left: 85.25%;
+  right: 3.75%;
+  top: 11.96%;
+  bottom: 82.12%;
+}
+
+.userListRectangle {
+  box-sizing: border-box;
+  position: absolute;
+  width: 634px;
+  height: 96px;
+  left: 0px;
+  background: #292929;
+  border: 1px solid #000000;
+  border-radius: 5px;
+}
+
+/* In your CSS Module */
+.GameState {
+  position: relative;
+  width: 120px;
+  height: 43.72px;
+  left: -60px;
+  top: 50px;
+  font-family: "ArcadeClassic";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 32px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #B1D276;
+}
+
+.onlineState {
+  position: relative;
+  width: 200px;
+  height: 43.72px;
+  left: -60px;
+  top: 50px;
+  font-family: "ArcadeClassic";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 32px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #7ECFF2;
+}
+
+.offlineState {
+  position: relative;
+  width: 200px;
+  height: 43.72px;
+  left: -60px;
+  top: 50px;
+  font-family: "ArcadeClassic";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 32px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #A7A7A7;
+}
+
+.userProfileName {
+  position: relative;
+  width: auto;
+  height: auto;
+  left: 200px;
+  top: -70px;
+  font-family: "ArcadeClassic";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 40px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #FFFFFF;
+}/*# sourceMappingURL=userList.module.css.map */
