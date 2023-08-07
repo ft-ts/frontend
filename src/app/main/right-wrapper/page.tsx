@@ -21,6 +21,7 @@ export default function RightWrapper(props: {}) {
 }
 
 const DisplayUserProfile = (props: {}) => {
+    console.log("test");
     return (
         <div>
             <DisplayUserProfileBackground  />
