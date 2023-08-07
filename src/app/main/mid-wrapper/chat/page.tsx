@@ -44,7 +44,9 @@ const UserlistButton = (props: {}) => {
                 src="/asset/user_list_button.svg"
                 alt="userlist button"
                 width={64.45}
-                height={58}></Image>
+                height={58}
+                className="w-full h-auto"
+            ></Image>
         </button>
     )
 }

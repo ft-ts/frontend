@@ -56,12 +56,14 @@
     color: #000000;
   }
   
+  $listSearchButtonHeight: 80px;
+
    /* 배경 */
   .listSearchButton{
     box-sizing: border-box;
     position: relative;
     width: $userListBackgroundWidth;
-    height: 106px;
+    height: $listSearchButtonHeight;
     left: 0px;
     top: 100px;
     background: #5F5F5F;
@@ -71,17 +73,15 @@
 /* Vector */  
   .listSearchVector{
     position: relative;
-    left: 85.25%;
+    left: 87.25%;
     right: 3.75%;
-    top: 11.96%;
-    bottom: 82.12%;
   }
 
  .userListRectangle{
     box-sizing: border-box;
     position: absolute;
     width: $userListBackgroundWidth;
-    height: ($userListBackgroundHeight - 100 - 106) / 5;
+    height: ($userListBackgroundHeight - 100 - $listSearchButtonHeight) / 5;
     left: 0px;
     background: #292929;
     border: 1px solid #000000;

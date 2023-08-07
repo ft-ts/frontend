@@ -27,7 +27,7 @@ const DisplayName = (props: { user: UserProps }) => {
 
 const DisplayProfile = (props: {}) => {
     return (
-        <button className={styles.showSetting} style={{top: 80}}>
+        <button className={styles.showSetting} style={{top: 100}}>
             <h2 style={{fontSize: 42, fontFamily: 'ArcadeClassic'}}>Profile</h2>
         </button>
     )
@@ -35,7 +35,7 @@ const DisplayProfile = (props: {}) => {
 
 const DisplayInvite = (props: {}) => {
     return (
-        <button className={styles.showSetting} style={{top: 160}}>
+        <button className={styles.showSetting} style={{top: 180}}>
             <h2 style={{fontSize: 42, fontFamily: 'ArcadeClassic'}}>Invite</h2>
         </button>
     )
@@ -43,7 +43,7 @@ const DisplayInvite = (props: {}) => {
 
 const DisplayAskMatch = (props: {}) => {
     return (
-        <button className={styles.showSetting} style={{top: 240}}>
+        <button className={styles.showSetting} style={{top: 260}}>
             <h2 style={{fontSize: 42, fontFamily: 'ArcadeClassic'}}>Ask Match</h2>
         </button>
     )
@@ -51,7 +51,7 @@ const DisplayAskMatch = (props: {}) => {
 
 const DisplayAskBlocking = (props: {}) => {
     return (
-        <button className={styles.showSetting} style={{top: 320}}>
+        <button className={styles.showSetting} style={{top: 340}}>
             <h2 style={{fontSize: 36, fontFamily: 'ArcadeClassic'}}>Block this user</h2>
         </button>
     )
@@ -59,7 +59,7 @@ const DisplayAskBlocking = (props: {}) => {
 
 const DisplayAddFriend = (props: {}) => {
     return (
-        <button className={styles.showSetting} style={{top: 400}}>
+        <button className={styles.showSetting} style={{top: 420}}>
             <h2 style={{fontSize: 42, fontFamily: 'ArcadeClassic'}}>Add Friend</h2>
         </button>
     )

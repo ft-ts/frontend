@@ -81,8 +81,8 @@ const DisplayUserListSearch = (props: {}) => {
             <Image src="/asset/search.png"
             className={styles.listSearchVector} 
             alt="searchPicture"
-            width={32}
-            height={32} />
+            width={60}
+            height={60} />
         </button>
     )
 }
@@ -91,7 +91,7 @@ const UserListContainer = (props: UserListContainerProps) => {
     return (
       <div>
         {props.users.map((user, index) => (
-          <UserListBox key={index} user={user} top={`${207 + index * 96}px`} />
+          <UserListBox key={index} user={user} top={`${180 + index * 96}px`} />
         ))}
       </div>
     );

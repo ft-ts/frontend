@@ -1,38 +1,36 @@
 'use client';
 
+
 import React, { useEffect, useState } from "react";
+import { GetServerSideProps } from "next";
+import { GetServerSidePropsContext } from 'next';
 import './right-wrapper.css'
 import styles from './user-profile.module.scss'
 import Image from "next/image"
-import {UserProfileProps, UserListProps, gameStateProps} from "../userType"
+import {UserProfileProps, UserListProps, gameStateProps, UserProps, UserInfoContainer} from "../userType"
 import DisplayUserList from "./userList"
-import { on } from "events";
 
 
-type RightWrapperProps = UserProfileProps & UserListProps;
 
-export default function RightWrapper(props: {}) {
+// type RightWrapperProps = UserProfileProps & UserListProps;
+
+
+export default function RightWrapper(props: UserInfoContainer) {
+    
     return (
         <div id="right-wrapper">
-            <DisplayUserProfile />
+            {/* <DisplayUserProfile /> */}
+            <DisplayUserProfileBackground OneUser={props.OneUser} />
             <DisplayUserList  />
         </div>
     )
 }
-
-const DisplayUserProfile = (props: {}) => {
-    return (
-        <div>
-            <DisplayUserProfileBackground  />
-        </div>
-    )
-}
-
-const DisplayUserProfileBackground = (props: {}) => {
+  
+const DisplayUserProfileBackground = (props: UserInfoContainer) => {
     return (
         <div className={styles.userProfileBackground}>
             <DisplayUserProfileImage />
-            <DisplayUserProfileName nickname="DOHYULEE" />
+            <DisplayUserProfileName nickname="Dohyulee" />
             <DisplayUserGameState gameState={true} online={false} />
             <DisplayMatchNumber winCount={30} loseCount={30} />
             <DisplayLadderPoint ladderPoint={1100} />

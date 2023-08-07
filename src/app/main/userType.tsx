@@ -3,6 +3,10 @@ export interface UserInfoContainer{
     OneUser: UserProps;
 }
 
+export interface MainProps {
+    OneUser: UserProps;
+}
+
 export interface UserProps{
     id: number;
     uid: number;
@@ -10,7 +14,7 @@ export interface UserProps{
     avatar: string;
     email: string;
     twoFactorAuth: boolean;
-    // status: "OFFLINE",
+    status: string;
     hashedRt: string;
     qrSecret: string;
     rating: number;
