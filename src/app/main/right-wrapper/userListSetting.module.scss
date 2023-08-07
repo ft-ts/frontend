@@ -20,6 +20,11 @@ $userListBackgroundWidth: 634px;
     position: absolute;
     left: 5px;
     top: 410px;
+    z-index: 1220;
+}
+
+.backdoorButton:hover{
+    background-color: #918e8e;
 }
 
 .DisplayFont{
@@ -40,19 +45,20 @@ $userListBackgroundWidth: 634px;
     color: rgba(0, 0, 0, 0.8);
 }
 
-.showSetting {
+.showSetting{
     position: absolute; 
     width: $userListBackgroundWidth;
     height: 80px;
     left: 0px;
     // top: 207 + 60px; 
+    z-index: 1000;
     opacity: 0.8;
     background: rgba(237, 233, 233, 0.8);
-    z-index: 1000;
     display: flex;
     align-items: center;
     justify-content: center; 
 }
+
 
 .showSetting:hover{
     background-color: rgb(125, 125, 122);

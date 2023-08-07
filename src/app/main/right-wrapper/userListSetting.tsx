@@ -3,17 +3,17 @@ import styles from "./userListSetting.module.scss"
 import Image from "next/image";
 import { UserProps, UserInfoContainer } from "../userType"
 
-const DisplayUserlistSetting = (props: UserInfoContainer) => {
+const DisplayUserlistSetting = (props: UserInfoContainer, SettingState: boolean) => {
 
     return (
         <div className={styles.userListSettingBackground}>
-            <BackToUserList />
             <DisplayName user={props.user} />
             <DisplayProfile />
             <DisplayInvite />
             <DisplayAskMatch />
             <DisplayAskBlocking />
             <DisplayAddFriend />
+            <BackToUserList SettingState={true}/>
         </div>
     )
 }
@@ -64,14 +64,13 @@ const DisplayAddFriend = (props: {}) => {
     )
 }
 
-const BackToUserList = (props: {}) => {
+const BackToUserList = (SettingState: boolean) => {
     return (
-        <button>
-        <Image src="/asset/back_door.svg"
-            className={styles.backdoorButton} 
-            alt="뒤로가기"
-            width={52}
-            height={52} />
+        <button className={styles.backdoorButton}>
+            <Image src="/asset/back_door.svg" 
+                alt="뒤로가기"
+                width={52}
+                height={52} />
         </button>
     )
 }
