@@ -1,16 +1,21 @@
+$DisplayWidth: 2560px;
+$DisplayHeight: 1440px;
+$DisplayBackGroundWidth: $DisplayWidth * 0.7;
+$DisplayBackGroundHeight: $DisplayHeight * 0.55;
+
 .background{
     background-color: #aaa5aa;
-    width: 100vw;
-    height: 100vh;
+    width: $DisplayWidth;
+    height: $DisplayHeight;
 }
 
 .gameBackground{
     box-sizing: border-box;
     position: relative;
-    width: 60vw;
-    height: 55vh;
-    left: 20vw;
-    top: 5vh;
+    width: $DisplayBackGroundWidth;
+    height: $DisplayBackGroundHeight; // 790px
+    left: ($DisplayWidth * 0.15);
+    top: ($DisplayHeight * 0.05);
     background: rgba(45, 18, 66, 0.26);
     border: 2px solid #000000;
 }
@@ -18,9 +23,9 @@
 .displayBackground{
     box-sizing: border-box;
     position: relative;
-    width: 50vw;
-    height: 566px;
-    left: 5vw;
+    width: ($DisplayBackGroundWidth * 0.90); //1609px
+    height: $DisplayBackGroundHeight * 0.9;
+    left: (1983px * 0.05);
     top: 3vh;
     background: #859E5A;
     border: 5px solid #000000;
@@ -28,7 +33,7 @@
 }
 
 .gameFont, .pressFont{
-    position: absolute;
+    position: relative;
     z-index: 1000;
     font-family: 'ArcadeClassic';
     font-style: normal;
@@ -42,13 +47,56 @@
 }
 
 .gameFont{
-    left: 14.1vw;
-    top: 8vh;
-    font-size: 100px;
+    left: (1609px / 2) - (934px / 2 );
+    top: 180px;
+    font-size: 200px;
 }
 
 .pressFont{
-    left: 7.5vw;
-    top: 25vh;
-    font-size: 70px;
+    left: (1609px / 2) - (1078px / 2);
+    top: 350px;
+    font-size: 100px;
+}
+
+.gameCrossDeco{
+    position: relative;
+    left: 100px;
+    top: 80px;
+}
+
+.gameRoundRectangleDecoA, .gameRoundRectangleDecoB{
+    box-sizing: border-box;
+    position: absolute;
+    width: 139.06px;
+    height: 37.99px;
+    left: 554px;
+    top: 910.74px;
+    background: #7E787E;
+    border: 3px solid #000000;
+    border-radius: 1234px;
+    transform: rotate(-25.44deg);
+}
+
+.gameRoundRectangleDecoA{
+    left: 554px;
+    top: 800px;
+}
+
+.gameRoundRectangleDecoB{
+    left: 600px;
+    top: 800px;
+}
+
+.gameRoundDecoA, .gameRoundDecoB{
+    box-sizing: border-box;
+    position: absolute;
+    width: 105px;
+    height: 105px;
+    background: #8F2C58;
+    border: 3px solid #000000;
+}
+
+.gameRoundDecoA{
+    left: 300px;
+    top: 700px;
 }
