@@ -64,39 +64,94 @@ $DisplayBackGroundHeight: $DisplayHeight * 0.55;
     top: 80px;
 }
 
-.gameRoundRectangleDecoA, .gameRoundRectangleDecoB{
-    box-sizing: border-box;
+.container {
     position: absolute;
-    width: 139.06px;
-    height: 37.99px;
-    left: 554px;
-    top: 910.74px;
-    background: #7E787E;
-    border: 3px solid #000000;
-    border-radius: 1234px;
-    transform: rotate(-25.44deg);
-}
-
-.gameRoundRectangleDecoA{
-    left: 554px;
-    top: 800px;
-}
-
-.gameRoundRectangleDecoB{
-    left: 600px;
-    top: 800px;
-}
-
-.gameRoundDecoA, .gameRoundDecoB{
-    box-sizing: border-box;
+    top: 1200px;
+    display: flex;
+    transform: rotate(-5.57deg);
+  }
+  
+  
+  .GameRoundRectangleDecoSelect {
+    left: ($DisplayWidth / 2) - 200px;
+    position: relative;
+  }
+  
+  .GameRoundRectangleDecoStart {
+    left: 1110px; /* Adjust as needed for desired separation */
+    position: relative;
+  }
+  
+.startFont, .selectFont{
     position: absolute;
-    width: 105px;
-    height: 105px;
-    background: #8F2C58;
-    border: 3px solid #000000;
+    width: 126px;
+    height: 37px;
+    font-family: 'Poppins';
+    font-style: italic;
+    font-weight: 600;
+    font-size: 55px;
+    line-height: 45px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #464084;
+    transform: rotate(-26deg);
+}
+
+.startFont{
+    left: 1430.61px;
+    top: 150px;
+}
+
+.selectFont{
+    left: 1150.61px;
+    top: 150px;
+}
+
+  
+.roundContainer{
+    position: absolute;
+    display: flex;
 }
 
 .gameRoundDecoA{
-    left: 300px;
-    top: 700px;
+    position: relative;
+    left: $DisplayBackGroundWidth + 300px;
+    top: -90px;
+}
+
+.gameRoundDecoB{
+    position: relative;
+    left: $DisplayBackGroundWidth + 300px;
+    top: -230px;
+}
+
+.gameRoundFontA, .gameRoundFontB{
+    position: relative;
+    width: 126px;
+    height: 37px;
+    font-family: 'Poppins';
+    font-style: italic;
+    font-weight: 600;
+    font-size: 100px;
+    line-height: 45px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #464084;
+    transform: rotate(-31.97deg);
+}
+
+.gameRoundFontA{
+    left: $DisplayBackGroundWidth + 260;
+    top: -76px;
+}
+
+.gameRoundFontB{
+    left: $DisplayBackGroundWidth + 0px;
+    top: 64px;
 }

@@ -9,6 +9,7 @@ export default function Login() {
         <GameBackground />
         <GameCrossDeco />
         <GameRoundRectangleDeco />
+        <GameRoundDeco />
     </div>
   )
 }
@@ -39,21 +40,47 @@ const GameCrossDeco = () => {
 
 const GameRoundRectangleDeco = () => {
     return (
-        <div className={styles.container}>
+        <button className={styles.container}>
             <Image
                 src="/asset/RoundRectangleButton.svg"
                 alt="RoundButtonRectangleDecoA"
-                width={180}
-                height={67}
-                className={styles.GameRoundRectangleDecoA}>
+                width={250}
+                height={100}
+                className={styles.GameRoundRectangleDecoSelect}>
             </Image>
             <Image
                 src="/asset/RoundRectangleButton.svg"
                 alt="RoundButtonRectangleDecoB"
-                width={180}
-                height={67}
-                className={styles.GameRoundRectangleDecoB}>
+                width={250}
+                height={100}
+                className={styles.GameRoundRectangleDecoStart}>
             </Image>
-        </div>
+            <h2 className={styles.startFont}>Start</h2>
+            <h2 className={styles.selectFont}>Select</h2>
+        </button>
     )
 }
+
+const GameRoundDeco = () => {
+    return (
+        <button className={styles.roundContainer}>
+            <Image
+                src="/asset/RoundButtonDeco.svg"
+                alt="RoundButtonDecoA"
+                width={150}
+                height={150}
+                className={styles.gameRoundDecoA}
+                ></Image>
+            <Image
+                src="/asset/RoundButtonDeco.svg"
+                alt="RoundButtonDecoB"
+                width={150}
+                height={150}
+                className={styles.gameRoundDecoB}
+                ></Image>
+            <h2 className={styles.gameRoundFontA}>A</h2>
+            <h2 className={styles.gameRoundFontB}>B</h2>
+        </button>
+    )
+}
+
