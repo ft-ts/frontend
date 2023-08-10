@@ -1,56 +1,137 @@
 .leftWrapper {
 	background-color: #999;
 	width: 500px;
-  }
-  
-  $leftWrapperWidth: 100%;
-  $ChannelListH: 90px;
+}
 
-  $SideMargin: 15px;
-  $TopDownMargin: 3px;
-  
+$leftWrapperWidth: 100%;
+$ChannelListH: 90px;
+
+$SideMargin: 15px;
+$TopDownMargin: 3px;
+
 .channelItemContainer {
 	display: flex;
 	flex-direction: column;
-    box-sizing: border-box;
-    position: relative;
-    height: $ChannelListH;
+	box-sizing: border-box;
+	position: relative;
+	height: $ChannelListH;
 	width: $leftWrapperWidth;
-    background: #686868;
-    border: 3px solid #000000;
-    border-radius: 10px;
-  }
-  
-  .title {
+	background: #686868;
+	border: 3px solid #000000;
+	border-radius: 10px;
+}
+
+.channelItemContainer:hover {
+	background: #b5b3b3;
+}
+
+.channelItemContainer:active {
+	background: #b5b3b3;
+}
+
+.channelItemContainer:focus {
+	background: #b5b3b3;
+}
+
+.title {
 	font-size: 28px;
 	font-weight: 200;
-    font-style: normal;
+	font-style: normal;
 	width: 70%;
 	margin-top: $TopDownMargin;
 	margin-left: $SideMargin;
 	color: #FFFFFF;
 	font-family: 'ArcadeClassic';
-    font-style: normal;
-  }
-  
-  .members {
+	font-style: normal;
+}
+
+.members {
 	font-size: 20px;
 	position: absolute;
 	bottom: $TopDownMargin;
 	right: $SideMargin;
-	color: #b5b3b3;
+	color: #f8fec7;
 	font-family: 'ArcadeClassic';
-    font-style: normal;
+	font-style: normal;
 
-  }
-  
-  .mode {
+}
+
+.mode {
 	font-size: 20px;
 	position: absolute;
 	bottom: $TopDownMargin;
 	left: $SideMargin;
-	color: #b5b3b3;
+	color: #f8fec7;
 	font-family: 'ArcadeClassic';
-    font-style: normal;
-  }
-  
+	font-style: normal;
+}
+
+.dmItemContainer {
+	display: flex;
+	flex-direction: row;
+	box-sizing: border-box;
+	position: relative;
+	top: 300px;
+	height: $ChannelListH;
+	width: $leftWrapperWidth;
+	background: #686868;
+	border: 3px solid #000000;
+	border-radius: 10px;
+}
+
+.dmItemContainer:hover {
+	background: #b5b3b3;
+}
+
+.dmItemContainer:active {
+	background: #b5b3b3;
+}
+
+.dmItemContainer:focus {
+	background: #b5b3b3;
+}
+
+.profilePic {
+	width: 70px;
+	height: 70px;
+	margin-top: $TopDownMargin;
+	margin-left: $SideMargin;
+	border-radius: 50%;
+}
+
+.dmUser {
+	font-size: 28px;
+	font-weight: 200;
+	font-style: normal;
+	width: 70%;
+	margin-top: $TopDownMargin;
+	margin-left: $SideMargin;
+	color: #FFFFFF;
+	font-family: 'ArcadeClassic';
+	font-style: normal;
+}
+
+.dmState {
+	font-size: 20px;
+	position: absolute;
+	bottom: $TopDownMargin;
+	right: $SideMargin;
+	font-family: 'ArcadeClassic';
+	font-style: normal;
+}
+
+.online {
+	color: #91cdee;
+}
+
+.offline {
+	color: #707070;
+}
+
+.inGame {
+	color: #b8d181;
+}
+
+.deactivated {
+	color: #707070;
+}
