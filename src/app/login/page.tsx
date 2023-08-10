@@ -1,6 +1,9 @@
+"use client";
 import Link from "next/link";
 import styles from "./login.module.scss";
 import Image from "next/image";
+import { SecondAuthLogin } from "./secondAuth";
+import React, { useState } from "react";
 
 export default function Login() {
 
@@ -8,7 +11,8 @@ export default function Login() {
     <div className={styles.background}>
         <GameBackground />
         <GameCrossDeco />
-        <GameRoundRectangleDeco />
+        <GameSelectButton />
+        <GameStartButton />
         <GameRoundDeco />
     </div>
   )
@@ -38,16 +42,57 @@ const GameCrossDeco = () => {
     )
 }
 
-const GameRoundRectangleDeco = () => {
+// const GameRoundRectangleDeco = () => {
+//     return (
+//         <button className={styles.container}>
+//             <Image
+//                 src="/asset/RoundRectangleButton.svg"
+//                 alt="RoundButtonRectangleDecoA"
+//                 width={250}
+//                 height={100}
+//                 className={styles.GameRoundRectangleDecoSelect}>
+//             </Image>
+//             <Image
+//                 src="/asset/RoundRectangleButton.svg"
+//                 alt="RoundButtonRectangleDecoB"
+//                 width={250}
+//                 height={100}
+//                 className={styles.GameRoundRectangleDecoStart}>
+//             </Image>
+//             <h2 className={styles.startFont}>Start</h2>
+//             <h2 className={styles.selectFont}>Select</h2>
+//         </button>
+//     )
+// }
+
+const GameSelectButton = () => {
+
+    const [showAuth, setShowAuth] = useState(false);
+
+    const handleClick = () => {
+        setShowAuth(true);
+    }
+
+    return (
+        <div>
+            <button onClick={handleClick}  className={styles.container}>
+                <Image
+                    src="/asset/RoundRectangleButton.svg"
+                    alt="RoundButtonRectangleDecoA"
+                    width={250}
+                    height={100}
+                    className={styles.GameRoundRectangleDecoSelect}>
+                </Image>
+                <h2 className={styles.selectFont}>Select</h2>
+            </button>
+            {showAuth && <SecondAuthLogin />}
+        </div>
+    )
+}
+
+const GameStartButton = () => {
     return (
         <button className={styles.container}>
-            <Image
-                src="/asset/RoundRectangleButton.svg"
-                alt="RoundButtonRectangleDecoA"
-                width={250}
-                height={100}
-                className={styles.GameRoundRectangleDecoSelect}>
-            </Image>
             <Image
                 src="/asset/RoundRectangleButton.svg"
                 alt="RoundButtonRectangleDecoB"
@@ -56,7 +101,6 @@ const GameRoundRectangleDeco = () => {
                 className={styles.GameRoundRectangleDecoStart}>
             </Image>
             <h2 className={styles.startFont}>Start</h2>
-            <h2 className={styles.selectFont}>Select</h2>
         </button>
     )
 }

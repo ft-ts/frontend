@@ -34,7 +34,7 @@ $DisplayBackGroundHeight: $DisplayHeight * 0.55;
 
 .gameFont, .pressFont{
     position: relative;
-    z-index: 1000;
+    z-index: 90;
     font-family: 'ArcadeClassic';
     font-style: normal;
     font-weight: 400;
@@ -78,7 +78,7 @@ $DisplayBackGroundHeight: $DisplayHeight * 0.55;
   }
   
   .GameRoundRectangleDecoStart {
-    left: 1110px; /* Adjust as needed for desired separation */
+    left: 1380px; /* Adjust as needed for desired separation */
     position: relative;
   }
   

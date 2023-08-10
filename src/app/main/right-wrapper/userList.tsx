@@ -77,15 +77,19 @@ const DisplayUserAllList = (props: {}) => {
 
 const DisplayUserListSearch = (props: {}) => {
     return (
-        <button className={styles.listSearchButton}>
-            <Image src="/asset/search.png"
-            className={styles.listSearchVector} 
-            alt="searchPicture"
-            width={60}
-            height={60} />
-        </button>
+        <div className={styles.searchContainer}>
+            <input className={styles.listSearchButton} placeholder="Search..." />
+            <Image 
+                src="/asset/search.png"
+                className={styles.listSearchVector} 
+                alt="searchPicture"
+                width={60}
+                height={60} 
+            />
+        </div>
     )
 }
+
 
 const UserListContainer = (props: UserListContainerProps) => {
     return (

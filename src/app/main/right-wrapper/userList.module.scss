@@ -28,6 +28,7 @@
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
+    z-index: 1000;
   }
   
   .listButton {
@@ -59,6 +60,11 @@
   $listSearchButtonHeight: 80px;
 
    /* 배경 */
+   .searchContainer {
+    position: relative;
+    width: $userListBackgroundWidth; /* or whatever width you desire */
+    }
+
   .listSearchButton{
     box-sizing: border-box;
     position: relative;
@@ -68,14 +74,15 @@
     top: 100px;
     background: #5F5F5F;
     border: 3px solid #FF25A8;
+    padding-right: 70px; 
   }
 
-/* Vector */  
-  .listSearchVector{
-    position: relative;
-    left: 87.25%;
-    right: 3.75%;
-  }
+  .listSearchVector {
+    position: absolute;
+    top: 140px;
+    right: 10px; /* adjust as needed */
+    transform: translateY(-50%);
+}
 
  .userListRectangle{
     box-sizing: border-box;
