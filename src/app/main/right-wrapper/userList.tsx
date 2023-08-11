@@ -1,12 +1,32 @@
 import React, { useState, useEffect } from "react";
 import styles from "./userList.module.scss"
-import { UserListProps, UserListContainerProps, gameStateProps } from "../userType";
+import { UserListProps, UserListContainerProps, gameStateProps, UserProps, UserInfoContainer } from "../userType";
 import Image from "next/image";
+import DisplayUserlistSetting from "./userListSetting"
 
 const users: UserListProps[] = [
     { userProfilePicture: "/asset/profile_dumy.png", nickName: 'John', gameState: false, online: true },
     { userProfilePicture: "/asset/profile_dumy.png", nickName: 'Jane', gameState: true, online: true },
   ];
+
+const user: UserProps = {
+    id: 1,
+    uid: 1207,
+    name: "junoh",
+    avatar: "string",
+    email: "string",
+    twoFactorAuth: true,
+    hashedRt: "string",
+    qrSecret:"string",
+    rating: 1000,
+    createdAt: "string",
+    updatedAt: "string",
+}
+
+const junohTest: UserInfoContainer = {
+    OneUser: user
+}
+
 
 export default function DisplayUserList(props: {}){
     return (
@@ -57,21 +77,25 @@ const DisplayUserAllList = (props: {}) => {
 
 const DisplayUserListSearch = (props: {}) => {
     return (
-        <button className={styles.listSearchButton}>
-            <Image src="/asset/search.png"
-            className={styles.listSearchVector} 
-            alt="searchPicture"
-            width={32}
-            height={32} />
-        </button>
+        <div className={styles.searchContainer}>
+            <input className={styles.listSearchButton} placeholder="Search..." />
+            <Image 
+                src="/asset/search.png"
+                className={styles.listSearchVector} 
+                alt="searchPicture"
+                width={60}
+                height={60} 
+            />
+        </div>
     )
 }
+
 
 const UserListContainer = (props: UserListContainerProps) => {
     return (
       <div>
         {props.users.map((user, index) => (
-          <UserListBox key={index} user={user} top={`${207 + index * 96}px`} />
+          <UserListBox key={index} user={user} top={`${180 + index * 96}px`} />
         ))}
       </div>
     );
@@ -114,8 +138,19 @@ const UserListContainer = (props: UserListContainerProps) => {
 }
 
 const UserListBox = (props: UserListBoxProps) => {
-    return (
-      <button className={styles.userListRectangle} style={{ top: props.top }}>
+  const [showSetting, setShowSetting] = useState(false); // Initialize the state variable
+
+  const handleClick = () => {
+    setShowSetting(true); // Set the state variable to true when the button is clicked
+  };
+
+  const handleHideSetting = () => {
+    setShowSetting(false); // Set the state variable to false to hide the setting component
+  };
+
+  return (
+    <div>
+      <button onClick={handleClick} className={styles.userListRectangle} style={{ top: props.top }}>
         <img src={props.user.userProfilePicture} alt="profile" style={{ width: '75px', height: '75px', marginLeft: "10px" }} />
         <div className={styles.userProfileName}>
           {props.user.nickName}
@@ -125,8 +160,11 @@ const UserListBox = (props: UserListBoxProps) => {
           />
         </div>
       </button>
-    );
-  };
+      {showSetting && <DisplayUserlistSetting userProps={junohTest} onBack={handleHideSetting}/>}
+    </div>
+  );
+};
+
   
 
   

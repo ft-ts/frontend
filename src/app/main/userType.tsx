@@ -1,4 +1,27 @@
 
+export interface UserInfoContainer{
+    OneUser: UserProps;
+}
+
+export interface MainProps {
+    OneUser: UserProps;
+}
+
+export interface UserProps{
+    id: number;
+    uid: number;
+    name: string;
+    avatar: string;
+    email: string;
+    twoFactorAuth: boolean;
+    status: string;
+    hashedRt: string;
+    qrSecret: string;
+    rating: number;
+    createdAt: string;
+    updatedAt: string;
+}
+
 export interface UserProfileProps{
     userProfilePicture: string; // type을 어떻게 할 지 미정
     nickname: string;
