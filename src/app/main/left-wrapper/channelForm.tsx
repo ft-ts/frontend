@@ -1,11 +1,11 @@
+"use client";
+
 import React, { useState } from 'react';
-import { UserStatus } from './enum/temp.enum';
 import styles from './channelForm.module.scss';
 
 interface ChannelFormProps {
   onClose: () => void;
 }
-
 const ChannelForm: React.FC<ChannelFormProps> = ({ onClose }) => {
   const [title, setTitle] = useState('');
   const [mode, setMode] = useState('');
