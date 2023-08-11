@@ -1,4 +1,5 @@
 "use client";
+
 import Link from "next/link";
 import styles from "./login.module.scss";
 import Image from "next/image";
