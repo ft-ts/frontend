@@ -141,25 +141,29 @@ $fontSize: 42px;
 .editButtonRectangle{
     box-sizing: border-box;
     position: relative;
-    width: 200px;
-    height: 40px;
-    left: ($userProfileBackgroundWidth / 2) - 100;
+    width: 400px;
+    height: 60px;
+    left: ($userProfileBackgroundWidth / 2) - (400 / 2);
     top: 220px;
     border: 2px solid #FF3333;
     border-radius: 5px;
 }
 
+.editButtonRectangle:hover{
+    background-color: #9c4444;
+}
+
 /* edit my info */
 .editButtonFont{
     position: relative;
-    width: 180px;
+    width: 280px;
     height: 51.84px;
-    left: 11.33px;
-    top: -7px;
+    left: (400px / 2) - (280px / 2) + 6;
+    top: 0px;
     font-family: 'ArcadeClassic';
     font-style: normal;
     font-weight: 400;
-    font-size: 24px;
+    font-size: 36px;
     line-height: 30px;
     display: flex;
     align-items: center;
