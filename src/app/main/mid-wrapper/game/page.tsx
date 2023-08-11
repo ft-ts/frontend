@@ -1,5 +1,6 @@
-import styles from "./game-wrapper.module.scss"
-import Image from "next/image"
+"use client";
+import styles from './game-wrapper.module.scss'
+import Image from 'next/image'
 
 export default function GameWrapper() {
   return (
@@ -20,8 +21,14 @@ const GameBackground = (props: {}) => {
 }
 
 const GameMatch = (props: {}) => {
+    const handleClick = () => {
+        alert("Game Matching")
+    }
     return (
-        <button className={styles.gameMatchButton}>
+        <button 
+        className={styles.gameMatchButton}
+        onClick={handleClick}
+        >
             <h2 className={styles.gameMatchFont}>Game Matching</h2>
         </button>
     )
@@ -31,6 +38,7 @@ const GameRecordSearch = (props: {} | any) => {
     return (
         <div>
             <input className={styles.gameRecordSearchBox}></input>
+            <button className={styles.gameRecordSearchButton}>
             <Image
                 className={styles.gameRecordIcon}
                 src="asset/RecordSearch.svg"
@@ -38,6 +46,7 @@ const GameRecordSearch = (props: {} | any) => {
                 width={43}
                 height={43}
                 ></Image>
+            </button>
         </div>
         
     )
