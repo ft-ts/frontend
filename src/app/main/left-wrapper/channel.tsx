@@ -10,108 +10,106 @@ import Modal from "react-modal";
 import { ChannelForm } from "./channelForm";
 import ChannelItemProps from "./interfaces/channelItemProps";
 
-const BACKEND_URL = "http://localhost:10000/channels"; // 백엔드 소켓 서버 URL
+const BACKEND_URL = "http://10.19.209.187:10000/channels"; // 백엔드 소켓 서버 URL
+const AUTH_TOKEN =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEwMDAwMiwiZW1haWwiOiJzaWVsZWVAc3R1ZGVudC40MnNlb3VsLmtyIiwidHdvRmFjdG9yQXV0aCI6ZmFsc2UsImlhdCI6MTY5MTg0MjM2MSwiZXhwIjoxNjkxODg1NTYxfQ.06NrCbfw2wWtOuhYyqE9hvh5f9YyW6CgV8gSjrDGdKs";
+const socket = io(BACKEND_URL, {
+  extraHeaders: {
+    Authorization: AUTH_TOKEN,
+  },
+});
 
 export default function Channel() {
-  const [selectedTab, setSelectedTab] = useState(ChannelTabOptions.ALL); // 선택한 탭 상태 추가
+  const [selectedTab, setSelectedTab] = useState(ChannelTabOptions.ALL);
   const [selectedChannel, setSelectedChannel] = useState<{
     channelId: number;
   } | null>(null);
-  const [channels, setChannels] = useState<ChannelItemProps[]>([]);
-  const [socket, setSocket] = useState<Socket | null>(null);
 
-  useEffect(() => {
-    // 소켓 연결 생성
-    const newSocket = io(BACKEND_URL, {
-      extraHeaders: {
-        Authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEwMDAwMiwiZW1haWwiOiJzaWVsZWVAc3R1ZGVudC40MnNlb3VsLmtyIiwidHdvRmFjdG9yQXV0aCI6ZmFsc2UsImlhdCI6MTY5MTczNDE2NiwiZXhwIjoxNjkxNzc3MzY2fQ.NW0oBzjqJkk8KHXEYvWaugn_YskM5hgBiBnA9LX8Iqs',
-      }
-    });
-    setSocket(newSocket);
+  useSocketConnection(socket);
 
-    // 컴포넌트 언마운트 시 소켓 연결 종료
-    return () => {
-      if (newSocket) {
-        newSocket.disconnect();
-      }
-    };
-  }, []);
-
-  useEffect(() => {
-    if (socket) {
-      // 소켓 연결 및 이벤트 리스너 설정
-      socket.on("connect", () => {
-        console.log("Connected to socket server");
-      });
-
-      socket.on("disconnect", () => {
-        console.log("Disconnected from socket server");
-      });
-
-      return () => {
-        socket.off("connect");
-        socket.off("disconnect");
-        socket.off("getAllChannels");
-        socket.off("getMyChannels");
-        // 다른 이벤트 리스너 해제 등
-      };
-    }
-  }, [socket]);
+  const channels = useChannelData(socket, selectedTab);
 
   const handleTabClick = (tab: ChannelTabOptions) => {
     setSelectedTab(tab);
-    if (socket && tab === ChannelTabOptions.ALL) {
-      socket.on("getAllChannels", (allChannels) => {
-        setChannels(allChannels);
-      });
-    } else if (socket && tab === ChannelTabOptions.MY) {
-      socket.on("getMyChannels", (myChannels) => {
-        setChannels(myChannels);
-      });
-    }
   };
-
-  useEffect(() => {
-    // 선택한 채널 정보가 변경되면 콘솔에 출력
-    console.log("Selected Channel:", selectedChannel);
-  }, [selectedChannel]);
 
   const handleChannelClick = (channelId: number) => {
     setSelectedChannel({ channelId });
+    // chat에 해당 채널 띄우는 코드 추가
+    socket.emit("enterChannel", { channelId });
   };
 
   return (
     <div>
-          <CreateChannel />
-          <ChannelPanels
-            handleTabClick={handleTabClick}
-            selectedTab={selectedTab}
-          />
-          <DisplayChannelSearch />
-        <div className={styles.channelContainer}>
-        <div className={styles.channelList}>
-          {channels.map((channel) => (
-            <ChannelItem
+      <CreateChannel socket={socket} />
+      <ChannelPanels
+        handleTabClick={handleTabClick}
+        selectedTab={selectedTab}
+      />
+      <DisplayChannelSearch />
+      <div className={styles.channelContainer}>
+          {channels && channels.map((channel) => (
+            <ChannelItem 
+              key={channel.id}
               title={channel.title}
-              members={channel.members}
+              memberCnt={channel.memberCnt}
               mode={channel.mode}
-              channelId={channel.channelId}
+              id={channel.id}
               onClick={handleChannelClick}
             />
           ))}
-        </div>
       </div>
     </div>
   );
 }
 
-const CreateChannel = () => {
+const requestChannelsFromServer = (socket:Socket, tab:ChannelTabOptions) => {
+  if (tab === ChannelTabOptions.ALL) {
+    socket.emit("getAllChannels");
+  } else if (tab === ChannelTabOptions.MY) {
+    socket.emit("getMyChannels");
+  }
+};
+
+const useSocketConnection = (socket: Socket) => {
+  useEffect(() => {
+    socket.connect();
+    socket.on("connect", () => {
+      console.log("Connected to socket server");
+    });
+    return () => {
+      socket.disconnect();
+    };
+  }, [socket]);
+};
+
+const useChannelData = (socket: Socket, tab: ChannelTabOptions) => {
+  const [channels, setChannels] = useState<ChannelItemProps[]>([]);
+
+  useEffect(() => {
+    const handleChannels = (data: ChannelItemProps[]) => {
+      setChannels(data);
+    };
+    socket.on(tab === ChannelTabOptions.ALL ? "getAllChannels" : "getMyChannels", handleChannels);
+    requestChannelsFromServer(socket, tab);
+    return () => {
+      socket.off(tab === ChannelTabOptions.ALL ? "getAllChannels" : "getMyChannels", handleChannels);
+      socket.off("getAllChannels", requestChannelsFromServer);
+      socket.off("getMyChannels", requestChannelsFromServer);
+    };
+  }, []);
+
+  return channels;
+};
+
+
+const CreateChannel = ({ socket }: { socket: Socket }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const customStyles = {
     content: {
       width: "400px",
-      height: "600px",
+      height: "700px",
       border: "1px solid #ddd",
       borderRadius: "8px",
       padding: "20px",
@@ -139,12 +137,13 @@ const CreateChannel = () => {
       </button>
       <Modal
         isOpen={isModalOpen}
-        onRequestClose={handleCloseModal}
         contentLabel="Create Channel Modal"
         style={customStyles}
+        ariaHideApp={false}
+        onRequestClose={handleCloseModal}
         shouldCloseOnOverlayClick={false}
       >
-        <ChannelForm onClose={handleCloseModal} />
+        <ChannelForm onClose={handleCloseModal} socket={socket} />
       </Modal>
     </div>
   );
@@ -200,37 +199,3 @@ const ChannelPanels = ({
     </div>
   );
 };
-
-// const ChannelPanels = (props: {}) => {
-//   const [selectedTab, setSelectedTab] = useState(ChannelTabOptions.ALL);
-
-//   const handleTabClick = (tab: ChannelTabOptions) => {
-//     setSelectedTab(tab);
-//   };
-
-//   return (
-//     <div>
-//       <div className={styles.channelPanelBox}>
-//         <h2 className={styles.channelPanelFont}>Channels</h2>
-//       </div>
-//       <div className={styles.channelButtonsWrapper}>
-//         <button
-//           className={`${styles.unselectedPanelTab} ${
-//             selectedTab === ChannelTabOptions.ALL ? styles.selectedPanelTab : ""
-//           }`}
-//           onClick={() => handleTabClick(ChannelTabOptions.ALL)}
-//         >
-//           <h2 className={`${styles.selectPanelFont}`}>ALL</h2>
-//         </button>
-//         <button
-//           className={`${styles.unselectedPanelTab} ${
-//             selectedTab === ChannelTabOptions.MY ? styles.selectedPanelTab : ""
-//           }`}
-//           onClick={() => handleTabClick(ChannelTabOptions.MY)}
-//         >
-//           <h2 className={`${styles.selectPanelFont}`}>MY</h2>
-//         </button>
-//       </div>
-//     </div>
-//   );
-// };

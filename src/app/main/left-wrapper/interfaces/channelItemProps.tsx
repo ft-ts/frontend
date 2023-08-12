@@ -2,9 +2,9 @@ import { ChannelMode } from '../enum/temp.enum';
 
 interface ChannelItemProps {
 	title: string;
-	members: number;
+	memberCnt: number;
 	mode: ChannelMode;
-	channelId: number;
+	id: number;
 	onClick: (channelId: number) => void;
   }
   

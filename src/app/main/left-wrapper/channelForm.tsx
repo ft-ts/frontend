@@ -2,23 +2,38 @@
 
 import React, { useState } from 'react';
 import styles from './channelForm.module.scss';
+import { Socket } from 'socket.io-client';
 
 interface ChannelFormProps {
   onClose: () => void;
+  socket: Socket;
 }
-const ChannelForm: React.FC<ChannelFormProps> = ({ onClose }) => {
+const ChannelForm = (props: ChannelFormProps) => {
   const [title, setTitle] = useState('');
-  const [mode, setMode] = useState('');
+  const [mode, setMode] = useState('Public');
   const [password, setPassword] = useState('');
   const [isProtectedMode, setIsProtectedMode] = useState(false);
-
+  const [errorMessage, setErrorMessage] = useState('');
   const handleCreateChannel = () => {
-    // 실제로 채널을 생성하는 로직을 작성합니다.
-    // 입력받은 title, mode, password를 사용하여 채널을 생성합니다.
-    // ...
+    if (!title) {
+      setErrorMessage('Please fill out all required fields.');
+      return;
+    }
+    if (title.length > 20) {
+      setErrorMessage('Title must be less than 20 characters.');
+      return;
+    }
+    if (isProtectedMode && password.length > 15 && password.length < 4) {
+      setErrorMessage('Password must be between 4 and 15 characters.');
+      return;
+    }
 
-    // 채널 생성 후 창을 닫습니다.
-    onClose();
+    props.socket.emit('createChannel', {
+      title,
+      mode,
+      password,
+    });
+    props.onClose();
   };
 
   const handleModeChange = (newMode: string) => {
@@ -37,6 +52,7 @@ const ChannelForm: React.FC<ChannelFormProps> = ({ onClose }) => {
         onChange={(e) => setTitle(e.target.value)}
         className={styles.input}
       />
+      {errorMessage && <p className={styles.error}>{errorMessage}</p>}
       <h3 className={styles.h3}>Mode</h3>
       <div className={styles.radioGroup}>
         <label className={styles.radioLabel}>
@@ -77,11 +93,12 @@ const ChannelForm: React.FC<ChannelFormProps> = ({ onClose }) => {
             onChange={(e) => setPassword(e.target.value)}
             className={styles.input}
           />
+        {errorMessage && <p className={styles.error}>{errorMessage}</p>}
         </div>
       )}
       <div className={styles.buttonContainer}>
         <button onClick={handleCreateChannel} className={styles.buttonCreate}>Create</button>
-        <button onClick={onClose} className={styles.buttonCancel}>Cancel</button>
+        <button onClick={props.onClose} className={styles.buttonCancel}>Cancel</button>
       </div>
     </div>
   );
