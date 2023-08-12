@@ -9,9 +9,9 @@ export default function Main(props: MainProps) {
 
     return (
       <div id="main">
-        <LeftWrapper />
-        <MidWrapper />
-        <RightWrapper OneUser={props.OneUser} />
+        { <LeftWrapper /> }
+        { <MidWrapper /> }
+        { <RightWrapper OneUser={props.OneUser} /> }
       </div>
     )
   }

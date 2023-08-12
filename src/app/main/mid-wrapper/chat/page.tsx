@@ -12,17 +12,16 @@ export default function ChatWrapper() {
 
 
 const ChatBackground = (props: {}) => {
-    return (
-        <div className={styles.chatBackground}>
-            <ChatSettingButton />
+  return (
+    <div>
+        <span className={styles.chatMenuBox}>
             <UserlistButton />
-            <div className={styles.chatBackgroundBorder}>
-                <LobbyNewMessage />
-                <InputMessage />
-            </div>
-        </div>
-    )
-}
+            <ChatSettingButton />
+        </span>
+        <InputMessage />
+    </div>
+  );
+};
 
 const ChatSettingButton = (props: {}) => {
     return (
@@ -30,8 +29,8 @@ const ChatSettingButton = (props: {}) => {
             <Image 
                 src="/asset/setting.svg"
                 alt="settingButton"
-                width={64.45}
-                height={58}
+                width={55}
+                height={55}
                 />
         </button>
     )
@@ -43,9 +42,8 @@ const UserlistButton = (props: {}) => {
             <Image
                 src="/asset/user_list_button.svg"
                 alt="userlist button"
-                width={64.45}
-                height={58}
-                className="w-full h-auto"
+                width={55}
+                height={55}
             ></Image>
         </button>
     )
@@ -66,10 +64,9 @@ const LobbyNewMessage = (props: {}) => {
 
 const InputMessage = (props: {}) => {
     return (
-        <span>
+        <span className={styles.spanSendMessage}>
             <input className={styles.inputMessageBox}></input>
-            <div className={styles.messageSendBox}></div>
-            <h1 className={styles.messageSendFont}>send</h1>
+            <button className={styles.messageSendBox}>SEND</button>
         </span>
     )
 }

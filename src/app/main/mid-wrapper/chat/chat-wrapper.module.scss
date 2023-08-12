@@ -1,54 +1,44 @@
 .chatWrapper {
-  background-color: blue;
-}
-
-$backgroundWidth: 1280px;
-$backgroundBorderWidth: 1200px;
-
-/* 배경 */
-.chatBackground{
     position: relative;
-    width: $backgroundWidth;
+    width: 1280px;
     height: 685px;
     left: 0px;
     top: 0px;
     background: #414141;
+    font-family: "ArcadeClassic";
 }
 
-.chatBackgroundBorder{
+.chatMenuBox{
     box-sizing: border-box;
-    position: relative;
-    width: $backgroundBorderWidth;
-    height: 540px;
-    left: ($backgroundWidth - $backgroundBorderWidth) / 2;
-    top: 40px;
-    border: 3px solid #FFFFFF;
+    position: absolute;
+    width: 100%;
+    height: 80px;
+    border: 4px solid #FFFFFF;
     border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
 }
 
 .settingButton{
     box-sizing: border-box;
-    position: relative;
-    left: 30px;
-    top: 10px;
+    position: absolute;
+    top: 8px;
+    left: 15px;
 }
-
 
 .userlistButton{
     box-sizing: border-box;
     position: absolute;
-    left: $backgroundWidth - 94.45px;
-    top: 14px;
+    top: 15px;
+    right: 30px;
 }
 
-$messageTop: 20.53px;
 
 .LobbyMessageFont{
-    position: relative;
     width: 250px;
     height: 43.62px;
-    left: $backgroundWidth / 2 - (250 / 2) - 40;
-    top: $messageTop;
+    top: 10px;
     font-family: 'ArcadeClassic';
     font-style: normal;
     font-weight: 500;
@@ -61,57 +51,59 @@ $messageTop: 20.53px;
 }
 
 .lobbyMessageBar{
-
     position: absolute;
-    width: 400px;
+    width: 450px;
     height: 1.32px;
-    top: $messageTop + 18.47px;
+    left: 30px;
+    top: 60px;
     border: 2px solid #FFEA2D;
     transform: matrix(1, 0, 0, 1, 0, 0);
-
 }
 
-$inputHeight: 44px;
-$inputTop: 424px;
+.spanSendMessage{
+    // display: flex;
+    // justify-content: space-between;
+    position: absolute;
+    width: 100%;
+    height: 43px;
+    left: 30px;
+    bottom: 25px;
+    font-family: 'ArcadeClassic';
+    font-style: normal;
+    font-weight: 200;
+    font-size: 20px;
+    line-height: 20px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #FFEA2D;
+    padding: 20px;
+}
 
 .inputMessageBox{
-    position: relative;
-    width: 990px;
-    height: $inputHeight;
-    left: 24px;
-    top: $inputTop;
-    background: #FFFFFF;
+    box-sizing: border-box;
+    position: absolute;
+    width: 1000px;
+    left: 20px;
+    color: #FFFFFF;
     border-radius: 5px;
+    border: 3px solid #35C2FF;
+    background-color: transparent;
+    padding: 10px;
 }
 
 .messageSendBox{
     box-sizing: border-box;
     position: absolute;
     width: 150px;
-    height: $inputHeight + 2;
-    left: 1026px;
-    top: $inputTop + 43;
+    height: 50px;
+    right: 100px;
     border: 3px solid #35C2FF;
     border-radius: 5px;
+    color: #35C2FF;
+    font-size: 27px;
 }
 
 .messageSendBox:hover{
     background-color: #0b82b5;
-}
-
-.messageSendFont{
-    position: absolute;
-    width: 112px;
-    height: $inputHeight + 2;
-    left: 1055px;
-    top: $inputTop + 43;
-    font-family: 'ArcadeClassic';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 42px;
-    line-height: 24px;
-    display: flex;
-    align-items: center;
-    text-align: center;
-    color: #35C2FF;
 }

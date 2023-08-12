@@ -22,7 +22,11 @@ export default function Channel() {
 
   useEffect(() => {
     // 소켓 연결 생성
-    const newSocket = io(BACKEND_URL);
+    const newSocket = io(BACKEND_URL, {
+      extraHeaders: {
+        Authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEwMDAwMiwiZW1haWwiOiJzaWVsZWVAc3R1ZGVudC40MnNlb3VsLmtyIiwidHdvRmFjdG9yQXV0aCI6ZmFsc2UsImlhdCI6MTY5MTczNDE2NiwiZXhwIjoxNjkxNzc3MzY2fQ.NW0oBzjqJkk8KHXEYvWaugn_YskM5hgBiBnA9LX8Iqs',
+      }
+    });
     setSocket(newSocket);
 
     // 컴포넌트 언마운트 시 소켓 연결 종료
@@ -44,14 +48,6 @@ export default function Channel() {
         console.log("Disconnected from socket server");
       });
 
-      socket.on("getAllChannels", (allChannels) => {
-        setChannels(allChannels);
-      });
-
-      socket.on("getMyChannels", (myChannels) => {
-        setChannels(myChannels);
-      });
-
       return () => {
         socket.off("connect");
         socket.off("disconnect");
@@ -65,9 +61,13 @@ export default function Channel() {
   const handleTabClick = (tab: ChannelTabOptions) => {
     setSelectedTab(tab);
     if (socket && tab === ChannelTabOptions.ALL) {
-      socket.emit("getAllChannels"); // ALL 탭 선택 시 모든 채널 가져오도록 서버에 요청
+      socket.on("getAllChannels", (allChannels) => {
+        setChannels(allChannels);
+      });
     } else if (socket && tab === ChannelTabOptions.MY) {
-      socket.emit("getMyChannels"); // MY 탭 선택 시 내 채널 가져오도록 서버에 요청
+      socket.on("getMyChannels", (myChannels) => {
+        setChannels(myChannels);
+      });
     }
   };
 
@@ -112,9 +112,9 @@ const CreateChannel = () => {
     content: {
       width: "400px",
       height: "600px",
-      padding: "0px",
       border: "1px solid #ddd",
       borderRadius: "8px",
+      padding: "20px",
       margin: "0 auto",
       backgroundColor: "#444444",
     },

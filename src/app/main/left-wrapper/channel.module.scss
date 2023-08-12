@@ -1,6 +1,6 @@
 .leftWrapper {
   background-color: #999;
-  width: 500px;
+  width: 640px;
 }
 
 $leftWrapperWidth: 100%;
@@ -185,7 +185,7 @@ $InputFontWeight: 350;
 
   .channelContainer {
     // 화면에 따라 조절 필요
-    max-height: 400px; // 스크롤 영역의 최대 높이 설정
+    max-height: 450px; // 스크롤 영역의 최대 높이 설정
     width: 100%;
     overflow-y: auto; // 세로 스크롤 적용
   }
@@ -193,7 +193,7 @@ $InputFontWeight: 350;
   .channelList {
     display: flex;
     flex-direction: column;
-    height: 400px;
+    height: 450px;
     // gap: 10px;
     // padding: 10px;
   }
