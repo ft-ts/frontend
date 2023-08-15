@@ -3,11 +3,9 @@
 import React, { useState } from 'react';
 import styles from './channelForm.module.scss';
 import { Socket } from 'socket.io-client';
+import ChannelSettingFormProps from './interfaces/channelSettingFormProps';
+import ChannelFormProps from './interfaces/channelFormProps';
 
-interface ChannelFormProps {
-  onClose: () => void;
-  socket: Socket;
-}
 const ChannelForm = (props: ChannelFormProps) => {
   const [title, setTitle] = useState('');
   const [mode, setMode] = useState('Public');
@@ -104,4 +102,66 @@ const ChannelForm = (props: ChannelFormProps) => {
   );
 };
 
-export { ChannelForm };
+const ChannelSettingForm = (props: ChannelSettingFormProps) => {
+  const [newTitle, setNewTitle] = useState(props.channel.title);
+  const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const handleUpdatePassword = () => {
+    if (props.channel.password && password.length > 0) {
+      // Send the updated password to the server
+      props.socket.emit('editPassword', {
+        channelId: props.channel,
+        password,
+      });
+    } else {
+      setErrorMessage('Please enter a valid password.');
+    }
+  };
+
+  const handleUpdateTitle = () => {
+    if (props.channel.id && newTitle.length > 0) {
+      // Send the updated title to the server
+      props.socket.emit('updateChannelTitle', {
+        channelId: props.channel.id,
+        title: newTitle,
+      });
+    } else {
+      setErrorMessage('Please enter a valid title.');
+    }
+  };
+
+  return (
+    <div className={styles.channelFormContainer}>
+      <h2 className={styles.h2}>Channel Settings</h2>
+      {props.channel.id && (
+        <>
+          <h3 className={styles.h3}>Channel Title</h3>
+          <input
+            type="text"
+            placeholder="New Title"
+            value={newTitle}
+            onChange={(e) => setNewTitle(e.target.value)}
+            className={styles.input}
+          />
+          {errorMessage && <p className={styles.error}>{errorMessage}</p>}
+          <h3 className={styles.h3}>Password</h3>
+          <input
+            type="password"
+            placeholder="New Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className={styles.input}
+          />
+          <div className={styles.buttonContainer}>
+            <button onClick={handleUpdateTitle} className={styles.buttonCreate}>Update Title</button>
+            <button onClick={handleUpdatePassword} className={styles.buttonCreate}>Update Password</button>
+            <button onClick={props.onClose} className={styles.buttonCancel}>Cancel</button>
+          </div>
+        </>
+      )}
+    </div>
+  );
+};
+
+export { ChannelForm, ChannelSettingForm };

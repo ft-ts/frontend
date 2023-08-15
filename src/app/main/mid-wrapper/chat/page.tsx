@@ -1,32 +1,17 @@
+"use client";
+
 import styles from "./chat-wrapper.module.scss";
 import React from "react";
 import ChatMenu from "./chatMenu";
+import ChatRoom from "./chatRoom";
+import { socket } from "../../../socketConfig";
 
-export default function ChatWrapper() {
+export default function ChatWrapper({ channelId }: {channelId: number | null}){
+
   return (
     <div className={styles.chatWrapper}>
-      <ChatMenu />
-      <HandleMessage />
+      <ChatMenu socket={socket} channelId={channelId} />
+      <ChatRoom socket={socket} channelId={channelId}/>
     </div>
   );
 }
-
-const HandleMessage = (props: {}) => {
-  return (
-    <span className={styles.spanSendMessage}>
-      <input className={styles.inputMessageBox}></input>
-      <button className={styles.messageSendBox}>SEND</button>
-    </span>
-  );
-};
-
-// const LobbyNewMessage = (props: {}) => {
-//     return (
-//       <div>
-//         <h2 className={styles.LobbyMessageFont}>New message</h2>
-//         <span className={styles.lobbyMessageBar} style={{ left: "30px" }}></span>
-//         <span className={styles.lobbyMessageBar} style={{ left: "758px" }}></span>
-//       </div>
-//     );
-//   };
-  

@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import styles from "./channel.module.scss";
 import { DmItem } from "./channelItem";
-import { UserStatus } from "./enum/temp.enum";
+import { UserStatus } from "./enum/channel.enum";
 import Image from "next/image";
 
 export default function Dms() {

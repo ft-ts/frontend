@@ -1,4 +1,4 @@
-import { ChannelMode } from '../enum/temp.enum';
+import { ChannelMode } from '../enum/channel.enum';
 
 interface ChannelItemProps {
 	title: string;

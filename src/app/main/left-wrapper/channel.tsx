@@ -9,21 +9,10 @@ import { ChannelItem } from "./channelItem";
 import Modal from "react-modal";
 import { ChannelForm } from "./channelForm";
 import ChannelItemProps from "./interfaces/channelItemProps";
+import { socket } from "../../socketConfig";
 
-const BACKEND_URL = "http://10.19.209.187:10000/channels"; // 백엔드 소켓 서버 URL
-const AUTH_TOKEN =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEwMDAwMiwiZW1haWwiOiJzaWVsZWVAc3R1ZGVudC40MnNlb3VsLmtyIiwidHdvRmFjdG9yQXV0aCI6ZmFsc2UsImlhdCI6MTY5MTg0MjM2MSwiZXhwIjoxNjkxODg1NTYxfQ.06NrCbfw2wWtOuhYyqE9hvh5f9YyW6CgV8gSjrDGdKs";
-const socket = io(BACKEND_URL, {
-  extraHeaders: {
-    Authorization: AUTH_TOKEN,
-  },
-});
-
-export default function Channel() {
+export default function Channel({ setChannelId }: { setChannelId: React.Dispatch<React.SetStateAction<number | null>> }) {
   const [selectedTab, setSelectedTab] = useState(ChannelTabOptions.ALL);
-  const [selectedChannel, setSelectedChannel] = useState<{
-    channelId: number;
-  } | null>(null);
 
   useSocketConnection(socket);
 
@@ -34,9 +23,8 @@ export default function Channel() {
   };
 
   const handleChannelClick = (channelId: number) => {
-    setSelectedChannel({ channelId });
-    // chat에 해당 채널 띄우는 코드 추가
     socket.emit("enterChannel", { channelId });
+    setChannelId(channelId);
   };
 
   return (
@@ -55,7 +43,7 @@ export default function Channel() {
               memberCnt={channel.memberCnt}
               mode={channel.mode}
               id={channel.id}
-              onClick={handleChannelClick}
+              onClick={() => handleChannelClick(channel.id)}
             />
           ))}
       </div>
