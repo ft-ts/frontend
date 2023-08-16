@@ -6,7 +6,6 @@ import Image from "next/image";
 import { useState } from "react";
 import Modal from "react-modal";
 import { ChannelSettingForm } from "../../left-wrapper/channelForm";
-import ChannelSettingFormProps from "../../left-wrapper/interfaces/channelSettingFormProps";
 import { Socket } from "socket.io-client";
 import ChannelProps from "../../left-wrapper/interfaces/channelProps";
 
@@ -78,7 +77,7 @@ const ChatSettingButton = ({
       </button>
       <Modal
         isOpen={isModalOpen}
-        contentLabel="Create Channel Modal"
+        contentLabel="Edit Channel Modal"
         style={customStyles}
         ariaHideApp={false}
         onRequestClose={handleCloseModal}

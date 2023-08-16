@@ -10,7 +10,7 @@ const ChannelItem = (props: ChannelItemProps) => {
   return (
     <div className={styles.channelItemContainer} onClick={() => props.onClick(props.id)}>
       <h3 className={styles.title}>{props.title}</h3>
-      <p className={styles.members}>{props.memberCnt} / 4</p>
+      <p className={styles.members}>{props.memberCnt} / 5</p>
       <p className={styles.mode}>{props.mode}</p>
     </div>
   );

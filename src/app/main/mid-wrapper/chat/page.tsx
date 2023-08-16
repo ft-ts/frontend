@@ -6,12 +6,18 @@ import ChatMenu from "./chatMenu";
 import ChatRoom from "./chatRoom";
 import { socket } from "../../../socketConfig";
 
-export default function ChatWrapper({ channelId }: {channelId: number | null}){
+interface ChatWrapperProps {
+  channelId: number | null;
+}
+
+function ChatWrapper(props: ChatWrapperProps | any){
 
   return (
     <div className={styles.chatWrapper}>
-      <ChatMenu socket={socket} channelId={channelId} />
-      <ChatRoom socket={socket} channelId={channelId}/>
+      <ChatMenu socket={socket} channelId={props.channelId} />
+      <ChatRoom socket={socket} channelId={props.channelId}/>
     </div>
   );
 }
+
+export default ChatWrapper;

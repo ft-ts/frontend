@@ -2,7 +2,11 @@ import ChatWrapper from './chat/page'
 import GameWrapper from './game/page'
 import './mid-wrapper.css'
 
-export default function MidWrapper({ channelId }: {channelId: number | null}): JSX.Element {
+interface MidWrapperProps {
+  channelId: number | null;
+}
+
+function MidWrapper({ channelId }: MidWrapperProps | any) {
   return (
     <div id="mid-wrapper">
       <GameWrapper />
@@ -10,3 +14,5 @@ export default function MidWrapper({ channelId }: {channelId: number | null}): J
     </div>
   )
 }
+
+export default MidWrapper;

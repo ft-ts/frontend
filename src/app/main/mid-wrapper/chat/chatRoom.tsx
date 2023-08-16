@@ -16,22 +16,21 @@ export default function ChatRoom({ socket, channelId }: { socket: Socket, channe
 	const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
 
 	useEffect(() => {
-		// Fetch chat messages for the given channelId
 		socket.emit("getChatMessages", channelId);
-		socket.on("receiveChatMessages", (messages: ChatMessage[]) => {
-		setChatMessages(messages);
+		socket.on("getChatMessages", (messages: ChatMessage[]) => {
+			setChatMessages(messages);
 		});
 
-    // Clean up event listener when component unmounts
     return () => {
-      socket.off("receiveChatMessages");
+      socket.off("getChatMessages");
     };
   }, [socket, channelId]);
 
 	return (
 		<div className={styles.chatRoomBox}>
+		<div className={styles.chatDisplay}>
 
-
+		</div>
 		<span className={styles.spanSendMessage}>
 		  <input className={styles.inputMessageBox}></input>
 		  <button className={styles.messageSendBox}>SEND</button>

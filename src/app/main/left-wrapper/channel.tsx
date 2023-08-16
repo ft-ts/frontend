@@ -1,7 +1,7 @@
 "use client";
 
 import { io, Socket } from "socket.io-client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect , Dispatch, SetStateAction} from "react";
 import { ChannelTabOptions } from "./enum/channelTabOptions.enum";
 import Image from "next/image";
 import styles from "./channel.module.scss";
@@ -11,7 +11,8 @@ import { ChannelForm } from "./channelForm";
 import ChannelItemProps from "./interfaces/channelItemProps";
 import { socket } from "../../socketConfig";
 
-export default function Channel({ setChannelId }: { setChannelId: React.Dispatch<React.SetStateAction<number | null>> }) {
+
+function Channel({ setChannelId}: {setChannelId: Dispatch<SetStateAction<number | null>>}) {
   const [selectedTab, setSelectedTab] = useState(ChannelTabOptions.ALL);
 
   useSocketConnection(socket);
@@ -49,7 +50,7 @@ export default function Channel({ setChannelId }: { setChannelId: React.Dispatch
       </div>
     </div>
   );
-}
+};
 
 const requestChannelsFromServer = (socket:Socket, tab:ChannelTabOptions) => {
   if (tab === ChannelTabOptions.ALL) {
@@ -85,7 +86,7 @@ const useChannelData = (socket: Socket, tab: ChannelTabOptions) => {
       socket.off("getAllChannels", requestChannelsFromServer);
       socket.off("getMyChannels", requestChannelsFromServer);
     };
-  }, []);
+  }, [tab]);
 
   return channels;
 };
@@ -187,3 +188,5 @@ const ChannelPanels = ({
     </div>
   );
 };
+
+export default Channel;

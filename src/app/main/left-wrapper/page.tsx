@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import styles from "./channel.module.scss";
 import React from 'react';
@@ -9,7 +9,7 @@ interface LeftWrapperProps {
   setChannelId: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
-export default function leftWrapper({ setChannelId }: LeftWrapperProps) {
+function LeftWrapper({ setChannelId }: LeftWrapperProps | any) {
   return (
     <div className={styles.leftWrapper}>
       <Channels setChannelId={setChannelId}/>
@@ -17,3 +17,5 @@ export default function leftWrapper({ setChannelId }: LeftWrapperProps) {
     </div>
   );
 }
+
+export default LeftWrapper;

@@ -2,9 +2,9 @@
 
 import React, { useState } from 'react';
 import styles from './channelForm.module.scss';
-import { Socket } from 'socket.io-client';
 import ChannelSettingFormProps from './interfaces/channelSettingFormProps';
 import ChannelFormProps from './interfaces/channelFormProps';
+import { ChannelMode } from './enum/channel.enum';
 
 const ChannelForm = (props: ChannelFormProps) => {
   const [title, setTitle] = useState('');
@@ -14,11 +14,11 @@ const ChannelForm = (props: ChannelFormProps) => {
   const [errorMessage, setErrorMessage] = useState('');
   const handleCreateChannel = () => {
     if (!title) {
-      setErrorMessage('Please fill out all required fields.');
+      setErrorMessage('Please fill out title fields.');
       return;
     }
-    if (title.length > 20) {
-      setErrorMessage('Title must be less than 20 characters.');
+    if (title.length > 15) {
+      setErrorMessage('Title must be less than 15 characters.');
       return;
     }
     if (isProtectedMode && password.length > 15 && password.length < 4) {
@@ -34,9 +34,9 @@ const ChannelForm = (props: ChannelFormProps) => {
     props.onClose();
   };
 
-  const handleModeChange = (newMode: string) => {
+  const handleModeChange = (newMode: ChannelMode) => {
     setMode(newMode);
-    setIsProtectedMode(newMode === 'Protected' ? true : false);
+    setIsProtectedMode(newMode === ChannelMode.PROTECTED ? true : false);
   };
 
   return (
@@ -58,7 +58,7 @@ const ChannelForm = (props: ChannelFormProps) => {
             type="radio"
             value="Public"
             checked={mode === 'Public'}
-            onChange={() => handleModeChange('Public')}
+            onChange={() => handleModeChange(ChannelMode.PUBLIC)}
           />
           Public
         </label>
@@ -67,7 +67,7 @@ const ChannelForm = (props: ChannelFormProps) => {
             type="radio"
             value="Protected"
             checked={mode === 'Protected'}
-            onChange={() => handleModeChange('Protected')}
+            onChange={() => handleModeChange(ChannelMode.PROTECTED)}
           />
           Protected
         </label>
@@ -76,7 +76,7 @@ const ChannelForm = (props: ChannelFormProps) => {
             type="radio"
             value="Private"
             checked={mode === 'Private'}
-            onChange={() => handleModeChange('Private')}
+            onChange={() => handleModeChange(ChannelMode.PRIVATE)}
           />
           Private
         </label>
@@ -101,33 +101,28 @@ const ChannelForm = (props: ChannelFormProps) => {
     </div>
   );
 };
-
 const ChannelSettingForm = (props: ChannelSettingFormProps) => {
   const [newTitle, setNewTitle] = useState(props.channel.title);
-  const [password, setPassword] = useState('');
+  const [newPassword, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-  const handleUpdatePassword = () => {
-    if (props.channel.password && password.length > 0) {
-      // Send the updated password to the server
-      props.socket.emit('editPassword', {
-        channelId: props.channel,
-        password,
-      });
-    } else {
-      setErrorMessage('Please enter a valid password.');
-    }
-  };
-
-  const handleUpdateTitle = () => {
-    if (props.channel.id && newTitle.length > 0) {
-      // Send the updated title to the server
-      props.socket.emit('updateChannelTitle', {
+  const handleUpdate = () => {
+    if (newTitle.length > 0 && newTitle.length < 16) {
+      props.socket.emit('editTitle', {
         channelId: props.channel.id,
         title: newTitle,
       });
     } else {
-      setErrorMessage('Please enter a valid title.');
+      setErrorMessage('Length of title must be greater than 1 and less than 16.');
+    }
+
+    if (props.channel.mode === ChannelMode.PROTECTED && newPassword.length > 3 && newPassword.length < 16) {
+      props.socket.emit('editPassword', {
+        channelId: props.channel.id,
+        password: newPassword,
+      });
+    } else if (props.channel.mode === ChannelMode.PROTECTED) {
+      setErrorMessage('Length of password must be greater than 3 and less than 15.');
     }
   };
 
@@ -139,23 +134,27 @@ const ChannelSettingForm = (props: ChannelSettingFormProps) => {
           <h3 className={styles.h3}>Channel Title</h3>
           <input
             type="text"
-            placeholder="New Title"
+            placeholder={props.channel.title}
             value={newTitle}
             onChange={(e) => setNewTitle(e.target.value)}
             className={styles.input}
           />
           {errorMessage && <p className={styles.error}>{errorMessage}</p>}
-          <h3 className={styles.h3}>Password</h3>
-          <input
-            type="password"
-            placeholder="New Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className={styles.input}
-          />
+          {props.channel.mode === ChannelMode.PROTECTED && (
+            <>
+              <h3 className={styles.h3}>Password</h3>
+              <input
+                type="password"
+                placeholder="New Password"
+                value={newPassword}
+                onChange={(e) => setPassword(e.target.value)}
+                className={styles.input}
+              />
+              {errorMessage && <p className={styles.error}>{errorMessage}</p>}
+            </>
+          )}
           <div className={styles.buttonContainer}>
-            <button onClick={handleUpdateTitle} className={styles.buttonCreate}>Update Title</button>
-            <button onClick={handleUpdatePassword} className={styles.buttonCreate}>Update Password</button>
+            <button onClick={handleUpdate} className={styles.buttonCreate}>Edit</button>
             <button onClick={props.onClose} className={styles.buttonCancel}>Cancel</button>
           </div>
         </>
@@ -163,5 +162,6 @@ const ChannelSettingForm = (props: ChannelSettingFormProps) => {
     </div>
   );
 };
+
 
 export { ChannelForm, ChannelSettingForm };
