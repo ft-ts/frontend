@@ -9,10 +9,10 @@ interface LeftWrapperProps {
   setChannelId: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
-function LeftWrapper({ setChannelId }: LeftWrapperProps | any) {
+function LeftWrapper(props: LeftWrapperProps | any) {
   return (
     <div className={styles.leftWrapper}>
-      <Channels setChannelId={setChannelId}/>
+      <Channels setChannelId={props.setChannelId}/>
       <Dms/>
     </div>
   );

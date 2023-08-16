@@ -12,7 +12,7 @@ import ChannelItemProps from "./interfaces/channelItemProps";
 import { socket } from "../../socketConfig";
 
 
-function Channel({ setChannelId}: {setChannelId: Dispatch<SetStateAction<number | null>>}) {
+function Channel(props: {setChannelId: Dispatch<SetStateAction<number | null>>}) {
   const [selectedTab, setSelectedTab] = useState(ChannelTabOptions.ALL);
 
   useSocketConnection(socket);
@@ -25,7 +25,7 @@ function Channel({ setChannelId}: {setChannelId: Dispatch<SetStateAction<number 
 
   const handleChannelClick = (channelId: number) => {
     socket.emit("enterChannel", { channelId });
-    setChannelId(channelId);
+    props.setChannelId(channelId);
   };
 
   return (
