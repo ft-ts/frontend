@@ -12,7 +12,7 @@ function Main(props: MainProps | any) {
   
   return (
     <div id="main">
-      <LeftWrapper setChannelId={setChannelId} />
+      <LeftWrapper channelId={channelId} setChannelId={setChannelId} />
       <MidWrapper channelId={channelId} />
       <RightWrapper OneUser={props.OneUser} />
     </div>

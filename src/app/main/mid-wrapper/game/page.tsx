@@ -27,7 +27,7 @@ const GameMatch = (props: {}) => {
     )
 }
 
-const GameRecordSearch = (props: {}) => {
+const GameRecordSearch = (props: {} | any) => {
     return (
         <div>
             <input className={styles.gameRecordSearchBox}></input>

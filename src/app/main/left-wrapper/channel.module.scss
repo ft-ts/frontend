@@ -114,6 +114,10 @@ $InputFontWeight: 350;
     justify-content: center;
     align-content: center;
   }
+
+  .unselectedPanelTab:hover{
+    background: #ffffff;
+  }
   
   .selectPanelFont{
     position: relative;
@@ -128,10 +132,7 @@ $InputFontWeight: 350;
     line-height: $SelPanBoxH;
     color: #000000;
   }
-  
-  .selectPanelFont:hover{
-    color: #FF25A8;
-  }
+
 .channelButtonsWrapper {
   display: flex;
 }

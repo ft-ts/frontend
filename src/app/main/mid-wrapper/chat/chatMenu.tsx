@@ -18,7 +18,7 @@ export default function ChatMenu({
 }) {
   const [channel, setChannel] = useState<ChannelProps | null>(null);
 
-  socket.emit("getChannelById", channelId);
+  socket.emit("getChannelById", { channelId });
   socket.on("getChannelById", (channelData: ChannelProps) => {
     setChannel(channelData);
   });
