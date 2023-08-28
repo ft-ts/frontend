@@ -1,4 +1,4 @@
-import { UserStatus } from '../enum/temp.enum';
+import { UserStatus } from '../enum/channel.enum';
 
 interface DmItemProps {
 	friend: string;

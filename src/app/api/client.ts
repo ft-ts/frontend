@@ -1,8 +1,8 @@
 import axios from "axios";
-
+import  UserInterface  from "./interfaces/user.interface";
 /////////////////////////////////////////////////////////////////////
 const tokens = {
-    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjk4MjY3LCJlbWFpbCI6ImRvaHl1bGVlQHN0dWRlbnQuNDJzZW91bC5rciIsInR3b0ZhY3RvckF1dGgiOmZhbHNlLCJpYXQiOjE2OTMxODkzODcsImV4cCI6MTY5MzIzMjU4N30.SR1w63Mlzvq1jKdfwa3hz_FI6zOGMqb8jBoQ1IXunUU",
+    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEwMDAwMiwiZW1haWwiOiJzaWVsZWVAc3R1ZGVudC40MnNlb3VsLmtyIiwidHdvRmFjdG9yQXV0aCI6ZmFsc2UsImlhdCI6MTY5MzIxMjEwMywiZXhwIjoxNjkzMjU1MzAzfQ.a3VHJ5f_zC2poxGizwowWreGNkQM0TgHKfbvdYjtmO8",
     "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjk4MjY3LCJlbWFpbCI6ImRvaHl1bGVlQHN0dWRlbnQuNDJzZW91bC5rciIsImlhdCI6MTY5MzE4OTM4NywiZXhwIjoxNjkzNzk0MTg3fQ.krHZo_1OaRDUdhsZ2KaVLAtS1x_8al6ji5KyW7BE8LQ"
 };
 
@@ -24,8 +24,8 @@ apiClient.interceptors.request.use((config) => {
     return config;
 });
 
-export async function getMyInfo(): Promise<any> {
-    return apiClient.get("/users", {
+export async function getMyInfo(): Promise<UserInterface> {
+    return await apiClient.get("/users", {
         headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -34,13 +34,23 @@ export async function getMyInfo(): Promise<any> {
 };
 
 export async function getUserList(): Promise<any> {
-    return apiClient.get("/users/all", {
+    return await apiClient.get("/users/all", {
         headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
     });
 }
+
+export async function getUserByUid(uid: number): Promise<UserInterface> {
+    return apiClient.get(`/users/${uid}`, {
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+    });
+}
+
 
 // // Auth
 // export async function signInApi(email, password) {
