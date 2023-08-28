@@ -10,7 +10,7 @@ interface ChatWrapperProps {
   channelId: number | null;
 }
 
-function ChatWrapper(props: ChatWrapperProps | any){
+function ChatWrapper(props: ChatWrapperProps){
 
   return (
     <div className={styles.chatWrapper}>

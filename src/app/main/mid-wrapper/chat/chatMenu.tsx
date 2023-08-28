@@ -3,7 +3,7 @@
 import styles from "./chat-wrapper.module.scss";
 import React from "react";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Modal from "react-modal";
 import { ChannelSettingForm } from "../../left-wrapper/channelForm";
 import { Socket } from "socket.io-client";
@@ -18,18 +18,26 @@ export default function ChatMenu({
 }) {
   const [channel, setChannel] = useState<ChannelProps | null>(null);
 
-  socket.emit("getChannelById", { channelId });
-  socket.on("getChannelById", (channelData: ChannelProps) => {
-    setChannel(channelData);
-  });
+  useEffect(() => {
+    socket.emit("getChannelById", { channelId });
+    socket.on("getChannelById", (channelData: ChannelProps) => {
+      setChannel(channelData);
+    });
+
+    return () => {
+      socket.off("getChannelById");
+    }
+  }, [channelId]);
+  
   return (
     <span className={styles.chatMenuBox}>
-      {channel !== null && (
-        <>
-          <UserlistButton socket={socket} channel={channel}/>
-          <ChatSettingButton socket={socket} channel={channel} />
-        </>
-      )}
+       {channel !== null && (
+      <>
+        <UserlistButton socket={socket} channel={channel}/>
+        <h2 className={styles.chatMenuTitle}>{channel.title}</h2>
+        <ChatSettingButton socket={socket} channel={channel} />
+      </>
+    )}
     </span>
   );
 }

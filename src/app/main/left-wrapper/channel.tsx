@@ -13,17 +13,19 @@ import { socket } from "../../socketConfig";
 import { ChannelMode } from "./enum/channel.enum";
 import PasswordModal from "./passwordModal";
 
-
-function Channel({channelId, setChannelId}: {channelId: number | null, setChannelId: Dispatch<SetStateAction<number | null>>}) {
+function Channel({setChannelId}: {setChannelId: Dispatch<SetStateAction<number | null>>}) {
   const [selectedTab, setSelectedTab] = useState(ChannelTabOptions.ALL);
   const [showPasswordModal, setShowPasswordModal] = useState<boolean>(false);
   const [password, setPassword] = useState<string>('');
-
+  const [user, setUser] = useState<any>(null);
+  
   useSocketConnection(socket);
   const channels = useChannelData(socket, selectedTab);
   const handleTabClick = (tab: ChannelTabOptions) => {
     setSelectedTab(tab);
   };
+
+  socket.on("handleConnection", (user: any) => setUser(user));
 
   const handleChannelClick = async (channelId: number) => {
     const channel = channels.find((ch) => ch.id === channelId);
@@ -35,20 +37,21 @@ function Channel({channelId, setChannelId}: {channelId: number | null, setChanne
     if (channel.mode === ChannelMode.PROTECTED) {
       setShowPasswordModal(true);
     } else {
-      enterChannel(channelId);
+      enterChannel(channelId, user.uid);
     }
   };
 
-  const enterChannel = async (channelId: number) => {
+  const enterChannel = async (channelId: number, uid: number) => {
+    setChannelId(channelId);
     try {
-      const response = await fetch("/api/channel/enter", {
+      const response = await fetch(`/api/channel/enter?channelId=${channelId}&password=${password}`, {
         method: "GET",
         body: JSON.stringify({ uid, channelId, password }),
         headers: {
           "Content-Type": "application/json"
         }
       });
-
+      console.log("response of enter: ", response);
       if (response.ok) {
         const data = await response.json();
         setChannelId(data.id);
@@ -145,7 +148,7 @@ const CreateChannel = ({ socket }: { socket: Socket }) => {
   const customStyles = {
     content: {
       width: "400px",
-      height: "700px",
+      height: "600px",
       border: "1px solid #ddd",
       borderRadius: "8px",
       padding: "20px",

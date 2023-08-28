@@ -1,3 +1,5 @@
+"use client";
+
 import ChatWrapper from './chat/page'
 import GameWrapper from './game/page'
 import './mid-wrapper.css'

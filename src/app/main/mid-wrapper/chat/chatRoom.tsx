@@ -12,28 +12,9 @@ interface User {
   avatar: string;
 }
 
-export default function ChatRoom({ socket, channelId }: { socket: Socket, channelId: number | null }) {
+export default function ChatRoom({ socket, channelId}: { socket: Socket, channelId: number | null}) {
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
-  const [myUid, setMyUid] = useState<number | null>(null);
-  const [users, setUsers] = useState<User[]>([]);
   const [inputMessage, setInputMessage] = useState<string>('');
-
-  // API 호출해서 사용자 정보 가져오는 함수
-  const fetchUser = async (uid: number) => {
-    try {
-      const response = await fetch(`/api/users/${uid}`); // API 엔드포인트에 맞게 수정
-      const user = await response.json();
-      return user;
-    } catch (error) {
-      console.error('Error fetching user:', error);
-      return null;
-    }
-  };
-
-  socket.emit('getMyUid');
-  socket.on('getMyUid', (uid: number) => {
-    setMyUid(uid);
-  });
 
   const handleSendMessage = () => {
     if (inputMessage.trim() === '') {
@@ -50,8 +31,8 @@ export default function ChatRoom({ socket, channelId }: { socket: Socket, channe
   };
 
   useEffect(() => {
-    socket.emit('getChatMessages', channelId);
-    socket.on('getChatMessages', (messages: ChatMessage[]) => {
+    socket.emit('getChannelMessages', channelId);
+    socket.on('getChannelMessages', (messages: ChatMessage[]) => {
       setChatMessages(messages);
     });
 
@@ -60,38 +41,36 @@ export default function ChatRoom({ socket, channelId }: { socket: Socket, channe
     };
   }, [socket, channelId]);
 
-  useEffect(() => {
-    // 메시지의 발신자 UID를 배열로 만듦
-    const senderUids = chatMessages.map((message) => message.sender_uid);
+  // useEffect(() => {
+  //   // 메시지의 발신자 UID를 배열로 만듦
+  //   const senderUids = chatMessages.map((message) => message.sender_uid);
 
-    // 중복되지 않는 발신자 UID 목록을 가져오기 위해 Set을 사용
-    const uniqueSenderUids = Array.from(new Set(senderUids));
+  //   // 중복되지 않는 발신자 UID 목록을 가져오기 위해 Set을 사용
+  //   const uniqueSenderUids = Array.from(new Set(senderUids));
 
-    // 사용자 정보 가져오기
-    const fetchUsers = async () => {
-      const fetchedUsers = await Promise.all(uniqueSenderUids.map((uid) => fetchUser(uid)));
-      setUsers(fetchedUsers.filter((user) => user !== null) as User[]);
-    };
+  //   // 사용자 정보 가져오기
+  //   const fetchUsers = async () => {
+  //     const fetchedUsers = await Promise.all(uniqueSenderUids.map((uid) => fetchUser(uid)));
+  //     setUsers(fetchedUsers.filter((user) => user !== null) as User[]);
+  //   };
+  //   fetchUsers();
+  //   console.log("user: ",users);
+  // }, [chatMessages]);
 
-    fetchUsers();
-  }, [chatMessages]);
+  
 
   return (
     <div className={styles.chatRoomBox}>
       <div className={styles.chatDisplay}>
-        {chatMessages.map((message) => {
-          const sender = users.find((user) => user.uid === message.sender_uid);
-          if (!sender) return null;
-          return (
+            {chatMessages && chatMessages.map((chatMessages) =>
             <MessageItem
-              key={message.id}
-              message={message}
-              isMyMessage={message.sender_uid === myUid}
-              senderName={sender.name}
-			  senderProfilePicture={sender.avatar}
+              key={chatMessages.id}
+              message={chatMessages}
+              isMyMessage={chatMessages.sender_uid === 1}
+              senderName={"name"}
+			        senderProfilePicture={"Avar"}
             />
-          );
-        })}
+          )}
       </div>
       <span className={styles.spanSendMessage}>
         <input
