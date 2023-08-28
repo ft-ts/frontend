@@ -12,10 +12,9 @@ export default function GameWrapper() {
 const GameBackground = (props: {}) => {
     return (
         <div className={styles.gameBackground}>
-            <div className={styles.gameDisplayBackground}>
-                <GameMatch />
-                <GameRecordSearch />
-            </div>
+            <div className={styles.gameDisplayBackground}></div>
+            <GameMatch />
+            <GameRecordSearch />
         </div>
     )
 }
@@ -36,8 +35,8 @@ const GameRecordSearch = (props: {}) => {
                 className={styles.gameRecordIcon}
                 src="asset/RecordSearch.svg"
                 alt="RecordSearch icon"
-                width={26}
-                height={26}
+                width={43}
+                height={43}
                 ></Image>
         </div>
         

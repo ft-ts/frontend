@@ -1,0 +1,157 @@
+$DisplayWidth: 2560px;
+$DisplayHeight: 1440px;
+$DisplayBackGroundWidth: $DisplayWidth * 0.7;
+$DisplayBackGroundHeight: $DisplayHeight * 0.55;
+
+.background{
+    background-color: #aaa5aa;
+    width: $DisplayWidth;
+    height: $DisplayHeight;
+}
+
+.gameBackground{
+    box-sizing: border-box;
+    position: relative;
+    width: $DisplayBackGroundWidth;
+    height: $DisplayBackGroundHeight; // 790px
+    left: ($DisplayWidth * 0.15);
+    top: ($DisplayHeight * 0.05);
+    background: rgba(45, 18, 66, 0.26);
+    border: 2px solid #000000;
+}
+
+.displayBackground{
+    box-sizing: border-box;
+    position: relative;
+    width: ($DisplayBackGroundWidth * 0.90); //1609px
+    height: $DisplayBackGroundHeight * 0.9;
+    left: (1983px * 0.05);
+    top: 3vh;
+    background: #859E5A;
+    border: 5px solid #000000;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.gameFont, .pressFont{
+    position: relative;
+    z-index: 90;
+    font-family: 'ArcadeClassic';
+    font-style: normal;
+    font-weight: 400;
+    line-height: 101px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.gameFont{
+    left: (1609px / 2) - (934px / 2 );
+    top: 180px;
+    font-size: 200px;
+}
+
+.pressFont{
+    left: (1609px / 2) - (1078px / 2);
+    top: 350px;
+    font-size: 100px;
+}
+
+.gameCrossDeco{
+    position: relative;
+    left: 100px;
+    top: 80px;
+}
+
+.container {
+    position: absolute;
+    top: 1200px;
+    display: flex;
+    transform: rotate(-5.57deg);
+  }
+  
+  
+  .GameRoundRectangleDecoSelect {
+    left: ($DisplayWidth / 2) - 200px;
+    position: relative;
+  }
+  
+  .GameRoundRectangleDecoStart {
+    left: 1380px; /* Adjust as needed for desired separation */
+    position: relative;
+  }
+  
+.startFont, .selectFont{
+    position: absolute;
+    width: 126px;
+    height: 37px;
+    font-family: 'Poppins';
+    font-style: italic;
+    font-weight: 600;
+    font-size: 55px;
+    line-height: 45px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #464084;
+    transform: rotate(-26deg);
+}
+
+.startFont{
+    left: 1430.61px;
+    top: 150px;
+}
+
+.selectFont{
+    left: 1150.61px;
+    top: 150px;
+}
+
+  
+.roundContainer{
+    position: absolute;
+    display: flex;
+}
+
+.gameRoundDecoA{
+    position: relative;
+    left: $DisplayBackGroundWidth + 300px;
+    top: -90px;
+}
+
+.gameRoundDecoB{
+    position: relative;
+    left: $DisplayBackGroundWidth + 300px;
+    top: -230px;
+}
+
+.gameRoundFontA, .gameRoundFontB{
+    position: relative;
+    width: 126px;
+    height: 37px;
+    font-family: 'Poppins';
+    font-style: italic;
+    font-weight: 600;
+    font-size: 100px;
+    line-height: 45px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #464084;
+    transform: rotate(-31.97deg);
+}
+
+.gameRoundFontA{
+    left: $DisplayBackGroundWidth + 260;
+    top: -76px;
+}
+
+.gameRoundFontB{
+    left: $DisplayBackGroundWidth + 0px;
+    top: 64px;
+}

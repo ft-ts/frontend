@@ -1,0 +1,200 @@
+.leftWrapper {
+  background-color: #999;
+  width: 500px;
+}
+
+$leftWrapperWidth: 100%;
+$CreChaBoxH: 70px;
+$ChaPanBoxH: 60px;
+$SelPanBoxH: 52px;
+$SearchBoxH: 47px;
+
+$PanelFontWeight: 400;
+$InputFontWeight: 350;
+
+
+.createChannelBox{
+    box-sizing: border-box;
+    position: relative;
+    height: $CreChaBoxH + 5px;
+    width: $leftWrapperWidth;
+    left: 0px;
+    top: 0px;
+    background: #FF6161;
+    border: 8px #999;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+.createChannelBox:hover{
+    background: #ffa3a3;
+}
+
+.createChannelFont{
+    box-sizing: border-box;
+    position: relative;
+    height: $CreChaBoxH + 5px;
+    width: $leftWrapperWidth;
+    left: 0px;
+    top: 0px;
+    font-family: 'ArcadeClassic';
+    font-style: normal;
+    font-weight: $PanelFontWeight + 100;
+    font-size: 35px;
+    line-height: $CreChaBoxH + 5px;
+    color: #FFFFFF;
+}
+
+.channelPanelBox{
+    box-sizing: border-box;
+    position: relative;
+    width: $leftWrapperWidth;
+    height: $ChaPanBoxH;
+    left: 0px;
+    top: 0px;
+    background: #FFFFFF;
+    border: 1px solid #000000;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+.dmPanelBox{
+  box-sizing: border-box;
+  position: relative;
+  width: $leftWrapperWidth;
+  height: $ChaPanBoxH;
+  left: 0px;
+  top: 0px;
+  background: #FFFFFF;
+  border: 1px solid #000000;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
+.channelPanelFont{
+    position: relative;
+    height: $ChaPanBoxH;
+    left: 0px;
+    top: 0px;
+    font-family: 'ArcadeClassic';
+    font-style: normal;
+    font-weight: $PanelFontWeight;
+    font-size: 29px;
+    line-height: $ChaPanBoxH;
+    color: #000000;
+}
+
+.unselectedPanelTab{
+  box-sizing: border-box;
+  position: relative;
+  width: $leftWrapperWidth / 2;
+  height: $SelPanBoxH;
+  left: 0px;
+  top: 0px;
+  background: #aaa2a2;
+  border: 1px solid #000000;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
+
+.selectedPanelTab{
+  box-sizing: border-box;
+  position: relative;
+    width: $leftWrapperWidth / 2;
+    height: $SelPanBoxH;
+    left: 0px;
+    top: 0px;
+    background: #FFFFFF;
+    border: 1px solid #000000;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+  }
+  
+  .selectPanelFont{
+    position: relative;
+    width: $leftWrapperWidth / 2;
+    height: $SelPanBoxH;
+    left: 0px;
+    top: 0px;
+    font-family: 'ArcadeClassic';
+    font-style: normal;
+    font-weight: $PanelFontWeight - 80;
+    font-size: 27px;
+    line-height: $SelPanBoxH;
+    color: #000000;
+  }
+  
+  .selectPanelFont:hover{
+    color: #c2e9d2;
+  }
+.channelButtonsWrapper {
+  display: flex;
+}
+
+.channelSearchContainer {
+    box-sizing: border-box;
+    position: relative; /* flexbox를 사용합니다. */
+    align-items: center; /* 아이템들을 수직 중앙 정렬합니다. */
+    // justify-content: space-between; /* 아이템들을 가로 방향으로 양 끝으로 정렬합니다. */
+    width: 100%; /* 원하는 너비로 설정합니다. */
+    height: $SearchBoxH;
+    background: #5F5F5F;
+    border: 3px solid #FF25A8;
+  }
+
+
+  .channelSearchIconContainer {
+    position: absolute; /* 컨테이너 내에서 원하는 위치로 아이콘을 배치하기 위해 position: absolute;로 설정합니다. */
+    right: 10px; /* 오른쪽 여백을 설정하여 아이콘을 오른쪽에 위치시킵니다. */
+    top: 50%; /* 상단 여백을 설정하여 아이콘을 세로 중앙에 위치시킵니다. */
+    transform: translateY(-50%);
+  }
+
+.channelSearchInput {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center; /* 입력란을 수직 중앙으로 정렬합니다. */
+  justify-content: space-between;
+    border: none; /* 인풋 박스의 테두리를 없앱니다. */
+    outline: none;
+    padding: 10px; /* 예시로 안쪽 여백을 추가합니다. */
+    background: transparent;
+    width: 90%;
+    height: $SearchBoxH - 8;
+    font-family: 'ArcadeClassic';
+    font-style: normal;
+    font-weight: $InputFontWeight;
+    font-size: 27px;
+    line-height: $SearchBoxH;
+    color: #ffffff;
+  }
+
+.channelSearchIcon{
+    left: 90%;
+    top: 0px;
+    background: #5F5F5F;
+  }
+
+
+  .channelContainer {
+    // 화면에 따라 조절 필요
+    max-height: 400px; // 스크롤 영역의 최대 높이 설정
+    width: 100%;
+    overflow-y: auto; // 세로 스크롤 적용
+  }
+  
+  .channelList {
+    display: flex;
+    flex-direction: column;
+    height: 400px;
+    // gap: 10px;
+    // padding: 10px;
+  }
+  

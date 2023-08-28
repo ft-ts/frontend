@@ -5,7 +5,6 @@ import Image from "next/image";
 export default function ChatWrapper() {
   return (
     <div className={styles.chatWrapper}>
-      <h1>ChatWrapper</h1>
       <ChatBackground />
     </div>
   )
@@ -15,11 +14,12 @@ export default function ChatWrapper() {
 const ChatBackground = (props: {}) => {
     return (
         <div className={styles.chatBackground}>
-            <div className={styles.chatBackgroundBorder}></div>
             <ChatSettingButton />
             <UserlistButton />
-            <LobbyNewMessage />
-            <InputMessage />
+            <div className={styles.chatBackgroundBorder}>
+                <LobbyNewMessage />
+                <InputMessage />
+            </div>
         </div>
     )
 }
@@ -30,8 +30,8 @@ const ChatSettingButton = (props: {}) => {
             <Image 
                 src="/asset/setting.svg"
                 alt="settingButton"
-                width={44.45}
-                height={39}
+                width={64.45}
+                height={58}
                 />
         </button>
     )
@@ -43,8 +43,10 @@ const UserlistButton = (props: {}) => {
             <Image
                 src="/asset/user_list_button.svg"
                 alt="userlist button"
-                width = {44.45}
-                height={38}></Image>
+                width={64.45}
+                height={58}
+                className="w-full h-auto"
+            ></Image>
         </button>
     )
 }
@@ -55,8 +57,8 @@ const LobbyNewMessage = (props: {}) => {
     return (
         <div>
             <h2 className={styles.LobbyMessageFont}>New message</h2>
-            <span className={styles.lobbyMessageBar} style={{left: '50px'}}></span>
-            <span className={styles.lobbyMessageBar} style={{left: '563px'}}></span>
+            <span className={styles.lobbyMessageBar} style={{left: '30px'}}></span>
+            <span className={styles.lobbyMessageBar} style={{left: '758px'}}></span>
         </div>
         
     )

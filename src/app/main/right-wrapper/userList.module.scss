@@ -28,6 +28,7 @@
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
+    z-index: 1000;
   }
   
   .listButton {
@@ -38,6 +39,14 @@
     background: #FFFFFF; /* Replace with the color you want for the "All" button */
   }
   
+.listButton:hover{
+    background-color: #bbbbbb;
+}
+
+.listButtonAll:hover{
+    background-color: #bbbbbb;
+}
+
   .listButtonText {
     font-family: 'ArcadeClassic';
     font-style: normal;
@@ -48,36 +57,46 @@
     color: #000000;
   }
   
+  $listSearchButtonHeight: 80px;
+
    /* 배경 */
+   .searchContainer {
+    position: relative;
+    width: $userListBackgroundWidth; /* or whatever width you desire */
+    }
+
   .listSearchButton{
     box-sizing: border-box;
     position: relative;
     width: $userListBackgroundWidth;
-    height: 106px;
+    height: $listSearchButtonHeight;
     left: 0px;
     top: 100px;
     background: #5F5F5F;
     border: 3px solid #FF25A8;
+    padding-right: 70px; 
   }
 
-/* Vector */  
-  .listSearchVector{
-    position: relative;
-    left: 85.25%;
-    right: 3.75%;
-    top: 11.96%;
-    bottom: 82.12%;
-  }
+  .listSearchVector {
+    position: absolute;
+    top: 140px;
+    right: 10px; /* adjust as needed */
+    transform: translateY(-50%);
+}
 
  .userListRectangle{
     box-sizing: border-box;
     position: absolute;
     width: $userListBackgroundWidth;
-    height: ($userListBackgroundHeight - 100 - 106) / 5;
+    height: ($userListBackgroundHeight - 100 - $listSearchButtonHeight) / 5;
     left: 0px;
     background: #292929;
     border: 1px solid #000000;
     border-radius: 5px;
+ }
+
+ .userListRectangle:hover{
+    background-color: #4f4f4f;
  }
 
 /* In your CSS Module */
