@@ -10,8 +10,8 @@ import Dms from './dm';
 export default function leftWrapper() {
   return (
     <div className={styles.leftWrapper}>
-      <Channels/>
-      <Dms/>
+      {/* <Channels/>
+      <Dms/> */}
     </div>
   );
 }

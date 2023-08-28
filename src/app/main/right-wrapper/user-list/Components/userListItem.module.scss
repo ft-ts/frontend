@@ -1,0 +1,25 @@
+.userListItem {
+  background-color: #292929;
+  width: 100%;
+  height: 60px;
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.userListItemAvatar {
+  background-color: brown;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.userListItemName {
+  color: white;
+}
+
+.userListItemStatus {
+  color: white;
+}
