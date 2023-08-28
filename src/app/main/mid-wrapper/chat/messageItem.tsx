@@ -1,18 +1,24 @@
 "use client";
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './chat-wrapper.module.scss';
-import MessageItemProps from './interfaces/messageItemProps.interface';
-import { use } from 'passport';
+import ChatMessage from './interfaces/chatMessage.interface';
+import { getMyInfo, getUserByUid } from '@/app/api/client';
+import UserInterface from '@/app/api/interfaces/user.interface';
+import { get } from 'http';
 
-function MessageItem({ message, isMyMessage, senderName, senderProfilePicture }: MessageItemProps) {
+function MessageItem({ chatMessage }: {chatMessage: ChatMessage}) {
+  const [sender, setUserInfo] = useState({});
+  getMyInfo().then((myInfo) => {
+    setUserInfo(myInfo);
+  });
   return (
-    <div className={`${styles.message} ${isMyMessage ? styles.myMessage : styles.otherMessage}`}>
-      <div className={styles.chatProfilePicture}>{senderProfilePicture}</div>
+    <div className={`${styles.message} ${chatMessage.sender_uid === 1 ? styles.myMessage : styles.otherMessage}`}>
+      <div className={styles.chatProfilePicture}>{sender.avatar}</div>
       <div className = {styles.commonContents}>
-      <div className={styles.chatSenderName}>{senderName}</div>
-      <div className={styles.messageContent}>{message.content}</div>
-      <div className={styles.messageTime}>{message.timeStamp.toLocaleString()}</div>
+      <div className={styles.chatSenderName}>{sender.name}</div>
+      <div className={styles.messageContent}>{chatMessage.content}</div>
+      <div className={styles.messageTime}>{chatMessage.timeStamp.toLocaleString()}</div>
       </div>
     </div>
   );
