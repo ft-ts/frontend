@@ -1,18 +1,22 @@
-'use client'
-import LeftWrapper from './left-wrapper/page';
+"use client";
+
 import MidWrapper from './mid-wrapper/page';
 import RightWrapper from './right-wrapper/page';
-import { UserInfoContainer, UserProps, MainProps } from './userType';
+import { MainProps} from './userType';
 import './main.css';
+import React, { useState } from 'react';
+import LeftWrapper from './left-wrapper/page';
 
-export default function Main(props: MainProps) {
-
-
+function Main(props: MainProps) {
+  const [channelId, setChannelId] = useState<number | null>(null);
+  
   return (
     <div id="main">
-      <LeftWrapper />
-      <MidWrapper />
-      {/* <RightWrapper /> */}
+      <LeftWrapper setChannelId={setChannelId} />
+      <MidWrapper channelId={channelId} />
+      <RightWrapper />
     </div>
-  )
+  );
 }
+
+export default Main;
