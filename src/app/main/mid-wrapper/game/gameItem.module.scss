@@ -1,0 +1,243 @@
+$backgroundWidth: 1280px;
+$backgroundHeigth: 686px;
+$MatchWidth: 400px;
+
+$SearchBoxH: 50px;
+$SearchBoxW: 400px;
+$SearchBoxTop: -120px;
+
+$gameDisplayWidth: 1024px;
+$gameDisplayHeight: 500px;
+
+.gameDisplayBackground{
+  position: relative;
+  width: $gameDisplayWidth;
+  height: $gameDisplayHeight;
+  left: 10%;
+  top: 30px;
+  background: #000000;
+  border: 3px solid #ffffff;
+}
+
+.gameSearchContainer{
+  box-sizing: border-box;
+  position: relative;
+  align-items: center;
+  width: 40%;
+  height: $SearchBoxH;
+  left: 30%;
+  top: 400px;
+  background: #5f5f5f;
+  border: 3px solid #000000;
+  border-radius: 20px;
+}
+
+.gameSearchBox{
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  outline: none;
+  padding: 0 10px;
+  background: transparent;
+  width: 90%;
+  height: $SearchBoxH;
+  font-family: 'ArcadeClassic';
+  font-style: normal;
+  font-size: 25px;
+  // line-height: 1;
+  color : #ffffff;
+}
+
+.gameSearchIconContainer{
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.gameSearchIcon{
+  left: 85%;
+  top: 0px;
+}
+
+.gameButtonContainer{
+  position: relative;
+  width: 300px;
+  height: 70px;
+  left: 38%;
+  top: 50px;
+  background: #5f5f5f;
+  border: 3px solid #000000;
+  border-radius: 20px;
+}
+
+.gameButtonContainer:hover{
+  background-color: #4d3e4d;
+}
+
+.gameButtonFont{
+  font-family: 'ArcadeClassic';
+  font-style: normal;
+  font-size: 42px;
+  color: #000000;
+  text-align: center;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.matchHistoryBackground{
+  box-sizing: border-box;
+  position: relative;
+  padding : 0 10px;
+  width: 1000px;
+  height: 480px;
+  left: 1%;
+  top: 1%;
+  background: #5f5f5f;
+  border: 3px solid #000000;
+  border-radius: 20px;
+}
+
+.matchHistoryContainer{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  position: relative;
+  width: 750px;
+  height: 50px;
+  left: 11%;
+  top: 0px;
+
+}
+
+.matchTypeBox{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  position: relative;
+  width: 150px;
+  height: 50px;
+  border: 1px solid #ffffff;
+}
+.matchHistoryLeftBox{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  position: relative;
+  width: 250px;
+  height: 50px;
+  border: 1px solid #ffffff;
+}
+
+.matchHistoryRightBox{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  position: relative;
+  width: 250px;
+  height: 50px;
+  border: 1px solid #ffffff;
+}
+
+.matchHistoryCenterBox{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  position: relative;
+  width: 100px;
+  height: 50px;
+  border: 1px solid #ffffff;
+}
+
+.matchHistoryFont{
+  font-family: 'ArcadeClassic';
+  font-style: normal;
+  font-size: 25px;
+  color: #ffffff;
+  padding : 0 10px;
+}
+
+.matchTimeFont{
+  font-family: 'ArcadeClassic';
+  position: relative;
+  font-style: normal;
+  font-size: 20px;
+  left: 65%;
+  color: #ffffff;
+  padding : 0 10px; 
+}
+
+
+.resultFont{
+  font-family: 'ArcadeClassic';
+  font-style: normal;
+  font-size: 80px;
+  color: #ffffff;
+}
+
+.resultBox{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  position: absolute;
+  width: 400px;
+  height: 100px;
+  left: 30%;
+  top: 180px;
+}
+
+.backButton{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  position: absolute;
+  width: 200px;
+  height: 80px;
+  left: 39%;
+  top: 350px;
+  border: 3px solid #ffffff;
+  border-radius: 20px;
+}
+
+.backButton:hover{
+  background-color: #4d3e4d;
+}
+
+.backFont{
+  font-family: 'ArcadeClassic';
+  font-style: normal;
+  font-size: 60px;
+  color: #ffffff;
+}
+
+.matchingFont{
+  font-family: 'ArcadeClassic';
+  position: relative;
+  font-style: normal;
+  font-size: 80px;
+  color: #ffffff;
+  text-align: center;
+}
+
+@keyframes blinkAnimation {
+  0%, 50%, 100% {
+    opacity: 1;
+  }
+  25%, 75% {
+    opacity: 0;
+  }
+}
+
+.blinking {
+  animation: blinkAnimation 1s infinite;
+}
