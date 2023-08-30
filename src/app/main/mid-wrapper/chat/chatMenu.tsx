@@ -8,34 +8,34 @@ import Modal from "react-modal";
 import { ChannelSettingForm } from "../../left-wrapper/channelForm";
 import { Socket } from "socket.io-client";
 import ChannelProps from "../../left-wrapper/interfaces/channelProps";
+import { socket_channel } from "@/app/api/client";
 
 export default function ChatMenu({
-  socket,
   channelId,
 }: {
-  socket: Socket;
   channelId: number | null;
 }) {
   const [channel, setChannel] = useState<ChannelProps | null>(null);
 
   useEffect(() => {
-    socket.emit("getChannelById", { channelId });
-    socket.on("getChannelById", (channelData: ChannelProps) => {
+    console.log("menu channelId: ", channelId);
+    socket_channel.emit("getChannelById", { channelId });
+    socket_channel.on("getChannelById", (channelData: ChannelProps) => {
       setChannel(channelData);
     });
-
+    console.log("channel: ", channel);
     return () => {
-      socket.off("getChannelById");
+      socket_channel.off("getChannelById");
     }
   }, [channelId]);
-  
+
   return (
     <span className={styles.chatMenuBox}>
        {channel !== null && (
       <>
-        <UserlistButton socket={socket} channel={channel}/>
+        <UserlistButton socket={socket_channel} channel={channel}/>
         <h2 className={styles.chatMenuTitle}>{channel.title}</h2>
-        <ChatSettingButton socket={socket} channel={channel} />
+        <ChatSettingButton socket={socket_channel} channel={channel} />
       </>
     )}
     </span>

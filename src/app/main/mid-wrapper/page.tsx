@@ -8,11 +8,11 @@ interface MidWrapperProps {
   channelId: number | null;
 }
 
-function MidWrapper({ channelId }: MidWrapperProps | any) {
+function MidWrapper(props: MidWrapperProps) {
   return (
     <div id="mid-wrapper">
       <GameWrapper />
-      <ChatWrapper channelId={channelId}/>
+      <ChatWrapper channelId={props.channelId}/>
     </div>
   )
 }
