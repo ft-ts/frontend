@@ -1,7 +1,7 @@
 "use client";
 
 import { Socket } from "socket.io-client";
-import React, { useState, useEffect , Dispatch, SetStateAction} from "react";
+import React, { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { ChannelTabOptions } from "./enum/channelTabOptions.enum";
 import Image from "next/image";
 import styles from "./channel.module.scss";
@@ -14,22 +14,24 @@ import PasswordModal from "./passwordModal";
 import UserInterface from "@/app/api/interfaces/user.interface";
 import { socket_channel } from "@/app/api/client";
 
-function Channel({setChannelId}: {setChannelId: Dispatch<SetStateAction<number | null>>}) {
+function Channel({
+  setChannelId,
+}: {
+  setChannelId: Dispatch<SetStateAction<number | null>>;
+}) {
   const [selectedTab, setSelectedTab] = useState(ChannelTabOptions.ALL);
   const [showPasswordModal, setShowPasswordModal] = useState<boolean>(false);
-  const [password, setPassword] = useState<string>('');
+  const [password, setPassword] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState(null);
   const [isNotificationVisible, setIsNotificationVisible] = useState(false);
 
-
-  useSocketChannelConnection(socket_channel);
   const channels = useChannelData(socket_channel, selectedTab);
   const handleTabClick = (tab: ChannelTabOptions) => {
     setSelectedTab(tab);
   };
 
   useEffect(() => {
-    socket_channel.on('error', ({ message }) => {
+    socket_channel.on("error", ({ message }) => {
       setErrorMessage(message);
       setIsNotificationVisible(true);
       setTimeout(() => {
@@ -44,7 +46,7 @@ function Channel({setChannelId}: {setChannelId: Dispatch<SetStateAction<number |
     if (!channel) {
       console.error("Channel not found");
       return;
-    };
+    }
     enterChannel(channelId, 100002);
   };
 
@@ -55,8 +57,10 @@ function Channel({setChannelId}: {setChannelId: Dispatch<SetStateAction<number |
       return;
     }
     socket_channel.emit("enterChannel", { channelId, uid });
-    socket_channel.on("enterChannel", () => {setChannelId(channelId)});
-  }
+    socket_channel.on("enterChannel", () => {
+      setChannelId(channelId);
+    });
+  };
 
   return (
     <div>
@@ -67,32 +71,33 @@ function Channel({setChannelId}: {setChannelId: Dispatch<SetStateAction<number |
       />
       <DisplayChannelSearch />
       <div className={styles.channelContainer}>
-          {channels && channels.map((channel) => (
-            <ChannelItem 
+        {channels &&
+          channels.map((channel) => (
+            <ChannelItem
               key={channel.id}
               title={channel.title}
               memberCnt={channel.memberCnt}
               mode={channel.mode}
               id={channel.id}
               onClick={() => handleChannelClick(channel.id)}
-              />
-              ))}
+            />
+          ))}
       </div>
       {isNotificationVisible && (
-      <div className={styles.notification}>
-        <p>{errorMessage}</p>
-      </div>
+        <div className={styles.notification}>
+          <p>{errorMessage}</p>
+        </div>
       )}
       <PasswordModal
-       isOpen={showPasswordModal}
-       onRequestClose={() => setShowPasswordModal(false)}
-      //  onSubmit={enterProtectedChannel}
+        isOpen={showPasswordModal}
+        onRequestClose={() => setShowPasswordModal(false)}
+        //  onSubmit={enterProtectedChannel}
       />
     </div>
   );
-};
+}
 
-const requestChannelsFromServer = (socket:Socket, tab:ChannelTabOptions) => {
+const requestChannelsFromServer = (socket: Socket, tab: ChannelTabOptions) => {
   if (tab === ChannelTabOptions.ALL) {
     socket.emit("getAllChannels");
   } else if (tab === ChannelTabOptions.MY) {
@@ -100,33 +105,42 @@ const requestChannelsFromServer = (socket:Socket, tab:ChannelTabOptions) => {
   }
 };
 
-const useSocketChannelConnection = (socket: Socket) => {
-  useEffect(() => {
-    socket.on("updateChannel", () => {
-      requestChannelsFromServer(socket, ChannelTabOptions.ALL);
-    });
-    return () => {
-      socket.off("updateChannel");
-    };
-  }
-  , [socket]);
-}
-
 const useChannelData = (socket: Socket, tab: ChannelTabOptions) => {
   const [channels, setChannels] = useState<ChannelItemProps[]>([]);
+  const [selectedChannels, setSelectedChannels] = useState<ChannelItemProps[]>([]);
+
+  useEffect(() => {
+    socket.emit("channelUpdate");
+    socket.on("channelUpdate", (channel: ChannelItemProps) => {
+      setChannels((prevChannels) => [
+        ...prevChannels.filter((ch) => ch.id !== channel.id),
+        channel,
+      ]);
+    });
+    console.log("update: ", channels);
+    return () => {
+      socket.off("channelUpdate");
+    }
+  }, [socket]);
 
   useEffect(() => {
     const handleChannels = (data: ChannelItemProps[]) => {
-      setChannels(data);
+      setSelectedChannels(data);
     };
     requestChannelsFromServer(socket, tab);
-    socket.on(tab === ChannelTabOptions.ALL ? "getAllChannels" : "getMyChannels", handleChannels);
+    socket.on(
+      tab === ChannelTabOptions.ALL ? "getAllChannels" : "getMyChannels",
+      handleChannels
+    );
     return () => {
-      socket.off(tab === ChannelTabOptions.ALL ? "getAllChannels" : "getMyChannels", handleChannels);
+      socket.off(
+        tab === ChannelTabOptions.ALL ? "getAllChannels" : "getMyChannels",
+        handleChannels
+      );
     };
   }, [socket, tab, channels]);
 
-  return channels;
+  return selectedChannels;
 };
 
 const CreateChannel = ({ socket }: { socket: Socket }) => {

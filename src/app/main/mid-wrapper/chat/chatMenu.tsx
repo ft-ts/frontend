@@ -18,27 +18,28 @@ export default function ChatMenu({
   const [channel, setChannel] = useState<ChannelProps | null>(null);
 
   useEffect(() => {
-    console.log("menu channelId: ", channelId);
+    if (channelId === null) {
+      return;
+    }
     socket_channel.emit("getChannelById", { channelId });
     socket_channel.on("getChannelById", (channelData: ChannelProps) => {
       setChannel(channelData);
     });
-    console.log("channel: ", channel);
     return () => {
       socket_channel.off("getChannelById");
     }
-  }, [channelId]);
+  }, [socket_channel, channelId]);
 
   return (
-    <span className={styles.chatMenuBox}>
+    <div className={styles.chatMenuBox}>
        {channel !== null && (
-      <>
+      <span>
         <UserlistButton socket={socket_channel} channel={channel}/>
         <h2 className={styles.chatMenuTitle}>{channel.title}</h2>
         <ChatSettingButton socket={socket_channel} channel={channel} />
-      </>
+      </span>
     )}
-    </span>
+    </div>
   );
 }
 
