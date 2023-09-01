@@ -32,7 +32,7 @@ export default function GamePage() {
           {gameFlag && <Game setMatchFlag={setMatchFlag} setGameFlag={setGameFlag}/>}
         </div>
         <div className={styles.blinking}>
-          {(matchFlag && !gameFlag) && <h2 className={styles.matchingFong}>matching...</h2>}
+          {(matchFlag && !gameFlag) && <h2 className={styles.matchingFont}>matching...</h2>}
         </div>
       </div>
       <div>
