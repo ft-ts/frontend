@@ -6,7 +6,7 @@
 
 .chatMenuBox{
     box-sizing: border-box;
-    position: absolute;
+    position: relative;
     width: 100%;
     height: 80px;
     border: 4px solid #FFFFFF;
@@ -38,13 +38,33 @@
 
 .userlistButton{
     box-sizing: border-box;
-    position: absolute;
-    top: 15px;
-    right: 30px;
+    position:  absolute;
+    right: 150px;
+    top: 12px;
     width: 50px;
     height: 50px;
+    padding: 3px;
 }
 
+.exitButton{
+    box-sizing: border-box;
+    position: absolute;
+    top: 12px;
+    right: 80px;
+    width: 50px;
+    height: 50px;
+    padding: 3px;
+}
+
+.closeButton{
+    box-sizing: border-box;
+    position: absolute;
+    top: 12px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    padding: 3px;
+}
 
 .LobbyMessageFont{
     width: 250px;
@@ -82,11 +102,11 @@
     font-weight: 200;
     font-size: 20px;
     line-height: 20px;
-    display: flex;
+    display: grid;
     align-items: center;
     text-align: center;
     color: #FFEA2D;
-    padding: 20px;
+    padding: 30px;
 }
 
 .inputMessageBox{

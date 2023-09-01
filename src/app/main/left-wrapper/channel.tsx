@@ -54,8 +54,8 @@ function Channel({
       console.error("Channel not found");
       return;
     }
-    socket.emit("channels/enterChannel", { channelId, uid });
-    socket.on("channels/enterChannel", () => {
+    socket.emit("channel/enterChannel", { channelId, uid });
+    socket.on("channel/enterChannel", () => {
       setChannelId(channelId);
     });
   };
@@ -97,9 +97,9 @@ function Channel({
 
 const requestChannelsFromServer = (tab: ChannelTabOptions) => {
   if (tab === ChannelTabOptions.ALL) {
-    socket.emit("channels/getAllChannels");
+    socket.emit("channel/getAllChannels");
   } else if (tab === ChannelTabOptions.MY) {
-    socket.emit("channels/getMyChannels");
+    socket.emit("channel/getMyChannels");
   }
 };
 
@@ -108,8 +108,8 @@ const useChannelData = (tab: ChannelTabOptions) => {
   const [selectedChannels, setSelectedChannels] = useState<ChannelItemProps[]>([]);
 
   useEffect(() => {
-    socket.emit("channels/channelUpdate");
-    socket.on("channels/channelUpdate", (channel: ChannelItemProps) => {
+    socket.emit("channel/channelUpdate");
+    socket.on("channel/channelUpdate", (channel: ChannelItemProps) => {
       setChannels((prevChannels) => [
         ...prevChannels.filter((ch) => ch.id !== channel.id),
         channel,
@@ -117,7 +117,7 @@ const useChannelData = (tab: ChannelTabOptions) => {
     });
     console.log("update: ", channels);
     return () => {
-      socket.off("channels/channelUpdate");
+      socket.off("channel/channelUpdate");
     }
   }, [socket]);
 
@@ -127,12 +127,12 @@ const useChannelData = (tab: ChannelTabOptions) => {
     };
     requestChannelsFromServer(tab);
     socket.on(
-      tab === ChannelTabOptions.ALL ? "channels/getAllChannels" : "channels/getMyChannels",
+      tab === ChannelTabOptions.ALL ? "channel/getAllChannels" : "channel/getMyChannels",
       handleChannels
     );
     return () => {
       socket.off(
-        tab === ChannelTabOptions.ALL ? "channels/getAllChannels" : "channels/getMyChannels",
+        tab === ChannelTabOptions.ALL ? "channel/getAllChannels" : "channel/getMyChannels",
         handleChannels
       );
     };

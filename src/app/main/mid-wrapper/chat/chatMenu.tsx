@@ -55,7 +55,7 @@ const CloseButton = ({
   return (
     <button className={styles.closeButton} onClick={handleCloseChannel}>
       <Image
-        src="/asset/close_button.svg"
+        src="/asset/closeIcon.svg"
         alt="close button"
         width={55}
         height={55}
@@ -75,7 +75,7 @@ const ExitButton = ({
   return (
     <button className={styles.exitButton} onClick={handleExitChannel}>
       <Image
-        src="/asset/exit_button.svg"
+        src="/asset/exitIcon.svg"
         alt="exit button"
         width={55}
         height={55}
@@ -150,7 +150,7 @@ const UserlistButton = ({
   return (
     <button className={styles.userlistButton}>
       <Image
-        src="/asset/user_list_button.svg"
+        src="/asset/memberIcon.svg"
         alt="userlist button"
         width={55}
         height={55}

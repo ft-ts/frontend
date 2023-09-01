@@ -32,9 +32,6 @@
     "typescript": "5.1.6",
     "utf-8-validate": "^5.0.10",
     "ws": "^8.13.0"
-  },
-  "devDependencies": {
-    "@types/react": "^17.0.38",
-    "@types/react-modal": "^3.16.0"
   }
+  
 }
