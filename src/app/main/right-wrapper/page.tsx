@@ -15,18 +15,18 @@ import DisplayUserList from "./userList"
 // type RightWrapperProps = UserProfileProps & UserListProps;
 
 
-export default function RightWrapper(props: UserInfoContainer) {
+export default function RightWrapper() {
     
     return (
         <div id="right-wrapper">
             {/* <DisplayUserProfile /> */}
-            <DisplayUserProfileBackground OneUser={props.OneUser} />
+            <DisplayUserProfileBackground />
             <DisplayUserList  />
         </div>
     )
 }
   
-const DisplayUserProfileBackground = (props: UserInfoContainer) => {
+const DisplayUserProfileBackground = () => {
     return (
         <div className={styles.userProfileBackground}>
             <DisplayUserProfileImage />

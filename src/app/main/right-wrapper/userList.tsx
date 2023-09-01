@@ -21,6 +21,7 @@ const user: UserProps = {
     rating: 1000,
     createdAt: "string",
     updatedAt: "string",
+    status: "string",
 }
 
 const junohTest: UserInfoContainer = {
