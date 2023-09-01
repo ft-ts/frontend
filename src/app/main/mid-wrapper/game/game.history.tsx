@@ -9,15 +9,15 @@ export default function GameHistory({data} : {data:historyInterface}) {
     <ul>
       {data.history.map((match : any) => (
         <li key = {match.matchInfo_id}>
-          <div className={styles.matchHistoryContainer}>
+          <div className={styles.historyContainer}>
             <div className={styles.matchTypeBox}>
-              <h2 className = {styles.matchHistoryFont}>{match.matchInfo_match_type}</h2>
+              <h2 className = {styles.historyFont}>{match.matchInfo_match_type}</h2>
             </div>
-            <div className={styles.matchHistoryLeftBox}>
-              <h2 className = {styles.matchHistoryFont}>{match.matchInfo_winner_id}</h2>
+            <div className={styles.historyLeftBox}>
+              <h2 className = {styles.historyFont}>{match.matchInfo_winner_id}</h2>
             </div>
-            <div className={styles.matchHistoryCenterBox}>
-              <h2 className={styles.matchHistoryFont}>
+            <div className={styles.historyCenterBox}>
+              <h2 className={styles.historyFont}>
                 {match.matchInfo_winner_score}
                 {' '}
                 :
@@ -25,8 +25,8 @@ export default function GameHistory({data} : {data:historyInterface}) {
                 {match.matchInfo_loser_score}
               </h2>
             </div>
-            <div className={styles.matchHistoryRightBox}>
-              <h2 className = {styles.matchHistoryFont}>{match.matchInfo_loser_id}</h2>
+            <div className={styles.historyRightBox}>
+              <h2 className = {styles.historyFont}>{match.matchInfo_loser_id}</h2>
             </div>
           </div>
           <h2 className={styles.matchTimeFont}>{formatTime(match.matchInfo_timestamp)}</h2>

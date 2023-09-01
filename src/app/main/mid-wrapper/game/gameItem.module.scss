@@ -9,7 +9,7 @@ $SearchBoxTop: -120px;
 $gameDisplayWidth: 1024px;
 $gameDisplayHeight: 500px;
 
-.gameDisplayBackground{
+.gameBackground{
   position: relative;
   width: $gameDisplayWidth;
   height: $gameDisplayHeight;
@@ -19,7 +19,7 @@ $gameDisplayHeight: 500px;
   border: 3px solid #ffffff;
 }
 
-.gameSearchContainer{
+.searchContainer{
   box-sizing: border-box;
   position: relative;
   align-items: center;
@@ -32,7 +32,7 @@ $gameDisplayHeight: 500px;
   border-radius: 20px;
 }
 
-.gameSearchBox{
+.searchBox{
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -49,19 +49,19 @@ $gameDisplayHeight: 500px;
   color : #ffffff;
 }
 
-.gameSearchIconContainer{
+.searchIconContainer{
   position: absolute;
   right: 10px;
   top: 50%;
   transform: translateY(-50%);
 }
 
-.gameSearchIcon{
+.searchIcon{
   left: 85%;
   top: 0px;
 }
 
-.gameButtonContainer{
+.matchButton{
   position: relative;
   width: 300px;
   height: 70px;
@@ -72,11 +72,11 @@ $gameDisplayHeight: 500px;
   border-radius: 20px;
 }
 
-.gameButtonContainer:hover{
+.matchButton:hover{
   background-color: #4d3e4d;
 }
 
-.gameButtonFont{
+.matchButtonFont{
   font-family: 'ArcadeClassic';
   font-style: normal;
   font-size: 42px;
@@ -88,7 +88,7 @@ $gameDisplayHeight: 500px;
   justify-content: center;
 }
 
-.matchHistoryBackground{
+.gameHistoryBackground{
   box-sizing: border-box;
   position: relative;
   padding : 0 10px;
@@ -101,7 +101,7 @@ $gameDisplayHeight: 500px;
   border-radius: 20px;
 }
 
-.matchHistoryContainer{
+.historyContainer{
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -124,7 +124,7 @@ $gameDisplayHeight: 500px;
   height: 50px;
   border: 1px solid #ffffff;
 }
-.matchHistoryLeftBox{
+.historyLeftBox{
   display: flex;
   align-items: center;
   justify-content: center;
@@ -135,7 +135,7 @@ $gameDisplayHeight: 500px;
   border: 1px solid #ffffff;
 }
 
-.matchHistoryRightBox{
+.historyRightBox{
   display: flex;
   align-items: center;
   justify-content: center;
@@ -146,7 +146,7 @@ $gameDisplayHeight: 500px;
   border: 1px solid #ffffff;
 }
 
-.matchHistoryCenterBox{
+.historyCenterBox{
   display: flex;
   align-items: center;
   justify-content: center;
@@ -157,7 +157,7 @@ $gameDisplayHeight: 500px;
   border: 1px solid #ffffff;
 }
 
-.matchHistoryFont{
+.historyFont{
   font-family: 'ArcadeClassic';
   font-style: normal;
   font-size: 25px;
