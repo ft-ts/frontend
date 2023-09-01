@@ -1,6 +1,11 @@
 .leftWrapper {
   background-color: #999;
   width: 550px;
+  grid-template-rows: 1fr 1fr;
+}
+
+.channelWrapper {
+  height: 50%;
 }
 
 $leftWrapperWidth: 100%;
@@ -184,8 +189,8 @@ $InputFontWeight: 350;
 
   .channelContainer {
     // 화면에 따라 조절 필요
-    max-height: 450px; // 스크롤 영역의 최대 높이 설정
-    min-height: 450px;
+    max-height: 470px; // 스크롤 영역의 최대 높이 설정
+    min-height: 470px;
     height: auto;
     width: 100%;
     overflow-y: auto; // 세로 스크롤 적용

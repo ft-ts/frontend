@@ -5,6 +5,7 @@ import styles from './channelForm.module.scss';
 import ChannelSettingFormProps from './interfaces/channelSettingFormProps';
 import ChannelFormProps from './interfaces/channelFormProps';
 import { ChannelMode } from './enum/channel.enum';
+import { socket } from '../components/CheckAuth';
 
 const ChannelForm = (props: ChannelFormProps) => {
   const [title, setTitle] = useState('');
@@ -26,7 +27,7 @@ const ChannelForm = (props: ChannelFormProps) => {
       return;
     }
 
-    props.socket.emit('createChannel', {
+    socket.emit('channel/createChannel', {
       title,
       mode,
       password,
@@ -108,7 +109,7 @@ const ChannelSettingForm = (props: ChannelSettingFormProps) => {
 
   const handleUpdate = () => {
     if (newTitle.length > 0 && newTitle.length < 16) {
-      props.socket.emit('editTitle', {
+      socket.emit('channel/editTitle', {
         channelId: props.channel.id,
         title: newTitle,
       });
@@ -117,7 +118,7 @@ const ChannelSettingForm = (props: ChannelSettingFormProps) => {
     }
 
     if (props.channel.mode === ChannelMode.PROTECTED && newPassword.length > 3 && newPassword.length < 16) {
-      props.socket.emit('editPassword', {
+      socket.emit('channel/editPassword', {
         channelId: props.channel.id,
         password: newPassword,
       });

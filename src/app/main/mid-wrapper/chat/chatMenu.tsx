@@ -6,9 +6,8 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import Modal from "react-modal";
 import { ChannelSettingForm } from "../../left-wrapper/channelForm";
-import { Socket } from "socket.io-client";
 import ChannelProps from "../../left-wrapper/interfaces/channelProps";
-import { socket_channel } from "@/app/api/client";
+import { socket } from "../../components/CheckAuth";
 
 export default function ChatMenu({
   channelId,
@@ -21,33 +20,73 @@ export default function ChatMenu({
     if (channelId === null) {
       return;
     }
-    socket_channel.emit("getChannelById", { channelId });
-    socket_channel.on("getChannelById", (channelData: ChannelProps) => {
+    socket.emit("channel/getChannelById", { channelId });
+    socket.on("channel/getChannelById", (channelData: ChannelProps) => {
       setChannel(channelData);
     });
     return () => {
-      socket_channel.off("getChannelById");
+      socket.off("channel/getChannelById");
     }
-  }, [socket_channel, channelId]);
+  }, [socket, channelId]);
 
   return (
     <div className={styles.chatMenuBox}>
        {channel !== null && (
       <span>
-        <UserlistButton socket={socket_channel} channel={channel}/>
+        <UserlistButton channel={channel}/>
         <h2 className={styles.chatMenuTitle}>{channel.title}</h2>
-        <ChatSettingButton socket={socket_channel} channel={channel} />
+        <ChatSettingButton channel={channel} />
+        <CloseButton channel={channel} />
+        <ExitButton channel={channel} />
       </span>
     )}
     </div>
   );
 }
 
-const ChatSettingButton = ({
-  socket,
+const CloseButton = ({
   channel,
 }: {
-  socket: Socket;
+  channel: ChannelProps;
+}) => {
+  const handleCloseChannel = () => {
+    socket.emit("channel/closeChannel", { channelId: channel.id });
+  };
+  return (
+    <button className={styles.closeButton} onClick={handleCloseChannel}>
+      <Image
+        src="/asset/close_button.svg"
+        alt="close button"
+        width={55}
+        height={55}
+      ></Image>
+    </button>
+  );
+}
+
+const ExitButton = ({
+  channel,
+}: {
+  channel: ChannelProps;
+}) => {
+  const handleExitChannel = () => {
+    socket.emit("channel/exitChannel", { channelId: channel.id });
+  };
+  return (
+    <button className={styles.exitButton} onClick={handleExitChannel}>
+      <Image
+        src="/asset/exit_button.svg"
+        alt="exit button"
+        width={55}
+        height={55}
+      ></Image>
+    </button>
+  );
+}
+
+const ChatSettingButton = ({
+  channel,
+}: {
   channel: ChannelProps;
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -94,7 +133,6 @@ const ChatSettingButton = ({
       >
         <ChannelSettingForm
           onClose={handleCloseModal}
-          socket={socket}
           channel={channel}
         />
       </Modal>
@@ -103,10 +141,8 @@ const ChatSettingButton = ({
 };
 
 const UserlistButton = ({
-	socket,
 	channel,
   }: {
-	socket: Socket;
 	channel: ChannelProps;
   }) =>  {
 

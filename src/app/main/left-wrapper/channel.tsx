@@ -1,6 +1,5 @@
 "use client";
 
-import { Socket } from "socket.io-client";
 import React, { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { ChannelTabOptions } from "./enum/channelTabOptions.enum";
 import Image from "next/image";
@@ -11,8 +10,7 @@ import { ChannelForm } from "./channelForm";
 import ChannelItemProps from "./interfaces/channelItemProps";
 import { ChannelMode } from "./enum/channel.enum";
 import PasswordModal from "./passwordModal";
-import UserInterface from "@/app/api/interfaces/user.interface";
-import { socket_channel } from "@/app/api/client";
+import { socket } from "../components/CheckAuth";
 
 function Channel({
   setChannelId,
@@ -25,13 +23,13 @@ function Channel({
   const [errorMessage, setErrorMessage] = useState(null);
   const [isNotificationVisible, setIsNotificationVisible] = useState(false);
 
-  const channels = useChannelData(socket_channel, selectedTab);
+  const channels = useChannelData(selectedTab);
   const handleTabClick = (tab: ChannelTabOptions) => {
     setSelectedTab(tab);
   };
 
   useEffect(() => {
-    socket_channel.on("error", ({ message }) => {
+    socket.on("error", ( message ) => {
       setErrorMessage(message);
       setIsNotificationVisible(true);
       setTimeout(() => {
@@ -56,15 +54,15 @@ function Channel({
       console.error("Channel not found");
       return;
     }
-    socket_channel.emit("enterChannel", { channelId, uid });
-    socket_channel.on("enterChannel", () => {
+    socket.emit("channels/enterChannel", { channelId, uid });
+    socket.on("channels/enterChannel", () => {
       setChannelId(channelId);
     });
   };
 
   return (
-    <div>
-      <CreateChannel socket={socket_channel} />
+    <div className={styles.channelWrapper}>
+      <CreateChannel />
       <ChannelPanels
         handleTabClick={handleTabClick}
         selectedTab={selectedTab}
@@ -97,21 +95,21 @@ function Channel({
   );
 }
 
-const requestChannelsFromServer = (socket: Socket, tab: ChannelTabOptions) => {
+const requestChannelsFromServer = (tab: ChannelTabOptions) => {
   if (tab === ChannelTabOptions.ALL) {
-    socket.emit("getAllChannels");
+    socket.emit("channels/getAllChannels");
   } else if (tab === ChannelTabOptions.MY) {
-    socket.emit("getMyChannels");
+    socket.emit("channels/getMyChannels");
   }
 };
 
-const useChannelData = (socket: Socket, tab: ChannelTabOptions) => {
+const useChannelData = (tab: ChannelTabOptions) => {
   const [channels, setChannels] = useState<ChannelItemProps[]>([]);
   const [selectedChannels, setSelectedChannels] = useState<ChannelItemProps[]>([]);
 
   useEffect(() => {
-    socket.emit("channelUpdate");
-    socket.on("channelUpdate", (channel: ChannelItemProps) => {
+    socket.emit("channels/channelUpdate");
+    socket.on("channels/channelUpdate", (channel: ChannelItemProps) => {
       setChannels((prevChannels) => [
         ...prevChannels.filter((ch) => ch.id !== channel.id),
         channel,
@@ -119,7 +117,7 @@ const useChannelData = (socket: Socket, tab: ChannelTabOptions) => {
     });
     console.log("update: ", channels);
     return () => {
-      socket.off("channelUpdate");
+      socket.off("channels/channelUpdate");
     }
   }, [socket]);
 
@@ -127,14 +125,14 @@ const useChannelData = (socket: Socket, tab: ChannelTabOptions) => {
     const handleChannels = (data: ChannelItemProps[]) => {
       setSelectedChannels(data);
     };
-    requestChannelsFromServer(socket, tab);
+    requestChannelsFromServer(tab);
     socket.on(
-      tab === ChannelTabOptions.ALL ? "getAllChannels" : "getMyChannels",
+      tab === ChannelTabOptions.ALL ? "channels/getAllChannels" : "channels/getMyChannels",
       handleChannels
     );
     return () => {
       socket.off(
-        tab === ChannelTabOptions.ALL ? "getAllChannels" : "getMyChannels",
+        tab === ChannelTabOptions.ALL ? "channels/getAllChannels" : "channels/getMyChannels",
         handleChannels
       );
     };
@@ -143,7 +141,7 @@ const useChannelData = (socket: Socket, tab: ChannelTabOptions) => {
   return selectedChannels;
 };
 
-const CreateChannel = ({ socket }: { socket: Socket }) => {
+const CreateChannel = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const customStyles = {
@@ -183,7 +181,7 @@ const CreateChannel = ({ socket }: { socket: Socket }) => {
         onRequestClose={handleCloseModal}
         shouldCloseOnOverlayClick={false}
       >
-        <ChannelForm onClose={handleCloseModal} socket={socket} />
+        <ChannelForm onClose={handleCloseModal}/>
       </Modal>
     </div>
   );
