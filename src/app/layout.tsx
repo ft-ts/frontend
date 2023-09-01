@@ -9,19 +9,12 @@ import {
   useRecoilState,
   useRecoilValue,
 } from 'recoil';
+import { GlobalContextProvider } from './Context/store';
 
 const inter = Nanum_Gothic_Coding({
   subsets: ['latin'],
   weight: '700'
 })
-
-const tokens = {
-  "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjk4MjY3LCJlbWFpbCI6ImRvaHl1bGVlQHN0dWRlbnQuNDJzZW91bC5rciIsInR3b0ZhY3RvckF1dGgiOmZhbHNlLCJpYXQiOjE2OTMxODkzODcsImV4cCI6MTY5MzIzMjU4N30.SR1w63Mlzvq1jKdfwa3hz_FI6zOGMqb8jBoQ1IXunUU",
-  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjk4MjY3LCJlbWFpbCI6ImRvaHl1bGVlQHN0dWRlbnQuNDJzZW91bC5rciIsImlhdCI6MTY5MzE4OTM4NywiZXhwIjoxNjkzNzk0MTg3fQ.krHZo_1OaRDUdhsZ2KaVLAtS1x_8al6ji5KyW7BE8LQ"
-};
-
-localStorage.setItem("accessToken", tokens.accessToken);
-localStorage.setItem("refreshToken", tokens.refreshToken);
 
 export default function RootLayout({
   children,
@@ -38,9 +31,9 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" />
         </head>
       <body className={inter.className}>
-        <RecoilRoot>
+        <GlobalContextProvider>
           {children}
-        </RecoilRoot>
+        </GlobalContextProvider>
       </body>
     </html>
   )
