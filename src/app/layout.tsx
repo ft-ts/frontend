@@ -1,16 +1,20 @@
+'use client'
 import './globals.css'
 import type { Metadata } from 'next'
 import { Nanum_Gothic_Coding } from 'next/font/google'
+import {
+  RecoilRoot,
+  atom,
+  selector,
+  useRecoilState,
+  useRecoilValue,
+} from 'recoil';
+import { GlobalContextProvider } from './Context/store';
 
 const inter = Nanum_Gothic_Coding({
   subsets: ['latin'],
   weight: '700'
 })
-
-export const metadata: Metadata = {
-  title: 'ft-ts',
-  description: 'ft_transcendence project',
-}
 
 export default function RootLayout({
   children,
@@ -19,8 +23,17 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="description" content='ft_transcendence project' />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>ft-ts</title>
+        <link rel="icon" href="/favicon.ico" />
+        </head>
       <body className={inter.className}>
-        {children}
+        <GlobalContextProvider>
+          {children}
+        </GlobalContextProvider>
       </body>
     </html>
   )

@@ -4,7 +4,7 @@
 }
 
 $leftWrapperWidth: 100%;
-$ChannelListH: 90px;
+$ChannelListH: 100px;
 
 $SideMargin: 15px;
 $TopDownMargin: 3px;
@@ -34,7 +34,7 @@ $TopDownMargin: 3px;
 }
 
 .title {
-	font-size: 28px;
+	font-size: 32px;
 	font-weight: 200;
 	font-style: normal;
 	width: 70%;
@@ -46,22 +46,22 @@ $TopDownMargin: 3px;
 }
 
 .members {
-	font-size: 20px;
+	font-size: 22px;
 	position: absolute;
 	bottom: $TopDownMargin;
 	right: $SideMargin;
-	color: #f8fec7;
+	color: #91cdee;
 	font-family: 'ArcadeClassic';
 	font-style: normal;
 
 }
 
 .mode {
-	font-size: 20px;
+	font-size: 25px;
 	position: absolute;
 	bottom: $TopDownMargin;
 	left: $SideMargin;
-	color: #f8fec7;
+	color: #b8d181;
 	font-family: 'ArcadeClassic';
 	font-style: normal;
 }

@@ -1,31 +1,33 @@
+"use client";
+
 import React from 'react';
 import styles from './channelItem.module.scss';
 import Image from 'next/image';
 import classnames from "classnames";
-import { UserStatus } from './enum/temp.enum';
 import ChannelItemProps from './interfaces/channelItemProps';
 import DmItemProps from "./interfaces/dmItemProps";
+import { UserStatus } from '../enum/UserStatus.enum';
 
-const ChannelItem: React.FC<ChannelItemProps> = ({ title, members, mode, channelId, onClick }) => {
+const ChannelItem = (props: ChannelItemProps) => {
   return (
-    <div className={styles.channelItemContainer} onClick={() => onClick(channelId)}>
-      <h3 className={styles.title}>{title}</h3>
-      <p className={styles.members}>{members} / 4</p>
-      <p className={styles.mode}>{mode}</p>
+    <div className={styles.channelItemContainer} onClick={() => props.onClick(props.id)}>
+      <h3 className={styles.title}>{props.title}</h3>
+      <p className={styles.members}>{props.memberCnt} / 5</p>
+      <p className={styles.mode}>{props.mode}</p>
     </div>
   );
 };
 
-const DmItem: React.FC<DmItemProps> = ({ friend, profile, state, targetUid, onClick }) => {
+const DmItem = (props: DmItemProps) => {
   const itemClasses = classnames(styles.dmItemContainer, {
-    [styles.online]: state === UserStatus.ONLINE,
-    [styles.offline]: state === UserStatus.OFFLINE,
-    [styles.inGame]: state === UserStatus.IN_GAME,
-    [styles.deactivated]: state === UserStatus.DEACTIVATED,
+    [styles.online]: props.state === UserStatus.ONLINE,
+    [styles.offline]: props.state === UserStatus.OFFLINE,
+    [styles.inGame]: props.state === UserStatus.IN_GAME,
+    [styles.deactivated]: props.state === UserStatus.DEACTIVATED,
   });
 
   const stateText = (() => {
-    switch (state) {
+    switch (props.state) {
       case UserStatus.ONLINE:
         return 'Online';
       case UserStatus.OFFLINE:
@@ -40,15 +42,15 @@ const DmItem: React.FC<DmItemProps> = ({ friend, profile, state, targetUid, onCl
   })();
 
   return (
-    <div className={classnames(styles.dmItemContainer, itemClasses)} onClick={() => onClick(targetUid)}>
+    <div className={classnames(styles.dmItemContainer, itemClasses)} onClick={() => props.onClick(props.targetUid)}>
       <Image
         className={styles.profilePic}
-        src={profile}
+        src={props.profile}
         alt="profile"
         width={30}
         height={30}
         />
-      <p className={styles.dmUser}>{friend}</p>
+      <p className={styles.dmUser}>{props.friend}</p>
       <p className={styles.dmState}>{stateText}</p>
     </div>
   );

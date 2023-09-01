@@ -1,17 +1,21 @@
-"use client"
+"use client";
 
 import styles from "./channel.module.scss";
 import React from 'react';
 import Channels from './channel';
 import Dms from './dm';
-// import { ChannelMode } from '../../../../../backend/src/channel/enum/channelMode.enum';
 
+interface LeftWrapperProps {
+  setChannelId: React.Dispatch<React.SetStateAction<number | null>>;
+}
 
-export default function leftWrapper() {
+function LeftWrapper(props: LeftWrapperProps) {
   return (
     <div className={styles.leftWrapper}>
-      <Channels/>
+      <Channels setChannelId={props.setChannelId}/>
       <Dms/>
     </div>
   );
 }
+
+export default LeftWrapper;

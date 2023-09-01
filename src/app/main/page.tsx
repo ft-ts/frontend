@@ -1,17 +1,24 @@
-import LeftWrapper from './left-wrapper/page';
+"use client";
+
 import MidWrapper from './mid-wrapper/page';
 import RightWrapper from './right-wrapper/page';
-import MyPage from '../../../pages/my-page';
-import { UserInfoContainer, UserProps, MainProps} from './userType';
+import { MainProps} from './userType';
 import './main.css';
+import React, { useState } from 'react';
+import LeftWrapper from './left-wrapper/page';
+import { CheckAuth } from './components/CheckAuth';
 
-export default function Main(props: MainProps) {
+function Main(props: MainProps) {
+  const [channelId, setChannelId] = useState<number | null>(null);
+  
+  return (
+    <div id="main">
+      <CheckAuth />
+      {/* <LeftWrapper setChannelId={setChannelId} /> */}
+      {/* <MidWrapper channelId={channelId} /> */}
+      <RightWrapper channelId={channelId}/>
+    </div>
+  );
+}
 
-    return (
-      <div id="main">
-        <LeftWrapper />
-        <MidWrapper />
-        <RightWrapper OneUser={props.OneUser} />
-      </div>
-    )
-  }
+export default Main;
