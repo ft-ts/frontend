@@ -1,10 +1,10 @@
-import ChatMessage from "./chatMessage.interface";
+import UserInterface from "@/app/api/interfaces/user.interface";
+import { ChannelRole } from "../enum/channelRole.enum";
 
-interface MessageItemProps {
-	message: ChatMessage;
-	isMyMessage: boolean;
-	senderName: string;
-	senderProfilePicture: string;
+
+interface ChannelUserInterface {
+	user: UserInterface;
+	role: ChannelRole;
   }
 
-export default MessageItemProps;
+export default ChannelUserInterface;
