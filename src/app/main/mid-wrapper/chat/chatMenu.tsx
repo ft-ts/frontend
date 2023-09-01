@@ -37,9 +37,55 @@ export default function ChatMenu({
         <UserlistButton socket={socket_channel} channel={channel}/>
         <h2 className={styles.chatMenuTitle}>{channel.title}</h2>
         <ChatSettingButton socket={socket_channel} channel={channel} />
+        <CloseButton socket={socket_channel} channel={channel} />
+        <ExitButton socket={socket_channel} channel={channel} />
       </span>
     )}
     </div>
+  );
+}
+
+const CloseButton = ({
+  socket,
+  channel,
+}: {
+  socket: Socket;
+  channel: ChannelProps;
+}) => {
+  const handleCloseChannel = () => {
+    socket.emit("closeChannel", { channelId: channel.id });
+  };
+  return (
+    <button className={styles.closeButton} onClick={handleCloseChannel}>
+      <Image
+        src="/asset/close_button.svg"
+        alt="close button"
+        width={55}
+        height={55}
+      ></Image>
+    </button>
+  );
+}
+
+const ExitButton = ({
+  socket,
+  channel,
+}: {
+  socket: Socket;
+  channel: ChannelProps;
+}) => {
+  const handleExitChannel = () => {
+    socket.emit("exitChannel", { channelId: channel.id });
+  };
+  return (
+    <button className={styles.exitButton} onClick={handleExitChannel}>
+      <Image
+        src="/asset/exit_button.svg"
+        alt="exit button"
+        width={55}
+        height={55}
+      ></Image>
+    </button>
   );
 }
 
