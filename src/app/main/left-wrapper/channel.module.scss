@@ -190,3 +190,23 @@ $InputFontWeight: 350;
     width: 100%;
     overflow-y: auto; // 세로 스크롤 적용
   }
+
+  //
+  .notification {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    padding: 20px 30px;
+    font-family: 'ArcadeClassic';
+    font-style: normal;
+    font-weight: 100;
+    font-size: 50px;
+    background: #5F5F5F;
+    border: 3px solid #FF25A8;
+    color: #f24b5e;
+    border-radius: 8px;
+    // box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    z-index: 100;
+  }
+  
+  

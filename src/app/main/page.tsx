@@ -14,7 +14,7 @@ function Main(props: MainProps) {
     <div id="main">
       <LeftWrapper setChannelId={setChannelId} />
       <MidWrapper channelId={channelId} />
-      <RightWrapper />
+      <RightWrapper channelId={channelId}/>
     </div>
   );
 }
