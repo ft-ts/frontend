@@ -5,26 +5,7 @@ import Image from "next/image";
 import { getMyInfo } from '@/app/api/client';
 import { useEffect, useState } from 'react';
 import { useGlobalContext } from '@/app/Context/store';
-
-interface User {
-  uid: number,
-  name: string,
-  avatar: string,
-  email: string,
-  twoFactorAuth: boolean,
-  status: string,
-  rating: number,
-  custom_wins: number,
-  custom_losses: number,
-  ladder_wins: number,
-  ladder_losses: number,
-}
-
-enum UserStatus {
-  ONLINE = 'ONLINE',
-  OFFLINE = 'OFFLINE',
-  INGAME = 'IN-GAME',
-}
+import { UserStatus } from '../../enum/UserStatus.enum';
 
 export default function UserProfile() {
   const { myInfo, setMyInfo }: any = useGlobalContext();
@@ -60,7 +41,7 @@ function getStatusColor(status: UserStatus) {
       return Styles.online;
     case UserStatus.OFFLINE:
       return Styles.offline;
-    case UserStatus.INGAME:
+    case UserStatus.IN_GAME:
       return Styles.inGame;
   }
 }

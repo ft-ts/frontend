@@ -3,8 +3,8 @@
 import React, {useState} from "react";
 import styles from "./channel.module.scss";
 import { DmItem } from "./channelItem";
-import { UserStatus } from "./enum/channel.enum";
 import Image from "next/image";
+import { UserStatus } from "../enum/UserStatus.enum";
 
 export default function Dms() {
   const [selectedDm, setSelectedDm] = useState<(targetUid: number) => void>();
