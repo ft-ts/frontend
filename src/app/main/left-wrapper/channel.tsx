@@ -63,7 +63,7 @@ function Channel({
   };
 
   return (
-    <div>
+    <div className={styles.channelWrapper}>
       <CreateChannel socket={socket_channel} />
       <ChannelPanels
         handleTabClick={handleTabClick}

@@ -142,10 +142,10 @@
 .chatDisplay{
      // 화면에 따라 조절 필요
      max-height: 90%; // 스크롤 영역의 최대 높이 설정
-     min-height: 90%;
      height: auto;
      width: 100%;
      overflow-y: auto; // 세로 스크롤 적용
+     //스크롤 위치
 }
 
 /* ChatMessage */

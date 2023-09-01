@@ -24,6 +24,13 @@ function MessageItem({ chatMessage }: {chatMessage: ChatMessage}) {
     fetchSender();
   }, [chatMessage]);
 
+  const options = {
+    timeZone: 'Asia/Seoul',
+  };
+  const formatTime = (time: Date) => {
+    const date = new Date(time);
+    return date.toLocaleString('en-US', options);
+  }
 
   return (
     <div className={`${styles.message} ${chatMessage.sender_uid === 1 ? styles.myMessage : styles.otherMessage}`}>
@@ -42,7 +49,7 @@ function MessageItem({ chatMessage }: {chatMessage: ChatMessage}) {
       <div className={styles.chatSenderName}>{sender.name}</div>
       )}
       <div className={styles.messageContent}>{chatMessage.content}</div>
-      <div className={styles.messageTime}>{chatMessage.timeStamp.toLocaleString()}</div>
+      <div className={styles.messageTime}>{formatTime(chatMessage.timeStamp)}</div>
       </div>
     </div>
   );

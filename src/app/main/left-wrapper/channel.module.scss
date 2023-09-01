@@ -1,6 +1,11 @@
 .leftWrapper {
   background-color: #999;
   width: 550px;
+  grid-template-rows: 1fr 1fr;
+}
+
+.channelWrapper {
+  height: 50%;
 }
 
 $leftWrapperWidth: 100%;

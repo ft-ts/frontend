@@ -5,8 +5,8 @@ import { io } from "socket.io-client";
 import  UserInterface  from "./interfaces/user.interface";
 /////////////////////////////////////////////////////////////////////
 const tokens = {
-    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEwMDAwMiwiZW1haWwiOiJzaWVsZWVAc3R1ZGVudC40MnNlb3VsLmtyIiwidHdvRmFjdG9yQXV0aCI6ZmFsc2UsImlhdCI6MTY5MzM3MDczNiwiZXhwIjoxNjkzNDEzOTM2fQ.XiwrhbEkDV3VBgyACRkWFtpf6o4873bTBnAipChshlE",
-    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEwMDAwMiwiZW1haWwiOiJzaWVsZWVAc3R1ZGVudC40MnNlb3VsLmtyIiwiaWF0IjoxNjkzMzcwNzM2LCJleHAiOjE2OTM5NzU1MzZ9.ALm5OKPeF3RZDF4YiJlvpQKnWpwmifj2HJ5wMojCLzk"
+    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEwMDAwMiwiZW1haWwiOiJzaWVsZWVAc3R1ZGVudC40MnNlb3VsLmtyIiwidHdvRmFjdG9yQXV0aCI6ZmFsc2UsImlhdCI6MTY5MzU0MjQxNSwiZXhwIjoxNjkzNTg1NjE1fQ.9C4kskAhscDBGPIKLyzJFltiBK_YE7XPmKmxpEh102g",
+    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEwMDAwMiwiZW1haWwiOiJzaWVsZWVAc3R1ZGVudC40MnNlb3VsLmtyIiwiaWF0IjoxNjkzNTQyNDE1LCJleHAiOjE2OTQxNDcyMTV9.-Soe7_XTMK7y_hi3NIEzxOevT5552lTj2WTcYpBp-Jg"
 };
 
 
@@ -15,7 +15,7 @@ const BACKEND_URL = "http://localhost:10000/channels"; // 백엔드 소켓 서�
 
 
 const AUTH_TOKEN =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEwMDAwMiwiZW1haWwiOiJzaWVsZWVAc3R1ZGVudC40MnNlb3VsLmtyIiwidHdvRmFjdG9yQXV0aCI6ZmFsc2UsImlhdCI6MTY5MzM3MDczNiwiZXhwIjoxNjkzNDEzOTM2fQ.XiwrhbEkDV3VBgyACRkWFtpf6o4873bTBnAipChshlE";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEwMDAwMiwiZW1haWwiOiJzaWVsZWVAc3R1ZGVudC40MnNlb3VsLmtyIiwidHdvRmFjdG9yQXV0aCI6ZmFsc2UsImlhdCI6MTY5MzU0MjQxNSwiZXhwIjoxNjkzNTg1NjE1fQ.9C4kskAhscDBGPIKLyzJFltiBK_YE7XPmKmxpEh102g";
 export const socket_channel = io(BACKEND_URL, {
   extraHeaders: {
     Authorization: AUTH_TOKEN,
