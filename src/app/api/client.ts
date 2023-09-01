@@ -30,10 +30,19 @@ export async function getUserList(): Promise<any> {
 export async function getUserByUid(uid: number): Promise<UserInterface> {
     return apiClient.get(`/users/${uid}`, {
         headers: {
-            "Content-Type": "application/json",
+            // "Content-Type": "application/json",
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
     });
+}
+
+export async function getGameHistory(name: string): Promise<any> {
+    return apiClient.get(`/pong/${name}`, {
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+    })
 }
 
 
