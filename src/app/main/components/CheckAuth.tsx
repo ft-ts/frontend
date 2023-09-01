@@ -12,6 +12,7 @@ export const CheckAuth = () => {
     socket.auth = {
       "token": localStorage.getItem("accessToken") as string,
     }
+
     socket.connect();
 
     socket.on("connect", () => {
