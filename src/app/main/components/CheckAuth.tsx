@@ -6,15 +6,12 @@ import { useEffect } from "react";
 export const socket = io("http://localhost:10000", {
   autoConnect: false,
   extraHeaders: {
-    "Authorization": process.env.AT as string,
+    "Authorization": localStorage.getItem("accessToken") as string,
   }
 });
 
 export const CheckAuth = () => {
   useEffect(() => {
-    localStorage.setItem("accessToken", process.env.AT as string);
-    localStorage.setItem("refreshToken", process.env.RT as string);
-
 
     console.log(`socket: `, socket);
     
