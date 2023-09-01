@@ -14,8 +14,8 @@ export default function UserProfile() {
     getMyInfo().then((res) => {
       setMyInfo(res.data);
     });
-  }, []);
-
+  }, [myInfo]);
+  
   return (
     <div className={Styles.userProfile}>
       <div className={Styles.userInfoWrapper}>

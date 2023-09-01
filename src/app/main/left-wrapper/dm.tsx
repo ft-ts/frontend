@@ -36,7 +36,7 @@ export default function Dms() {
       <div className={styles.channelList}>
       <DmItem
         friend="Friend 1"
-        profile="/asset/profile_dumy.png" state={UserStatus.ONLINE}
+        profile="/asset/profile_dummy.png" state={UserStatus.ONLINE}
         targetUid={1}
         onClick={handleDmClick}
       />

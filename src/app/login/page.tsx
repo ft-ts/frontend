@@ -5,19 +5,19 @@ import Image from "next/image";
 // import { SecondAuthLogin } from "./secondAuth";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-
+import { apiClient } from "../api/client";
 
 export default function Login() {
 
-  return (
-    <div className={styles.background}>
-        <GameBackground />
-        <GameCrossDeco />
-        <GameSelectButton />
-        <GameStartButton />
-        <GameRoundDeco />
-    </div>
-  )
+    return (
+        <div className={styles.background}>
+            <GameBackground />
+            <GameCrossDeco />
+            <GameSelectButton />
+            <GameStartButton />
+            <GameRoundDeco />
+        </div>
+    )
 }
 
 
@@ -35,11 +35,11 @@ const GameBackground = (props: {}) => {
 const GameCrossDeco = () => {
     return (
         <Image
-        src="/asset/Union.svg"
-        alt="game cross button deco"
-        width={300}
-        height={300}
-        className={styles.gameCrossDeco}
+            src="/asset/Union.svg"
+            alt="game cross button deco"
+            width={300}
+            height={300}
+            className={styles.gameCrossDeco}
         ></Image>
     )
 }
@@ -48,7 +48,7 @@ const GameSelectButton = () => {
 
     return (
         <div>
-            <button  className={styles.container}>
+            <button className={styles.container}>
                 <Image
                     src="/asset/RoundRectangleButton.svg"
                     alt="RoundButtonRectangleDecoA"
@@ -66,10 +66,10 @@ const GameStartButton = () => {
 
     const router = useRouter();
     const [message, setMessage] = useState('123');
-        const handleLoginClick = async () => {
-            router.push('http://localhost:10000/api/login');
-        };
-        
+    const handleLoginClick = async () => {
+        router.push('http://localhost:10000/api/login');
+    };
+
     return (
         <button onClick={handleLoginClick} className={styles.container}>
             <Image
@@ -82,26 +82,42 @@ const GameStartButton = () => {
             <h2 className={styles.startFont}>Start</h2>
         </button>
     )
-    }
+}
 
 
 const GameRoundDeco = () => {
+    const router = useRouter();
+    const loginasDemoUser = (name: string, uid: number): void => {
+        apiClient.post('login/addDemoUser', {
+            "email": `${name}@gmail.com`,
+            "avatar": "/asset/profile_dummy.png",
+            "name": name,
+            "uid": uid,
+        }).then((res) => {
+            document.cookie = `accessToken=${res.data.accessToken}`;
+            document.cookie = `refreshToken=${res.data.refreshToken}`;
+            router.push('/main');
+        });
+    };
+
     return (
         <button className={styles.roundContainer}>
             <Image
+                onClick={() => loginasDemoUser('BBBB', 2222)}
                 src="/asset/RoundButtonDeco.svg"
                 alt="RoundButtonDecoA"
                 width={150}
                 height={150}
                 className={styles.gameRoundDecoA}
-                ></Image>
+            ></Image>
             <Image
+                onClick={() => loginasDemoUser('AAAA', 1111)}
                 src="/asset/RoundButtonDeco.svg"
                 alt="RoundButtonDecoB"
                 width={150}
                 height={150}
                 className={styles.gameRoundDecoB}
-                ></Image>
+            ></Image>
             <h2 className={styles.gameRoundFontA}>A</h2>
             <h2 className={styles.gameRoundFontB}>B</h2>
         </button>
