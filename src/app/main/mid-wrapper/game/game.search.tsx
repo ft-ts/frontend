@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useForm } from "react-hook-form";
 import styles from "./gameItem.module.scss";
 import { HookFormTypes, historyDto, historyInterface } from "./game.interface";
+import { getGameHistory } from "../../../../app/api/client";
 
 export default function SearchBox(
   {
@@ -22,17 +23,9 @@ export default function SearchBox(
     console.log("onVaild", name.name);
     setSearchFlag(true);
     setGameHistory({history : []});
-    //to be fixed
-    const res = await fetch(
-      `http://localhost:10000/api/pong/${name.name}`,
-      {
-        method: "GET",
-        headers: {
-          // Auth
-        }
-      }
-    )
-    const json = await res.json();
+    const res = await getGameHistory(name.name);
+
+    const json = res.data;
     if (json.history === null || json.history.length === 0 || json.history === undefined) {
       console.log("no history");
       return;
@@ -50,7 +43,7 @@ export default function SearchBox(
   }
 
   return (
-    <form className={styles.searchBox} onSubmit={handleSubmit(onVaild, onInvalid)}>
+    <form className={styles.searchContainer} onSubmit={handleSubmit(onVaild, onInvalid)}>
       <input 
         className={styles.searchBox}
         {...register("name", { required: true })}
