@@ -11,11 +11,8 @@ export const apiClient = axios.create({
 });
 
 apiClient.interceptors.request.use((config) => {
-    console.log("interceptors.request", config);
     if (config.headers)
         config.headers["Authorization"] = `Bearer ${localStorage.getItem("accessToken")}`;
-    else
-        console.log("No token");
     return config;
 });
 

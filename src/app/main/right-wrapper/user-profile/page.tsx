@@ -10,6 +10,12 @@ import { UserStatus } from '../../enum/UserStatus.enum';
 export default function UserProfile() {
   const { myInfo, setMyInfo }: any = useGlobalContext();
 
+  useEffect(() => {
+    getMyInfo().then((res) => {
+      setMyInfo(res.data);
+    });
+  }, []);
+
   return (
     <div className={Styles.userProfile}>
       <div className={Styles.userInfoWrapper}>

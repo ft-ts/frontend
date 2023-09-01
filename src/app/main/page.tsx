@@ -7,6 +7,7 @@ import './main.css';
 import React, { useState, useEffect } from 'react';
 import LeftWrapper from './left-wrapper/page';
 import { CheckAuth } from './components/CheckAuth';
+import { apiClient } from '../api/client';
 
 function Main(props: MainProps) {
   const [channelId, setChannelId] = useState<number | null>(null);
@@ -34,6 +35,8 @@ function Main(props: MainProps) {
         deleteCookie('refreshToken');
     }
 }, []); 
+
+
 
   return (
     <div id="main">

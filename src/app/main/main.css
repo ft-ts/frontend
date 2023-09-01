@@ -5,6 +5,6 @@
 #main {
   display: grid;
   grid-template-columns: 1fr 1280px 1fr;
-  width: 100vw;
+  width: fit-content;
   height: 100vh;
 }
