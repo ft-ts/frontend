@@ -4,7 +4,7 @@ import React from 'react';
 import styles from './channelItem.module.scss';
 import Image from 'next/image';
 import classnames from "classnames";
-import { UserStatus } from './enum/channel.enum';
+import { UserStatus } from '../../main/enum/UserStatus.enum';
 import ChannelItemProps from './interfaces/channelItemProps';
 import DmItemProps from "./interfaces/dmItemProps";
 

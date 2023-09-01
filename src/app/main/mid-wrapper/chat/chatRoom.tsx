@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import styles from "./chat-wrapper.module.scss";
-import { Socket } from "socket.io-client";
 import MessageItem from "./messageItem";
 import ChatMessage from "./interfaces/chatMessage.interface";
-import { socket_channel } from "@/app/api/client";
+import { socket } from "../../components/CheckAuth";
+
 
 export default function ChatRoom({ channelId }: { channelId: number | null }) {
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
@@ -25,13 +25,13 @@ export default function ChatRoom({ channelId }: { channelId: number | null }) {
     if (channelId === null) {
       return;
     }
-    socket_channel.on("sendMessage", (message: ChatMessage) => {
+    socket.on("channel/sendMessage", (message: ChatMessage) => {
       setChatMessages((prevMessages) => [...prevMessages, message]);
     });
 
     // Request initial messages
-    socket_channel.emit("getChannelMessages", { channelId });
-    socket_channel.on("getChannelMessages", (messages: ChatMessage[]) => {
+    socket.emit("channel/getChannelMessages", { channelId });
+    socket.on("channel/getChannelMessages", (messages: ChatMessage[]) => {
       setChatMessages(messages);
     });
 
@@ -39,8 +39,8 @@ export default function ChatRoom({ channelId }: { channelId: number | null }) {
 
     return () => {
       // Clean up the event listener when component unmounts
-      socket_channel.off("getChannelMessages");
-      socket_channel.off("sendMessage");
+      socket.off("channel/getChannelMessages");
+      socket.off("channel/sendMessage");
     };
   }, [channelId]);
 
@@ -51,7 +51,7 @@ export default function ChatRoom({ channelId }: { channelId: number | null }) {
     }
 
     // Send the message to the backend
-    socket_channel.emit("sendMessage", {
+    socket.emit("channel/sendMessage", {
       channelId: channelId,
       content: inputMessage,
     });
