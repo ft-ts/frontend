@@ -38,8 +38,8 @@ function Main(props: MainProps) {
   return (
     <div id="main">
       <CheckAuth />
-      {/* <LeftWrapper setChannelId={setChannelId} /> */}
-      {/* <MidWrapper channelId={channelId} /> */}
+      <LeftWrapper setChannelId={setChannelId} />
+      <MidWrapper channelId={channelId} />
       <RightWrapper channelId={channelId}/>
     </div>
   );
