@@ -26,6 +26,9 @@ export default function ChatRoom({ channelId }: { channelId: number | null }) {
 
   useEffect(() => {
     // Listen for new messages
+    if (channelId === null) {
+      return;
+    }
     socket_channel.on("sendMessage", (message: ChatMessage) => {
       setChatMessages((prevMessages) => [...prevMessages, message]);
     });
@@ -59,6 +62,7 @@ export default function ChatRoom({ channelId }: { channelId: number | null }) {
           onChange={(e) => setInputMessage(e.target.value)}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
+              e.preventDefault(); // Prevent default behavior (form submission)
               handleSendMessage();
             }
           }}
