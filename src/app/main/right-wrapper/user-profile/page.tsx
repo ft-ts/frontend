@@ -14,6 +14,9 @@ export default function UserProfile() {
     getMyInfo().then((res) => {
       setMyInfo(res.data);
     });
+  }, []);
+
+  useEffect(() => {
   }, [myInfo]);
   
   return (

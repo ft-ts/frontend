@@ -1,6 +1,6 @@
 'use client'
 
-import { getMyInfo } from "@/app/api/client";
+import { validateUser } from "@/app/api/client";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
@@ -8,7 +8,13 @@ export function useValidUser() {
   const router = useRouter();
 
   useEffect(() => {
-    getMyInfo().catch((err) => {
+    validateUser().then((res) => {
+      if (res.status === 200) {
+        return;
+      }
+      router.push('/login');
+    })
+    .catch((err) => {
       router.push('/login');
     });
   }, []);

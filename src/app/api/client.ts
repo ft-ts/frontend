@@ -20,6 +20,10 @@ export async function getMyInfo(): Promise<any> {
     return apiClient.get("/users");
 };
 
+export async function validateUser(): Promise<any> {
+    return apiClient.get("/check");
+};
+
 export async function getUserList(): Promise<any> {
     return apiClient.get("/users/all");
 }
