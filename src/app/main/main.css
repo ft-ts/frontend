@@ -1,10 +1,17 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 #main {
+  background-color: cornflowerblue;
   display: grid;
   grid-template-columns: 1fr 1280px 1fr;
-  width: fit-content;
-  height: 100vh;
+  width: 100vw;
+  height: 100dvh;
+  max-width: 2560px !important;
+  max-height: 1361px !important;
+}
+
+#main > div:first-child {
+  min-width: 550px;
+}
+
+#main > div:last-child  {
+  min-width: 550px;
 }
