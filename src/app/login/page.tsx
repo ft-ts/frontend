@@ -2,7 +2,6 @@
 
 import styles from "./login.module.scss"
 import Image from "next/image";
-// import { SecondAuthLogin } from "./secondAuth";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { apiClient } from "../api/client";
@@ -24,6 +23,7 @@ export default function Login() {
 const GameBackground = (props: {}) => {
     return (
         <div className={styles.gameBackground}>
+            {/* <SecondAuthLogin /> */}
             <div className={styles.displayBackground}>
                 <h1 className={styles.gameFont}>42 Login</h1>
                 <h2 className={styles.pressFont}>Press Start Button</h2>

@@ -1,13 +1,13 @@
 "use client";
 
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { UserListItem } from "./Components/UserListItem";
 import Styles from "./UserList.module.scss";
 import Image from "next/image";
-import { getUserList } from "@/app/api/client";
-import { User } from "../../interface/User.interface";
 import { UserStatus } from "../../enum/UserStatus.enum";
 import { UserMenu } from "./Components/UserMenu";
+import { User } from "../../interface/User.interface";
+import { getUserList } from "@/app/api/client";
 
 enum TabOptions {
   ALL = "ALL",
@@ -23,19 +23,11 @@ export default function UserList({ channelId }: { channelId: number | null }) {
 
   useEffect(() => {
     getUserList().then((res) => {
-      setUserList([...res.data, {
-        uid: 4444,
-        name: "DUMMY",
-        avatar: "/asset/avatar.png",
-        status: UserStatus.IN_GAME,
-      }, {
-        uid: 5555,
-        name: "DUMMY2",
-        avatar: "/asset/avatar.png",
-        status: UserStatus.IN_GAME,
-      }]);
-    }
-    );
+      setUserList(res.data);
+    });
+  }, []);
+
+  useEffect(() => {
   }, [userList]);
 
   const renderUserList = () => {
