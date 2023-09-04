@@ -1,4 +1,3 @@
-import { socket } from '../components/CheckAuth'
 import Styles from './right-wrapper.module.scss'
 import UserList from './user-list/page'
 import UserProfile from './user-profile/page'

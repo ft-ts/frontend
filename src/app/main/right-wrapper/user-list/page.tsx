@@ -1,9 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { use, useEffect, useState } from "react";
 import { UserListItem } from "./Components/UserListItem";
-import styles from "./user-list.module.scss";
+import Styles from "./UserList.module.scss";
 import Image from "next/image";
+import { getUserList } from "@/app/api/client";
+import { User } from "../../interface/User.interface";
+import { UserStatus } from "../../enum/UserStatus.enum";
+import { UserMenu } from "./Components/UserMenu";
 
 enum TabOptions {
   ALL = "ALL",
@@ -13,6 +17,26 @@ enum TabOptions {
 
 export default function UserList() {
   const [activeTab, setActiveTab] = useState(TabOptions.ALL);
+  const [userList, setUserList] = useState<User[]>([]);
+  const [menuOn, setMenuOn] = useState<Boolean>(false);
+  const [selectedUser, setSelectedUser] = useState<{name: String, uid: Number}>({name: "", uid: 0});
+
+  useEffect(() => {
+    getUserList().then((res) => {
+      setUserList([...res.data, {
+        uid: 4444,
+        name: "DUMMY",
+        avatar: "/asset/avatar.png",
+        status: UserStatus.IN_GAME,
+      }, {
+        uid: 5555,
+        name: "DUMMY2",
+        avatar: "/asset/avatar.png",
+        status: UserStatus.IN_GAME,
+      }]);
+    }
+    );
+  }, [userList]);
 
   const renderUserList = () => {
     if (activeTab === TabOptions.ALL) {
@@ -25,11 +49,10 @@ export default function UserList() {
   };
 
   const renderAllList = () => {
-    // Render the All list
     return (
       <>
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13].map((item, index) => (
-          <UserListItem key={index} />
+        {userList.map((item, index) => (
+          <UserListItem key={index} item={item} state={[menuOn, setMenuOn, selectedUser, setSelectedUser]} />
         ))}
       </>
     );
@@ -38,8 +61,8 @@ export default function UserList() {
   const renderFriendsList = () => {
     return (
       <>
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13].map((item, index) => (
-          <UserListItem key={index} />
+        {userList.map((item, index) => (
+          <UserListItem key={index} item={item} state={[menuOn, setMenuOn, selectedUser, setSelectedUser]} />
         ))}
       </>
     );
@@ -48,68 +71,68 @@ export default function UserList() {
   const renderChannelList = () => {
     return (
       <>
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13].map((item, index) => (
-          <UserListItem key={index} />
+        {userList.map((item, index) => (
+          <UserListItem key={index} item={item} state={[menuOn, setMenuOn, selectedUser, setSelectedUser]} />
         ))}
       </>
     );
   };
 
   return (
-    <div className={styles.userList}>
-      <div className={styles.userPanelBox}>
-        <h2 className={styles.userPanelFont}>Users</h2>
+    <div className={Styles.userlistWrapper}>
+      {menuOn && <UserMenu user={selectedUser} setMenuOn={setMenuOn} />}
+      <div className={Styles.userList}>
+        <div className={Styles.userPanelBox}>
+          <h2 className={Styles.userPanelFont}>Users</h2>
+        </div>
+        <div className={Styles.userListHeader}>
+          <div
+            className={`${Styles.userListHeaderTitle} ${activeTab === TabOptions.ALL ? Styles.activeTab : ""
+              }`}
+            onClick={() => setActiveTab(TabOptions.ALL)}
+          >
+            All
+          </div>
+          <div
+            className={`${Styles.userListHeaderTitle} ${activeTab === TabOptions.FRIENDS ? Styles.activeTab : ""
+              }`}
+            onClick={() => setActiveTab(TabOptions.FRIENDS)}
+          >
+            Friends
+          </div>
+          <div
+            className={`${Styles.userListHeaderTitle} ${activeTab === TabOptions.CHANNEL ? Styles.activeTab : ""
+              }`}
+            onClick={() => setActiveTab(TabOptions.CHANNEL)}
+          >
+            Channel
+          </div>
+        </div>
+        <DisplayUserSearch />
+        <div className={Styles.userListBody}>{renderUserList()}</div>
+        <MyInfo />
       </div>
-      <div className={styles.userListHeader}>
-        <div
-          className={`${styles.userListHeaderTitle} ${
-            activeTab === TabOptions.ALL ? styles.activeTab : ""
-          }`}
-          onClick={() => setActiveTab(TabOptions.ALL)}
-        >
-          All
-        </div>
-        <div
-          className={`${styles.userListHeaderTitle} ${
-            activeTab === TabOptions.FRIENDS ? styles.activeTab : ""
-          }`}
-          onClick={() => setActiveTab(TabOptions.FRIENDS)}
-        >
-          Friends
-        </div>
-        <div
-          className={`${styles.userListHeaderTitle} ${
-            activeTab === TabOptions.CHANNEL ? styles.activeTab : ""
-          }`}
-          onClick={() => setActiveTab(TabOptions.CHANNEL)}
-        >
-          Channel
-        </div>
-      </div>
-      <DisplayUserSearch />
-      <div className={styles.userListBody}>{renderUserList()}</div>
-      <MyInfo />
     </div>
   );
 }
 
 const MyInfo = (props: {}) => {
   return (
-    <div className={styles.bottomMyInfo}>
-      <div className={styles.myInfoAvatar}></div>
-      <div className={styles.myInfoName}>DOHYULEE</div>
-      <div className={styles.myInfoStatus}>ONLINE</div>
+    <div className={Styles.bottomMyInfo}>
+      <div className={Styles.bottomMyInfoAvatar}></div>
+      <div className={Styles.bottomMyInfoName}>DOHYULEE</div>
+      <div className={Styles.bottomMyInfoStatus}>ONLINE</div>
     </div>
   );
 };
 
 const DisplayUserSearch = (props: {}) => {
   return (
-    <div className={styles.userSearchContainer}>
-      <input className={styles.userSearchInput}></input>
-      <button className={styles.userSearchIconContainer}>
+    <div className={Styles.userSearchContainer}>
+      <input className={Styles.userSearchInput}></input>
+      <button className={Styles.userSearchIconContainer}>
         <Image
-          className={styles.userSearchIcon}
+          className={Styles.userSearchIcon}
           src="/asset/search.png"
           alt="searchUser"
           width={30}
