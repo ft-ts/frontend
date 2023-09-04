@@ -52,21 +52,27 @@ export default function ChatRoom() {
     }
 
     // Send the message to the backend
-    socket.emit("channel/sendMessage", {
-      channelId: channelId,
-      content: inputMessage,
-    });
+    if (channelId !== null)
+    {
+      socket.emit("channel/sendMessage", {
+        channelId: channelId,
+        content: inputMessage,
+      });
+      
+    }
     setInputMessage("");
   };
 
   return (
     <div className={styles.chatRoomBox}>
+      
       <div className={styles.chatDisplay} ref={messageEndRef}>
-        {channelId && chatMessages && 
+        { channelId && chatMessages && 
           chatMessages.map((chatMessages) => (
             <MessageItem key={chatMessages.id} chatMessage={chatMessages} />
           ))}
       </div>
+      { channelId && (
       <span className={styles.spanSendMessage}>
         <input
           className={styles.inputMessageBox}
@@ -83,6 +89,7 @@ export default function ChatRoom() {
           SEND
         </button>
       </span>
+    )}
     </div>
   );
 }
