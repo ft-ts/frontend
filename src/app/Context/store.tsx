@@ -4,15 +4,22 @@ import { createContext, useContext, useState } from "react";
 import { UserStatus } from "../main/enum/UserStatus.enum";
 import { User } from "../main/interface/User.interface";
 import { getMyInfo } from "../api/client";
+import ChannelProps from "../main/left-wrapper/interfaces/channelProps";
 
 const globalContext = createContext({});
 
 export const GlobalContextProvider = ({ children }: any) => {
   const [myInfo, setMyInfo] = useState<User>(dummy);
+  const [channelId, setChannelId] = useState<number | null>(null);
+  const [channel, setChannel] = useState<ChannelProps | null>(null);
 
   const value = {
     myInfo,
     setMyInfo,
+    channelId,
+    setChannelId,
+    channel,
+    setChannel,
   }
   return (
     <globalContext.Provider value={value}>

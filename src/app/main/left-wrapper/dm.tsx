@@ -8,18 +8,7 @@ import { UserStatus } from "../enum/UserStatus.enum";
 
 export default function Dms() {
   const [selectedDm, setSelectedDm] = useState<(targetUid: number) => void>();
-  // fetch('http://localhost:10000/dm/with/:targetName', {
-  //   method: 'GET',
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //     // 'Authorization': 'Bearer ' + 
-  //     // localStorage.getItem('accessToken'),
-  //   },
-  // })
-  // .then((res) => res.json())
-  // .then((res) => {
-  //   setSelectedDm(res);
-  // })
+  
   
   const handleDmClick = (targetUid: number) => {
     console.log(`Clicked on DM with targetUid: ${targetUid}`);
@@ -36,7 +25,7 @@ export default function Dms() {
       <div className={styles.channelList}>
       <DmItem
         friend="Friend 1"
-        profile="/asset/profile_dummy.png" state={UserStatus.ONLINE}
+        profile="" state={UserStatus.ONLINE}
         targetUid={1}
         onClick={handleDmClick}
       />

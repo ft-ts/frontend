@@ -11,7 +11,7 @@ enum TabOptions {
   CHANNEL = "CHANNEL",
 }
 
-export default function UserList({ channelId }: { channelId: number | null }) {
+export default function UserList() {
   const [activeTab, setActiveTab] = useState(TabOptions.ALL);
 
   const renderUserList = () => {

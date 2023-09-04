@@ -1,20 +1,19 @@
 "use client";
 
 import styles from "./chat-wrapper.module.scss";
-import React from "react";
+import React, { useContext } from "react";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import Modal from "react-modal";
 import { ChannelSettingForm } from "../../left-wrapper/channelForm";
 import ChannelProps from "../../left-wrapper/interfaces/channelProps";
 import { socket } from "../../components/CheckAuth";
+import { useGlobalContext } from "@/app/Context/store";
 
-export default function ChatMenu({
-  channelId,
-}: {
-  channelId: number | null;
-}) {
-  const [channel, setChannel] = useState<ChannelProps | null>(null);
+export default function ChatMenu() 
+{
+  const { channelId, setChannelId }: any = useGlobalContext();
+  const { channel, setChannel }: any = useGlobalContext();
 
   useEffect(() => {
     if (channelId === null) {
@@ -22,35 +21,36 @@ export default function ChatMenu({
     }
     socket.emit("channel/getChannelById", { channelId });
     socket.on("channel/getChannelById", (channelData: ChannelProps) => {
+      console.log("channelData: ", channelData);
       setChannel(channelData);
     });
+    console.log("channel: ", {channel});
     return () => {
       socket.off("channel/getChannelById");
     }
-  }, [socket, channelId]);
+  }, [channelId]);
+
 
   return (
     <div className={styles.chatMenuBox}>
-       {channel !== null && (
+       {channelId !== null && (
       <span>
         <UserlistButton channel={channel}/>
-        <h2 className={styles.chatMenuTitle}>{channel.title}</h2>
+        <h2 className={styles.chatMenuTitle}>{channel?.title}</h2>
         <ChatSettingButton channel={channel} />
-        <CloseButton channel={channel} />
-        <ExitButton channel={channel} />
+        <CloseButton />
+        <ExitButton />
       </span>
     )}
     </div>
   );
 }
 
-const CloseButton = ({
-  channel,
-}: {
-  channel: ChannelProps;
-}) => {
+const CloseButton = () => {
+  const { channelId, setChannelId }: any = useGlobalContext();
+  
   const handleCloseChannel = () => {
-    socket.emit("channel/closeChannel", { channelId: channel.id });
+    setChannelId(null);
   };
   return (
     <button className={styles.closeButton} onClick={handleCloseChannel}>
@@ -64,13 +64,17 @@ const CloseButton = ({
   );
 }
 
-const ExitButton = ({
-  channel,
-}: {
-  channel: ChannelProps;
-}) => {
+const ExitButton = () => {
+  const { channelId, setChannelId }: any = useGlobalContext();
+  const { channel, setChannel }: any = useGlobalContext();
+
   const handleExitChannel = () => {
-    socket.emit("channel/exitChannel", { channelId: channel.id });
+    setChannelId(null);
+    socket.emit("channel/leaveChannel", { channelId });
+    socket.on("channel/channelUpdate", (channelData: ChannelProps) => {
+      setChannel(channelData);
+    }
+    );
   };
   return (
     <button className={styles.exitButton} onClick={handleExitChannel}>

@@ -1,11 +1,13 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import styles from "./chat-wrapper.module.scss";
 import MessageItem from "./messageItem";
 import ChatMessage from "./interfaces/chatMessage.interface";
 import { socket } from "../../components/CheckAuth";
+import { useGlobalContext } from "@/app/Context/store";
 
 
-export default function ChatRoom({ channelId }: { channelId: number | null }) {
+export default function ChatRoom() {
+  const { channelId }: any = useGlobalContext();
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
   const [inputMessage, setInputMessage] = useState<string>("");
   const messageEndRef = useRef<HTMLDivElement | null>(null);
@@ -43,7 +45,6 @@ export default function ChatRoom({ channelId }: { channelId: number | null }) {
       socket.off("channel/sendMessage");
     };
   }, [channelId]);
-
 
   const handleSendMessage = () => {
     if (inputMessage.trim() === "") {

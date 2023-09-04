@@ -16,6 +16,9 @@ export default function UserProfile() {
     });
   }, []);
 
+  useEffect(() => {
+  }, [myInfo]);
+  
   return (
     <div className={Styles.userProfile}>
       <div className={Styles.userInfoWrapper}>

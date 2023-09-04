@@ -5,14 +5,10 @@ import React from 'react';
 import Channels from './channel';
 import Dms from './dm';
 
-interface LeftWrapperProps {
-  setChannelId: React.Dispatch<React.SetStateAction<number | null>>;
-}
-
-function LeftWrapper(props: LeftWrapperProps) {
+function LeftWrapper() {
   return (
     <div className={styles.leftWrapper}>
-      <Channels setChannelId={props.setChannelId}/>
+      <Channels />
       <Dms/>
     </div>
   );
