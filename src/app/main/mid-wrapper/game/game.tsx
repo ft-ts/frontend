@@ -27,24 +27,28 @@ export default function Game(
   useEffect(() => {
     socket.on('pong/game/init', ( data : { matchID: string }) =>
     {
+      setGameFlag(true);
       console.log('game init', data);
       setMatchID(data.matchID);
     });
 
-  }, [matchID]);
-
-  useEffect(() => {
     const timer = setInterval(() => {
       if (count > 0) setCount(count - 1);
+      console.log('count', count)
     }, 1000);
-
+  
     return () => {
       clearInterval(timer);
-      socket.on('pong/game/start', ( payload : { matchID: string, sid: socket.id}) => {
-        console.log('game start', payload);
+      const sid = socket.id;
+      socket.on('pong/game/start', ( payload : { matchID: string, sid : number}) => {
+        console.log('game start', payload); 
       });
     };
-  }, [count])
+
+  }, [matchID, count]);
+
+  // useEffect(() => {
+  // }, [count])
 
   useEffect(() => {
     socket.on('pong/game/ready', ( data : { player1: paddleDto, player2: paddleDto, ball: ballDto }) => 
@@ -58,7 +62,6 @@ export default function Game(
       const myPos : number = data.player1.x < 200 ? data.player1.x + 100 : data.player1.x - 100;
       const yourPos : number = data.player2.x < 200 ? data.player2.x + 100 : data.player2.x - 100;
       setScorePos({me: myPos, you: yourPos});
-      setGameFlag(true);
       });
 
       socket.on('pong/game/update', ( data : { player1: paddleDto, player2: paddleDto, ball: ballDto }) =>
@@ -110,57 +113,60 @@ export default function Game(
 
     return (
       <div>
-          <div style={{
-            position: 'absolute',
-            backgroundColor: 'white',
-            width: paddleDto.get('me')?.width,
-            height: paddleDto.get('me')?.height,
-            left: paddleDto.get('me')?.x,
-            top: paddleDto.get('me')?.y,
-          }}>
-          </div>
-          <div style={{
-            position: 'absolute',
-            backgroundColor: 'red',
-            width: paddleDto.get('you')?.width,
-            height: paddleDto.get('you')?.height,
-            left: paddleDto.get('you')?.x,
-            top: paddleDto.get('you')?.y,
-          }}>
-          </div>
-          <div style={{
-            position: 'absolute',
-            backgroundColor: 'blue',
-            width: ballDto.width,
-            height: ballDto.height,
-            left: ballDto.x,
-            top: ballDto.y,
-          }}>
-          </div>
-          <div style={{
-            position: 'absolute',
-            left: scorePos.me,
-          }}>
-            <h2 className={styles.resultFont}>{score.me}</h2>
-          </div>
-          <div style={{
-            position: 'absolute',
-            left: scorePos.you,
-          }}>
-            <h2 className={styles.resultFont}>{score.you}</h2>
-          </div>
-          {gameResult && 
-          <div>
-            <div className={styles.blinking}>
-              <div className={styles.resultBox}>
-                <h2 className={styles.resultFont}>{isWin}</h2>
-              </div>
+        {count > 0 && <div className={styles.countBox}>
+          <h1 className={styles.countFont}>{count}</h1>
+        </div>}
+        <div style={{
+          position: 'absolute',
+          backgroundColor: 'white',
+          width: paddleDto.get('me')?.width,
+          height: paddleDto.get('me')?.height,
+          left: paddleDto.get('me')?.x,
+          top: paddleDto.get('me')?.y,
+        }}>
+        </div>
+        <div style={{
+          position: 'absolute',
+          backgroundColor: 'red',
+          width: paddleDto.get('you')?.width,
+          height: paddleDto.get('you')?.height,
+          left: paddleDto.get('you')?.x,
+          top: paddleDto.get('you')?.y,
+        }}>
+        </div>
+        <div style={{
+          position: 'absolute',
+          backgroundColor: 'blue',
+          width: ballDto.width,
+          height: ballDto.height,
+          left: ballDto.x,
+          top: ballDto.y,
+        }}>
+        </div>
+        <div style={{
+          position: 'absolute',
+          left: scorePos.me,
+        }}>
+          <h2 className={styles.resultFont}>{score.me}</h2>
+        </div>
+        <div style={{
+          position: 'absolute',
+          left: scorePos.you,
+        }}>
+          <h2 className={styles.resultFont}>{score.you}</h2>
+        </div>
+        {gameResult && 
+        <div>
+          <div className={styles.blinking}>
+            <div className={styles.resultBox}>
+              <h2 className={styles.resultFont}>{isWin}</h2>
             </div>
-            <button className={styles.backButton} onClick={handeleBackClick} >
-              <h2 className={styles.backFont}>back</h2>
-            </button>
           </div>
-          }
+          <button className={styles.backButton} onClick={handeleBackClick} >
+            <h2 className={styles.backFont}>back</h2>
+          </button>
+        </div>
+        }
       </div>
     )
 }

@@ -3,6 +3,7 @@
 import React, { useState, useEffect} from "react";
 import styles from "./gameItem.module.scss";
 import { historyInterface } from "./game.interface";
+import { socket } from '../../components/CheckAuth'
 
 export default function MatchButton(
     {
@@ -19,12 +20,13 @@ export default function MatchButton(
   const handleMatchStart = () => {
     setMatchFlag(true);
     setGameHistory({history : []});
-    // socket.emit('pong/ladder/join');
+    console.log('match start');
+    socket.emit('pong/ladder/join');
   }
   
   const handleMatchCancle = () => {
     setMatchFlag(false);
-    // socket.emit('pong/ladder/leave');
+    socket.emit('pong/ladder/leave');
   }
   useEffect(() => {
   }, [matchFlag]);

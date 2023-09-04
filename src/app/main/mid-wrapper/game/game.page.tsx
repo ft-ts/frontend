@@ -7,6 +7,7 @@ import GameHistory from './game.history'
 import MatchButton from './game.match'
 import Game from './game'
 import { historyInterface } from "./game.interface";
+import { socket } from "../../components/CheckAuth";
 
 export default function GamePage() {
   const [matchFlag, setMatchFlag] = useState(false);
@@ -15,6 +16,11 @@ export default function GamePage() {
   const [gameHistory, setGameHistory] = useState<historyInterface>({history : []});
 
   useEffect(() => {
+    socket.on('pong/game/init', ( data : { matchID: string }) =>
+    {
+      console.log('main game init', data);
+      setGameFlag(true);
+    });
   }, [matchFlag, gameFlag, searchFlag]);
 
   return (
