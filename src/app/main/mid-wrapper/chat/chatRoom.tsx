@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState, useEffect, useRef, useContext } from "react";
 import styles from "./chat-wrapper.module.scss";
 import MessageItem from "./messageItem";

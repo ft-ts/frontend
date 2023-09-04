@@ -149,9 +149,9 @@
     background-color: #414141;
     border: 4px solid #FFFFFF;
     border-radius: 10px;
-    display: flex;
-    justify-content: center;
-    align-content: center;
+    // display: flex;
+    // justify-content: center;
+    // align-content: center;
     // font-family: 'ArcadeClassic';
     // font-style: normal;
     // font-weight: 500;
@@ -160,8 +160,8 @@
 
 .chatDisplay {
     // 화면에 따라 조절 필요
-    max-height: 90%; // 스크롤 영역의 최대 높이 설정
-    min-height: 90%;
+    max-height: 85%; // 스크롤 영역의 최대 높이 설정
+    min-height: 85%;
     height: auto;
     width: 100%;
     overflow-y: auto; // 세로 스크롤 적용
@@ -174,8 +174,9 @@ $sizeSenderName: 30px;
 
 .myMessage {
     display: flex;
-    //   align-items: flex-start; /* 아래로 정렬 */
-    //   justify-content: flex-end; /* 오른쪽으로 정렬 */
+    position: relative;
+    align-items: flex-start; /* 아래로 정렬 */
+    justify-content: flex-end; /* 오른쪽으로 정렬 */
     margin-top: 10px;
     margin-right: 20px;
     text-align: right;
@@ -189,8 +190,21 @@ $sizeSenderName: 30px;
     text-align: left;
 }
 
+.myMessageProfileButton {
+    /* 오른쪽 정렬 */
+    order: 2; /* 프로필 사진이 내 메시지일 때 */
+    margin-left: 10px; /* 추가적인 오른쪽 간격 */
+  }
+  
+  .otherMessageProfileButton {
+    /* 왼쪽 정렬 */
+    order: 0; /* 프로필 사진이 상대방 메시지일 때 */
+    margin-right: 10px; /* 추가적인 왼쪽 간격 */
+  }
+
 .messageContent {
     display: inline-block;
+    justify-content: left;
     position: relative;
     background-color: #d2f1ff;
     border-radius: 20px;
@@ -198,14 +212,14 @@ $sizeSenderName: 30px;
     margin-top: 5px;
     padding: 7px 12px;
     margin-bottom: 5px;
-    max-width: 230px;
+    max-width: 450px;
+    margin-inline: 10px;
+    word-wrap: break-word; /* 이 부분을 추가해 줄 바꿈을 활성화합니다. */
 }
 
 .chatProfilePicture {
     box-sizing: border-box;
     position: relative;
-    top: 0px;
-    left: 0px;
     width: $sizeProfilePicture;
     height: $sizeProfilePicture;
     display: inline-block;
@@ -222,10 +236,12 @@ $sizeSenderName: 30px;
     font-style: normal;
     font-weight: 20;
     font-size: 22px;
+    margin-inline: 10px;
     color: #FFFFFF;
 }
 
 .messageTime {
+    box-sizing: border-box;
     position: relative;
     color: #b7b7b7;
     bottom: 0px;
@@ -233,6 +249,7 @@ $sizeSenderName: 30px;
     font-style: normal;
     font-weight: 10;
     font-size: 18px;
+    margin-inline: 10px;
 }
 
 .commonContents {

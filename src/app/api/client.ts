@@ -24,7 +24,7 @@ export async function getUserList(): Promise<any> {
     return apiClient.get("/users/all");
 }
 
-export async function getUserByUid(uid: number): Promise<UserInterface> {
+export async function getUserByUid(uid: number): Promise<any> {
     return apiClient.get(`/users/${uid}`);
 }
 

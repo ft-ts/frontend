@@ -5,18 +5,20 @@ import styles from './chat-wrapper.module.scss';
 import ChatMessage from './interfaces/chatMessage.interface';
 import { getMyInfo, getUserByUid } from '@/app/api/client';
 import UserInterface from '@/app/api/interfaces/user.interface';
-import { get } from 'http';
 import Image from 'next/image';
+import { useGlobalContext } from '@/app/Context/store';
 
 
 function MessageItem({ chatMessage }: {chatMessage: ChatMessage}) {
+  const { myInfo }: any = useGlobalContext();
   const [sender, setSender] = useState<UserInterface | null>(null);
+
 
   useEffect(() => {
     async function fetchSender() {
       try {
         const senderInfo = await getUserByUid(chatMessage.sender_uid);
-        setSender(senderInfo);
+        setSender(senderInfo.data);
       } catch (error) {
         console.error('Error fetching sender info:', error);
       }
@@ -33,10 +35,10 @@ function MessageItem({ chatMessage }: {chatMessage: ChatMessage}) {
   }
 
   return (
-    <div className={`${styles.message} ${chatMessage.sender_uid === 1 ? styles.myMessage : styles.otherMessage}`}>
+    <div className={`${styles.message} ${chatMessage.sender_uid === myInfo.uid ? styles.myMessage : styles.otherMessage}`}>
     {sender && (
-      <button>
-      <Image
+      <button className={chatMessage.sender_uid === myInfo.uid ? styles.myMessageProfileButton : styles.otherMessageProfileButton}>
+      <Image className = {styles.chatProfilePicture}
           src={sender.avatar}
           alt="avatar"
           width={70}
