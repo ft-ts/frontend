@@ -79,3 +79,31 @@
       left: ($backgroundWidth / 2) + ($gameRecordSearchBoxWidth / 2) - 48.5px;
       top: $gameRecordSearchBoxTop - 53;
   }
+
+  .countBox{
+      position: relative;
+      width: 100px;
+      height: 60px;
+      left: ($backgroundWidth / 2) - ($gameRecordSearchBoxWidth / 2) - 100px;
+      top: $gameRecordSearchBoxTop;
+      background: #5F5F5F;
+      border: 4px solid #000000;
+      border-radius: 5px;
+  }
+
+  .countFont{
+        position: relative;
+        width: 100px;
+        height: 32px;
+        left: 0px;
+        top: 2px;
+        font-family: 'ArcadeClassic';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 42px;
+        line-height: 32px;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        color: #ffffff;
+  }
