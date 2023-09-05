@@ -9,10 +9,14 @@ export default function Game(
   {
     setMatchFlag,
     setGameFlag,
+    setMatchID,
+    matchID,
   } :
   {
     setMatchFlag: React.Dispatch<React.SetStateAction<boolean>>
     setGameFlag: React.Dispatch<React.SetStateAction<boolean>>
+    setMatchID: React.Dispatch<React.SetStateAction<string>>
+    matchID: string
   }
 ) {
   const [paddleDto, setPaddleDto] = useState<Map<string, paddleDto>>(new Map());
@@ -22,29 +26,25 @@ export default function Game(
   const [score, setScore] = useState({me: 0, you: 0});
   const [scorePos, setScorePos] = useState({me: 0, you: 0});
   const [gameResult, setGameResult] = useState(false);
-  const [matchID, setMatchID] = useState<string>("");
+  const [startFlag, setStartFlag] = useState(false);
 
   useEffect(() => {
-    socket.on('pong/game/init', ( data : { matchID: string }) =>
-    {
-      console.log('game init', data);
-      setMatchID(data.matchID);
-    });
-
-  }, [matchID]);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      if (count > 0) setCount(count - 1);
+    const timer = setTimeout(() => {
+      if (count >= 0) {
+        setCount(count - 1);
+      } else {
+        if (!startFlag){
+          socket.emit('pong/game/ready', { matchID: matchID });
+          setStartFlag(true);
+        }
+      }
     }, 1000);
 
     return () => {
-      clearInterval(timer);
-      socket.on('pong/game/start', ( payload : { matchID: string, sid: socket.id}) => {
-        console.log('game start', payload);
-      });
+      clearTimeout(timer);
     };
-  }, [count])
+  }, [count, startFlag]);
+
 
   useEffect(() => {
     socket.on('pong/game/ready', ( data : { player1: paddleDto, player2: paddleDto, ball: ballDto }) => 
@@ -58,7 +58,6 @@ export default function Game(
       const myPos : number = data.player1.x < 200 ? data.player1.x + 100 : data.player1.x - 100;
       const yourPos : number = data.player2.x < 200 ? data.player2.x + 100 : data.player2.x - 100;
       setScorePos({me: myPos, you: yourPos});
-      setGameFlag(true);
       });
 
       socket.on('pong/game/update', ( data : { player1: paddleDto, player2: paddleDto, ball: ballDto }) =>
@@ -74,7 +73,7 @@ export default function Game(
       {
         if (payload.winner) setIsWin("YOU WIN");
         else setIsWin("YOU LOSE");
-        // console.log(payload);
+        // console.log(payloa
         
         setScore({me: payload.client1_score, you: payload.client2_score});
         setGameResult(true);
@@ -85,10 +84,11 @@ export default function Game(
     useEffect(() => {
       const handleKeyPress = (e: KeyboardEvent) => {
         const { key } = e;
-        if (key === 'a') {
-          socket.emit('pong/game/keyEvent', {key: 'up', matchID: matchID});
-        } else if (key === 'z') {
-          socket.emit('pong/game/keyEvent', {key: 'down', matchID: matchID});
+        console.log('key', key)
+        if (key === 'a' || key === 'A' || key === 'ㅁ') {
+          socket.emit('pong/game/keyEvent', {key: 'UP', matchID: matchID});
+        } else if (key === 'z' || key === 'Z' || key === 'ㅋ') {
+          socket.emit('pong/game/keyEvent', {key: 'DOWN', matchID: matchID});
         }
       };
       window.addEventListener('keydown', handleKeyPress);
@@ -106,10 +106,20 @@ export default function Game(
       setScorePos({me: 0, you: 0});
       setIsWin("");
       setMatchID("");
+      setGameFlag(false);
+      setCount(5);
+      setStartFlag(false);
     }
 
     return (
       <div>
+        {(count > 0 && !startFlag) && <div className={styles.countBox}>
+          <h2 className={styles.countFont}>{count}</h2>
+        </div>}
+        {(count <= 0 && !startFlag) && <div className={styles.countBox}>
+          <h2 className={styles.countFont}>Start</h2>
+        </div>}
+        {startFlag && <div>
           <div style={{
             position: 'absolute',
             backgroundColor: 'white',
@@ -149,18 +159,19 @@ export default function Game(
           }}>
             <h2 className={styles.resultFont}>{score.you}</h2>
           </div>
-          {gameResult && 
-          <div>
-            <div className={styles.blinking}>
-              <div className={styles.resultBox}>
-                <h2 className={styles.resultFont}>{isWin}</h2>
-              </div>
+        </div>}
+        {gameResult && 
+        <div>
+          <div className={styles.blinking}>
+            <div className={styles.resultBox}>
+              <h2 className={styles.resultFont}>{isWin}</h2>
             </div>
-            <button className={styles.backButton} onClick={handeleBackClick} >
-              <h2 className={styles.backFont}>back</h2>
-            </button>
           </div>
-          }
+          <button className={styles.backButton} onClick={handeleBackClick} >
+            <h2 className={styles.backFont}>back</h2>
+          </button>
+        </div>
+        }
       </div>
     )
 }
