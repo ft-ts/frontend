@@ -6,8 +6,10 @@ import ChannelSettingFormProps from './interfaces/channelSettingFormProps';
 import ChannelFormProps from './interfaces/channelFormProps';
 import { ChannelMode } from './enum/channel.enum';
 import { socket } from '../components/CheckAuth';
+import { useGlobalContext } from '@/app/Context/store';
 
 const ChannelForm = (props: ChannelFormProps) => {
+  const { setChannelId }: any = useGlobalContext();
   const [title, setTitle] = useState('');
   const [mode, setMode] = useState('Public');
   const [password, setPassword] = useState('');
@@ -32,6 +34,9 @@ const ChannelForm = (props: ChannelFormProps) => {
       mode,
       password,
     });
+    socket.on('channel/createChannel', 
+    (data) => setChannelId(data));
+
     props.onClose();
   };
 

@@ -9,10 +9,11 @@ import { ChannelSettingForm } from "../../left-wrapper/channelForm";
 import ChannelProps from "../../left-wrapper/interfaces/channelProps";
 import { socket } from "../../components/CheckAuth";
 import { useGlobalContext } from "@/app/Context/store";
+import { TabOptions } from "@/app/Context/store";
 
 export default function ChatMenu() 
 {
-  const { channelId, setChannelId }: any = useGlobalContext();
+  const { channelId }: any = useGlobalContext();
   const { channel, setChannel }: any = useGlobalContext();
 
   useEffect(() => {
@@ -24,7 +25,6 @@ export default function ChatMenu()
       console.log("channelData: ", channelData);
       setChannel(channelData);
     });
-    console.log("channel: ", {channel});
     return () => {
       socket.off("channel/getChannelById");
     }
@@ -35,7 +35,7 @@ export default function ChatMenu()
     <div className={styles.chatMenuBox}>
        {channelId !== null && (
       <span>
-        <UserlistButton channel={channel}/>
+        <UserlistButton />
         <h2 className={styles.chatMenuTitle}>{channel?.title}</h2>
         <ChatSettingButton channel={channel} />
         <CloseButton />
@@ -144,15 +144,15 @@ const ChatSettingButton = ({
   );
 };
 
-const UserlistButton = ({
-	channel,
-  }: {
-	channel: ChannelProps;
-  }) =>  {
-
+const UserlistButton = () =>  {
+  const { setActiveTab }: any = useGlobalContext();
+  
+  const handleUserlist = () => {
+    setActiveTab(TabOptions.CHANNEL);
+  };
 
   return (
-    <button className={styles.userlistButton}>
+    <button className={styles.userlistButton} onClick={handleUserlist}>
       <Image
         src="/asset/memberIcon.svg"
         alt="userlist button"

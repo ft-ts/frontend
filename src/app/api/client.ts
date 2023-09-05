@@ -31,3 +31,11 @@ export async function getUserByUid(uid: number): Promise<any> {
 export async function getGameHistory(name: string): Promise<any> {
     return apiClient.get(`/pong/${name}`);
 }
+
+export async function getDmLists(): Promise<any> {
+    return apiClient.get(`/dm/list`);
+}
+
+export async function getDm(targetUid: number): Promise<any> {
+    return apiClient.get(`/dm/${targetUid}`);
+}

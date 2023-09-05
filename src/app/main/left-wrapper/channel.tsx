@@ -12,6 +12,7 @@ import { ChannelMode } from "./enum/channel.enum";
 import PasswordModal from "./passwordModal";
 import { socket } from "../components/CheckAuth";
 import { useGlobalContext } from "@/app/Context/store";
+import { set } from "react-hook-form";
 
 function Channel() {
   const [selectedTab, setSelectedTab] = useState(ChannelTabOptions.ALL);
@@ -21,6 +22,8 @@ function Channel() {
   const [isNotificationVisible, setIsNotificationVisible] = useState(false);
   const { channelId, setChannelId}: any = useGlobalContext();
   const { myInfo }: any = useGlobalContext();
+  const { channel, setChannel }: any = useGlobalContext();
+  const { channelMembers, setChannelMembers }: any = useGlobalContext();
   
   const channels = useChannelData(selectedTab);
   const handleTabClick = (tab: ChannelTabOptions) => {
@@ -41,6 +44,16 @@ function Channel() {
     });
   }, [socket]);
 
+  useEffect(() => {
+    if (channelId === null) {
+      return;
+    }
+    setChannel(channelId);
+    socket.emit("channel/getChannelMembers", { channelId });
+    socket.on("channel/getChannelMembers", (channelMembers: any) => {
+    setChannelMembers(channelMembers);
+    });
+  }, [channelId]);
 
   const handleChannelClick = async (arg: number) => {
     const channel = channels.find((ch) => ch.id === arg);

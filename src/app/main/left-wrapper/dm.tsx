@@ -1,21 +1,34 @@
 "use client";
 
-import React, {useState} from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./channel.module.scss";
 import { DmItem } from "./channelItem";
 import Image from "next/image";
 import { UserStatus } from "../enum/UserStatus.enum";
+import { useGlobalContext } from "@/app/Context/store";
+import { getDmLists, getDm } from "@/app/api/client";
 
 export default function Dms() {
-  const [selectedDm, setSelectedDm] = useState<(targetUid: number) => void>();
-  
-  
+  const { selectedDm, setSelectedDm }: any = useGlobalContext();
+  const [dmLists, setDmLists] = useState<any[]>([]);
+
   const handleDmClick = (targetUid: number) => {
     console.log(`Clicked on DM with targetUid: ${targetUid}`);
-    
+
     console.log(selectedDm);
+    getDm(targetUid).then((res) => {
+      setSelectedDm(res.data);
+    });
     // 여기에서 클릭한 DM 아이템의 targetUid를 처리하는 로직을 추가할 수 있습니다.
   };
+
+
+  useEffect(() => {
+    getDmLists().then((res) => {
+      setDmLists(res.data);
+      console.log(dmLists);
+    });
+  }, []);
 
   return (
     <div>
@@ -23,12 +36,15 @@ export default function Dms() {
       <DisplayDmSearch />
       <div className={styles.channelContainer}>
       <div className={styles.channelList}>
-      <DmItem
-        friend="Friend 1"
-        profile="" state={UserStatus.ONLINE}
-        targetUid={1}
-        onClick={handleDmClick}
-      />
+        {dmLists &&
+          dmLists.map((dm) => (
+            <DmItem
+            friend={dm.friend}
+            profile={dm.avatar} state={UserStatus.ONLINE}
+            targetUid={dm.targetUid}
+            onClick={() => handleDmClick(dm.targetUid)}
+            />
+          ))}
       </div>
       </div>
     </div>

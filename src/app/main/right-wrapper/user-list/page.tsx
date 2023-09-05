@@ -8,6 +8,10 @@ import { UserStatus } from "../../enum/UserStatus.enum";
 import { UserMenu } from "./Components/UserMenu";
 import { User } from "../../interface/User.interface";
 import { getUserList } from "@/app/api/client";
+import { useGlobalContext } from "@/app/Context/store";
+import { ChannelUser } from "../../mid-wrapper/chat/interfaces/channelUser.interface";
+import { ChannelMembersItem } from "../../right-wrapper/user-list/Components/channelMembersItem"
+import { socket } from "../../components/CheckAuth";
 
 enum TabOptions {
   ALL = "ALL",
@@ -15,11 +19,13 @@ enum TabOptions {
   CHANNEL = "CHANNEL",
 }
 
-export default function UserList({ channelId }: { channelId: number | null }) {
-  const [activeTab, setActiveTab] = useState(TabOptions.ALL);
+export default function UserList() {
+  const { activeTab, setActiveTab }: any = useGlobalContext();
   const [userList, setUserList] = useState<User[]>([]);
   const [menuOn, setMenuOn] = useState<Boolean>(false);
   const [selectedUser, setSelectedUser] = useState<{name: String, uid: Number}>({name: "", uid: 0});
+  const { channelId }: any = useGlobalContext();
+  const { channelMembers }: any = useGlobalContext();
 
   useEffect(() => {
     getUserList().then((res) => {
@@ -30,6 +36,7 @@ export default function UserList({ channelId }: { channelId: number | null }) {
   useEffect(() => {
   }, [userList]);
 
+
   const renderUserList = () => {
     if (activeTab === TabOptions.ALL) {
       return renderAllList();
@@ -39,6 +46,12 @@ export default function UserList({ channelId }: { channelId: number | null }) {
       return renderChannelList();
     }
   };
+
+  useEffect(() => {
+    renderUserList();
+  }, [activeTab]);
+
+
 
   const renderAllList = () => {
     return (
@@ -55,16 +68,23 @@ export default function UserList({ channelId }: { channelId: number | null }) {
       <>
         {userList.map((item, index) => (
           <UserListItem key={index} item={item} state={[menuOn, setMenuOn, selectedUser, setSelectedUser]} />
-        ))}
+          ))}
       </>
     );
   };
-
+  
   const renderChannelList = () => {
+    
     return (
       <>
-        {userList.map((item, index) => (
-          <UserListItem key={index} item={item} state={[menuOn, setMenuOn, selectedUser, setSelectedUser]} />
+        {channelMembers.map((member: ChannelUser) => (
+          <ChannelMembersItem 
+            key={member.id}
+            id={member.id}
+            user={member.user}
+            joined_at={member.joined_at}
+            role={member.role}
+           />
         ))}
       </>
     );
@@ -93,9 +113,10 @@ export default function UserList({ channelId }: { channelId: number | null }) {
             Friends
           </div>
           <div
-            className={`${Styles.userListHeaderTitle} ${activeTab === TabOptions.CHANNEL ? Styles.activeTab : ""
+            className={`${Styles.userListHeaderTitle} ${activeTab === TabOptions.CHANNEL ? Styles.activeTab : undefined
               }`}
-            onClick={() => setActiveTab(TabOptions.CHANNEL)}
+            onClick={channelId !== null ? () => setActiveTab(TabOptions.CHANNEL) : undefined
+            }
           >
             Channel
           </div>
@@ -108,12 +129,19 @@ export default function UserList({ channelId }: { channelId: number | null }) {
   );
 }
 
-const MyInfo = (props: {}) => {
+const MyInfo = () => {
+  const { myInfo }: any = useGlobalContext();
+
   return (
     <div className={Styles.bottomMyInfo}>
-      <div className={Styles.bottomMyInfoAvatar}></div>
-      <div className={Styles.bottomMyInfoName}>DOHYULEE</div>
-      <div className={Styles.bottomMyInfoStatus}>ONLINE</div>
+      <Image className={Styles.bottomMyInfoAvatar}
+        src={myInfo.avatar}
+        alt="avatar"
+        width={70}
+        height={70}
+      />
+      <div className={Styles.bottomMyInfoName}>{myInfo.name}</div>
+      <div className={Styles.bottomMyInfoStatus}>{myInfo.status}</div>
     </div>
   );
 };
@@ -134,3 +162,15 @@ const DisplayUserSearch = (props: {}) => {
     </div>
   );
 };
+
+// 가져옴
+function getStatusColor(status: UserStatus) {
+  switch (status) {
+    case UserStatus.ONLINE:
+      return Styles.online;
+    case UserStatus.OFFLINE:
+      return Styles.offline;
+    case UserStatus.IN_GAME:
+      return Styles.inGame;
+  }
+}

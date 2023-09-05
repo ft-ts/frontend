@@ -219,6 +219,7 @@ $sizeSenderName: 30px;
 
 .chatProfilePicture {
     box-sizing: border-box;
+    border-radius: 40%;
     position: relative;
     width: $sizeProfilePicture;
     height: $sizeProfilePicture;
@@ -244,7 +245,6 @@ $sizeSenderName: 30px;
     box-sizing: border-box;
     position: relative;
     color: #b7b7b7;
-    bottom: 0px;
     font-family: 'ArcadeClassic';
     font-style: normal;
     font-weight: 10;
