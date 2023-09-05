@@ -14,12 +14,14 @@ export default function GamePage() {
   const [gameFlag, setGameFlag] = useState(false);
   const [searchFlag, setSearchFlag] = useState(false);
   const [gameHistory, setGameHistory] = useState<historyInterface>({history : []});
+  const [matchID, setMatchID] = useState<string>('');
 
   useEffect(() => {
     socket.on('pong/game/init', ( data : { matchID: string }) =>
     {
       console.log('main game init', data);
       setGameFlag(true);
+      setMatchID(data.matchID);
     });
   }, [matchFlag, gameFlag, searchFlag]);
 
@@ -35,7 +37,7 @@ export default function GamePage() {
           }
         </div>
         <div>
-          {gameFlag && <Game setMatchFlag={setMatchFlag} setGameFlag={setGameFlag}/>}
+          {gameFlag && <Game setMatchFlag={setMatchFlag} setGameFlag={setGameFlag} setMatchID={setMatchID} matchID={matchID}/>}
         </div>
         <div className={styles.blinking}>
           {(matchFlag && !gameFlag) && <h2 className={styles.matchingFont}>matching...</h2>}

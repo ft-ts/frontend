@@ -26,7 +26,8 @@ export default function MatchButton(
   
   const handleMatchCancle = () => {
     setMatchFlag(false);
-    socket.emit('pong/ladder/leave');
+    console.log('match cancle');
+    socket.emit('pong/ladder/cancle');
   }
   useEffect(() => {
   }, [matchFlag]);

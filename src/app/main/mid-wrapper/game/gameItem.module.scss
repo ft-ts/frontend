@@ -241,3 +241,25 @@ $gameDisplayHeight: 500px;
 .blinking {
   animation: blinkAnimation 1s infinite;
 }
+
+.countBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  position: absolute;
+  width: 400px;
+  height: 100px;
+  left: 30%;
+  top: 180px;
+  border: 3px solid #ffffff;
+  border-radius: 20px;
+}
+
+.countFont {
+  font-family: 'ArcadeClassic';
+  font-style: normal;
+  font-size: 80px;
+  color: #ffffff;
+  text-align: center;
+}

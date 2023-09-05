@@ -9,10 +9,14 @@ export default function Game(
   {
     setMatchFlag,
     setGameFlag,
+    setMatchID,
+    matchID,
   } :
   {
     setMatchFlag: React.Dispatch<React.SetStateAction<boolean>>
     setGameFlag: React.Dispatch<React.SetStateAction<boolean>>
+    setMatchID: React.Dispatch<React.SetStateAction<string>>
+    matchID: string
   }
 ) {
   const [paddleDto, setPaddleDto] = useState<Map<string, paddleDto>>(new Map());
@@ -22,33 +26,25 @@ export default function Game(
   const [score, setScore] = useState({me: 0, you: 0});
   const [scorePos, setScorePos] = useState({me: 0, you: 0});
   const [gameResult, setGameResult] = useState(false);
-  const [matchID, setMatchID] = useState<string>("");
+  const [startFlag, setStartFlag] = useState(false);
 
   useEffect(() => {
-    socket.on('pong/game/init', ( data : { matchID: string }) =>
-    {
-      setGameFlag(true);
-      console.log('game init', data);
-      setMatchID(data.matchID);
-    });
-
-    const timer = setInterval(() => {
-      if (count > 0) setCount(count - 1);
-      console.log('count', count)
+    const timer = setTimeout(() => {
+      if (count >= 0) {
+        setCount(count - 1);
+      } else {
+        if (!startFlag){
+          socket.emit('pong/game/ready', { matchID: matchID });
+          setStartFlag(true);
+        }
+      }
     }, 1000);
-  
+
     return () => {
-      clearInterval(timer);
-      const sid = socket.id;
-      socket.on('pong/game/start', ( payload : { matchID: string, sid : number}) => {
-        console.log('game start', payload); 
-      });
+      clearTimeout(timer);
     };
+  }, [count, startFlag]);
 
-  }, [matchID, count]);
-
-  // useEffect(() => {
-  // }, [count])
 
   useEffect(() => {
     socket.on('pong/game/ready', ( data : { player1: paddleDto, player2: paddleDto, ball: ballDto }) => 
@@ -77,7 +73,7 @@ export default function Game(
       {
         if (payload.winner) setIsWin("YOU WIN");
         else setIsWin("YOU LOSE");
-        // console.log(payload);
+        // console.log(payloa
         
         setScore({me: payload.client1_score, you: payload.client2_score});
         setGameResult(true);
@@ -88,10 +84,11 @@ export default function Game(
     useEffect(() => {
       const handleKeyPress = (e: KeyboardEvent) => {
         const { key } = e;
-        if (key === 'a') {
-          socket.emit('pong/game/keyEvent', {key: 'up', matchID: matchID});
-        } else if (key === 'z') {
-          socket.emit('pong/game/keyEvent', {key: 'down', matchID: matchID});
+        console.log('key', key)
+        if (key === 'a' || key === 'A' || key === 'ㅁ') {
+          socket.emit('pong/game/keyEvent', {key: 'UP', matchID: matchID});
+        } else if (key === 'z' || key === 'Z' || key === 'ㅋ') {
+          socket.emit('pong/game/keyEvent', {key: 'DOWN', matchID: matchID});
         }
       };
       window.addEventListener('keydown', handleKeyPress);
@@ -109,52 +106,60 @@ export default function Game(
       setScorePos({me: 0, you: 0});
       setIsWin("");
       setMatchID("");
+      setGameFlag(false);
+      setCount(5);
+      setStartFlag(false);
     }
 
     return (
       <div>
-        {count > 0 && <div className={styles.countBox}>
-          <h1 className={styles.countFont}>{count}</h1>
+        {(count > 0 && !startFlag) && <div className={styles.countBox}>
+          <h2 className={styles.countFont}>{count}</h2>
         </div>}
-        <div style={{
-          position: 'absolute',
-          backgroundColor: 'white',
-          width: paddleDto.get('me')?.width,
-          height: paddleDto.get('me')?.height,
-          left: paddleDto.get('me')?.x,
-          top: paddleDto.get('me')?.y,
-        }}>
-        </div>
-        <div style={{
-          position: 'absolute',
-          backgroundColor: 'red',
-          width: paddleDto.get('you')?.width,
-          height: paddleDto.get('you')?.height,
-          left: paddleDto.get('you')?.x,
-          top: paddleDto.get('you')?.y,
-        }}>
-        </div>
-        <div style={{
-          position: 'absolute',
-          backgroundColor: 'blue',
-          width: ballDto.width,
-          height: ballDto.height,
-          left: ballDto.x,
-          top: ballDto.y,
-        }}>
-        </div>
-        <div style={{
-          position: 'absolute',
-          left: scorePos.me,
-        }}>
-          <h2 className={styles.resultFont}>{score.me}</h2>
-        </div>
-        <div style={{
-          position: 'absolute',
-          left: scorePos.you,
-        }}>
-          <h2 className={styles.resultFont}>{score.you}</h2>
-        </div>
+        {(count <= 0 && !startFlag) && <div className={styles.countBox}>
+          <h2 className={styles.countFont}>Start</h2>
+        </div>}
+        {startFlag && <div>
+          <div style={{
+            position: 'absolute',
+            backgroundColor: 'white',
+            width: paddleDto.get('me')?.width,
+            height: paddleDto.get('me')?.height,
+            left: paddleDto.get('me')?.x,
+            top: paddleDto.get('me')?.y,
+          }}>
+          </div>
+          <div style={{
+            position: 'absolute',
+            backgroundColor: 'red',
+            width: paddleDto.get('you')?.width,
+            height: paddleDto.get('you')?.height,
+            left: paddleDto.get('you')?.x,
+            top: paddleDto.get('you')?.y,
+          }}>
+          </div>
+          <div style={{
+            position: 'absolute',
+            backgroundColor: 'blue',
+            width: ballDto.width,
+            height: ballDto.height,
+            left: ballDto.x,
+            top: ballDto.y,
+          }}>
+          </div>
+          <div style={{
+            position: 'absolute',
+            left: scorePos.me,
+          }}>
+            <h2 className={styles.resultFont}>{score.me}</h2>
+          </div>
+          <div style={{
+            position: 'absolute',
+            left: scorePos.you,
+          }}>
+            <h2 className={styles.resultFont}>{score.you}</h2>
+          </div>
+        </div>}
         {gameResult && 
         <div>
           <div className={styles.blinking}>
