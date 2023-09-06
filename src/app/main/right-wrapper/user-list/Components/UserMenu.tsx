@@ -1,13 +1,20 @@
+import { use, useEffect, useRef } from 'react';
 import Styles from './UserMenu.module.scss';
 
 export const UserMenu = ({ user, setMenuOn }: { user: { name: String, uid: Number }, setMenuOn: any }) => {
+  const menuDiv = useRef<HTMLDivElement>(null);
   const sendDM = () => {
-    console.log("DM");
     setMenuOn(false);
   }
 
+  useEffect(() => {
+    menuDiv.current?.addEventListener('mouseleave', () => {
+      setMenuOn(false);
+    });
+  }, []);
+
   return (
-    <div className={Styles.userMenu}>
+    <div ref={menuDiv} className={Styles.userMenu}>
       <div className={Styles.name}>{user.name}</div>
       <div className={Styles.list}>
         <button>프로필보기</button>
