@@ -8,10 +8,12 @@ import { UserStatus } from "../../enum/UserStatus.enum";
 import { UserMenu } from "./Components/UserMenu";
 import { User } from "../../interface/User.interface";
 import { getUserList } from "@/app/api/client";
+
 import { useGlobalContext } from "@/app/Context/store";
 import { ChannelUser } from "../../mid-wrapper/chat/interfaces/channelUser.interface";
 import { ChannelMembersItem } from "../../right-wrapper/user-list/Components/channelMembersItem"
 import { socket } from "../../components/CheckAuth";
+
 
 enum TabOptions {
   ALL = "ALL",
@@ -174,3 +176,4 @@ function getStatusColor(status: UserStatus) {
       return Styles.inGame;
   }
 }
+};

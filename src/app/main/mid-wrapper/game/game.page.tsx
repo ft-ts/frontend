@@ -7,15 +7,29 @@ import GameHistory from './game.history'
 import MatchButton from './game.match'
 import Game from './game'
 import { historyInterface } from "./game.interface";
+import { socket } from "../../components/CheckAuth";
 
 export default function GamePage() {
   const [matchFlag, setMatchFlag] = useState(false);
   const [gameFlag, setGameFlag] = useState(false);
   const [searchFlag, setSearchFlag] = useState(false);
   const [gameHistory, setGameHistory] = useState<historyInterface>({history : []});
+  const [matchID, setMatchID] = useState<string>('');
+  const [isHome, setIsHome] = useState<boolean>(false);
 
   useEffect(() => {
-  }, [matchFlag, gameFlag, searchFlag]);
+    socket.on('pong/game/init', ( data : { matchID: string, isHome: boolean }) =>
+    {
+      console.log('main game init', data);
+      setGameFlag(true);
+      setMatchID(data.matchID);
+      setIsHome(data.isHome);
+    });
+  }, [gameFlag, isHome]);
+
+  useEffect(() => {
+
+  }, [matchFlag, searchFlag ]);
 
   return (
     <div>
@@ -29,7 +43,7 @@ export default function GamePage() {
           }
         </div>
         <div>
-          {gameFlag && <Game setMatchFlag={setMatchFlag} setGameFlag={setGameFlag}/>}
+          {gameFlag && <Game setMatchFlag={setMatchFlag} setGameFlag={setGameFlag} setMatchID={setMatchID} matchID={matchID} isHome={isHome}/>}
         </div>
         <div className={styles.blinking}>
           {(matchFlag && !gameFlag) && <h2 className={styles.matchingFont}>matching...</h2>}
