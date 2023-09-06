@@ -4,6 +4,7 @@ import React, { useState, useEffect} from "react";
 import styles from "./gameItem.module.scss";
 import { paddleDto, ballDto } from "./game.interface";
 import { socket } from '../../components/CheckAuth'
+import { set } from "react-hook-form";
 
 export default function Game(
   {
@@ -11,17 +12,19 @@ export default function Game(
     setGameFlag,
     setMatchID,
     matchID,
+    isHome,
   } :
   {
     setMatchFlag: React.Dispatch<React.SetStateAction<boolean>>
     setGameFlag: React.Dispatch<React.SetStateAction<boolean>>
     setMatchID: React.Dispatch<React.SetStateAction<string>>
     matchID: string
+    isHome: boolean
   }
 ) {
   const [paddleDto, setPaddleDto] = useState<Map<string, paddleDto>>(new Map());
   const [ballDto, setBallDto] = useState<ballDto>({width: 0, height: 0, x: 0, y: 0, type: ''});
-  const [count, setCount] = useState(5);
+  const [count, setCount] = useState(3);
   const [isWin, setIsWin] = useState("");
   const [score, setScore] = useState({me: 0, you: 0});
   const [scorePos, setScorePos] = useState({me: 0, you: 0});
@@ -47,35 +50,49 @@ export default function Game(
 
 
   useEffect(() => {
-    socket.on('pong/game/ready', ( data : { player1: paddleDto, player2: paddleDto, ball: ballDto }) => 
+    socket.on('pong/game/ready', ( data : { home: paddleDto, away: paddleDto, ball: ballDto }) => 
     {
-      console.log('game ready', data);
+      console.log('game ready', data, isHome);
+      let myPos : number = 0;
+      let yourPos : number = 0;
       
-      setPaddleDto((prev) => new Map(prev.set('me', data.player1)));
-      setPaddleDto((prev) => new Map(prev.set('you', data.player2)));
+      if (isHome) {
+        setPaddleDto((prev) => new Map(prev.set('me', data.home)));
+        setPaddleDto((prev) => new Map(prev.set('you', data.away)));
+        myPos = 10;
+        yourPos = data.away.x - 100;
+      } else {
+        setPaddleDto((prev) => new Map(prev.set('me', data.away)));
+        setPaddleDto((prev) => new Map(prev.set('you', data.home)));
+        myPos = data.away.x - 100;
+        yourPos = 10;
+      }
       setBallDto(data.ball);
-      setScore({me: data.player1.score, you: data.player2.score})
-      const myPos : number = data.player1.x < 200 ? data.player1.x + 100 : data.player1.x - 100;
-      const yourPos : number = data.player2.x < 200 ? data.player2.x + 100 : data.player2.x - 100;
+      setScore({me: data.home.score, you: data.away.score})
       setScorePos({me: myPos, you: yourPos});
       });
 
-      socket.on('pong/game/update', ( data : { player1: paddleDto, player2: paddleDto, ball: ballDto }) =>
+      socket.on('pong/game/update', ( data : { home: paddleDto, away: paddleDto, ball: ballDto }) =>
       {
-        // console.log('game update', data);
-        setPaddleDto((prev) => new Map(prev.set('me', data.player1)));
-        setPaddleDto((prev) => new Map(prev.set('you', data.player2)));
+        if (isHome) {
+          setPaddleDto((prev) => new Map(prev.set('me', data.home)));
+          setPaddleDto((prev) => new Map(prev.set('you', data.away)));
+          setScore({me: data.home.score, you: data.away.score})
+        } else {
+          setPaddleDto((prev) => new Map(prev.set('me', data.away)));
+          setPaddleDto((prev) => new Map(prev.set('you', data.home)));
+          setScore({me: data.away.score, you: data.home.score})
+        }
         setBallDto(data.ball);
-        setScore({me: data.player1.score, you: data.player2.score})
       });
 
-      socket.on('pong/game/end', ( payload : {winner: boolean, client1_score: number, client2_score: number }) =>
+      socket.on('pong/game/end', ( payload : {is_win: boolean, home_score: number, away_score: number }) =>
       {
-        if (payload.winner) setIsWin("YOU WIN");
+        if (payload.is_win) setIsWin("YOU WIN");
         else setIsWin("YOU LOSE");
-        // console.log(payloa
         
-        setScore({me: payload.client1_score, you: payload.client2_score});
+        if (isHome) setScore({me: payload.home_score, you: payload.away_score});
+        else setScore({me: payload.away_score, you: payload.home_score});
         setGameResult(true);
       });
 
@@ -84,7 +101,7 @@ export default function Game(
     useEffect(() => {
       const handleKeyPress = (e: KeyboardEvent) => {
         const { key } = e;
-        console.log('key', key)
+        console.log('key', key, isHome)
         if (key === 'a' || key === 'A' || key === 'ㅁ') {
           socket.emit('pong/game/keyEvent', {key: 'UP', matchID: matchID});
         } else if (key === 'z' || key === 'Z' || key === 'ㅋ') {
@@ -107,7 +124,7 @@ export default function Game(
       setIsWin("");
       setMatchID("");
       setGameFlag(false);
-      setCount(5);
+      setCount(3);
       setStartFlag(false);
     }
 
@@ -122,7 +139,7 @@ export default function Game(
         {startFlag && <div>
           <div style={{
             position: 'absolute',
-            backgroundColor: 'white',
+            backgroundColor: 'blue',
             width: paddleDto.get('me')?.width,
             height: paddleDto.get('me')?.height,
             left: paddleDto.get('me')?.x,
@@ -140,7 +157,7 @@ export default function Game(
           </div>
           <div style={{
             position: 'absolute',
-            backgroundColor: 'blue',
+            backgroundColor: 'white',
             width: ballDto.width,
             height: ballDto.height,
             left: ballDto.x,
@@ -151,13 +168,13 @@ export default function Game(
             position: 'absolute',
             left: scorePos.me,
           }}>
-            <h2 className={styles.resultFont}>{score.me}</h2>
+            <h2 className={styles.resultFont}>You : {score.me}</h2>
           </div>
           <div style={{
             position: 'absolute',
             left: scorePos.you,
           }}>
-            <h2 className={styles.resultFont}>{score.you}</h2>
+            <h2 className={styles.resultFont}>Away : {score.you}</h2>
           </div>
         </div>}
         {gameResult && 

@@ -21,12 +21,12 @@ export interface HookFormTypes {
 
 export interface historyDto {
   matchInfo_id : number,
-  matchInfo_loser_id : string,
-  matchInfo_loser_score : number,
+  matchInfo_home : string,
+  matchInfo_home_score : number,
+  matchInfo_away : string,
+  matchInfo_away_score : number,
   matchInfo_match_type : string,
-  matchInfo_timestamp : Date,
-  matchInfo_winner_id : string,
-  matchInfo_winner_score : number,
+  matchInfo_start_date : Date,
 }
 
 export interface historyInterface {
