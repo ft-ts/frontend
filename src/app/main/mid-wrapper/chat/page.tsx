@@ -5,16 +5,12 @@ import React from "react";
 import ChatMenu from "./chatMenu";
 import ChatRoom from "./chatRoom";
 
-interface ChatWrapperProps {
-  channelId: number | null;
-}
-
-function ChatWrapper(props: ChatWrapperProps){
+function ChatWrapper(){
 
   return (
     <div className={styles.chatWrapper}>
-      <ChatMenu channelId={props.channelId} />
-      <ChatRoom channelId={props.channelId}/>
+      <ChatMenu />
+      <ChatRoom />
     </div>
   );
 }

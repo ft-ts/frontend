@@ -24,10 +24,18 @@ export async function getUserList(): Promise<any> {
     return apiClient.get("/users/all");
 }
 
-export async function getUserByUid(uid: number): Promise<UserInterface> {
+export async function getUserByUid(uid: number): Promise<any> {
     return apiClient.get(`/users/${uid}`);
 }
 
 export async function getGameHistory(name: string): Promise<any> {
     return apiClient.get(`/pong/${name}`);
+}
+
+export async function getDmLists(): Promise<any> {
+    return apiClient.get(`/dm/list`);
+}
+
+export async function getDm(targetUid: number): Promise<any> {
+    return apiClient.get(`/dm/${targetUid}`);
 }

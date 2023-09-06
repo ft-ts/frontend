@@ -10,8 +10,6 @@ import { CheckAuth } from './components/CheckAuth';
 import { apiClient } from '../api/client';
 
 function Main(props: MainProps) {
-  const [channelId, setChannelId] = useState<number | null>(null);
-  
   useEffect(() => {
     const getCookie = (name: string): string | undefined => {
         const value = "; " + document.cookie;
@@ -37,14 +35,13 @@ function Main(props: MainProps) {
 }, []); 
 
 
-
   return (
-    <div id="main">
-      <CheckAuth />
-      <LeftWrapper setChannelId={setChannelId} />
-      <MidWrapper channelId={channelId} />
-      <RightWrapper channelId={channelId}/>
-    </div>
+      <div id="main">
+        <CheckAuth />
+        <LeftWrapper />
+        <MidWrapper />
+        <RightWrapper />
+      </div>
   );
 }
 

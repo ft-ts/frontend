@@ -11,24 +11,29 @@ import ChannelItemProps from "./interfaces/channelItemProps";
 import { ChannelMode } from "./enum/channel.enum";
 import PasswordModal from "./passwordModal";
 import { socket } from "../components/CheckAuth";
+import { useGlobalContext } from "@/app/Context/store";
+import { set } from "react-hook-form";
 
-function Channel({
-  setChannelId,
-}: {
-  setChannelId: Dispatch<SetStateAction<number | null>>;
-}) {
+function Channel() {
   const [selectedTab, setSelectedTab] = useState(ChannelTabOptions.ALL);
   const [showPasswordModal, setShowPasswordModal] = useState<boolean>(false);
   const [password, setPassword] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState(null);
   const [isNotificationVisible, setIsNotificationVisible] = useState(false);
-
+  const { channelId, setChannelId}: any = useGlobalContext();
+  const { myInfo }: any = useGlobalContext();
+  const { channel, setChannel }: any = useGlobalContext();
+  const { channelMembers, setChannelMembers }: any = useGlobalContext();
+  
   const channels = useChannelData(selectedTab);
   const handleTabClick = (tab: ChannelTabOptions) => {
     setSelectedTab(tab);
   };
 
   useEffect(() => {
+    if (socket) {
+      socket.emit("channel/linkChannel");
+    }
     socket.on("error", ( message ) => {
       setErrorMessage(message);
       setIsNotificationVisible(true);
@@ -37,27 +42,31 @@ function Channel({
         setErrorMessage(null);
       }, 1500); // Set the duration in milliseconds
     });
-  }, []);
+  }, [socket]);
 
-  const handleChannelClick = async (channelId: number) => {
-    const channel = channels.find((ch) => ch.id === channelId);
-    if (!channel) {
-      console.error("Channel not found");
+  useEffect(() => {
+    if (channelId === null) {
       return;
     }
-    enterChannel(channelId, 100002);
-  };
-
-  const enterChannel = async (channelId: number, uid: number) => {
-    const channel = channels.find((ch) => ch.id === channelId);
-    if (!channel) {
-      console.error("Channel not found");
-      return;
-    }
-    socket.emit("channel/enterChannel", { channelId, uid });
-    socket.on("channel/enterChannel", () => {
-      setChannelId(channelId);
+    setChannel(channelId);
+    socket.emit("channel/getChannelMembers", { channelId });
+    socket.on("channel/getChannelMembers", (channelMembers: any) => {
+    setChannelMembers(channelMembers);
     });
+  }, [channelId]);
+
+  const handleChannelClick = async (arg: number) => {
+    const channel = channels.find((ch) => ch.id === arg);
+    if (!channel) {
+      console.error("Channel not found");
+      return;
+    }
+    const uid = myInfo.uid;
+    socket.emit("channel/enterChannel", { arg, uid });
+    socket.on("channel/enterChannel", () => {
+      setChannelId(arg);
+    });
+    console.log("channelId: ", channelId); //
   };
 
   return (
@@ -115,11 +124,11 @@ const useChannelData = (tab: ChannelTabOptions) => {
         channel,
       ]);
     });
-    console.log("update: ", channels);
+    console.log("update: ", channels); //
     return () => {
       socket.off("channel/channelUpdate");
     }
-  }, [socket]);
+  }, []);
 
   useEffect(() => {
     const handleChannels = (data: ChannelItemProps[]) => {

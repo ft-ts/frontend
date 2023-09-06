@@ -1,11 +1,15 @@
-import React, { useState, useEffect, useRef } from "react";
+"use client";
+
+import React, { useState, useEffect, useRef, useContext } from "react";
 import styles from "./chat-wrapper.module.scss";
 import MessageItem from "./messageItem";
 import ChatMessage from "./interfaces/chatMessage.interface";
 import { socket } from "../../components/CheckAuth";
+import { useGlobalContext } from "@/app/Context/store";
 
 
-export default function ChatRoom({ channelId }: { channelId: number | null }) {
+export default function ChatRoom() {
+  const { channelId }: any = useGlobalContext();
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
   const [inputMessage, setInputMessage] = useState<string>("");
   const messageEndRef = useRef<HTMLDivElement | null>(null);
@@ -44,28 +48,33 @@ export default function ChatRoom({ channelId }: { channelId: number | null }) {
     };
   }, [channelId]);
 
-
   const handleSendMessage = () => {
     if (inputMessage.trim() === "") {
       return;
     }
 
     // Send the message to the backend
-    socket.emit("channel/sendMessage", {
-      channelId: channelId,
-      content: inputMessage,
-    });
+    if (channelId !== null)
+    {
+      socket.emit("channel/sendMessage", {
+        channelId: channelId,
+        content: inputMessage,
+      });
+      
+    }
     setInputMessage("");
   };
 
   return (
     <div className={styles.chatRoomBox}>
+      
       <div className={styles.chatDisplay} ref={messageEndRef}>
-        {chatMessages && 
+        { channelId && chatMessages && 
           chatMessages.map((chatMessages) => (
             <MessageItem key={chatMessages.id} chatMessage={chatMessages} />
           ))}
       </div>
+      { channelId && (
       <span className={styles.spanSendMessage}>
         <input
           className={styles.inputMessageBox}
@@ -82,6 +91,7 @@ export default function ChatRoom({ channelId }: { channelId: number | null }) {
           SEND
         </button>
       </span>
+    )}
     </div>
   );
 }
