@@ -66,7 +66,7 @@ function Channel() {
     socket.on("channel/enterChannel", () => {
       setChannelId(arg);
     });
-    console.log("channelId: ", channelId);
+    console.log("channelId: ", channelId); //
   };
 
   return (
@@ -124,7 +124,7 @@ const useChannelData = (tab: ChannelTabOptions) => {
         channel,
       ]);
     });
-    console.log("update: ", channels);
+    console.log("update: ", channels); //
     return () => {
       socket.off("channel/channelUpdate");
     }

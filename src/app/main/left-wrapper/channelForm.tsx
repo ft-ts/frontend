@@ -130,6 +130,7 @@ const ChannelSettingForm = (props: ChannelSettingFormProps) => {
     } else if (props.channel.mode === ChannelMode.PROTECTED) {
       setErrorMessage('Length of password must be greater than 3 and less than 15.');
     }
+    props.onClose();
   };
 
   return (
