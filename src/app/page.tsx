@@ -1,13 +1,17 @@
 'use client'
-import Link from "next/link";
+
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 
 export default function Root() {
+  const router = useRouter()
+
+  useEffect(() => {
+    router.push('/login')
+  }, [])
+
   return (
-    <div id="root">
-      <h1>Root</h1>
-      <Link className="button" href="/login">Login</Link>
-      <Link className="button" href="/main">Main</Link>
-    </div>
+    <></>
   )
 }
 

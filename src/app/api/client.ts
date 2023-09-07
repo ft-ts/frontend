@@ -24,6 +24,14 @@ export async function getUserList(): Promise<any> {
     return apiClient.get("/users/all");
 }
 
+export async function getUserListExceptMe(): Promise<any> {
+    return apiClient.get("/users/all/except/me");
+}
+
+export async function getFreiendsList(): Promise<any> {
+    return apiClient.get("/users/friends");
+}
+
 export async function getUserByUid(uid: number): Promise<any> {
     return apiClient.get(`/users/${uid}`);
 }
