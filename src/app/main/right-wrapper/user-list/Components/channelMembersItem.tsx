@@ -2,21 +2,36 @@
 
 import React, { useEffect, useState } from "react";
 import { ChannelUser } from "../../../mid-wrapper/chat/interfaces/channelUser.interface"
-import styles from "./channelMembersItem.module.scss";
+import styles from "./userList.module.scss";
 import Image from "next/image";
+import { getStatusColor } from "../userList.utils";
+import { useGlobalContext } from "@/app/Context/store";
+import { UserStatus } from "@/app/main/enum/UserStatus.enum";
 
-export const ChannelMembersItem = (props: ChannelUser) => {
+export function ChannelMembersItem({item, state}: {item: ChannelUser, state: any}) {
+  const [menuOn, setMenuOn, selectedUser, setSelectedUser] = state;
+  const { myInfo, setMyInfo }: any = useGlobalContext();
 
-  const handleGetProfile = () => {
-	console.log("Clicked on DM with targetUid: ");
-	};
-	
-  return <div className={styles.channelMembersItemContainer} onClick={handleGetProfile}>
-	<Image className={styles.profilePic} src={props.user.avatar} alt="profile" width={30} height={30}></Image>
-	<div className={styles.nameContainer}>
-	<h3 className={styles.name}>{props.user.name}</h3>
-	<p className={styles.status}>{props.user.status}</p>
-	</div>
-	<p className={styles.role}>{props.role}</p>
-  </div>;
+  const toggleMenu = () => {
+      setMenuOn(!menuOn);
+      setSelectedUser({name: item.user.name, uid: item.user.uid});
+      console.log('selectedUser', selectedUser.name, myInfo.name);
+  }
+
+  return (
+    <div onClick={toggleMenu} className={styles.userListContainer}>
+      <div className={styles.userChatRoleBox}>
+        <h2 className={styles.userChatRole}>1</h2>
+      </div>
+      <div className={styles.userAvatarBox}>
+        <Image src={item.user.avatar} width={80} height={80} alt={item.user.name} className={styles.userAvatar}></Image>
+      </div>
+      <div className={styles.userNameBox}>
+        <h2 className={styles.userName}>{item.user.name}</h2>
+      </div>
+      <div className={styles.userStatusBox}>
+        <h2 className={`styles.userStatus ${getStatusColor(item.user.status as UserStatus)}`}>{item.user.status}</h2>
+      </div>
+    </div>
+  )
 }

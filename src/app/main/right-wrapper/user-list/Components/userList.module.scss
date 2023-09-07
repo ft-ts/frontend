@@ -1,0 +1,74 @@
+.userListContainer{
+  background-color: #292929;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  position: relative;
+  width: 100%;
+  height: 100px;
+}
+
+.userListContainer:hover {
+  background-color: #3c3c3c;
+  cursor: pointer;
+}
+
+.userAvatarBox{
+  display: flex;
+  align-items: center;
+  // justify-content: center;
+  box-sizing: border-box;
+  position: relative;
+  width: 100px;
+  height: 100px;
+}
+.userAvatar{
+  margin-left: 8%;
+  background-color: deeppink;
+  width: 80px;
+  height: 80px;
+  border-radius: 40%;
+}
+
+.userNameBox{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  position: relative;
+  width: 315px;
+  height: 100px;
+}
+
+.userName{
+  color: #ffffff;
+  font-size: 40px;
+}
+
+.userStatusBox{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  position: relative;
+  width: 135px;
+  height: 100px;
+}
+.userStatus{
+  font-size: 20px;
+}
+
+.userChatRoleBox{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  position: relative;
+  width: 80px;
+  height: 100px;
+}
+
+.userChatRole{
+  color: #ffffff;
+}

@@ -8,7 +8,7 @@ import { UserStatus } from '@/app/main/enum/UserStatus.enum';
 import { useGlobalContext } from '@/app/Context/store';
 import { User } from '@/app/main/interface/User.interface';
 
-export function UserListItem({user, state}: {user: User, state: any}) {
+export function FriendsListItem({user, state}: {user: User, state: any}) {
   const [menuOn, setMenuOn, selectedUser, setSelectedUser] = state;
   const { myInfo, setMyInfo }: any = useGlobalContext();
 
