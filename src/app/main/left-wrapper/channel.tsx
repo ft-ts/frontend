@@ -42,7 +42,7 @@ function Channel() {
         setErrorMessage(null);
       }, 1500); // Set the duration in milliseconds
     });
-  }, [socket]);
+  }, [errorMessage, isNotificationVisible]);
 
   useEffect(() => {
     if (channelId === null) {
@@ -66,7 +66,6 @@ function Channel() {
     socket.on("channel/enterChannel", () => {
       setChannelId(arg);
     });
-    console.log("channelId: ", channelId); //
   };
 
   return (
