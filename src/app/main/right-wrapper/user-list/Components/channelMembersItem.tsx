@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { ChannelUser } from "../../../mid-wrapper/chat/interfaces/channelUser.interface"
-import styles from "./userList.module.scss";
+import styles from "./userListItem.module.scss";
 import Image from "next/image";
 import { getStatusColor } from "../userList.utils";
 import { useGlobalContext } from "@/app/Context/store";

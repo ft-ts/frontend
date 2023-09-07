@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { UserListItem } from "./Components/userListItem";
-import styles from "./UserList.module.scss";
+import styles from "./userList.module.scss";
 import Image from "next/image";
 import { UserStatus } from "../../enum/UserStatus.enum";
 import { UserMenu } from "./Components/userMenu";
@@ -13,6 +13,9 @@ import { ChannelUser } from "../../mid-wrapper/chat/interfaces/channelUser.inter
 import { ChannelMembersItem } from "../../right-wrapper/user-list/Components/channelMembersItem"
 import { TabOptions } from "./userList.enum";
 import { FriendsListItem } from "./Components/friendsListItem";
+import { getStatusColor } from "./userList.utils";
+
+const logoutIcon = "/asset/logoutIcon.png";
 
 export default function UserList() {
   const { activeTab, setActiveTab }: any = useGlobalContext();
@@ -141,19 +144,27 @@ export default function UserList() {
   );
 }
 
+const logout = () => {
+  console.log('logout');
+}
+
 const MyInfo = () => {
   const { myInfo }: any = useGlobalContext();
 
   return (
     <div className={styles.bottomMyInfo}>
-      <Image className={styles.bottomMyInfoAvatar}
-        src={myInfo.avatar}
-        alt="avatar"
-        width={70}
-        height={70}
-      />
-      <div className={styles.bottomMyInfoName}>{myInfo.name}</div>
-      <div className={styles.bottomMyInfoStatus}>{myInfo.status}</div>
+      <div className={styles.myAvatarBox}>
+        <Image className={styles.myAvatar} src={myInfo.avatar} alt={myInfo.name} width={80} height={80} />
+      </div>
+      <div className={styles.myNameBox}>
+        <h2 className={styles.myName}>{myInfo.name}</h2>
+      </div>
+      <div className={styles.myStatusBox}>
+        <div className={`styles.userStatus ${getStatusColor(myInfo.status as UserStatus)}`}>{myInfo.status}</div>
+      </div>
+      <button className={styles.logoutBox} onClick={logout}>
+        <Image className={styles.logoutIcon} src={logoutIcon} alt="logout" width={50} height={80}/>
+      </button>
     </div>
   );
 };

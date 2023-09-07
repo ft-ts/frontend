@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import styles from './userList.module.scss';
+import styles from './userListItem.module.scss';
 import Image from 'next/image';
 import { getStatusColor } from '../userList.utils';
 import { UserStatus } from '@/app/main/enum/UserStatus.enum';
@@ -20,9 +20,17 @@ export function UserListItem({user, state}: {user: User, state: any}) {
 
   return (
     <div onClick={toggleMenu} className={styles.userListContainer}>
+      <div className={styles.userChatRoleBox}>
+      </div>
+      <div className={styles.userAvatarBox}>
         <Image src={user.avatar} width={80} height={80} alt={user.name} className={styles.userAvatar}></Image>
+      </div>
+      <div className={styles.userNameBox}>
         <div className={styles.userName}>{user.name}</div>
+      </div>
+      <div className={styles.userStatusBox}>
         <div className={`styles.userStatus ${getStatusColor(user.status as UserStatus)}`}>{user.status}</div>
+      </div>
     </div>
   )
 }
