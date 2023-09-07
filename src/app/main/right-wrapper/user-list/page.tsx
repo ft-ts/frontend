@@ -175,5 +175,4 @@ function getStatusColor(status: UserStatus) {
     case UserStatus.IN_GAME:
       return Styles.inGame;
   }
-}
 };
