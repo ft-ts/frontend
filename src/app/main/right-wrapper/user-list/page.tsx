@@ -165,7 +165,6 @@ const DisplayUserSearch = (props: {}) => {
   );
 };
 
-// 가져옴
 function getStatusColor(status: UserStatus) {
   switch (status) {
     case UserStatus.ONLINE:
@@ -175,5 +174,4 @@ function getStatusColor(status: UserStatus) {
     case UserStatus.IN_GAME:
       return Styles.inGame;
   }
-}
 };
