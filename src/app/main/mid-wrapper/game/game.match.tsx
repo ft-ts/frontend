@@ -1,6 +1,6 @@
 "use-client";
 
-import React, { useState, useEffect} from "react";
+import React, { useEffect} from "react";
 import styles from "./gameItem.module.scss";
 import { historyInterface } from "./game.interface";
 import { socket } from '../../components/CheckAuth'

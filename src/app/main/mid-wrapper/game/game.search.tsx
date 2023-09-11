@@ -1,10 +1,10 @@
 "use-client";
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import styles from "./gameItem.module.scss";
-import { HookFormTypes, historyDto, historyInterface } from "./game.interface";
+import { HookFormTypes, historyInterface } from "./game.interface";
 import { getGameHistory } from "../../../../app/api/client";
 
 export default function SearchBox(
