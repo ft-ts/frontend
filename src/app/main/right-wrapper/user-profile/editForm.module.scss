@@ -13,10 +13,11 @@
 	font-weight: 350;
     text-align: center;
     h2 {
+        margin-top: 50px;
         display: flex;
 		justify-content: center;
 		align-content: center;
-		font-size: 60px;
+		font-size: 70px;
 		margin-bottom: 10px;
 		color: #f8fec7;
     }
@@ -25,7 +26,7 @@
         height: 80px;
 		padding: 10px;
         font-size: 20px;
-		margin-bottom: 10px;
+		margin-bottom: 70px;
 		border: 3px solid #FF25A8;
 		border-radius: 4px;
 	}
@@ -36,6 +37,31 @@
 	justify-content: space-between; /* 버튼을 좌우로 배치 */
   	margin-top: auto;
   }
+  
+
+  .hidden {
+    display: none;
+}
+
+.customFileUpload {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 60px;
+    cursor: pointer;
+    border: 2px solid #D3D3D3; /* Gray border */
+    background-color: #333; /* Dark gray background */
+    color: #f8fec7; /* Golden text */
+    border-radius: 4px;
+    box-shadow: 2px 2px #888888; /* Shadow for depth */
+    transition: all 0.3s;
+
+    /* Adding some retro fonts */
+    font-size: 'ArcadeClassic';
+}
+
+.customFileUpload:hover {
+    background-color: #555; /* Slightly lighter gray on hover */
+}
 
   .buttonEdit {
 	display: flex;

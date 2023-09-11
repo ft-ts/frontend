@@ -3,3 +3,4 @@ interface EditProfileFrom {
   }
 
 export default EditProfileFrom;
+

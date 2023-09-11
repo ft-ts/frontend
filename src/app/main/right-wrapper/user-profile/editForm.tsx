@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from "./editForm.module.scss"
 import EditProfileProps from './editFormProps';
+import PreviewProps from './editAvatarProps'
 import { useGlobalContext } from '@/app/Context/store';
 import { getMyInfo } from '@/app/api/client';
 import Image from 'next/image';
@@ -17,82 +18,37 @@ const EditForm = (props: EditProfileProps) => {
 
     useEffect(() => {
     }, [myInfo]);
-
+    const [uploadedAvatar, setUploadedAvatar] = useState<string | null>(null);
     const [ newNickname, setNewNickname ] = useState('');
-    const [ newAvatar, setNewAvatar ] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
+    
     const handleEditNewProfile = () => {
-        if (!newNickname) {
-            setErrorMessage('Please fill out the new nickname');
-            return ;
+        // Some validation
+        if(!newNickname || newNickname.length > 15) {
+                setErrorMessage("Invalid new name");
+            return;
         }
-        if (!newAvatar) {
-            setErrorMessage('Please fill out the vaild new avatar url');
-            setNewAvatar(myInfo.avatar);
-            return ;
-        }
-        socket.emit('userProfile/update', {
-            newNickname,
-            newAvatar
-        });
+        
+        // socket.emit('user/editProfile', {
+        //     uid: myInfo.uid,
+        //     nickname: newNickname,
+        //     avatar: uploadedAvatar
+        // });
         props.onClose();
     }
-
-    const isValidImageUrl = (url: string, timeout: number = 5000): Promise<boolean> => {
-        return new Promise((resolve, reject) => {
-            const image = new window.Image();
-            let timer: number | NodeJS.Timeout;
-
-        
-            image.onload = function() {
-            clearTimeout(timer);
-            resolve(true);
-            };
-        
-            image.onerror = function() {
-            clearTimeout(timer);
-            reject(new Error("Invalid image URL"));
-            };
-        
-            timer = setTimeout(() => {
-            image.src = ''; // This will cancel the loading if it's in progress
-            reject(new Error("Timeout while checking image URL"));
-            }, timeout);
-        
-            image.src = url;
-        });
-      };
-      
-      isValidImageUrl(myInfo.avatar)
-    .then((isValid) => {
-        console.log(isValid ? "Image is valid!" : "Image is not valid.");
-    })
-    .catch((error) => {
-        console.log(`Validation failed due to: ${error.message}`);
-
-    });
-
-      
+    
 
     return (
         <div className={styles.EditFormContainer}>
             <Image
                 className={styles.avatar}
-                src={myInfo.avatar}
+                src={uploadedAvatar || myInfo.avatar}
                 alt="My Image"
                 width={400}
                 height={400}
             ></Image>
-            <h2 className={styles.h2}>Change new Avatar</h2>
-            <input
-                type="text"
-                placeholder='Avatar'
-                value={newAvatar}
-                onChange={(e) => setNewAvatar(e.target.value)}
-                className={styles.input}
-                ></input>
-            {errorMessage && <p className={styles.error}>{errorMessage}</p>}
+            <Preview setUploadedAvatar={setUploadedAvatar} />
             <h2 className={styles.h2}>Chagne new NickName</h2>
             <input
                 type="text"
@@ -107,6 +63,40 @@ const EditForm = (props: EditProfileProps) => {
                 <button onClick={props.onClose} className={styles.buttonCancel}>Cancel</button>
              </div>
         </div>
+    )
+}
+
+const Preview = (props: { setUploadedAvatar: (avatar: string | null) => void }) => {
+    const [imageSrc, setImageSrc]: any = useState(null);
+
+    const onUpload = (e: any) => {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+
+        return new Promise<void>((resolve) => { 
+            reader.onload = () => {	
+                setImageSrc(reader.result || null); // 파일의 컨텐츠
+                props.setUploadedAvatar(reader.result as string);
+                resolve();
+            };
+        });
+    }
+    return (
+        <div>
+            <label htmlFor="fileInput" className={styles.customFileUpload}>
+                Change new Avatar
+            </label>
+            <input 
+                id="fileInput"
+                className="hidden"
+                accept="image/*" 
+                multiple 
+                type="file"
+                onChange={e => onUpload(e)}
+            />
+        </div>
+
     )
 }
 
