@@ -10,7 +10,7 @@ export default function GameHistory({data} : {data:historyInterface}) {
       {data.history.map((match : historyDto) => (
         <ol key = {match.id}>
           <div className={styles.historyBox}>
-            <div className={styles.matchTypeBox}>
+            <div className={`${styles.matchTypeBox} ${styles[`matchType-${match.match_type}`]}`}>
               <h2 className = {styles.historyFont}>{match.match_type}</h2>
             </div>
             <div className={styles.historyLeftBox}>
