@@ -1,10 +1,10 @@
 "use-client";
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import styles from "./gameItem.module.scss";
-import { HookFormTypes, historyDto, historyInterface } from "./game.interface";
+import { HookFormTypes, historyInterface } from "./game.interface";
 import { getGameHistory } from "../../../../app/api/client";
 
 export default function SearchBox(
@@ -20,25 +20,18 @@ export default function SearchBox(
   const { register, handleSubmit } = useForm<HookFormTypes>();
 
   const onVaild = async ( name : HookFormTypes) => {
-    console.log("onVaild", name.name);
-    setSearchFlag(true);
     setGameHistory({history : []});
     const res = await getGameHistory(name.name);
-
     const json = res.data;
     if (json.history === null || json.history.length === 0 || json.history === undefined) {
-      console.log("no history");
       return;
     } else {
-      console.log("history", json.history);
-      const vaildHistory : historyDto[] = json.history.slice(0, 4);
-      const history : historyInterface = {history : vaildHistory}
-      setGameHistory(history);
+      setSearchFlag(true);
+      setGameHistory(json);
     }
   }
 
   const onInvalid = (error : any) => {
-    console.log("onInvalid", error);
     setSearchFlag(false);
   }
 
