@@ -63,7 +63,7 @@ const ChannelForm = (props: ChannelFormProps) => {
           <input
             type="radio"
             value="Public"
-            checked={mode === 'Public'}
+            checked={mode === ChannelMode.PUBLIC}
             onChange={() => handleModeChange(ChannelMode.PUBLIC)}
           />
           Public
@@ -72,7 +72,7 @@ const ChannelForm = (props: ChannelFormProps) => {
           <input
             type="radio"
             value="Protected"
-            checked={mode === 'Protected'}
+            checked={mode === ChannelMode.PROTECTED}
             onChange={() => handleModeChange(ChannelMode.PROTECTED)}
           />
           Protected
@@ -81,7 +81,7 @@ const ChannelForm = (props: ChannelFormProps) => {
           <input
             type="radio"
             value="Private"
-            checked={mode === 'Private'}
+            checked={mode === ChannelMode.PRIVATE}
             onChange={() => handleModeChange(ChannelMode.PRIVATE)}
           />
           Private
