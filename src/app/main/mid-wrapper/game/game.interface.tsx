@@ -20,13 +20,13 @@ export interface HookFormTypes {
 }
 
 export interface historyDto {
-  matchInfo_id : number,
-  matchInfo_home : string,
-  matchInfo_home_score : number,
-  matchInfo_away : string,
-  matchInfo_away_score : number,
-  matchInfo_match_type : string,
-  matchInfo_start_date : Date,
+  id : number,
+  home : string,
+  home_score : number,
+  away : string,
+  away_score : number,
+  match_type : string,
+  start_date : Date,
 }
 
 export interface historyInterface {

@@ -27,13 +27,9 @@ export default function SearchBox(
 
     const json = res.data;
     if (json.history === null || json.history.length === 0 || json.history === undefined) {
-      console.log("no history");
       return;
     } else {
-      console.log("history", json.history);
-      const vaildHistory : historyDto[] = json.history.slice(0, 4);
-      const history : historyInterface = {history : vaildHistory}
-      setGameHistory(history);
+      setGameHistory(json);
     }
   }
 

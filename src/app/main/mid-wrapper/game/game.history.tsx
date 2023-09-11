@@ -2,14 +2,14 @@
 
 import styles from './gameItem.module.scss';
 import { formatTime } from './game.utils'
-import { historyInterface } from './game.interface'
+import { historyInterface, historyDto } from './game.interface'
 
 export default function GameHistory({data} : {data:historyInterface}) {
   return (
-    <ul>
-      {data.history.map((match : any) => (
-        <li key = {match.id}>
-          <div className={styles.historyContainer}>
+    <div className={styles.historyContainer} >
+      {data.history.map((match : historyDto) => (
+        <ol key = {match.id}>
+          <div className={styles.historyBox}>
             <div className={styles.matchTypeBox}>
               <h2 className = {styles.historyFont}>{match.match_type}</h2>
             </div>
@@ -31,8 +31,8 @@ export default function GameHistory({data} : {data:historyInterface}) {
           </div>
           <h2 className={styles.matchTimeFont}>{formatTime(match.start_date)}</h2>
 
-        </li>
+        </ol>
       ))}
-    </ul>
+    </div>
   )
 }
