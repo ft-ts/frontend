@@ -31,7 +31,7 @@ export default function Game(
         setCount(count - 1);
       } else {
         if (!startFlag){
-          socket.emit('pong/game/ready', { matchID: matchID });
+          socket.emit('pong/game/start', { matchID: matchID });
           setStartFlag(true);
         }
       }
@@ -44,7 +44,7 @@ export default function Game(
 
 
   useEffect(() => {
-    socket.on('pong/game/ready', ( data : { home: paddleDto, away: paddleDto, ball: ballDto }) => 
+    socket.on('pong/game/start', ( data : { home: paddleDto, away: paddleDto, ball: ballDto }) => 
     {
       let myPos : number = 0;
       let yourPos : number = 0;

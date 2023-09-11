@@ -373,3 +373,94 @@ $gameDisplayHeight: 500px;
   font-size: 30px;
   color: #ffffff;
 }
+
+.gameModalBox{
+    /* 모달창 크기 */
+  width: 400px;
+  height: 350px;
+
+  z-index: 999;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  background-color: #ffffff;
+  border: 3px solid #1faf1f;
+  border-radius: 8px;
+  align-items: center;
+}
+
+.gameModalButton{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  position: relative;
+  width: 200px;
+  height: 90px;
+  left : 25%;
+  top : 20%;
+  border: 3px solid #ffffff;
+  background: #FF6161;
+  border-radius: 20px;
+}
+
+.gameModalButton:hover{
+  background-color: #ffa3a3;
+}
+
+.gameModalFont{
+  font-family: 'ArcadeClassic';
+  font-style: normal;
+  font-size: 40px;
+  color: #ffffff;
+}
+
+
+.gameModeFont {
+  font-family: 'ArcadeClassic';
+  font-style: normal;
+  font-size: 40px;
+  color: #000000;
+}
+
+.radioGroup {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  color: #000000;
+
+  label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  input[type="radio"] {
+    margin-right: 10px;
+  }
+}
+
+.radioLabel {
+  display: flex;
+  align-items: center;
+  margin-top: 100px;
+  cursor: pointer;
+}
+
+.radioLabel input[type="radio"] {
+  appearance: none;
+  width: 40px;
+  height: 40px;
+  border: 2px solid #FF25A8;
+  border-radius: 50%;
+  position: relative;
+  cursor: pointer;
+  transition: border-color 0.3s ease-in-out;
+}
+
+.radioLabel input[type="radio"]:checked {
+  border-color: #FF25A8;
+  background-color: #52a534;
+}

@@ -1,14 +1,15 @@
 "use-client";
 
-import React, { useState, useEffect, use } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./gameItem.module.scss";
 import SearchBox from './game.search'
 import GameHistory from './game.history'
 import MatchButton from './game.match'
+import GameFriend from "./game.friend";
 import Game from './game'
+import GameModal  from './game.modal';
 import { historyInterface, userInterface } from "./game.interface";
 import { socket } from "../../components/CheckAuth";
-import GameFriend from "./game.friend";
 import { User } from '@/app/main/interface/User.interface';
 
 
@@ -20,6 +21,7 @@ export default function GamePage() {
   const [gameHistory, setGameHistory] = useState<historyInterface>({history : []});
   const [matchID, setMatchID] = useState<string>('');
   const [isHome, setIsHome] = useState<boolean>(false);
+  const [modalFlag, setModalFlag] = useState<boolean>(false);
   const [opponent, setOpponent] = useState<userInterface>({uid: 0, name: '', avatar: ''});
 
   useEffect(() => {
@@ -37,14 +39,24 @@ export default function GamePage() {
   },[inviteFlag, gameFlag, matchFlag, searchFlag]);
 
   useEffect(() => {
-    socket.on('pong/game/init', ( data : { matchID: string, isHome: boolean }) =>
+    socket.on('pong/game/init', ( data : { matchID: string, isHome: boolean, type: boolean }) =>
     {
       setInviteFlag(false);
-      setGameFlag(true);
+      setMatchFlag(false);
       setMatchID(data.matchID);
       setIsHome(data.isHome);
+      if (data.type) setGameFlag(true);
+      else setModalFlag(true);
     });
-  }, [gameFlag, isHome]);
+  }, [matchID ,modalFlag, gameFlag]);
+
+  useEffect(() => {
+    socket.on('pong/game/set', () => {
+      setGameFlag(true);
+      setModalFlag(false);
+    })
+  }, 
+  [gameFlag, modalFlag]);
 
   useEffect(() => {
     socket.on('pong/match/invite/wating', ( data : { user: User }) =>
@@ -84,7 +96,7 @@ export default function GamePage() {
       <div className={styles.gameBackground}>
         <div>
           {
-            (!matchFlag && !inviteFlag && !gameFlag) && <div className={styles.gameHistoryBackground}>
+            (!matchFlag && !inviteFlag && !gameFlag && !modalFlag) && <div className={styles.gameHistoryBackground}>
               <SearchBox setSearchFlag={setSearchFlag} setGameHistory={setGameHistory} />
               {searchFlag && <GameHistory data={gameHistory} />}
             </div>
@@ -94,10 +106,13 @@ export default function GamePage() {
           {(gameFlag) && <Game matchID={matchID} isHome={isHome}/>}
         </div>
         <div className={styles.blinking}>
-          {(matchFlag && !gameFlag && !inviteFlag) && <h2 className={styles.matchingFont}>matching...</h2>}
+          {(matchFlag && !gameFlag) && <h2 className={styles.matchingFont}>matching...</h2>}
         </div>
         <div>
           {(inviteFlag) && <GameFriend user={opponent} isHome={isHome}/>}
+        </div>
+        <div>
+          {modalFlag && <GameModal setModalFlag={setModalFlag} isSuper={isHome} matchID={matchID}/>}
         </div>
       </div>
       <div>
