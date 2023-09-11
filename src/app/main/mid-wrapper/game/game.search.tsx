@@ -20,21 +20,18 @@ export default function SearchBox(
   const { register, handleSubmit } = useForm<HookFormTypes>();
 
   const onVaild = async ( name : HookFormTypes) => {
-    console.log("onVaild", name.name);
-    setSearchFlag(true);
     setGameHistory({history : []});
     const res = await getGameHistory(name.name);
-
     const json = res.data;
     if (json.history === null || json.history.length === 0 || json.history === undefined) {
       return;
     } else {
+      setSearchFlag(true);
       setGameHistory(json);
     }
   }
 
   const onInvalid = (error : any) => {
-    console.log("onInvalid", error);
     setSearchFlag(false);
   }
 

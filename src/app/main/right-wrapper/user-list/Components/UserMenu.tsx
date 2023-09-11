@@ -1,5 +1,6 @@
 import { use, useEffect, useRef } from 'react';
 import Styles from './UserMenu.module.scss';
+import { socket } from '../../../components/CheckAuth';
 
 export const UserMenu = ({ user, setMenuOn }: { user: { name: String, uid: Number }, setMenuOn: any }) => {
   const menuDiv = useRef<HTMLDivElement>(null);
@@ -15,6 +16,7 @@ export const UserMenu = ({ user, setMenuOn }: { user: { name: String, uid: Numbe
 
   const handleInviteMatch = () => {
     console.log('Invite Match', user);
+    socket.emit('pong/match/invite', { uid: user.uid });
   }
 
   return (

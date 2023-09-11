@@ -8,16 +8,10 @@ import { set } from "react-hook-form";
 
 export default function Game(
   {
-    setMatchFlag,
-    setGameFlag,
-    setMatchID,
     matchID,
     isHome,
   } :
   {
-    setMatchFlag: React.Dispatch<React.SetStateAction<boolean>>
-    setGameFlag: React.Dispatch<React.SetStateAction<boolean>>
-    setMatchID: React.Dispatch<React.SetStateAction<string>>
     matchID: string
     isHome: boolean
   }
@@ -52,7 +46,6 @@ export default function Game(
   useEffect(() => {
     socket.on('pong/game/ready', ( data : { home: paddleDto, away: paddleDto, ball: ballDto }) => 
     {
-      console.log('game ready', data, isHome);
       let myPos : number = 0;
       let yourPos : number = 0;
       
@@ -101,7 +94,6 @@ export default function Game(
     useEffect(() => {
       const handleKeyPress = (e: KeyboardEvent) => {
         const { key } = e;
-        console.log('key', key, isHome)
         if (key === 'a' || key === 'A' || key === 'ㅁ') {
           socket.emit('pong/game/keyEvent', {key: 'UP', matchID: matchID});
         } else if (key === 'z' || key === 'Z' || key === 'ㅋ') {
@@ -115,17 +107,15 @@ export default function Game(
     }, []);
 
     const handeleBackClick = () => {
-      setMatchFlag(false);
       setPaddleDto(new Map());
       setBallDto({width: 0, height: 0, x: 0, y: 0, type: ''});
       setGameResult(false);
       setScore({me: 0, you: 0});
       setScorePos({me: 0, you: 0});
       setIsWin("");
-      setMatchID("");
-      setGameFlag(false);
       setCount(3);
       setStartFlag(false);
+      socket.emit('pong/init');
     }
 
     return (

@@ -32,3 +32,9 @@ export interface historyDto {
 export interface historyInterface {
   history : historyDto[],
 }
+
+export interface userInterface {
+  uid: number,
+  name: string,
+  avatar: string,
+}

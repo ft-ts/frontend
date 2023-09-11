@@ -20,13 +20,11 @@ export default function MatchButton(
   const handleMatchStart = () => {
     setMatchFlag(true);
     setGameHistory({history : []});
-    console.log('match start');
     socket.emit('pong/ladder/join');
   }
   
   const handleMatchCancle = () => {
     setMatchFlag(false);
-    console.log('match cancle');
     socket.emit('pong/ladder/cancle');
   }
   useEffect(() => {
