@@ -9,7 +9,7 @@ import { useGlobalContext } from "@/app/Context/store";
 
 
 export default function ChatRoom() {
-  const { channelId }: any = useGlobalContext();
+  const { channelId, channel }: any = useGlobalContext();
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
   const [inputMessage, setInputMessage] = useState<string>("");
   const messageEndRef = useRef<HTMLDivElement | null>(null);
@@ -26,7 +26,7 @@ export default function ChatRoom() {
 
   useEffect(() => {
     // Listen for new messages
-    if (channelId === null) {
+    if (channel === null) {
       return;
     }
     socket.on("channel/sendMessage", (message: ChatMessage) => {
@@ -39,14 +39,31 @@ export default function ChatRoom() {
       setChatMessages(messages);
     });
 
+    socket.on("channel/userJoined", (data: { userName: string }) => {
+      socket.emit("channel/sendNotification", {
+        channelId: channelId,
+        content: `${data.userName} has joined the channel`,
+        });
+    });
+
+    socket.on("channel/userLeft", (data: { chId: number, user: string }) => {
+      console.log("data: ", data);
+      socket.emit("channel/sendNotification", {
+        channelId: data.chId,
+        content: `${data.user} has left the channel`,
+        });
+    });
+
     document.body.scrollTop = document.body.scrollHeight;
 
     return () => {
       // Clean up the event listener when component unmounts
       socket.off("channel/getChannelMessages");
       socket.off("channel/sendMessage");
+      socket.off("channel/userJoined");
+      socket.off("channel/userLeft");
     };
-  }, [channelId]);
+  }, [channel]);
 
   const handleSendMessage = () => {
     if (inputMessage.trim() === "") {

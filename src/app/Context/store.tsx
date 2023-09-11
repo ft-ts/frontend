@@ -23,6 +23,8 @@ export const GlobalContextProvider = ({ children }: any) => {
   const [selectedDm, setSelectedDm] = useState<number | null>(null);
   const [channelMembers, setChannelMembers] = useState<ChannelUser[]>([]);
 
+
+
   const value = {
     myInfo,
     setMyInfo,

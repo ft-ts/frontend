@@ -76,8 +76,8 @@ const ExitButton = () => {
   const { channel, setChannel }: any = useGlobalContext();
 
   const handleExitChannel = () => {
-    setChannelId(null);
     socket.emit("channel/leaveChannel", { channelId });
+    setChannelId(null);
     socket.on("channel/channelUpdate", (channelData: ChannelProps) => {
       setChannel(channelData);
     });
