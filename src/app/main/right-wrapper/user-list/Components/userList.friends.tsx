@@ -1,25 +1,37 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import styles from './userListItem.module.scss';
+import React from 'react';
+import styles from './userList.module.scss';
 import Image from 'next/image';
-import { getStatusColor } from '../userList.utils';
+import { getStatusColor } from "../../Common/right-wrapper.utils";
 import { UserStatus } from '@/app/main/enum/UserStatus.enum';
-import { useGlobalContext } from '@/app/Context/store';
 import { User } from '@/app/main/interface/User.interface';
 
-export function FriendsListItem({user, state}: {user: User, state: any}) {
-  const [menuOn, setMenuOn, selectedUser, setSelectedUser] = state;
-  const { myInfo, setMyInfo }: any = useGlobalContext();
+export default function UserListFriends(
+  {
+    user,
+    myInfo,
+    setCurrentUser,
+    setIsMe,
+  }:{
+    user: User
+    myInfo: User
+    setCurrentUser: React.Dispatch<React.SetStateAction<User>>
+    setIsMe: React.Dispatch<React.SetStateAction<boolean>>
+  })
+  {
 
-  const toggleMenu = () => {
-      setMenuOn(!menuOn);
-      setSelectedUser({name: user.name, uid: user.uid});
-      console.log('selectedUser', selectedUser.name, myInfo.name);
-  }
+    const handleClick = () => {
+      setCurrentUser(user);
+      if (myInfo.uid === user.uid) {
+        setIsMe(true);
+      } else {
+        setIsMe(false);
+      }
+    }
 
   return (
-    <div onClick={toggleMenu} className={styles.userListContainer}>
+    <button onClick={handleClick} className={styles.userListContainer}>
       <div className={styles.userChatRoleBox}>
       </div>
       <div className={styles.userAvatarBox}>
@@ -31,6 +43,6 @@ export function FriendsListItem({user, state}: {user: User, state: any}) {
       <div className={styles.userStatusBox}>
         <div className={`styles.userStatus ${getStatusColor(user.status as UserStatus)}`}>{user.status}</div>
       </div>
-    </div>
+    </button>
   )
 }

@@ -1,20 +1,21 @@
-.userListContainer{
+.bottomContainer{
+  display: flex;
+  position: relative;
+}
+
+.bottomMyInfo {
   background-color: #292929;
   display: flex;
   justify-content: space-between;
   align-items: center;
   box-sizing: border-box;
   position: relative;
-  width: 100%;
+  width: 85%;
   height: 100px;
+  border: 5px solid #FF4365;
 }
 
-.userListContainer:hover {
-  background-color: #3c3c3c;
-  cursor: pointer;
-}
-
-.userAvatarBox{
+.myAvatarBox{
   display: flex;
   align-items: center;
   justify-content: center;
@@ -23,7 +24,8 @@
   width: 100px;
   height: 100px;
 }
-.userAvatar{
+
+.myAvatar {
   margin-left: 8%;
   background-color: deeppink;
   width: 80px;
@@ -31,44 +33,42 @@
   border-radius: 40%;
 }
 
-.userNameBox{
+.myNameBox {
   display: flex;
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
   position: relative;
-  width: 315px;
+  width: 280px;
   height: 100px;
 }
 
-.userName{
+.myName {
   color: #ffffff;
   font-size: 40px;
 }
 
-.userStatusBox{
+.myStatusBox {
   display: flex;
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
   position: relative;
-  width: 135px;
-  height: 100px;
-}
-.userStatus{
-  font-size: 20px;
+  width: 130px;
+  height: 80px;
 }
 
-.userChatRoleBox{
+.myStatus {
+  font-size: 30px;
+}
+
+.logoutBox {
   display: flex;
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
   position: relative;
-  width: 80px;
+  width: 15%;
   height: 100px;
-}
-
-.userChatRole{
-  color: #ffffff;
+  background-color: #FF4365;
 }
