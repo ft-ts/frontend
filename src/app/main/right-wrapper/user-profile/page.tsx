@@ -50,50 +50,50 @@ export default function UserProfile() {
 }
 
 const EditMyProfile = () => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
-  
-    const customStyles = {
-      content: {
-        width: "800px",
-        height: "1000px",
-        border: "1px solid #ddd",
-        borderRadius: "8px",
-        padding: "20px",
-        margin: "0 auto",
-        backgroundColor: "#444444",
-      },
-      overlay: {
-        backgroundColor: "rgba(0, 0, 0, 0.5)",
-        zIndex: 1000,
-      },
-    };
-  
-    const handleOpenModal = () => {
-      setIsModalOpen(true);
-    };
-  
-    const handleCloseModal = () => {
-      setIsModalOpen(false);
-    };
-  
-    return (
-      <div>
-        <button className={Styles.editButton} onClick={handleOpenModal}>
-            Edit my Profile
-        </button>
-        <Modal
-          isOpen={isModalOpen}
-          contentLabel="Create Channel Modal"
-          style={customStyles}
-          ariaHideApp={false}
-          onRequestClose={handleCloseModal}
-          shouldCloseOnOverlayClick={false}
-        >
-          <EditForm onClose={handleCloseModal}/>
-        </Modal>
-      </div>
-    );
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const customStyles = {
+    content: {
+      width: "800px",
+      height: "1000px",
+      border: "1px solid #ddd",
+      borderRadius: "8px",
+      padding: "20px",
+      margin: "0 auto",
+      backgroundColor: "#444444",
+    },
+    overlay: {
+      backgroundColor: "rgba(0, 0, 0, 0.5)",
+      zIndex: 1000,
+    },
   };
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+  
+  return (
+    <div>
+      <button className={Styles.editButton} onClick={handleOpenModal}>
+          Edit my Profile
+      </button>
+      <Modal
+        isOpen={isModalOpen}
+        contentLabel="Create Channel Modal"
+        style={customStyles}
+        ariaHideApp={false}
+        onRequestClose={handleCloseModal}
+        shouldCloseOnOverlayClick={false}
+      >
+        <EditForm onClose={handleCloseModal}/>
+      </Modal>
+    </div>
+  );
+};
 
 function getStatusColor(status: UserStatus) {
   switch (status) {
