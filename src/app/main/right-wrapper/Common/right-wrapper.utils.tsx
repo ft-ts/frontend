@@ -1,4 +1,4 @@
-import styles from './userList.module.scss';
+import styles from './right-wrapper.utils.module.scss';
 import { UserStatus } from '../../enum/UserStatus.enum';
 
 export function getStatusColor(status: UserStatus){

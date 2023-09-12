@@ -1,25 +1,38 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { ChannelUser } from "../../../mid-wrapper/chat/interfaces/channelUser.interface"
-import styles from "./userListItem.module.scss";
+import styles from './userList.module.scss';
 import Image from "next/image";
-import { getStatusColor } from "../userList.utils";
-import { useGlobalContext } from "@/app/Context/store";
+import { getStatusColor } from "../../Common/right-wrapper.utils";
 import { UserStatus } from "@/app/main/enum/UserStatus.enum";
+import { User } from "@/app/main/interface/User.interface";
 
-export function ChannelMembersItem({item, state}: {item: ChannelUser, state: any}) {
-  const [menuOn, setMenuOn, selectedUser, setSelectedUser] = state;
-  const { myInfo, setMyInfo }: any = useGlobalContext();
+export default function UserListChannel(
+  {
+    item,
+    myInfo,
+    setCurrentUser,
+    setIsMe,
+  }:{
+    item: ChannelUser
+    myInfo: User
+    setCurrentUser: React.Dispatch<React.SetStateAction<User>>
+    setIsMe: React.Dispatch<React.SetStateAction<boolean>>
+  })
+  {
 
-  const toggleMenu = () => {
-      setMenuOn(!menuOn);
-      setSelectedUser({name: item.user.name, uid: item.user.uid});
-      console.log('selectedUser', selectedUser.name, myInfo.name);
-  }
+    const handleClick = () => {
+      setCurrentUser(item.user);
+      if (myInfo.uid === item.user.uid) {
+        setIsMe(true);
+      } else {
+        setIsMe(false);
+      }
+    }
 
   return (
-    <div onClick={toggleMenu} className={styles.userListContainer}>
+    <button onClick={handleClick} className={styles.userListContainer}>
       <div className={styles.userChatRoleBox}>
         <h2 className={styles.userChatRole}>1</h2>
       </div>
@@ -32,6 +45,6 @@ export function ChannelMembersItem({item, state}: {item: ChannelUser, state: any
       <div className={styles.userStatusBox}>
         <h2 className={`styles.userStatus ${getStatusColor(item.user.status as UserStatus)}`}>{item.user.status}</h2>
       </div>
-    </div>
+    </button>
   )
 }

@@ -1,7 +1,7 @@
 "use client";
 
-import MidWrapper from './mid-wrapper/page';
-import RightWrapper from './right-wrapper/page';
+import MidWrapper from './mid-wrapper/mid-wrapper.page';
+import RightWrapper from './right-wrapper/right-wrapper.page';
 import { MainProps} from './userType';
 import './main.css';
 import React, { useState, useEffect } from 'react';
