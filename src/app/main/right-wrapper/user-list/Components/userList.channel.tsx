@@ -7,6 +7,11 @@ import Image from "next/image";
 import { getStatusColor } from "../../Common/right-wrapper.utils";
 import { UserStatus } from "@/app/main/enum/UserStatus.enum";
 import { User } from "@/app/main/interface/User.interface";
+import { ChannelRole } from "@/app/main/mid-wrapper/chat/enum/channelRole.enum";
+
+const owner = "/asset/crown.png";
+const admin = "/asset/admin.png";
+const person = "/asset/person.png";
 
 export default function UserListChannel(
   {
@@ -34,7 +39,7 @@ export default function UserListChannel(
   return (
     <button onClick={handleClick} className={styles.userListContainer}>
       <div className={styles.userChatRoleBox}>
-        <h2 className={styles.userChatRole}>1</h2>
+      <Image src={userRole(item.role)} width={40} height={40} alt={item.user.name}></Image>
       </div>
       <div className={styles.userAvatarBox}>
         <Image src={item.user.avatar} width={80} height={80} alt={item.user.name} className={styles.userAvatar}></Image>
@@ -47,4 +52,13 @@ export default function UserListChannel(
       </div>
     </button>
   )
+}
+
+const userRole = (role: ChannelRole) => {
+  if (role === ChannelRole.OWNER) {
+    return owner;
+  } else if (role === ChannelRole.ADMIN) {
+    return admin;
+  }
+  return person;
 }
