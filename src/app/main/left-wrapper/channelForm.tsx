@@ -7,25 +7,28 @@ import ChannelFormProps from './interfaces/channelFormProps';
 import { ChannelMode } from './enum/channel.enum';
 import { socket } from '../components/CheckAuth';
 import { useGlobalContext } from '@/app/Context/store';
+import ChannelProps from './interfaces/channelProps';
 
 const ChannelForm = (props: ChannelFormProps) => {
   const { setChannelId }: any = useGlobalContext();
   const [title, setTitle] = useState('');
-  const [mode, setMode] = useState('Public');
+  const [mode, setMode] = useState(ChannelMode.PUBLIC);
   const [password, setPassword] = useState('');
   const [isProtectedMode, setIsProtectedMode] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessageTitle, setErrorMessageTitle] = useState('');
+  const [errorMessagePassword, setErrorMessagePassword] = useState('');
+
   const handleCreateChannel = () => {
     if (!title) {
-      setErrorMessage('Please fill out title fields.');
+      setErrorMessageTitle('Please fill out title fields.');
       return;
     }
     if (title.length > 15) {
-      setErrorMessage('Title must be less than 15 characters.');
+      setErrorMessageTitle('Title must be less than 15 characters.');
       return;
     }
     if (isProtectedMode && password.length > 15 && password.length < 4) {
-      setErrorMessage('Password must be between 4 and 15 characters.');
+      setErrorMessagePassword('Password must be between 4 and 15 characters.');
       return;
     }
 
@@ -56,14 +59,14 @@ const ChannelForm = (props: ChannelFormProps) => {
         onChange={(e) => setTitle(e.target.value)}
         className={styles.input}
       />
-      {errorMessage && <p className={styles.error}>{errorMessage}</p>}
+      {errorMessageTitle && <p className={styles.error}>{errorMessageTitle}</p>}
       <h3 className={styles.h3}>Mode</h3>
       <div className={styles.radioGroup}>
         <label className={styles.radioLabel}>
           <input
             type="radio"
             value="Public"
-            checked={mode === 'Public'}
+            checked={mode === ChannelMode.PUBLIC}
             onChange={() => handleModeChange(ChannelMode.PUBLIC)}
           />
           Public
@@ -72,7 +75,7 @@ const ChannelForm = (props: ChannelFormProps) => {
           <input
             type="radio"
             value="Protected"
-            checked={mode === 'Protected'}
+            checked={mode === ChannelMode.PROTECTED}
             onChange={() => handleModeChange(ChannelMode.PROTECTED)}
           />
           Protected
@@ -81,7 +84,7 @@ const ChannelForm = (props: ChannelFormProps) => {
           <input
             type="radio"
             value="Private"
-            checked={mode === 'Private'}
+            checked={mode === ChannelMode.PRIVATE}
             onChange={() => handleModeChange(ChannelMode.PRIVATE)}
           />
           Private
@@ -97,7 +100,7 @@ const ChannelForm = (props: ChannelFormProps) => {
             onChange={(e) => setPassword(e.target.value)}
             className={styles.input}
           />
-        {errorMessage && <p className={styles.error}>{errorMessage}</p>}
+        {errorMessagePassword && <p className={styles.error}>{errorMessagePassword}</p>}
         </div>
       )}
       <div className={styles.buttonContainer}>
@@ -107,29 +110,39 @@ const ChannelForm = (props: ChannelFormProps) => {
     </div>
   );
 };
+
 const ChannelSettingForm = (props: ChannelSettingFormProps) => {
   const [newTitle, setNewTitle] = useState(props.channel.title);
   const [newPassword, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessageTitle, setErrorMessageTitle] = useState('');
+  const [errorMessagePassword, setErrorMessagePassword] = useState('');
+  const { setChannel }: any = useGlobalContext();
 
   const handleUpdate = () => {
-    if (newTitle.length > 0 && newTitle.length < 16) {
-      socket.emit('channel/editTitle', {
-        channelId: props.channel.id,
-        title: newTitle,
-      });
-    } else {
-      setErrorMessage('Length of title must be greater than 1 and less than 16.');
+    if ((newTitle.length <= 1) || (newTitle.length >= 16)) {
+      setErrorMessageTitle('Length of title must be greater than 1 and less than 16.');
+      return ;
     }
+    socket.emit('channel/editTitle', {
+      channelId: props.channel.id,
+      title: newTitle,
+    });
 
-    if (props.channel.mode === ChannelMode.PROTECTED && newPassword.length > 3 && newPassword.length < 16) {
+    if (props.channel.mode === ChannelMode.PROTECTED)
+    {
+      if (!!!newPassword || newPassword.length <= 3 || newPassword.length >= 16) 
+      {
+        setErrorMessagePassword('Length of password must be greater than 3 and less than 15.');
+        return ;
+      }
       socket.emit('channel/editPassword', {
         channelId: props.channel.id,
         password: newPassword,
       });
-    } else if (props.channel.mode === ChannelMode.PROTECTED) {
-      setErrorMessage('Length of password must be greater than 3 and less than 15.');
     }
+    socket.on("channel/channelUpdate", (channelData: ChannelProps) => {
+      setChannel(channelData);
+    });
     props.onClose();
   };
 
@@ -146,7 +159,7 @@ const ChannelSettingForm = (props: ChannelSettingFormProps) => {
             onChange={(e) => setNewTitle(e.target.value)}
             className={styles.input}
           />
-          {errorMessage && <p className={styles.error}>{errorMessage}</p>}
+          {errorMessageTitle && <p className={styles.error}>{errorMessageTitle}</p>}
           {props.channel.mode === ChannelMode.PROTECTED && (
             <>
               <h3 className={styles.h3}>Password</h3>
@@ -157,7 +170,7 @@ const ChannelSettingForm = (props: ChannelSettingFormProps) => {
                 onChange={(e) => setPassword(e.target.value)}
                 className={styles.input}
               />
-              {errorMessage && <p className={styles.error}>{errorMessage}</p>}
+              {errorMessagePassword && <p className={styles.error}>{errorMessagePassword}</p>}
             </>
           )}
           <div className={styles.buttonContainer}>

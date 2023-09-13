@@ -74,13 +74,17 @@ const CloseButton = () => {
 const ExitButton = () => {
   const { channelId, setChannelId }: any = useGlobalContext();
   const { channel, setChannel }: any = useGlobalContext();
+  const { activeTab, setActiveTab }: any = useGlobalContext();
 
   const handleExitChannel = () => {
-    setChannelId(null);
     socket.emit("channel/leaveChannel", { channelId });
+    setChannelId(null);
     socket.on("channel/channelUpdate", (channelData: ChannelProps) => {
       setChannel(channelData);
     });
+    if (activeTab === TabOptions.CHANNEL) {
+      setActiveTab(TabOptions.ALL);
+    }
   };
   return (
     <button className={styles.exitButton} onClick={handleExitChannel}>
