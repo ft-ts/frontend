@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useForm } from "react-hook-form";
 import styles from "./gameItem.module.scss";
 import { HookFormTypes, historyInterface } from "./game.interface";
-import { getGameHistory } from "../../../../app/api/client";
+import { getGameHistory } from "../../../../app/axios/client";
 
 export default function SearchBox(
   {

@@ -6,7 +6,7 @@ import { DmItem } from "./channelItem";
 import Image from "next/image";
 import { UserStatus } from "../enum/UserStatus.enum";
 import { useGlobalContext } from "@/app/Context/store";
-import { getDmLists, getDm } from "@/app/api/client";
+import { getDmLists, getDm } from "@/app/axios/client";
 
 export default function Dms() {
   const { selectedDm, setSelectedDm }: any = useGlobalContext();

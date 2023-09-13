@@ -35,6 +35,10 @@ $DisplayBackGroundHeight: $DisplayHeight * 0.55;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
+.codeBackground {
+    background: url('/asset/2faInput.png');
+}
+
 .gameFont, .pressFont{
     position: relative;
     z-index: 90;

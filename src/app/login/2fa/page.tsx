@@ -1,11 +1,11 @@
 "use client";
 
-import styles from "./login.module.scss"
+import styles from "./secondAuth.module.scss"
 import Image from "next/image";
 // import { SecondAuthLogin } from "./secondAuth";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { apiClient } from "../axios/client";
+import { apiClient } from "../../axios/client";
 
 
 export default function Login() {
@@ -21,13 +21,17 @@ export default function Login() {
   )
 }
 
-
 const GameBackground = (props: {}) => {
   return (
     <div className={styles.gameBackground}>
       <div className={styles.displayBackground}>
-        <h1 className={styles.gameFont}>42 Login</h1>
-        <h2 className={styles.pressFont}>Press Start Button</h2>
+        <div className={styles.codeBackground}></div>
+        <div className={styles.codeBackground}></div>
+        <div className={styles.codeBackground}></div>
+        <div className="">-</div>
+        <div className={styles.codeBackground}></div>
+        <div className={styles.codeBackground}></div>
+        <div className={styles.codeBackground}></div>
       </div>
     </div>
   )

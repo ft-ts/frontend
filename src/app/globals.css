@@ -19,3 +19,11 @@ body {
 .button {
   @apply px-4 py-2 rounded-md bg-blue-500 text-white hover:bg-blue-600 w-24 text-center;
 }
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;
+    -webkit-text-fill-color: #fff !important;
+}

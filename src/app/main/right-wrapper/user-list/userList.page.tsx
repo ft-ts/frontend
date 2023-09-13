@@ -8,7 +8,7 @@ import UserListFriends from './Components/userList.friends';
 import MyInfo from './Components/userList.myInfo';
 import UserListSearch from './Components/userList.search';
 import { User } from '@/app/main/interface/User.interface';
-import { getUserListExceptMe, getFreiendsList } from '@/app/api/client';
+import { getUserListExceptMe, getFreiendsList } from '@/app/axios/client';
 import { useGlobalContext } from '@/app/Context/store';
 import { ChannelUser } from '../../mid-wrapper/chat/interfaces/channelUser.interface';
 import { TabOptions } from './userList.enum';
