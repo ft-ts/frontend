@@ -24,7 +24,11 @@ function MessageItem({ chatMessage }: { chatMessage: ChatMessage }) {
         }
     }
     fetchSender();
-  }, [chatMessage]);
+  }, []);
+
+  useEffect(() => {
+  }, [sender]);
+
 
   return (
     <div>
