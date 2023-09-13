@@ -1,8 +1,19 @@
 
 .editButton {
-  border: 3px solid red;
+  border: 3px solid #ffffff;
   border-radius: 8px;
   padding: 5px 10px;
-  color: red;
+  color: white;
   font-weight: 800;
+  width : 300px;
+  height: 80px;
+  background: #66226e;
+}
+
+.editButton:hover{
+  background: #7e5b83;
+}
+
+.editFont{
+  font-size: 30px;
 }
