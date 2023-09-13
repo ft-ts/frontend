@@ -190,6 +190,30 @@ $sizeSenderName: 30px;
     text-align: left;
 }
 
+.notiMessage {
+    display: flex;
+    position: relative;
+    width: 90%;
+    margin-top: 10px;
+    text-align: center;
+    justify-content: space-evenly;
+    font-size: 25px;
+}
+
+.notiMessageContent {
+    display: inline-block;
+    position: relative;
+    background-color: #7f98a3;
+    border-radius: 20px;
+    color: #ffffff;
+    margin-top: 5px;
+    padding: 7px 12px;
+    margin-bottom: 5px;
+    max-width: 90%;
+    margin-inline: 10px;
+    word-wrap: break-word; /* 이 부분을 추가해 줄 바꿈을 활성화합니다. */
+}
+
 .myMessageProfileButton {
     /* 오른쪽 정렬 */
     order: 2; /* 프로필 사진이 내 메시지일 때 */
@@ -255,3 +279,4 @@ $sizeSenderName: 30px;
 .commonContents {
     flex-flow: column nowrap;
 }
+

@@ -9,20 +9,36 @@ import Image from "next/image";
 import { useGlobalContext } from "@/app/Context/store";
 
 function MessageItem({ chatMessage }: { chatMessage: ChatMessage }) {
-  const { myInfo }: any = useGlobalContext();
   const [sender, setSender] = useState<UserInterface | null>(null);
 
   useEffect(() => {
     async function fetchSender() {
-      try {
-        const senderInfo = await getUserByUid(chatMessage.sender_uid);
-        setSender(senderInfo.data);
-      } catch (error) {
-        console.error("Error fetching sender info:", error);
-      }
+        if (chatMessage.sender_uid !== null)
+        {
+          const senderInfo = await getUserByUid(chatMessage.sender_uid);
+          setSender(senderInfo.data);
+        }
+        else
+        {
+          setSender(null);
+        }
     }
     fetchSender();
   }, [chatMessage]);
+
+  return (
+    <div>
+    {chatMessage.sender_uid === null ? (
+      <NotiMessage chatMessage={chatMessage}/>
+    ) : (
+      <UserMessage chatMessage={chatMessage} sender={sender} />
+    )}
+  </div>
+  );
+}
+
+const UserMessage = ({ chatMessage, sender }: { chatMessage: ChatMessage, sender: UserInterface | null }) => {
+  const { myInfo }: any = useGlobalContext();
 
   const options = {
     timeZone: "Asia/Seoul",
@@ -36,8 +52,7 @@ function MessageItem({ chatMessage }: { chatMessage: ChatMessage }) {
     <div
       className={`${styles.message} ${
         chatMessage.sender_uid === myInfo.uid
-          ? styles.myMessage
-          : styles.otherMessage
+          ? styles.myMessage : styles.otherMessage
       }`}
     >
       {sender && (
@@ -65,7 +80,16 @@ function MessageItem({ chatMessage }: { chatMessage: ChatMessage }) {
         </div>
       </div>
     </div>
+  )
+}
+
+const NotiMessage = ({ chatMessage }: { chatMessage: ChatMessage }) => {
+  return (
+    <div className={styles.notiMessage}>
+      <div className={styles.notiMessageContent}>{chatMessage.content}</div>
+    </div>
   );
 }
+
 
 export default MessageItem;
