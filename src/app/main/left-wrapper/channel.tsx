@@ -171,7 +171,7 @@ const CreateChannel = () => {
   const customStyles = {
     content: {
       width: "400px",
-      height: "600px",
+      height: "700px",
       border: "1px solid #ddd",
       borderRadius: "8px",
       padding: "20px",
