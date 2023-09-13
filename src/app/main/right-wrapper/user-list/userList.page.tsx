@@ -85,7 +85,7 @@ export default function UserList(
   const renderFriendsList = () => {
     return (
       <>
-        {userList.map((item, index) => (
+        {friendList.map((item, index) => (
           <UserListFriends
             key={index}
             user={item}
