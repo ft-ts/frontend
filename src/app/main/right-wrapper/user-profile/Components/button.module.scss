@@ -1,16 +1,19 @@
 .buttonContainer{
-  background: #5f5f5f;
-  width: 100%;
+  width: 80%;
   height: 70px;
   position: relative;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  align-content: center;
 }
 
 .buttonBox{
-  width: 22%;
+  width: 17%;
   height: 70px;
-  background: #000000;
-  border : 1px solid #ffffff;
   border-radius: 50px;
+}
+
+.imageBox {
+  display: flex;
 }

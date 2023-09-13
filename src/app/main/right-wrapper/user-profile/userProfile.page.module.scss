@@ -1,33 +1,6 @@
 .userProfile {
-  background-color: #292929;
-  width: 100%;
-  height: 100%;
+  height: 100px;
   padding: 50px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.userInfoWrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 20px;
-  font-size: 1.3rem;
-  color: white;
-}
-
-.avatar {
-  border-radius: 50%;
-  width: 200px;
-  height: 200px;
-  margin-bottom: 20px;
-}
-
-.stats {
-  margin-top: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
