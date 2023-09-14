@@ -6,6 +6,7 @@ import { User } from "../main/interface/User.interface";
 import { getMyInfo } from "../api/client";
 import ChannelProps from "../main/left-wrapper/interfaces/channelProps";
 import { ChannelUser } from "../main/mid-wrapper/chat/interfaces/channelUser.interface";
+import UserInterface from "../api/interfaces/user.interface";
 
 const globalContext = createContext({});
 
@@ -22,7 +23,7 @@ export const GlobalContextProvider = ({ children }: any) => {
   const [channel, setChannel] = useState<ChannelProps | null>(null);
   const [selectedDm, setSelectedDm] = useState<number | null>(null);
   const [channelMembers, setChannelMembers] = useState<ChannelUser[]>([]);
-
+  const [password, setPassword] = useState<string>("");
 
 
   const value = {
@@ -38,6 +39,8 @@ export const GlobalContextProvider = ({ children }: any) => {
     setChannelMembers,
     activeTab,
     setActiveTab,
+    password,
+    setPassword,
   }
   return (
     <globalContext.Provider value={value}>

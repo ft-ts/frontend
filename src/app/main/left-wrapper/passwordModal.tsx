@@ -1,11 +1,13 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Modal from "react-modal";
 import styles from "./channelForm.module.scss";
+import { useGlobalContext } from "@/app/Context/store";
 
 const PasswordModal = ({ isOpen, onRequestClose, onSubmit }: any) => {
-  const [password, setPassword] = useState<string>("");
+  const { password, setPassword }: any = useGlobalContext();
+
 
   const customStyles = {
     content: {

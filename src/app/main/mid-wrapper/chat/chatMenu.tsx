@@ -19,13 +19,9 @@ export default function ChatMenu() {
   const [channelUser, setChannelUser] = useState<ChannelUser | null>(null);
 
   useEffect(() => {
-    if (channel === null) {
+    if (channelId === null) {
       return;
     }
-    socket.emit("channel/getChannelById", { channelId });
-    socket.on("channel/getChannelById", (channelData: ChannelProps) => {
-      setChannel(channelData);
-    });
     socket.emit("channel/getChannelUser", { channelId });
     socket.on("channel/getChannelUser", (data: ChannelUser) => {
       setChannelUser(data);
@@ -34,7 +30,7 @@ export default function ChatMenu() {
       socket.off("channel/getChannelById");
       socket.off("channel/getChannelUser");
     };
-  }, [channel]);
+  }, [channelId]);
 
   return (
     <div className={styles.chatMenuBox}>
@@ -54,7 +50,7 @@ export default function ChatMenu() {
 }
 
 const CloseButton = () => {
-  const { channelId, setChannelId }: any = useGlobalContext();
+  const { setChannelId }: any = useGlobalContext();
 
   const handleCloseChannel = () => {
     setChannelId(null);
@@ -73,19 +69,20 @@ const CloseButton = () => {
 
 const ExitButton = () => {
   const { channelId, setChannelId }: any = useGlobalContext();
-  const { channel, setChannel }: any = useGlobalContext();
+  const { setChannel }: any = useGlobalContext();
   const { activeTab, setActiveTab }: any = useGlobalContext();
 
   const handleExitChannel = () => {
     socket.emit("channel/leaveChannel", { channelId });
-    setChannelId(null);
-    socket.on("channel/channelUpdate", (channelData: ChannelProps) => {
-      setChannel(channelData);
-    });
     if (activeTab === TabOptions.CHANNEL) {
       setActiveTab(TabOptions.ALL);
     }
+    socket.on("channel/channelUpdate", (channelData: ChannelProps) => {
+      setChannel(channelData);
+    });
+    setChannelId(null);
   };
+
   return (
     <button className={styles.exitButton} onClick={handleExitChannel}>
       <Image
