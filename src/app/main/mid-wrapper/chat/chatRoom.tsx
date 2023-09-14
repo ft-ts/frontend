@@ -26,7 +26,7 @@ export default function ChatRoom() {
 
   useEffect(() => {
     // Listen for new messages
-    if (channel === null) {
+    if (channelId === null) {
       return;
     }
     socket.on("channel/sendMessage", (message: ChatMessage) => {
@@ -39,10 +39,10 @@ export default function ChatRoom() {
       setChatMessages(messages);
     });
 
-    socket.on("channel/userJoined", (data: { userName: string }) => {
+    socket.on("channel/userJoined", (data: { chId: number, user: string }) => {
       socket.emit("channel/sendNotification", {
-        channelId: channelId,
-        content: `${data.userName} has joined the channel`,
+        channelId: data.chId,
+        content: `${data.user} has joined the channel`,
         });
     });
 
@@ -63,7 +63,7 @@ export default function ChatRoom() {
       socket.off("channel/userJoined");
       socket.off("channel/userLeft");
     };
-  }, [channel]);
+  }, [channelId]);
 
   const handleSendMessage = () => {
     if (inputMessage.trim() === "") {

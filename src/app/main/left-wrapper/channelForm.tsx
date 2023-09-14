@@ -142,7 +142,8 @@ const ChannelSettingForm = (props: ChannelSettingFormProps) => {
     }
     socket.on("channel/channelUpdate", (channelData: ChannelProps) => {
       setChannel(channelData);
-    });
+    }
+    );
     props.onClose();
   };
 

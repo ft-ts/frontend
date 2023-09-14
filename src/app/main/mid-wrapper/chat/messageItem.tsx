@@ -9,6 +9,21 @@ import Image from "next/image";
 import { useGlobalContext } from "@/app/Context/store";
 
 function MessageItem({ chatMessage }: { chatMessage: ChatMessage }) {
+  
+
+  return (
+    <div>
+    {chatMessage.isNotice === true ? (
+      <NotiMessage chatMessage={chatMessage}/>
+    ) : (
+      <UserMessage chatMessage={chatMessage}/>
+    )}
+    </div>
+  );
+}
+
+const UserMessage = ({ chatMessage }: { chatMessage: ChatMessage}) => {
+  const { myInfo }: any = useGlobalContext();
   const [sender, setSender] = useState<UserInterface | null>(null);
 
   useEffect(() => {
@@ -24,25 +39,12 @@ function MessageItem({ chatMessage }: { chatMessage: ChatMessage }) {
         }
     }
     fetchSender();
-  }, []);
+  }
+  , []);
 
   useEffect(() => {
-  }, [sender]);
-
-
-  return (
-    <div>
-    {chatMessage.sender_uid === null ? (
-      <NotiMessage chatMessage={chatMessage}/>
-    ) : (
-      <UserMessage chatMessage={chatMessage} sender={sender} />
-    )}
-  </div>
-  );
-}
-
-const UserMessage = ({ chatMessage, sender }: { chatMessage: ChatMessage, sender: UserInterface | null }) => {
-  const { myInfo }: any = useGlobalContext();
+  }
+  , [sender]);
 
   const options = {
     timeZone: "Asia/Seoul",

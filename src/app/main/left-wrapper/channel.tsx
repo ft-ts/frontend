@@ -30,28 +30,13 @@ function Channel() {
     setSelectedTab(tab);
   };
 
-  // }
-  // useEffect(() => {
-  //   if (socket) {
-  //     socket.once("channel/linkChannel");
-  //   }
-  //   // socket.on("error", ( message ) => {
-  //   //   setErrorMessage(message);
-  //   //   setIsNotificationVisible(true);
-  //   //   setTimeout(() => {
-  //   //     setIsNotificationVisible(false);
-  //   //     setErrorMessage(null);
-  //   //   }, 1500); // Set the duration in milliseconds
-  //   // });
-  // }, [errorMessage, isNotificationVisible]);
-
   useEffect(() => {
     if (channelId === null) {
       return;
     }
     socket.emit("channel/getChannelById", { channelId });
-    socket.on("channel/getChannelById", (channelData: ChannelProps) => {
-      setChannel(channelData);
+    socket.on("channel/getChannelById", (channel: ChannelProps) => {
+      setChannel(channel);
     });
     socket.emit("channel/getChannelMembers", { channelId });
     socket.on("channel/getChannelMembers", (channelMembers: any) => {
@@ -78,11 +63,35 @@ function Channel() {
       console.error("Channel not found");
       return;
     }
-    socket.emit("channel/enterChannel", { chId, password });
-    socket.on("channel/enterChannel", () => {
-      setChannelId(chId);
+    socket.emit("channel/isChannelMember", { chId });
+    socket.on("channel/isChannelMember", (isMember: boolean) => {
+      console.log("isMember: ", isMember); //
+      if (isMember) {
+        setChannelId(chId);
+      } 
+      else if (channel.mode === ChannelMode.PUBLIC) {
+        socket.emit("channel/joinChannel", { chId });
+        setChannelId(chId);
+        socket.on("channel/channelUpdate", (channelData: ChannelProps) => {
+          setChannel(channelData);
+        }
+        );
+      }
+      else {
+        socket.emit("channel/joinChannel", { chId });
+        setShowPasswordModal(true);
+        setChannelId(chId);
+        socket.on("channel/channelUpdate", (channelData: ChannelProps) => {
+          setChannel(channelData);
+        }
+        );
+      }
     });
+    return () => {
+      socket.off("channel/isChannelMember");
+    }
   };
+
 
   return (
     <div className={styles.channelWrapper}>
@@ -130,20 +139,19 @@ const requestChannelsFromServer = (tab: ChannelTabOptions) => {
 const useChannelData = (tab: ChannelTabOptions) => {
   const [channels, setChannels] = useState<ChannelItemProps[]>([]);
   const [selectedChannels, setSelectedChannels] = useState<ChannelItemProps[]>([]);
+  const { channel }: any = useGlobalContext();
 
   useEffect(() => {
-    socket.emit("channel/channelUpdate");
     socket.on("channel/channelUpdate", (channel: ChannelItemProps) => {
       setChannels((prevChannels) => [
         ...prevChannels.filter((ch) => ch.id !== channel.id),
         channel,
       ]);
     });
-    console.log("update: ", channels); //
     return () => {
       socket.off("channel/channelUpdate");
     }
-  }, []);
+  }, [channel]);
 
   useEffect(() => {
     const handleChannels = (data: ChannelItemProps[]) => {
@@ -160,7 +168,7 @@ const useChannelData = (tab: ChannelTabOptions) => {
         handleChannels
       );
     };
-  }, [socket, tab, channels]);
+  }, [tab, channels]);
 
   return selectedChannels;
 };
