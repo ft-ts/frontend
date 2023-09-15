@@ -26,17 +26,19 @@ export default function ChatRoom() {
 
   useEffect(() => {
     // Listen for new messages
-    if (channelId === null) {
+    if (channel === null) {
       return;
     }
-    socket.on("channel/sendMessage", (message: ChatMessage) => {
-      setChatMessages((prevMessages) => [...prevMessages, message]);
-    });
 
+    
     // Request initial messages
     socket.emit("channel/getChannelMessages", { channelId });
     socket.on("channel/getChannelMessages", (messages: ChatMessage[]) => {
       setChatMessages(messages);
+    });
+    
+    socket.on("channel/sendMessage", (message: ChatMessage) => {
+      setChatMessages((prevMessages) => [...prevMessages, message]);
     });
 
     socket.on("channel/userJoined", (data: { chId: number, user: string }) => {
@@ -47,7 +49,6 @@ export default function ChatRoom() {
     });
 
     socket.on("channel/userLeft", (data: { chId: number, user: string }) => {
-      console.log("data: ", data);
       socket.emit("channel/sendNotification", {
         channelId: data.chId,
         content: `${data.user} has left the channel`,
@@ -63,13 +64,12 @@ export default function ChatRoom() {
       socket.off("channel/userJoined");
       socket.off("channel/userLeft");
     };
-  }, [channelId]);
+  }, [channel]);
 
   const handleSendMessage = () => {
     if (inputMessage.trim() === "") {
       return;
     }
-
     // Send the message to the backend
     if (channelId !== null)
     {
@@ -81,6 +81,10 @@ export default function ChatRoom() {
     }
     setInputMessage("");
   };
+
+  useEffect(() => {
+
+  }, [channelId]);
 
   return (
     <div className={styles.chatRoomBox}>

@@ -19,16 +19,21 @@ export enum TabOptions {
 export const GlobalContextProvider = ({ children }: any) => {
   const [activeTab, setActiveTab] = useState(TabOptions.ALL);
   const [myInfo, setMyInfo] = useState<User>(dummy);
+  const [chId, setchId] = useState<number | null>(null);
   const [channelId, setChannelId] = useState<number | null>(null);
   const [channel, setChannel] = useState<ChannelProps | null>(null);
   const [selectedDm, setSelectedDm] = useState<number | null>(null);
   const [channelMembers, setChannelMembers] = useState<ChannelUser[]>([]);
-  const [password, setPassword] = useState<string>("");
+  const [password, setPassword] = useState<string | null>(null);
+  const [isChannelNotificationVisible, setIsChannelNotificationVisible] = useState(false);
+  const [channelErrorMessage, setChannelErrorMessage] = useState<string | null>(null);
 
 
   const value = {
     myInfo,
     setMyInfo,
+    chId,
+    setchId,
     channelId,
     setChannelId,
     channel,
@@ -41,6 +46,10 @@ export const GlobalContextProvider = ({ children }: any) => {
     setActiveTab,
     password,
     setPassword,
+    isChannelNotificationVisible,
+    setIsChannelNotificationVisible,
+    channelErrorMessage,
+    setChannelErrorMessage,
   }
   return (
     <globalContext.Provider value={value}>
