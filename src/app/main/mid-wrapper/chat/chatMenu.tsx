@@ -20,6 +20,7 @@ export default function ChatMenu() {
 
   useEffect(() => {
     if (channelId === null) {
+      setChannel(null);
       return;
     }
     socket.emit("channel/getChannelUser", { channelId });
@@ -27,7 +28,6 @@ export default function ChatMenu() {
       setChannelUser(data);
     });
     return () => {
-      socket.off("channel/getChannelById");
       socket.off("channel/getChannelUser");
     };
   }, [channelId]);
@@ -77,10 +77,10 @@ const ExitButton = () => {
     if (activeTab === TabOptions.CHANNEL) {
       setActiveTab(TabOptions.ALL);
     }
+    setChannelId(null);
     socket.on("channel/channelUpdate", (channelData: ChannelProps) => {
       setChannel(channelData);
     });
-    setChannelId(null);
   };
 
   return (
