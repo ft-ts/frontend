@@ -5,6 +5,7 @@ import styles from './button.module.scss';
 import Image from 'next/image';
 import { User } from '@/app/main/interface/User.interface';
 import { socket } from '@/app/main/components/CheckAuth';
+import { postFriend } from '@/app/api/client';
 
 const block = "/asset/mute.png";
 const addFriend = "/asset/happy.png";
@@ -20,7 +21,10 @@ export default function ProfileButton(
   ){
 
   const handleAddFriend = () => {
-    console.log('handleAddFriend', user);
+    console.log('handleAddFriend');
+    postFriend(user.uid).then((res) => {
+      alert(res.data.message);
+    });
   }
   const handleBlock = () => {
     console.log('handleBlock');

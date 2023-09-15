@@ -37,6 +37,7 @@ function Channel() {
       setChannel(null);
       return;
     }
+
       socket.emit("channel/getChannelById", { channelId });
       socket.on("channel/getChannelById", (channel: ChannelProps) => {
         setChannel(channel);
@@ -45,7 +46,6 @@ function Channel() {
       socket.on("channel/getChannelMembers", (channelMembers: any) => {
         setChannelMembers(channelMembers);
       });
-
     return () => {
       socket.off("channel/getChannelById");
       socket.off("channel/getChannelMembers");
@@ -59,6 +59,7 @@ function Channel() {
     }
     socket.emit("channel/isChannelMember", { chId });
     socket.on("channel/isChannelMember", (isMember: boolean) => {
+
       if (isMember) {
         setChannelId(chId);
       } else if (channel.mode === ChannelMode.PUBLIC) {
@@ -154,6 +155,7 @@ const useChannelData = (tab: ChannelTabOptions) => {
       socket.off("channel/channelUpdate");
     };
   }, []);
+
 
   useEffect(() => {
     const handleChannels = (data: ChannelItemProps[]) => {

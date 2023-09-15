@@ -29,6 +29,7 @@ export const GlobalContextProvider = ({ children }: any) => {
   const [channelErrorMessage, setChannelErrorMessage] = useState<string | null>(null);
 
 
+
   const value = {
     myInfo,
     setMyInfo,

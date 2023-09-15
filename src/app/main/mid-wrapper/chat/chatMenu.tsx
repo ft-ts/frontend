@@ -32,7 +32,6 @@ export default function ChatMenu() {
     };
   }, [channelId]);
 
-
   return (
     <div className={styles.chatMenuBox}>
       {channelId !== null && (

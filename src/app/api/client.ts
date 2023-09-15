@@ -47,3 +47,7 @@ export async function getDmLists(): Promise<any> {
 export async function getDm(targetUid: number): Promise<any> {
     return apiClient.get(`/dm/${targetUid}`);
 }
+
+export async function postFriend(uid: number): Promise<any> {
+    return apiClient.post(`/users/friends`, { targetUid: uid});
+}

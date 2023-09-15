@@ -26,7 +26,7 @@ export default function ChatRoom() {
 
   useEffect(() => {
     // Listen for new messages
-    if (channel === null) {
+    if (channelId === null) {
       return;
     }
 
@@ -64,7 +64,7 @@ export default function ChatRoom() {
       socket.off("channel/userJoined");
       socket.off("channel/userLeft");
     };
-  }, [channel]);
+  }, [channelId]);
 
   const handleSendMessage = () => {
     if (inputMessage.trim() === "") {
