@@ -9,29 +9,29 @@ import LeftWrapper from './left-wrapper/page';
 import { CheckAuth } from './components/CheckAuth';
 
 function Main(props: MainProps) {
-  useEffect(() => {
-    const getCookie = (name: string): string | undefined => {
-        const value = "; " + document.cookie;
-        const parts = value.split("; " + name + "=");
-        if (parts.length === 2) return parts.pop()?.split(";").shift();
-    }
+//   useEffect(() => {
+//     const getCookie = (name: string): string | undefined => {
+//         const value = "; " + document.cookie;
+//         const parts = value.split("; " + name + "=");
+//         if (parts.length === 2) return parts.pop()?.split(";").shift();
+//     }
 
-    const deleteCookie = (name: string) => {
-        document.cookie = name + '=; Max-Age=-99999999;'; 
-    }
+//     const deleteCookie = (name: string) => {
+//         document.cookie = name + '=; Max-Age=-99999999;'; 
+//     }
 
-    const accessToken = getCookie('accessToken');
-    const refreshToken = getCookie('refreshToken');
+//     const accessToken = getCookie('accessToken');
+//     const refreshToken = getCookie('refreshToken');
 
-    if (accessToken) {
-        localStorage.setItem('accessToken', accessToken);
-        deleteCookie('accessToken');
-    }
-    if (refreshToken) {
-        localStorage.setItem('refreshToken', refreshToken);
-        deleteCookie('refreshToken');
-    }
-}, []); 
+//     if (accessToken) {
+//         localStorage.setItem('accessToken', accessToken);
+//         deleteCookie('accessToken');
+//     }
+//     if (refreshToken) {
+//         localStorage.setItem('refreshToken', refreshToken);
+//         deleteCookie('refreshToken');
+//     }
+// }, []); 
 
 
   return (

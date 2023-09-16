@@ -6,7 +6,6 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { apiClient } from "../../axios/client";
 
-
 export default function Input2fa() {
   const [authCode, setAuthCode] = useState<string>("");
   const [qrCode, setQrCode] = useState<string>("");
@@ -14,8 +13,6 @@ export default function Input2fa() {
   useEffect(() => {
     apiClient.get("login/2fa").then((res) => {
       setQrCode(res.data);
-    }).catch((err) => {
-      console.log(err);
     })
   }, []);
 
@@ -32,25 +29,11 @@ export default function Input2fa() {
 
 const GameBackground = ({ authCode, setAuthCode, qrCode }: { authCode: string, setAuthCode: any, qrCode: string }) => {
   const router = useRouter();
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const handleKeyDown = (e: any) => {
-    if (authCode.length > 0 && e.key === "Backspace") {
-      setAuthCode(authCode.slice(0, -1));
-    } else if (authCode.length === 6 && e.key === "Enter") {
-      //////
-      apiClient.post("login/2fa", { code: authCode }).then((res) => {
-        if (res.data === "success") {
-          router.push("/home");
-        }
-      }).catch((err) => {
-        console.log(err);
-      })
-
-      //////
-    } else if (authCode.length < 6 && e.key.match(/^\d{1}$/)) {
-      setAuthCode(authCode + e.key);
-    }
-  }
+  useEffect(() => {
+    document.body.style.cursor = loading ? "wait" : "default";
+  }, [loading]);
 
   useEffect(() => {
     window.addEventListener("keydown", handleKeyDown);
@@ -59,13 +42,34 @@ const GameBackground = ({ authCode, setAuthCode, qrCode }: { authCode: string, s
     }
   }, [authCode]);
 
+  const sendCode = () => {
+    setLoading(true);
+    setTimeout(() => {
+      apiClient.post("login/2fa", { code: authCode }).then((res) => {
+        if (res.status == 200)
+          res.data.success ? router.push("/main") : alert(res.data.message);
+      });
+      setAuthCode('');
+      setLoading(false);
+    }, 1000);
+  }
+
+  const handleKeyDown = (e: any) => {
+    if (!loading && authCode.length > 0 && e.key === "Backspace")
+      setAuthCode(authCode.slice(0, -1));
+    else if (authCode.length < 6 && e.key.match(/^\d{1}$/)) {
+      setAuthCode(authCode += e.key);
+      if (authCode.length === 6) sendCode();
+    }
+  }
+
   return (
     <div className={styles.gameBackground}>
       <div className={styles.qrText}>
         <p>Scan with</p>
         <a target="_blank"
           href="https://support.google.com/accounts/answer/1066447?hl=en&co=GENIE.Platform%3DiOS&oco=0">
-        Google Auth
+          Google Auth
         </a>
       </div>
       <Image
@@ -84,13 +88,13 @@ const GameBackground = ({ authCode, setAuthCode, qrCode }: { authCode: string, s
       ></Image>
       }
       <div className={styles.displayBackground}>
-        <div className={styles.codeBackground}>{authCode[0] ? authCode[0] : "?"}</div>
-        <div className={styles.codeBackground}>{authCode[1] ? authCode[1] : "?"}</div>
-        <div className={styles.codeBackground}>{authCode[2] ? authCode[2] : "?"}</div>
+        <div className={styles.codeBackground}>{authCode[0] ? authCode[0] : '🤔'}</div>
+        <div className={styles.codeBackground}>{authCode[1] ? authCode[1] : '🤔'}</div>
+        <div className={styles.codeBackground}>{authCode[2] ? authCode[2] : '🤔'}</div>
         <div className={styles.dash}>-</div>
-        <div className={styles.codeBackground}>{authCode[3] ? authCode[3] : "?"}</div>
-        <div className={styles.codeBackground}>{authCode[4] ? authCode[4] : "?"}</div>
-        <div className={styles.codeBackground}>{authCode[5] ? authCode[5] : "?"}</div>
+        <div className={styles.codeBackground}>{authCode[3] ? authCode[3] : '🤔'}</div>
+        <div className={styles.codeBackground}>{authCode[4] ? authCode[4] : '🤔'}</div>
+        <div className={styles.codeBackground}>{authCode[5] ? authCode[5] : '🤔'}</div>
       </div>
     </div>
   )

@@ -66,7 +66,6 @@ const GameSelectButton = () => {
 const GameStartButton = () => {
 
   const router = useRouter();
-  const [message, setMessage] = useState('123');
   const handleLoginClick = async () => {
     router.push('http://localhost:10000/api/login');
   };
