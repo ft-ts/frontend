@@ -9,19 +9,21 @@ export const socket = io("http://localhost:10000", {
 
 const originalEmit = socket.emit.bind(socket);
 
-socket.emit = (ev: string, ...args: any[]): any => {
-  console.log(`ws emit ${ev}`);
-  originalEmit(ev, ...args);
-}
-
 export const CheckAuth = () => {
   const router = useRouter();
 
   useEffect(() => {
-    if (!document.cookie.includes("accessToken=")) {
-      router.push("/login");
-      return;
+    socket.emit = (ev: string, ...args: any[]): any => {
+      if (!document.cookie.includes("accessToken=")) {
+        router.push("/login");
+        return;
+      }
+      socket.auth = {
+        "token": document.cookie.split("accessToken=")[1]?.split(";")[0],
+      }
+      originalEmit(ev, ...args);
     }
+
     socket.auth = {
       "token": document.cookie.split("accessToken=")[1].split(";")[0],
     }

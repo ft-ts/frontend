@@ -2,13 +2,17 @@
 
 import styles from "./login.module.scss"
 import Image from "next/image";
-// import { SecondAuthLogin } from "./secondAuth";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { apiClient } from "../axios/client";
+import { clearCookies } from "../utils/clearCookies";
 
 
 export default function Login() {
+
+  useEffect(() => {
+    clearCookies();
+  }, []);
 
   return (
     <div className={styles.background}>
