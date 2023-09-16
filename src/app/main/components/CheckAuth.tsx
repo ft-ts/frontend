@@ -7,6 +7,13 @@ export const socket = io("http://localhost:10000", {
     autoConnect: false,
   });
 
+const originalEmit = socket.emit.bind(socket);
+
+socket.emit = (ev: string, ...args: any[]): any => {
+  console.log(`ws emit ${ev}`);
+  originalEmit(ev, ...args);
+}
+
 export const CheckAuth = () => {
   const router = useRouter();
 

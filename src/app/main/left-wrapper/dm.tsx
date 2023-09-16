@@ -36,7 +36,7 @@ export default function Dms() {
       <DisplayDmSearch />
       <div className={styles.channelContainer}>
       <div className={styles.channelList}>
-        {dmLists &&
+        {dmLists?.map &&
           dmLists.map((dm) => (
             <DmItem
             friend={dm.friend}
