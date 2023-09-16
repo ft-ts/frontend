@@ -3,13 +3,13 @@ $DisplayHeight: 1440px;
 $DisplayBackGroundWidth: $DisplayWidth * 0.7;
 $DisplayBackGroundHeight: $DisplayHeight * 0.55;
 
-.background{
+.background {
     background-color: #aaa5aa;
     width: $DisplayWidth;
     height: $DisplayHeight;
 }
 
-.gameBackground{
+.gameBackground {
     box-sizing: border-box;
     position: relative;
     width: $DisplayBackGroundWidth;
@@ -24,7 +24,7 @@ $DisplayBackGroundHeight: $DisplayHeight * 0.55;
     align-items: center;
 }
 
-.displayBackground{
+.displayBackground {
     box-sizing: border-box;
     width: ($DisplayBackGroundWidth * 0.90); //1609px
     height: $DisplayBackGroundHeight * 0.9;
@@ -33,13 +33,58 @@ $DisplayBackGroundHeight: $DisplayHeight * 0.55;
     background: #859E5A;
     border: 5px solid #000000;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .codeBackground {
     background: url('/asset/2faInput.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 150px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 0 0 5px;
+    margin: 0 10px 0 10px;
+    font-size: 80px;
 }
 
-.gameFont, .pressFont{
+.dash {
+    font-size: 80px;
+}
+
+.qrCode {
+    position: absolute;
+    right: 100px;
+    bottom: 50px;
+    width: 200px;
+    border-radius: 10%;
+}
+
+.pigtail {
+    position: absolute;
+    right: 80px;
+    bottom: 240px;
+}
+
+.qrText {
+    position: absolute;
+    right: 170px;
+    bottom: 280px;
+    font-size: 30px;
+}
+
+.qrText a {
+    color: rgb(0, 242, 255);
+    text-decoration: underline;
+}
+
+.gameFont,
+.pressFont {
     position: relative;
     z-index: 90;
     font-family: 'ArcadeClassic';
@@ -53,19 +98,19 @@ $DisplayBackGroundHeight: $DisplayHeight * 0.55;
     text-transform: uppercase;
 }
 
-.gameFont{
-    left: (1609px / 2) - (934px / 2 );
+.gameFont {
+    left: (1609px / 2) - (934px / 2);
     top: 180px;
     font-size: 200px;
 }
 
-.pressFont{
+.pressFont {
     left: (1609px / 2) - (1078px / 2);
     top: 350px;
     font-size: 100px;
 }
 
-.gameCrossDeco{
+.gameCrossDeco {
     position: relative;
     left: 100px;
     top: 80px;
@@ -76,20 +121,23 @@ $DisplayBackGroundHeight: $DisplayHeight * 0.55;
     top: 1200px;
     display: flex;
     transform: rotate(-5.57deg);
-  }
-  
-  
-  .GameRoundRectangleDecoSelect {
+    cursor: default;
+}
+
+
+.GameRoundRectangleDecoSelect {
     left: ($DisplayWidth / 2) - 200px;
     position: relative;
-  }
-  
-  .GameRoundRectangleDecoStart {
-    left: 1380px; /* Adjust as needed for desired separation */
+}
+
+.GameRoundRectangleDecoStart {
+    left: 1380px;
+    /* Adjust as needed for desired separation */
     position: relative;
-  }
-  
-.startFont, .selectFont{
+}
+
+.startFont,
+.selectFont {
     position: absolute;
     width: 126px;
     height: 37px;
@@ -107,35 +155,37 @@ $DisplayBackGroundHeight: $DisplayHeight * 0.55;
     transform: rotate(-26deg);
 }
 
-.startFont{
+.startFont {
     left: 1430.61px;
     top: 150px;
 }
 
-.selectFont{
+.selectFont {
     left: 1150.61px;
     top: 150px;
 }
 
-  
-.roundContainer{
+
+.roundContainer {
     position: absolute;
     display: flex;
+    cursor: default;
 }
 
-.gameRoundDecoA{
+.gameRoundDecoA {
     position: relative;
     left: $DisplayBackGroundWidth + 300px;
     top: -90px;
 }
 
-.gameRoundDecoB{
+.gameRoundDecoB {
     position: relative;
     left: $DisplayBackGroundWidth + 300px;
     top: -230px;
 }
 
-.gameRoundFontA, .gameRoundFontB{
+.gameRoundFontA,
+.gameRoundFontB {
     position: relative;
     width: 126px;
     height: 37px;
@@ -153,12 +203,12 @@ $DisplayBackGroundHeight: $DisplayHeight * 0.55;
     transform: rotate(-31.97deg);
 }
 
-.gameRoundFontA{
+.gameRoundFontA {
     left: $DisplayBackGroundWidth + 260;
     top: -76px;
 }
 
-.gameRoundFontB{
+.gameRoundFontB {
     left: $DisplayBackGroundWidth + 0px;
     top: 64px;
 }
