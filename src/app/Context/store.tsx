@@ -7,6 +7,8 @@ import { getMyInfo } from "../axios/client";
 import ChannelProps from "../main/left-wrapper/interfaces/channelProps";
 import { ChannelUser } from "../main/mid-wrapper/chat/interfaces/channelUser.interface";
 import DmItemProps from "../main/left-wrapper/interfaces/dmItemProps";
+import { ChannelRole } from "../main/mid-wrapper/chat/enum/channelRole.enum";
+
 
 const globalContext = createContext({});
 
@@ -19,9 +21,11 @@ export enum TabOptions {
 export const GlobalContextProvider = ({ children }: any) => {
   const [activeTab, setActiveTab] = useState(TabOptions.ALL);
   const [myInfo, setMyInfo] = useState<User>(dummy);
+  const [currentUser, setCurrentUser] = useState<User>(dummy);
   const [chId, setchId] = useState<number | null>(null);
   const [channelId, setChannelId] = useState<number | null>(null);
   const [channel, setChannel] = useState<ChannelProps | null>(null);
+  const [myRole, setMyRole] = useState<ChannelRole>(ChannelRole.NORMAL);
   const [selectedDm, setSelectedDm] = useState<number | null>(null);
   const [channelMembers, setChannelMembers] = useState<ChannelUser[]>([]);
   const [password, setPassword] = useState<string | null>(null);
@@ -29,17 +33,21 @@ export const GlobalContextProvider = ({ children }: any) => {
   const [channelErrorMessage, setChannelErrorMessage] = useState<string | null>(null);
   const [dmId, setDmId] = useState<number | null>(null);
   const [dmList, setDmList] = useState<DmItemProps[]>([]);
-
+  const [ friendsList, setFriendsList ] = useState<User[]>([]);
 
   const value = {
     myInfo,
     setMyInfo,
+    currentUser,
+    setCurrentUser,
     chId,
     setchId,
     channelId,
     setChannelId,
     channel,
     setChannel,
+    myRole,
+    setMyRole,
     selectedDm,
     setSelectedDm,
     channelMembers,
@@ -56,6 +64,8 @@ export const GlobalContextProvider = ({ children }: any) => {
     setDmId,
     dmList,
     setDmList,
+    friendsList,
+    setFriendsList
   }
   return (
     <globalContext.Provider value={value}>

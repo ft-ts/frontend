@@ -4,8 +4,11 @@ import EditProfileProps from './editFormProps';
 import PreviewProps from './editAvatarProps'
 import { useGlobalContext } from '@/app/Context/store';
 import { getMyInfo } from '@/app/axios/client';
+import { updateUser } from '@/app/api/client';
+import UserInterface from '@/app/axios/interfaces/user.interface';
 import Image from 'next/image';
 import { socket } from '../../components/CheckAuth';
+import { log } from 'console';
 
 const EditForm = (props: EditProfileProps) => {
     const { myInfo, setMyInfo }: any = useGlobalContext();
@@ -18,23 +21,24 @@ const EditForm = (props: EditProfileProps) => {
 
     useEffect(() => {
     }, [myInfo]);
+
     const [uploadedAvatar, setUploadedAvatar] = useState<string | null>(null);
     const [ newNickname, setNewNickname ] = useState('');
-    const [errorMessage, setErrorMessage] = useState('');
 
     
-    const handleEditNewProfile = () => {
-        // Some validation
-        if(!newNickname || newNickname.length > 15) {
-                setErrorMessage("Invalid new name");
-            return;
+    const handleEditNewProfile = async (e: any) => {
+
+        if (newNickname){
+            e.preventDefault();
+            const userData: Partial<UserInterface> = {
+                name: newNickname
+            };
+            console.log(`User😘`, userData);
+            await updateUser(userData).then((res: any) => {
+                setMyInfo(res.data);
+                console.log("after update", res.data);
+            })
         }
-        
-        // socket.emit('user/editProfile', {
-        //     uid: myInfo.uid,
-        //     nickname: newNickname,
-        //     avatar: uploadedAvatar
-        // });
         props.onClose();
     }
     
@@ -42,13 +46,14 @@ const EditForm = (props: EditProfileProps) => {
     return (
         <div className={styles.EditFormContainer}>
             <Image
-                className={styles.avatar}
                 src={uploadedAvatar || myInfo.avatar}
                 alt="My Image"
-                width={400}
-                height={400}
+                className={styles.avatar}
+                width={200}
+                height={200}
             ></Image>
-            <Preview setUploadedAvatar={setUploadedAvatar} />
+            <Preview setUploadedAvatar={setUploadedAvatar} funMyInfo={setMyInfo} />
+            <TwoFactorAuthButton twoFactorAuthMode={myInfo.twoFactorAuth} funMyInfo={setMyInfo} />
             <h2 className={styles.h2}>Chagne new NickName</h2>
             <input
                 type="text"
@@ -57,7 +62,8 @@ const EditForm = (props: EditProfileProps) => {
                 onChange={(e) => setNewNickname(e.target.value)}
                 className={styles.input}
                 ></input>
-            {errorMessage && <p className={styles.error}>{errorMessage}</p>}
+            <div className={styles.ComponentWrapper}>
+            </div>
              <div className={styles.buttonContainer}>
                 <button onClick={handleEditNewProfile} className={styles.buttonEdit}>Edit</button>
                 <button onClick={props.onClose} className={styles.buttonCancel}>Cancel</button>
@@ -66,22 +72,49 @@ const EditForm = (props: EditProfileProps) => {
     )
 }
 
-const Preview = (props: { setUploadedAvatar: (avatar: string | null) => void }) => {
-    const [imageSrc, setImageSrc]: any = useState(null);
+const Preview = (props: PreviewProps) => {
+    const [imageSrc, setImageSrc]: any = useState<string | null>(null);
+    const [isNewAvatar, setIsNewAvatar] = useState<boolean>(false);
 
-    const onUpload = (e: any) => {
+    const onUpload = async (e: any) => {
         const file = e.target.files[0];
         const reader = new FileReader();
+        
+        reader.onload = () => {	
+            const loadedImageSrc = reader.result as string;
+            setImageSrc(loadedImageSrc);
+            props.setUploadedAvatar(loadedImageSrc);
+            setIsNewAvatar(true);
+        };
+        
         reader.readAsDataURL(file);
 
-        return new Promise<void>((resolve) => { 
-            reader.onload = () => {	
-                setImageSrc(reader.result || null); // 파일의 컨텐츠
-                props.setUploadedAvatar(reader.result as string);
-                resolve();
-            };
+        // If the logic below isn't necessary, you can remove the promise altogether
+        return new Promise<void>((resolve) => {
+            reader.onloadend = () => resolve();
         });
     }
+
+    const UploadNewAvatar = async () => {
+        if (isNewAvatar && imageSrc) { // Check if it's a new avatar and if imageSrc is set
+            const userData: Partial<UserInterface> = {
+                avatar: imageSrc
+            };
+            await updateUser(userData).then((res: any) => {
+                console.log("data", res.data);
+                props.funMyInfo(res.data);
+            });
+            setIsNewAvatar(false); // Reset the flag after updating the avatar
+        }
+    }
+
+    useEffect(() => {
+        if (isNewAvatar) {
+            console.log("data", imageSrc.size);
+            UploadNewAvatar();
+        }
+    }, [isNewAvatar]); // Runs every time `isNewAvatar` changes
+
     return (
         <div>
             <label htmlFor="fileInput" className={styles.customFileUpload}>
@@ -91,13 +124,48 @@ const Preview = (props: { setUploadedAvatar: (avatar: string | null) => void }) 
                 id="fileInput"
                 className="hidden"
                 accept="image/*" 
-                multiple 
                 type="file"
-                onChange={e => onUpload(e)}
+                onChange={onUpload}
             />
         </div>
+    );
+}
 
+
+type FaModeButtonProps = {
+    twoFactorAuthMode: boolean;
+    funMyInfo: (newState: boolean) => void;
+};
+
+const TwoFactorAuthButton = (props: FaModeButtonProps) => {
+    const { myInfo, setMyInfo }: any = useGlobalContext();
+
+    const [isFAon, setIstFaon] = useState(props.twoFactorAuthMode);
+
+    useEffect(() => {
+        async function updateUserData() {
+            const userData: Partial<UserInterface> = {
+                twoFactorAuth: isFAon
+            };
+            const res = await updateUser(userData);
+            props.funMyInfo(res.data);
+        }
+        
+        updateUserData();
+        
+    }, [isFAon]);
+
+    const handdleButton = (e: any) => {
+        e.preventDefault();
+        setIstFaon(prevState => !prevState); // Use function form for state update
+    }
+
+    return (
+        <button onClick={handdleButton} className={styles.faModeButton}>
+            {isFAon ? 'TwoFactorAuth On' : 'TwoFactorAuth Off'}
+        </button>
     )
 }
 
+    
 export { EditForm };
