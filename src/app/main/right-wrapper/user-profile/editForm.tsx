@@ -3,8 +3,9 @@ import styles from "./editForm.module.scss"
 import EditProfileProps from './editFormProps';
 import PreviewProps from './editAvatarProps'
 import { useGlobalContext } from '@/app/Context/store';
-import { getMyInfo, updateUser } from '@/app/api/client';
-import UserInterface from '@/app/api/interfaces/user.interface';
+import { getMyInfo } from '@/app/axios/client';
+import { updateUser } from '@/app/api/client';
+import UserInterface from '@/app/axios/interfaces/user.interface';
 import Image from 'next/image';
 import { socket } from '../../components/CheckAuth';
 import { log } from 'console';
@@ -33,7 +34,7 @@ const EditForm = (props: EditProfileProps) => {
                 name: newNickname
             };
             console.log(`User😘`, userData);
-            await updateUser(userData).then((res) => {
+            await updateUser(userData).then((res: any) => {
                 setMyInfo(res.data);
                 console.log("after update", res.data);
             })
@@ -45,11 +46,11 @@ const EditForm = (props: EditProfileProps) => {
     return (
         <div className={styles.EditFormContainer}>
             <Image
-                className={styles.avatar}
                 src={uploadedAvatar || myInfo.avatar}
                 alt="My Image"
-                width={400}
-                height={400}
+                className={styles.avatar}
+                width={200}
+                height={200}
             ></Image>
             <Preview setUploadedAvatar={setUploadedAvatar} funMyInfo={setMyInfo} />
             <TwoFactorAuthButton twoFactorAuthMode={myInfo.twoFactorAuth} funMyInfo={setMyInfo} />
@@ -99,7 +100,7 @@ const Preview = (props: PreviewProps) => {
             const userData: Partial<UserInterface> = {
                 avatar: imageSrc
             };
-            await updateUser(userData).then((res) => {
+            await updateUser(userData).then((res: any) => {
                 console.log("data", res.data);
                 props.funMyInfo(res.data);
             });

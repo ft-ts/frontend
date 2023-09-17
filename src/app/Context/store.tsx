@@ -3,7 +3,7 @@
 import { createContext, useContext, useState } from "react";
 import { UserStatus } from "../main/enum/UserStatus.enum";
 import { User } from "../main/interface/User.interface";
-import { getMyInfo } from "../api/client";
+import { getMyInfo } from "../axios/client";
 import ChannelProps from "../main/left-wrapper/interfaces/channelProps";
 import { ChannelUser } from "../main/mid-wrapper/chat/interfaces/channelUser.interface";
 import UserInterface from "../api/interfaces/user.interface";

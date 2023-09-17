@@ -90,7 +90,7 @@ export default function ChatRoom() {
     <div className={styles.chatRoomBox}>
       
       <div className={styles.chatDisplay} ref={messageEndRef}>
-        { channelId && chatMessages && 
+        { channelId && chatMessages?.map && 
           chatMessages.map((chatMessages) => (
             <MessageItem key={chatMessages.id} chatMessage={chatMessages} />
           ))}

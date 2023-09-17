@@ -1,12 +1,38 @@
 .userListContainer{
   background-color: #292929;
   display: flex;
-  justify-content: space-between;
   align-items: center;
   box-sizing: border-box;
   position: relative;
+  height: 80px;
+  border: 1px solid #ffffff;
+}
+
+.allWidth{
   width: 100%;
-  height: 100px;
+}
+
+.friendWidth{
+  width: 80%;
+}
+
+.channelWidth{
+  width: 70%;
+}
+
+.all{
+  display: flex;
+  border : 1px solid #ffffff;
+}
+
+.channel{
+  display: flex;
+  border: 1px solid #ffffff;
+}
+
+.friend{
+  display: flex;
+  border: 1px solid #ffffff;
 }
 
 .userListContainer:hover {
@@ -20,15 +46,14 @@
   justify-content: center;
   box-sizing: border-box;
   position: relative;
-  width: 100px;
-  height: 100px;
-}
-.userAvatar{
-  margin-left: 8%;
-  background-color: deeppink;
   width: 80px;
   height: 80px;
-  border-radius: 40%;
+}
+.userAvatar{
+  background-color: deeppink;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
 }
 
 .userNameBox{
@@ -37,38 +62,50 @@
   justify-content: center;
   box-sizing: border-box;
   position: relative;
-  width: 315px;
-  height: 100px;
+  width: 300px;
+  height: 80px;
 }
 
 .userName{
   color: #ffffff;
-  font-size: 40px;
+  font-size: 38px;
 }
-
-.userStatusBox{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-  position: relative;
-  width: 135px;
-  height: 100px;
-}
-.userStatus{
-  font-size: 20px;
-}
-
 .userChatRoleBox{
   display: flex;
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
   position: relative;
-  width: 80px;
-  height: 100px;
+  width: 40px;
+  height: 40px;
+  margin-left: 3px;
 }
 
 .userChatRole{
   color: #ffffff;
+}
+
+.userListButtonContainer{
+  display: flex;
+  width: 100%;
+  background: #292929;
+  align-items: center;
+  justify-content: center;
+}
+
+.buttonBox{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  position: relative;
+  width: 40px;
+  height: 40px;
+  margin-left: 15px;
+  border-radius: 50%;
+}
+
+.buttonBox:hover{
+  background-color: #b8b7b7;
+  cursor: pointer;
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import axios from "axios";
-import UserInterface from "./interfaces/user.interface";
+import UserInterface from "../axios/interfaces/user.interface"
 
 export const apiClient = axios.create({
     baseURL: "http://localhost:10000/api",
@@ -55,3 +55,4 @@ export async function postFriend(uid: number): Promise<any> {
 export async function updateUser(userData: Partial<UserInterface>): Promise<any> {
     return apiClient.patch(`/users`, userData);
 }
+

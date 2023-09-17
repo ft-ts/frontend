@@ -10,19 +10,20 @@
   background-color: #000000;
   border: 3px solid #ffffff;
   margin-left: 15%;
+  margin-top: 5%;
 }
 
 .avatar {
   border-radius: 50%;
   width: 200px;
   height: 200px;
-  margin-bottom: 20px;
+  // margin-bottom: 20px;
 }
 
 .topContainer {
   display: flex;
   width: 400px;
-  height: 50px;
+  height: 90px;
   position : relative;
   justify-content: center;
 }
