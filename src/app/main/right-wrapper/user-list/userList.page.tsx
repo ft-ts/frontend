@@ -50,6 +50,9 @@ export default function UserList(
   useEffect(() => {
   }, [friendList]);
 
+  useEffect(() => {
+  }, [channelMembers]);
+
   const renderUserList = () => {
     if (activeTab === TabOptions.ALL) {
       return renderAllList();

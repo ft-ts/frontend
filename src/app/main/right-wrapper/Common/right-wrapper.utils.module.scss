@@ -14,19 +14,32 @@
   background: yellow;
 }
 
-.online2 {
+.statusOnLine {
   background: green;
 }
 
-.offline2 {
+.statusOffLine {
   background: red;
 }
 
-.inGame2 {
+.statusInGame {
   background: blue;
 }
 
-.matching2 {
+.statusMatching {
   background: yellow;
 }
 
+.userStatusBox{
+  width: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 10px;
+}
+.userStatus {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border : 1px solid #ffffff;
+}

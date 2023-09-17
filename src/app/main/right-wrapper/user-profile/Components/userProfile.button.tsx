@@ -7,10 +7,10 @@ import { User } from '@/app/main/interface/User.interface';
 import { socket } from '@/app/main/components/CheckAuth';
 import { postFriend } from '@/app/axios/client';
 
-const block = "/asset/mute.png";
-const addFriend = "/asset/happy.png";
+const block = "/asset/muteIcon.png";
+const addFriend = "/asset/plus.png";
 const inviteMatch = "/asset/pongIcon.png";
-const dm = "/asset/email.png";
+const dm = "/asset/msgIcon.png";
 
 export default function ProfileButton(
   {

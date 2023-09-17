@@ -3,9 +3,12 @@
 import React from 'react';
 import styles from './userList.module.scss';
 import Image from 'next/image';
-import { getStatusColor } from "../../Common/right-wrapper.utils";
+import { renderUserStatus } from "../../Common/right-wrapper.utils";
 import { UserStatus } from '@/app/main/enum/UserStatus.enum';
 import { User } from '@/app/main/interface/User.interface';
+
+const deleteFriend = "/asset/minus.png";
+const invite = "/asset/inviteIcon.png";
 
 export default function UserListFriends(
   {
@@ -31,18 +34,24 @@ export default function UserListFriends(
     }
 
   return (
-    <button onClick={handleClick} className={styles.userListContainer}>
-      <div className={styles.userChatRoleBox}>
+    <div className={styles.friend}>
+      <button onClick={handleClick} className={`${styles.userListContainer} ${styles.friendWidth}`}>
+        {renderUserStatus({userStatus: user.status as UserStatus})}
+        <div className={styles.userAvatarBox}>
+          <Image src={user.avatar} width={60} height={60} alt={user.name} className={styles.userAvatar}></Image>
+        </div>
+        <div className={styles.userNameBox}>
+          <div className={styles.userName}>{user.name}</div>
+        </div>
+      </button>
+      <div className={styles.userListButtonContainer}>
+        <button className={styles.buttonBox}>
+          <Image src={deleteFriend} width={40} height={40} alt="deleteFriend"></Image>
+        </button>
+        <button className={styles.buttonBox}>
+          <Image src={invite} width={40} height={40} alt="invite"></Image>
+        </button>
       </div>
-      <div className={styles.userAvatarBox}>
-        <Image src={user.avatar} width={80} height={80} alt={user.name} className={styles.userAvatar}></Image>
-      </div>
-      <div className={styles.userNameBox}>
-        <div className={styles.userName}>{user.name}</div>
-      </div>
-      <div className={styles.userStatusBox}>
-        <div className={`styles.userStatus ${getStatusColor(user.status as UserStatus)}`}>{user.status}</div>
-      </div>
-    </button>
+    </div>
   )
 }
