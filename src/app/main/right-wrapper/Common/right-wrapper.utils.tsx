@@ -14,14 +14,27 @@ export function getStatusColor(status: UserStatus){
   }
 }
 
-export function getStatusColor2(status: UserStatus){
+export function renderUserStatus(
+  {userStatus}:
+  {userStatus: UserStatus}
+){
+  return (
+    <div className={styles.userStatusBox}>
+      <div className={`${styles.userStatus} ${renderUserStatusUtil(userStatus)}`}></div>
+    </div>
+  )
+}
+
+function renderUserStatusUtil( status: UserStatus){
   switch (status) {
     case UserStatus.ONLINE:
-      return styles.online2;
+      return styles.statusOnLine;
     case UserStatus.OFFLINE:
-      return styles.offline2;
+      return styles.statusOffLine;
     case UserStatus.IN_GAME:
       return styles.inGame2;
+    // case UserStatus.MATCHING:
+      // return styles.statusMatching;
     default:
       return styles.offline2;
   }
