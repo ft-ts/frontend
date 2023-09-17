@@ -20,14 +20,14 @@ const ChannelItem = (props: ChannelItemProps) => {
 
 const DmItem = (props: DmItemProps) => {
   const itemClasses = classnames(styles.dmItemContainer, {
-    [styles.online]: props.state === UserStatus.ONLINE,
-    [styles.offline]: props.state === UserStatus.OFFLINE,
-    [styles.inGame]: props.state === UserStatus.IN_GAME,
-    [styles.deactivated]: props.state === UserStatus.DEACTIVATED,
+    [styles.online]: props.status === UserStatus.ONLINE,
+    [styles.offline]: props.status === UserStatus.OFFLINE,
+    [styles.inGame]: props.status === UserStatus.IN_GAME,
+    [styles.deactivated]: props.status === UserStatus.DEACTIVATED,
   });
 
   const stateText = (() => {
-    switch (props.state) {
+    switch (props.status) {
       case UserStatus.ONLINE:
         return 'Online';
       case UserStatus.OFFLINE:
@@ -45,12 +45,12 @@ const DmItem = (props: DmItemProps) => {
     <div className={classnames(styles.dmItemContainer, itemClasses)} onClick={() => props.onClick(props.targetUid)}>
       <Image
         className={styles.profilePic}
-        src={props.profile}
+        src={props.avatar}
         alt="profile"
         width={30}
         height={30}
         />
-      <p className={styles.dmUser}>{props.friend}</p>
+      <p className={styles.dmUser}>{props.name}</p>
       <p className={styles.dmState}>{stateText}</p>
     </div>
   );

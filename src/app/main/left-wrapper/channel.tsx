@@ -15,7 +15,6 @@ import { useGlobalContext } from "@/app/Context/store";
 import ChannelProps from "./interfaces/channelProps";
 
 function Channel() {
-  const [key, setKey] = useState(0); // key 상태 추가
   const [chId, setChId] = useState<number | null>(null);
   const [selectedTab, setSelectedTab] = useState(ChannelTabOptions.ALL);
   const [showPasswordModal, setShowPasswordModal] = useState<boolean>(false);
@@ -24,8 +23,9 @@ function Channel() {
   const { isChannelNotificationVisible, setIsChannelNotificationVisible }: any =
     useGlobalContext();
   const { channelId, setChannelId}: any = useGlobalContext();
-  const { channel, setChannel }: any = useGlobalContext();
+  const { channel, setChannel, setActiveTab }: any = useGlobalContext();
   const { setChannelMembers }: any = useGlobalContext();
+  const { setDmId }: any = useGlobalContext();
 
   const channels = useChannelData(selectedTab);
   const handleTabClick = (tab: ChannelTabOptions) => {
@@ -35,9 +35,10 @@ function Channel() {
   useEffect(() => {
     if (channelId === null) {
       setChannel(null);
+      setActiveTab(ChannelTabOptions.ALL);
       return;
     }
-
+      setDmId(null);
       socket.emit("channel/getChannelById", { channelId });
       socket.on("channel/getChannelById", (channel: ChannelProps) => {
         setChannel(channel);
@@ -51,6 +52,9 @@ function Channel() {
       socket.off("channel/getChannelMembers");
     };
   }, [channelId]);
+
+  useEffect(() => {
+  }, [channel]);
 
   const handleChannelClick = async (chId: number) => {
     const channel = channels.find((ch) => ch.id === chId);
