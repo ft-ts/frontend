@@ -25,6 +25,7 @@ export default function UserList(
   })
   {
   const { activeTab, setActiveTab }: any = useGlobalContext();
+  const { myRole, setMyRole }: any = useGlobalContext();
   const [userList, setUserList] = useState<User[]>([]);
   const [friendList, setFriendList] = useState<User[]>([]);
   const { channelId }: any = useGlobalContext();
@@ -40,6 +41,7 @@ export default function UserList(
   useEffect(() => {
     getFreiendsList().then((res) => {
       const { data } = res;
+      console.log (data);
       setFriendList(data);
     });
   }, []);
@@ -93,6 +95,7 @@ export default function UserList(
             key={index}
             user={item}
             myInfo={myInfo}
+            currentChannelID={channelId}
             setCurrentUser={setCurrentUser}
             setIsMe={setIsMe}
           />
@@ -109,6 +112,8 @@ export default function UserList(
             key={member.id}
             item={member}
             myInfo={myInfo}
+            myRole={myRole}
+            currentChannelID={channelId}
             setCurrentUser={setCurrentUser}
             setIsMe={setIsMe}
            />

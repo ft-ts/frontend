@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { User } from '@/app/main/interface/User.interface';
 import { socket } from '@/app/main/components/CheckAuth';
 import { postFriend } from '@/app/axios/client';
+import { useGlobalContext } from '@/app/Context/store';
 
 const block = "/asset/muteIcon.png";
 const addFriend = "/asset/plus.png";
@@ -17,13 +18,13 @@ export default function ProfileButton(
     user,
   }:{
     user: User
-  }
-  ){
+  })
+  {
 
   const handleAddFriend = () => {
     console.log('handleAddFriend');
     postFriend(user.uid).then((res) => {
-      alert(res.data.message);
+      console.log(res.data);
     });
   }
   const handleBlock = () => {

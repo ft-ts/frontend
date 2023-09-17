@@ -16,7 +16,9 @@ import { ChannelRole } from "./enum/channelRole.enum";
 export default function ChatMenu() {
   const { channelId }: any = useGlobalContext();
   const { channel, setChannel }: any = useGlobalContext();
+  const { setMyRole } : any = useGlobalContext();
   const [channelUser, setChannelUser] = useState<ChannelUser | null>(null);
+  
 
   useEffect(() => {
     if (channelId === null) {
@@ -25,7 +27,10 @@ export default function ChatMenu() {
     }
     socket.emit("channel/getChannelUser", { channelId });
     socket.on("channel/getChannelUser", (data: ChannelUser) => {
-      setChannelUser(data);
+      if (data !== null) {
+        setChannelUser(data);
+        setMyRole(data.role);
+      }
     });
     return () => {
       socket.off("channel/getChannelUser");
