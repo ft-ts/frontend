@@ -49,7 +49,7 @@ export default function Profile(
   };
 
   useEffect(() => {
-  }, [user]);
+      }, [user]);
     
   return (
     <div className={styles.userInfoWrapper}>
