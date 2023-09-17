@@ -71,7 +71,7 @@ const GameStartButton = () => {
 
   const router = useRouter();
   const handleLoginClick = async () => {
-    router.push('http://localhost:10000/api/login');
+    router.push(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/login`);
   };
 
   return (

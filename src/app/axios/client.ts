@@ -4,7 +4,7 @@ import axios from "axios";
 import UserInterface from "./interfaces/user.interface";
 
 export const apiClient = axios.create({
-  baseURL: "http://localhost:10000/api",
+  baseURL: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api`,
   headers: {
     "Content-Type": "application/json",
   },
