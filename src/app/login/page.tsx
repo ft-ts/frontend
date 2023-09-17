@@ -17,10 +17,14 @@ export default function Login() {
   return (
     <div className={styles.background}>
       <GameBackground />
-      <GameCrossDeco />
-      <GameSelectButton />
-      <GameStartButton />
-      <GameRoundDeco />
+      <div className={styles.buttonsWrapper}>
+        <GameCrossDeco />
+        <div className={styles.midButtons}>
+          <GameSelectButton />
+          <GameStartButton />
+        </div>
+        <GameRoundDeco />
+      </div>
     </div>
   )
 }
@@ -106,24 +110,28 @@ const GameRoundDeco = () => {
 
   return (
     <button className={styles.roundContainer}>
-      <Image
-        onClick={() => loginasDemoUser('BBBB', 2222)}
-        src="/asset/RoundButtonDeco.svg"
-        alt="RoundButtonDecoA"
-        width={150}
-        height={150}
-        className={styles.gameRoundDecoA}
-      ></Image>
-      <Image
-        onClick={() => loginasDemoUser('AAAA', 1111)}
-        src="/asset/RoundButtonDeco.svg"
-        alt="RoundButtonDecoB"
-        width={150}
-        height={150}
-        className={styles.gameRoundDecoB}
-      ></Image>
-      <h2 className={styles.gameRoundFontA}>A</h2>
-      <h2 className={styles.gameRoundFontB}>B</h2>
+      <div className={styles.roundBtnWrapper}>
+        <Image
+          onClick={() => loginasDemoUser('AAAA', 1111)}
+          src="/asset/RoundButtonDeco.svg"
+          alt="RoundButtonDecoA"
+          width={150}
+          height={150}
+          className={styles.gameRoundDecoA}
+        ></Image>
+        <h2 className={styles.gameRoundFontA}>A</h2>
+      </div>
+      <div className={styles.roundBtnWrapper}>
+        <Image
+          onClick={() => loginasDemoUser('BBBB', 2222)}
+          src="/asset/RoundButtonDeco.svg"
+          alt="RoundButtonDecoB"
+          width={150}
+          height={150}
+          className={styles.gameRoundDecoB}
+        ></Image>
+        <h2 className={styles.gameRoundFontB}>B</h2>
+      </div>
     </button>
   )
 }

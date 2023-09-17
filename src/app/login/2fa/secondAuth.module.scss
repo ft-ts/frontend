@@ -1,21 +1,16 @@
-$DisplayWidth: 2560px;
-$DisplayHeight: 1440px;
-$DisplayBackGroundWidth: $DisplayWidth * 0.7;
-$DisplayBackGroundHeight: $DisplayHeight * 0.55;
-
 .background {
     background-color: #aaa5aa;
-    width: $DisplayWidth;
-    height: $DisplayHeight;
+    width: 100vw;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .gameBackground {
-    box-sizing: border-box;
-    position: relative;
-    width: $DisplayBackGroundWidth;
-    height: $DisplayBackGroundHeight; // 790px
-    left: ($DisplayWidth * 0.15);
-    top: ($DisplayHeight * 0.05);
+    width: 70%;
+    height: 60%;
     background: rgba(45, 18, 66, 0.26);
     border: 2px solid #000000;
 
@@ -24,18 +19,45 @@ $DisplayBackGroundHeight: $DisplayHeight * 0.55;
     align-items: center;
 }
 
+.buttonsWrapper {
+    width: 100%;
+
+    display: flex;
+    justify-content: space-between;
+    padding: 0 50px;
+}
+
 .displayBackground {
-    box-sizing: border-box;
-    width: ($DisplayBackGroundWidth * 0.90); //1609px
-    height: $DisplayBackGroundHeight * 0.9;
-    left: (1983px * 0.05);
-    top: 3vh;
+    width: calc(100% - 100px);
+    height: calc(100% - 50px);
     background: #859E5A;
     border: 5px solid #000000;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 
+    // display: flex;
+    // justify-content: space-between;
+    // align-items: center;
+    // flex-direction: row;
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+}
+
+.displayBackground > div:nth-child(1) {
+    min-width: 100px;
+}
+.displayBackground > div:nth-child(2) {
+    min-width: 1100px;
+}
+.displayBackground > div:nth-child(3) {
+    min-width: 250px;
+}
+
+
+
+.codeWrapper {
     display: flex;
-    justify-content: center;
+    flex-direction: row;
+    justify-content: space-between;
     align-items: center;
 }
 
@@ -57,8 +79,15 @@ $DisplayBackGroundHeight: $DisplayHeight * 0.55;
     font-size: 80px;
 }
 
+.qrWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+    padding: 10px;
+}
+
 .qrCode {
-    position: absolute;
     right: 100px;
     bottom: 50px;
     width: 200px;
@@ -66,16 +95,15 @@ $DisplayBackGroundHeight: $DisplayHeight * 0.55;
 }
 
 .pigtail {
-    position: absolute;
     right: 80px;
     bottom: 240px;
 }
 
 .qrText {
-    position: absolute;
     right: 170px;
     bottom: 280px;
     font-size: 30px;
+    transform: translateX(-90px) translateY(80px);
 }
 
 .qrText a {
@@ -85,11 +113,7 @@ $DisplayBackGroundHeight: $DisplayHeight * 0.55;
 
 .gameFont,
 .pressFont {
-    position: relative;
     z-index: 90;
-    font-family: 'ArcadeClassic';
-    font-style: normal;
-    font-weight: 400;
     line-height: 101px;
     display: flex;
     align-items: center;
@@ -98,47 +122,44 @@ $DisplayBackGroundHeight: $DisplayHeight * 0.55;
     text-transform: uppercase;
 }
 
+
 .gameFont {
-    left: (1609px / 2) - (934px / 2);
-    top: 180px;
-    font-size: 200px;
+    font-size: 180px;
 }
 
 .pressFont {
-    left: (1609px / 2) - (1078px / 2);
-    top: 350px;
-    font-size: 100px;
+    font-size: 80px;
 }
 
 .gameCrossDeco {
-    position: relative;
-    left: 100px;
-    top: 80px;
+    padding-bottom: 100px;
+    transform: translateY(-100px);
 }
 
 .container {
-    position: absolute;
-    top: 1200px;
     display: flex;
+    flex-direction: column;
+    align-items: center;
     transform: rotate(-5.57deg);
-    cursor: default;
 }
 
+.midButtons {
+    min-width: 550px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+    padding-top: 100px;
+}
 
 .GameRoundRectangleDecoSelect {
-    left: ($DisplayWidth / 2) - 200px;
-    position: relative;
 }
 
 .GameRoundRectangleDecoStart {
-    left: 1380px;
-    /* Adjust as needed for desired separation */
-    position: relative;
 }
 
 .startFont,
 .selectFont {
-    position: absolute;
     width: 126px;
     height: 37px;
     font-family: 'Poppins';
@@ -156,37 +177,34 @@ $DisplayBackGroundHeight: $DisplayHeight * 0.55;
 }
 
 .startFont {
-    left: 1430.61px;
-    top: 150px;
 }
 
 .selectFont {
-    left: 1150.61px;
-    top: 150px;
 }
 
-
 .roundContainer {
-    position: absolute;
     display: flex;
-    cursor: default;
+    transform: rotate(-39deg);
+    justify-content: space-between;
+    width: 350px;
+}
+
+.roundBtnWrapper {
+    flex-direction: column;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    height: 250px;
 }
 
 .gameRoundDecoA {
-    position: relative;
-    left: $DisplayBackGroundWidth + 300px;
-    top: -90px;
 }
 
 .gameRoundDecoB {
-    position: relative;
-    left: $DisplayBackGroundWidth + 300px;
-    top: -230px;
 }
 
 .gameRoundFontA,
 .gameRoundFontB {
-    position: relative;
     width: 126px;
     height: 37px;
     font-family: 'Poppins';
@@ -200,15 +218,10 @@ $DisplayBackGroundHeight: $DisplayHeight * 0.55;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: #464084;
-    transform: rotate(-31.97deg);
 }
 
 .gameRoundFontA {
-    left: $DisplayBackGroundWidth + 260;
-    top: -76px;
 }
 
 .gameRoundFontB {
-    left: $DisplayBackGroundWidth + 0px;
-    top: 64px;
 }

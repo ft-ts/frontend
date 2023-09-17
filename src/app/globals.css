@@ -18,7 +18,10 @@
 }
 
 body {
-  background-color: #737274;
+  /* overflow-x: hidden; */
+  background-color: red;
+  /* width: 100vw !important; */
+  /* height: 100dvh !important; */
 }
 
 .button {
