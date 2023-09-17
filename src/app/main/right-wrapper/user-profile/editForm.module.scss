@@ -1,114 +1,108 @@
 
 .avatar {
-    border-radius: 50%;
-    width: 400px;
-    height: 400px;
-    margin-bottom: 20px;
-    display: inline-block;
-  }
+  border-radius: 50%;
+  width: 400px;
+  height: 400px;
+  margin-bottom: 20px;
+  display: inline-block;
+}
 
 .EditFormContainer{
-    font-family: 'ArcadeClassic';
-    font-style: normal;
-	font-weight: 350;
-    text-align: center;
-    h2 {
-        margin-top: 50px;
-        display: flex;
-		justify-content: center;
-		align-content: center;
-		font-size: 70px;
-		margin-bottom: 10px;
-		color: #f8fec7;
-    }
-    input[type="text"] {
-		width: 600px;
-        height: 80px;
-		padding: 10px;
-        font-size: 20px;
-		margin-bottom: 70px;
-		border: 3px solid #FF25A8;
-		border-radius: 4px;
-	}
+  font-style: normal;
+  font-weight: 350;
+  text-align: center;
+  h2 {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    font-size: 70px;
+    margin-bottom: 10px;
+    color: #f8fec7;
+  }
+  input[type="text"] {
+    width: 600px;
+    height: 80px;
+    padding: 10px;
+    font-size: 20px;
+    margin-bottom: 70px;
+    border: 3px solid #FF25A8;
+    border-radius: 4px;
+  }
 }
 
 .buttonContainer {
-	display: flex;
-	justify-content: space-between; /* 버튼을 좌우로 배치 */
-  	margin-top: auto;
-  }
+  display: flex;
+  justify-content: space-between; /* 버튼을 좌우로 배치 */
+  margin-top: auto;
+}
   
 
   .hidden {
-    display: none;
+  display: none;
 }
 
 .customFileUpload {
-    display: inline-block;
-    padding: 10px 20px;
-    font-size: 60px;
-    cursor: pointer;
-    border: 2px solid #D3D3D3; /* Gray border */
-    background-color: #333; /* Dark gray background */
-    color: #f8fec7; /* Golden text */
-    border-radius: 4px;
-    box-shadow: 2px 2px #888888; /* Shadow for depth */
-    transition: all 0.3s;
-
-    /* Adding some retro fonts */
-    font-size: 'ArcadeClassic';
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 60px;
+  cursor: pointer;
+  border: 2px solid #D3D3D3; /* Gray border */
+  background-color: #333; /* Dark gray background */
+  color: #f8fec7; /* Golden text */
+  border-radius: 4px;
+  box-shadow: 2px 2px #888888; /* Shadow for depth */
+  transition: all 0.3s;
 }
 
 .customFileUpload:hover {
     background-color: #555; /* Slightly lighter gray on hover */
 }
 
-  .buttonEdit {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	width: 360px;
-    height: 80px;
-	padding: 5px;
-	margin: 5px;
-	color: #a7fc88;
-	border: 3px solid #a7fc88;
-	border-radius: 4px;
-	background: transparent;
-	cursor: pointer;
-	font-family: 'ArcadeClassic';
-	font-weight: 350;
-  }
+.buttonEdit {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 360px;
+  height: 80px;
+  padding: 5px;
+  margin: 5px;
+  color: #a7fc88;
+  border: 3px solid #a7fc88;
+  border-radius: 4px;
+  background: transparent;
+  cursor: pointer;
+  font-weight: 350;
+}
 
-  .buttonEdit:hover {
-	color: #FFFFFF;
-	border: 3px solid #FFFFFF;
-  }
+.buttonEdit:hover {
+  color: #FFFFFF;
+  border: 3px solid #FFFFFF;
+}
 
-  .buttonCancel {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	width: 360px;
-    height: 80px;
-	padding: 5px;
-	margin: 5px;
-	color: #eb483f;
-	border: 3px solid #eb483f;
-	border-radius: 4px;
-	background: transparent;
-	cursor: pointer;
-	font-family: 'ArcadeClassic';
-	font-weight: 350;
-  }
+.buttonCancel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 360px;
+  height: 80px;
+  padding: 5px;
+  margin: 5px;
+  color: #eb483f;
+  border: 3px solid #eb483f;
+  border-radius: 4px;
+  background: transparent;
+  cursor: pointer;
+  font-weight: 350;
+}
 
-  .buttonCancel:hover {
-	color: #FFFFFF;
-	border: 3px solid #FFFFFF;
-  }
+.buttonCancel:hover {
+  color: #FFFFFF;
+  border: 3px solid #FFFFFF;
+}
 
-  .error {
-	color: #eb483f;
-	margin: 10px 0;
-	font-size: 15px;
-  }
+.error {
+  color: #eb483f;
+  margin: 10px 0;
+  font-size: 15px;
+}
