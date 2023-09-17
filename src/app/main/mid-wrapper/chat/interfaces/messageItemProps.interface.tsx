@@ -1,4 +1,4 @@
-import UserInterface from "@/app/api/interfaces/user.interface";
+import UserInterface from "@/app/axios/interfaces/user.interface";
 import { ChannelRole } from "../enum/channelRole.enum";
 
 

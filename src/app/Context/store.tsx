@@ -6,7 +6,7 @@ import { User } from "../main/interface/User.interface";
 import { getMyInfo } from "../axios/client";
 import ChannelProps from "../main/left-wrapper/interfaces/channelProps";
 import { ChannelUser } from "../main/mid-wrapper/chat/interfaces/channelUser.interface";
-import UserInterface from "../api/interfaces/user.interface";
+import UserInterface from "../axios/interfaces/user.interface";
 
 const globalContext = createContext({});
 
