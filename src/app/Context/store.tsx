@@ -6,7 +6,7 @@ import { User } from "../main/interface/User.interface";
 import { getMyInfo } from "../axios/client";
 import ChannelProps from "../main/left-wrapper/interfaces/channelProps";
 import { ChannelUser } from "../main/mid-wrapper/chat/interfaces/channelUser.interface";
-import UserInterface from "../api/interfaces/user.interface";
+import { ChannelRole } from "../main/mid-wrapper/chat/enum/channelRole.enum";
 
 const globalContext = createContext({});
 
@@ -23,12 +23,13 @@ export const GlobalContextProvider = ({ children }: any) => {
   const [chId, setchId] = useState<number | null>(null);
   const [channelId, setChannelId] = useState<number | null>(null);
   const [channel, setChannel] = useState<ChannelProps | null>(null);
+  const [myRole, setMyRole] = useState<ChannelRole>(ChannelRole.NORMAL);
   const [selectedDm, setSelectedDm] = useState<number | null>(null);
   const [channelMembers, setChannelMembers] = useState<ChannelUser[]>([]);
   const [password, setPassword] = useState<string | null>(null);
   const [isChannelNotificationVisible, setIsChannelNotificationVisible] = useState(false);
   const [channelErrorMessage, setChannelErrorMessage] = useState<string | null>(null);
-
+  const [ friendsList, setFriendsList ] = useState<User[]>([]);
 
 
   const value = {
@@ -42,6 +43,8 @@ export const GlobalContextProvider = ({ children }: any) => {
     setChannelId,
     channel,
     setChannel,
+    myRole,
+    setMyRole,
     selectedDm,
     setSelectedDm,
     channelMembers,
@@ -54,6 +57,8 @@ export const GlobalContextProvider = ({ children }: any) => {
     setIsChannelNotificationVisible,
     channelErrorMessage,
     setChannelErrorMessage,
+    friendsList,
+    setFriendsList
   }
   return (
     <globalContext.Provider value={value}>

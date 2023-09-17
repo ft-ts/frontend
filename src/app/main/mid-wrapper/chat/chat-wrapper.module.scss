@@ -1,7 +1,6 @@
 .chatWrapper {
     position: relative;
     background: #414141;
-    font-family: "ArcadeClassic";
 }
 
 .chatMenuBox {
@@ -20,7 +19,6 @@
     position: absolute;
     left: 80px;
     top: 5px;
-    font-family: 'ArcadeClassic';
     font-style: normal;
     font-weight: 500;
     font-size: 42px;
@@ -70,7 +68,6 @@
     width: 250px;
     height: 43.62px;
     top: 10px;
-    font-family: 'ArcadeClassic';
     font-style: normal;
     font-weight: 500;
     font-size: 42px;
@@ -97,7 +94,6 @@
     height: 43px;
     left: 30px;
     bottom: 25px;
-    font-family: 'ArcadeClassic';
     font-style: normal;
     font-weight: 200;
     font-size: 20px;
@@ -152,7 +148,6 @@
     // display: flex;
     // justify-content: center;
     // align-content: center;
-    // font-family: 'ArcadeClassic';
     // font-style: normal;
     // font-weight: 500;
     // font-size: 42px;
@@ -249,7 +244,6 @@ $sizeSenderName: 30px;
     height: $sizeProfilePicture;
     display: inline-block;
     align-content: center;
-    font-family: 'ArcadeClassic';
     font-style: normal;
     font-weight: 200;
 }
@@ -257,7 +251,6 @@ $sizeSenderName: 30px;
 .chatSenderName {
     box-sizing: border-box;
     position: relative;
-    font-family: 'ArcadeClassic';
     font-style: normal;
     font-weight: 20;
     font-size: 22px;
@@ -269,7 +262,6 @@ $sizeSenderName: 30px;
     box-sizing: border-box;
     position: relative;
     color: #b7b7b7;
-    font-family: 'ArcadeClassic';
     font-style: normal;
     font-weight: 10;
     font-size: 18px;
