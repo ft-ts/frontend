@@ -27,10 +27,9 @@ export default function RightWrapper() {
   useEffect(() => {
   }, [myInfo, currentUser]);
 
-
   return (
       <div className={styles.rightWrapper}>
-          <UserProfile user={currentUser} isMe={isMe} />
+          <UserProfile user={myInfo} isMe={isMe} />
           <UserList setCurrentUser={setCurrentUser} setIsMe={setIsMe} myInfo={myInfo}/>
       </div>
   )

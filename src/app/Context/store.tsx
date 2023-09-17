@@ -19,6 +19,7 @@ export enum TabOptions {
 export const GlobalContextProvider = ({ children }: any) => {
   const [activeTab, setActiveTab] = useState(TabOptions.ALL);
   const [myInfo, setMyInfo] = useState<User>(dummy);
+  const [currentUser, setCurrentUser] = useState<User>(dummy);
   const [chId, setchId] = useState<number | null>(null);
   const [channelId, setChannelId] = useState<number | null>(null);
   const [channel, setChannel] = useState<ChannelProps | null>(null);
@@ -33,6 +34,8 @@ export const GlobalContextProvider = ({ children }: any) => {
   const value = {
     myInfo,
     setMyInfo,
+    currentUser,
+    setCurrentUser,
     chId,
     setchId,
     channelId,

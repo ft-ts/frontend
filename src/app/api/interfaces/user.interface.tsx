@@ -2,7 +2,8 @@
 interface UserInterface {
 		uid: number;
 		name: string;
-		avatar: string;
+		avatar: string | null;
+        twoFactorAuth: boolean;
   }
 
 export default UserInterface;

@@ -19,7 +19,7 @@ export default function ProfileButton(
     user: User
   }
   ){
-
+    
   const handleAddFriend = () => {
     console.log('handleAddFriend');
     postFriend(user.uid).then((res) => {

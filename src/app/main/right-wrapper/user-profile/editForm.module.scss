@@ -13,7 +13,7 @@
 	font-weight: 350;
     text-align: center;
     h2 {
-        margin-top: 50px;
+        margin-top: 30px;
         display: flex;
 		justify-content: center;
 		align-content: center;
@@ -112,3 +112,24 @@
 	margin: 10px 0;
 	font-size: 15px;
   }
+
+  .faModeButton {
+    margin-top: 40px;
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 60px;
+    cursor: pointer;
+    border: 2px solid #D3D3D3; /* Gray border */
+    background-color: #333; /* Dark gray background */
+    color: #c485d4; /* Golden text */
+    border-radius: 4px;
+    box-shadow: 2px 2px #888888; /* Shadow for depth */
+    transition: all 0.3s;
+
+    /* Adding some retro fonts */
+    font-size: 'ArcadeClassic';
+}
+
+.faModeButton:hover {
+    background-color: #555; /* Slightly lighter gray on hover */
+}
