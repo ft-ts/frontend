@@ -3,7 +3,7 @@ import styles from "./editForm.module.scss"
 import EditProfileProps from './editFormProps';
 import PreviewProps from './editAvatarProps'
 import { useGlobalContext } from '@/app/Context/store';
-import { getMyInfo } from '@/app/api/client';
+import { getMyInfo } from '@/app/axios/client';
 import Image from 'next/image';
 import { socket } from '../../components/CheckAuth';
 

@@ -2,13 +2,17 @@
 
 import styles from "./login.module.scss"
 import Image from "next/image";
-// import { SecondAuthLogin } from "./secondAuth";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { apiClient } from "../api/client";
+import { apiClient } from "../axios/client";
+import { clearCookies } from "../utils/clearCookies";
 
 
 export default function Login() {
+
+  useEffect(() => {
+    clearCookies();
+  }, []);
 
   return (
     <div className={styles.background}>
@@ -66,7 +70,6 @@ const GameSelectButton = () => {
 const GameStartButton = () => {
 
   const router = useRouter();
-  const [message, setMessage] = useState('123');
   const handleLoginClick = async () => {
     router.push('http://localhost:10000/api/login');
   };

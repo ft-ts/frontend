@@ -18,11 +18,14 @@ $DisplayBackGroundHeight: $DisplayHeight * 0.55;
     top: ($DisplayHeight * 0.05);
     background: rgba(45, 18, 66, 0.26);
     border: 2px solid #000000;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .displayBackground{
     box-sizing: border-box;
-    position: relative;
     width: ($DisplayBackGroundWidth * 0.90); //1609px
     height: $DisplayBackGroundHeight * 0.9;
     left: (1983px * 0.05);

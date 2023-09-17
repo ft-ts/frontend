@@ -8,7 +8,7 @@ import UserListFriends from './Components/userList.friends';
 import MyInfo from './Components/userList.myInfo';
 import UserListSearch from './Components/userList.search';
 import { User } from '@/app/main/interface/User.interface';
-import { getUserListExceptMe, getFreiendsList } from '@/app/api/client';
+import { getUserListExceptMe, getFreiendsList } from '@/app/axios/client';
 import { useGlobalContext } from '@/app/Context/store';
 import { ChannelUser } from '../../mid-wrapper/chat/interfaces/channelUser.interface';
 import { TabOptions } from './userList.enum';
@@ -69,7 +69,7 @@ export default function UserList(
   const renderAllList = () => {
     return (
       <>
-        {userList.map((user: User) => (
+        {userList?.map && userList.map((user: User) => (
           <UserListAll
             key={user.uid}
             user={user}
@@ -85,7 +85,7 @@ export default function UserList(
   const renderFriendsList = () => {
     return (
       <>
-        {friendList.map((item, index) => (
+        {friendList?.map && friendList.map((item, index) => (
           <UserListFriends
             key={index}
             user={item}
@@ -101,7 +101,7 @@ export default function UserList(
   const renderChannelList = () => {
     return (
       <>
-        {channelMembers.map((member: ChannelUser) => (
+        {channelMembers?.map && channelMembers.map((member: ChannelUser) => (
           <UserListChannel 
             key={member.id}
             item={member}
