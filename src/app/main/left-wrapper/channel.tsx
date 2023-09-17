@@ -59,7 +59,6 @@ function Channel() {
     }
     socket.emit("channel/isChannelMember", { chId });
     socket.on("channel/isChannelMember", (isMember: boolean) => {
-
       if (isMember) {
         setChannelId(chId);
       } else if (channel.mode === ChannelMode.PUBLIC) {
@@ -88,8 +87,6 @@ function Channel() {
       socket.off("channel/error");
     };
   };
-
-  // useEffect(() => {}, [channel]);
 
   return (
     <div className={styles.channelWrapper}>
@@ -154,7 +151,7 @@ const useChannelData = (tab: ChannelTabOptions) => {
     return () => {
       socket.off("channel/channelUpdate");
     };
-  }, []);
+  }, [channel]);
 
 
   useEffect(() => {

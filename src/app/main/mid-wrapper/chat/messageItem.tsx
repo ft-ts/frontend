@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./chat-wrapper.module.scss";
 import ChatMessage from "./interfaces/chatMessage.interface";
 import { getMyInfo, getUserByUid } from "@/app/axios/client";
-import UserInterface from "@/app/api/interfaces/user.interface";
+import UserInterface from "@/app/axios/interfaces/user.interface";
 import Image from "next/image";
 import { useGlobalContext } from "@/app/Context/store";
 
