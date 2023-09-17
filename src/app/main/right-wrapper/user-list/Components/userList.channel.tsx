@@ -1,11 +1,14 @@
 "use client";
 
-import React from "react";
+import React, {useState} from "react";
 import { ChannelUser } from "../../../mid-wrapper/chat/interfaces/channelUser.interface"
 import styles from './userList.module.scss';
 import Image from "next/image";
 import { User } from "@/app/main/interface/User.interface";
 import { ChannelRole } from "@/app/main/mid-wrapper/chat/enum/channelRole.enum";
+import SetBanType from "./userList.channel.modal";
+import Modal from "react-modal";
+import { socket } from "@/app/main/components/CheckAuth";
 
 const owner = "/asset/crown.png";
 const admin = "/asset/admin.png";
@@ -17,15 +20,39 @@ export default function UserListChannel(
   {
     item,
     myInfo,
+    myRole,
+    currentChannelID,
     setCurrentUser,
     setIsMe,
   }:{
     item: ChannelUser
     myInfo: User
+    myRole: ChannelRole
+    currentChannelID: number
     setCurrentUser: React.Dispatch<React.SetStateAction<User>>
     setIsMe: React.Dispatch<React.SetStateAction<boolean>>
   })
   {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [ modalPostion, setModalPosition ] = useState({top: 0, left: 0});
+
+    const customStyles = {
+      content: {
+        width: "250px",
+        height: "130px",
+        border: "2px solid #ddd",
+        borderRadius: "8px",
+        backgroundColor: "#444444",
+        top: modalPostion.top,
+        left: modalPostion.left - 250,
+        alignItems: "center",
+
+      },
+      overlay: {
+        backgroundColor: "rgba(0, 0, 0, 0.5)",
+        zIndex: 1000,
+      },
+    };
 
     const handleClick = () => {
       setCurrentUser(item.user);
@@ -38,19 +65,41 @@ export default function UserListChannel(
 
     const handleSetAdmin = () => {
       console.log('SetAdmin');
+      const targetUserUid : number = item.user.uid;
+      const channelID : number = currentChannelID;
+      socket.emit('channel/grantAdmin', {targetUserUid: targetUserUid, channelID: channelID});
     }
 
-    const handleKick = () => {
-      console.log('Kick');
+    const handleRevokeAdmin = () => {
+      console.log('RevokeAdmin');
+      const targetUserUid : number = item.user.uid;
+      const channelID : number = currentChannelID;
+      socket.emit('channel/revokeAdmin', {targetUserUid: targetUserUid, channelID: channelID});
+    }
+
+    const handleMute = () => {
+      console.log('Mute');
+      const targetUserUid : number = item.user.uid;
+      const channelID : number = currentChannelID;
+      socket.emit('channel/muteMember', {targetUserUid: targetUserUid, channelID: channelID});
     }
     
-    const handleBan = () => {
+    const handleBan = (e: any) => {
+      const { top, left } = e.target.getBoundingClientRect();
       console.log('Ban', myInfo);
+      console.log(top, left);
+      setIsModalOpen(true);
+      setModalPosition({top: top, left: left});
     }
 
+    const handleCloseModal = () => {
+      setIsModalOpen(false);
+      setModalPosition({top: 0, left: 0});
+    };
+
   return (
-    <div className={styles.channel}>
-      <button onClick={handleClick} className={`${styles.userListContainer} ${styles.channelWidth}`}>
+    <div className={styles.userListContainer}>
+      <button onClick={handleClick} className={`${styles.userListBox} ${styles.channelWidth}`}>
         <div className={styles.userChatRoleBox}>
         <Image src={userRole(item.role)} width={30} height={30} alt={item.user.name}></Image>
         </div>
@@ -61,17 +110,26 @@ export default function UserListChannel(
           <h2 className={styles.userName}>{item.user.name}</h2>
         </div>
       </button>
-      <div className={styles.userListButtonContainer}>
-        {<button className={styles.buttonBox}>
+      {(!checkMe(myInfo, item.user) && checkAdmin(myRole) && !checkAdmin(item.role)) && <div className={styles.userListButtonContainer}>
+        {checkOwner(myRole) && <button className={styles.buttonBox}>
           <Image src={admin} width={30} height={30} alt="admin" onClick={handleSetAdmin}></Image>
         </button>}
         <button className={styles.buttonBox}>
-          <Image src={mute} width={40} height={40} alt="kick" onClick={handleKick}></Image>
+          <Image src={mute} width={40} height={40} alt="kick" onClick={handleMute}></Image>
         </button>
         <button className={styles.buttonBox}>
           {<Image src={ban} width={40} height={40} alt="ban" onClick={handleBan}></Image>}
         </button>
-      </div>
+        <Modal 
+          isOpen={isModalOpen}
+          contentLabel="Ban User Modal"
+          ariaHideApp={false}
+          style={customStyles}
+          shouldCloseOnOverlayClick={false}
+        >
+          <SetBanType handleCloseModal={handleCloseModal} channelId={currentChannelID} userUid={item.user.uid}/>
+        </Modal> 
+      </div>}
     </div>
   )
 }
@@ -94,6 +152,13 @@ const checkOwner = (role: ChannelRole) : boolean => {
 
 const checkAdmin = (role: ChannelRole) : boolean => {
   if (role === ChannelRole.ADMIN || role === ChannelRole.OWNER) {
+    return true;
+  }
+  return false;
+}
+
+const checkMe = (myInfo: User, user: User) : boolean => {
+  if (myInfo.uid === user.uid) {
     return true;
   }
   return false;
