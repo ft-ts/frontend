@@ -29,7 +29,7 @@ export default function RightWrapper() {
 
   return (
       <div className={styles.rightWrapper}>
-          <UserProfile user={myInfo} isMe={isMe} />
+          <UserProfile user={currentUser} isMe={isMe} />
           <UserList setCurrentUser={setCurrentUser} setIsMe={setIsMe} myInfo={myInfo}/>
       </div>
   )
