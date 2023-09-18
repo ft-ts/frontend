@@ -5,9 +5,8 @@ import styles from './right-wrapper.module.scss'
 import UserList from './user-list/userList.page'
 import UserProfile from './user-profile/userProfile.page'
 import { User } from '../interface/User.interface'
-import { getMyInfo } from '@/app/api/client';
+import { getMyInfo } from '@/app/axios/client';
 import { useGlobalContext } from '@/app/Context/store';
-import { set } from 'react-hook-form';
 
 export default function RightWrapper() {
 
