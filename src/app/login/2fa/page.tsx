@@ -72,13 +72,13 @@ const GameBackground = ({ authCode, setAuthCode, qrCode }: { authCode: string, s
       <div className={styles.displayBackground}>
         <div></div>
         <div className={styles.codeWrapper}>
-          <div className={styles.codeBackground}>{authCode[0] ? authCode[0] : '🤔'}</div>
-          <div className={styles.codeBackground}>{authCode[1] ? authCode[1] : '🤔'}</div>
-          <div className={styles.codeBackground}>{authCode[2] ? authCode[2] : '🤔'}</div>
+          <div className={styles.codeBackground}>{authCode[0] ? authCode[0] : '?'}</div>
+          <div className={styles.codeBackground}>{authCode[1] ? authCode[1] : '?'}</div>
+          <div className={styles.codeBackground}>{authCode[2] ? authCode[2] : '?'}</div>
           <div className={styles.dash}>-</div>
-          <div className={styles.codeBackground}>{authCode[3] ? authCode[3] : '🤔'}</div>
-          <div className={styles.codeBackground}>{authCode[4] ? authCode[4] : '🤔'}</div>
-          <div className={styles.codeBackground}>{authCode[5] ? authCode[5] : '🤔'}</div>
+          <div className={styles.codeBackground}>{authCode[3] ? authCode[3] : '?'}</div>
+          <div className={styles.codeBackground}>{authCode[4] ? authCode[4] : '?'}</div>
+          <div className={styles.codeBackground}>{authCode[5] ? authCode[5] : '?'}</div>
         </div>
         <QRImg qrCode={qrCode} />
       </div>
@@ -148,7 +148,7 @@ const GameSelectButton = () => {
 const GameStartButton = () => {
 
   return (
-    <button className={styles.container}>
+    <div className={styles.container}>
       <Image
         src="/asset/RoundRectangleButton.svg"
         alt="RoundButtonRectangleDecoB"
@@ -157,7 +157,7 @@ const GameStartButton = () => {
         className={styles.GameRoundRectangleDecoStart}>
       </Image>
       <h2 className={styles.startFont}>Start</h2>
-    </button>
+    </div>
   )
 }
 
@@ -165,7 +165,7 @@ const GameStartButton = () => {
 const GameRoundDeco = () => {
 
   return (
-    <button className={styles.roundContainer}>
+    <div className={styles.roundContainer}>
       <div className={styles.roundBtnWrapper}>
         <Image
           src="/asset/RoundButtonDeco.svg"
@@ -186,7 +186,7 @@ const GameRoundDeco = () => {
         ></Image>
         <h2 className={styles.gameRoundFontB}>B</h2>
       </div>
-    </button>
+    </div>
   )
 }
 

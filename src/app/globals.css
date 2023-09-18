@@ -18,14 +18,10 @@
 }
 
 body {
-  /* overflow-x: hidden; */
-  background-color: red;
+  /* overflow: auto; */
+  /* background-color: red; */
   /* width: 100vw !important; */
   /* height: 100dvh !important; */
-}
-
-.button {
-  @apply px-4 py-2 rounded-md bg-blue-500 text-white hover:bg-blue-600 w-24 text-center;
 }
 
 input:-webkit-autofill,
