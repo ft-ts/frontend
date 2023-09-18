@@ -66,22 +66,22 @@ export default function UserListChannel(
     const handleSetAdmin = () => {
       console.log('SetAdmin');
       const targetUserUid : number = item.user.uid;
-      const channelID : number = currentChannelID;
-      socket.emit('channel/grantAdmin', {targetUserUid: targetUserUid, channelID: channelID});
+      const channelId : number = currentChannelID;
+      socket.emit('channel/grantAdmin', {targetUserUid: targetUserUid, channelId: channelId});
     }
 
     const handleRevokeAdmin = () => {
       console.log('RevokeAdmin');
       const targetUserUid : number = item.user.uid;
       const channelID : number = currentChannelID;
-      socket.emit('channel/revokeAdmin', {targetUserUid: targetUserUid, channelID: channelID});
+      socket.emit('channel/revokeAdmin', {targetUserUid: targetUserUid, channelId: channelID});
     }
 
     const handleMute = () => {
       console.log('Mute');
       const targetUserUid : number = item.user.uid;
       const channelID : number = currentChannelID;
-      socket.emit('channel/muteMember', {targetUserUid: targetUserUid, channelID: channelID});
+      socket.emit('channel/muteMember', {targetUserUid: targetUserUid, channelId: channelID});
     }
     
     const handleBan = (e: any) => {
