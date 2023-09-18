@@ -1,10 +1,10 @@
 import { UserStatus } from "../../enum/UserStatus.enum";
 
 interface DmItemProps {
-	friend: string;
-	profile: string;
-	state: UserStatus;
 	targetUid: number;
+	name: string;
+	avatar: string;
+	status: UserStatus;
 	onClick: (targetUid: number) => void;
   }
 

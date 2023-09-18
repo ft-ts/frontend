@@ -6,7 +6,9 @@ import { User } from "../main/interface/User.interface";
 import { getMyInfo } from "../axios/client";
 import ChannelProps from "../main/left-wrapper/interfaces/channelProps";
 import { ChannelUser } from "../main/mid-wrapper/chat/interfaces/channelUser.interface";
+import DmItemProps from "../main/left-wrapper/interfaces/dmItemProps";
 import { ChannelRole } from "../main/mid-wrapper/chat/enum/channelRole.enum";
+
 
 const globalContext = createContext({});
 
@@ -29,8 +31,9 @@ export const GlobalContextProvider = ({ children }: any) => {
   const [password, setPassword] = useState<string | null>(null);
   const [isChannelNotificationVisible, setIsChannelNotificationVisible] = useState(false);
   const [channelErrorMessage, setChannelErrorMessage] = useState<string | null>(null);
+  const [dmId, setDmId] = useState<number | null>(null);
+  const [dmList, setDmList] = useState<DmItemProps[]>([]);
   const [ friendsList, setFriendsList ] = useState<User[]>([]);
-
 
   const value = {
     myInfo,
@@ -57,6 +60,10 @@ export const GlobalContextProvider = ({ children }: any) => {
     setIsChannelNotificationVisible,
     channelErrorMessage,
     setChannelErrorMessage,
+    dmId,
+    setDmId,
+    dmList,
+    setDmList,
     friendsList,
     setFriendsList
   }
