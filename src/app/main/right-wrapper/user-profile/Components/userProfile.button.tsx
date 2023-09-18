@@ -10,14 +10,6 @@ import { useGlobalContext } from "@/app/Context/store";
 import UserInterface from "@/app/axios/interfaces/user.interface";
 import { getUserByUid } from "@/app/axios/client";
 import DmItemProps from "@/app/main/left-wrapper/interfaces/dmItemProps";
-import { set } from "react-hook-form";
-import React from 'react';
-import styles from './button.module.scss';
-import Image from 'next/image';
-import { User } from '@/app/main/interface/User.interface';
-import { socket } from '@/app/main/components/CheckAuth';
-import { postFriend } from '@/app/axios/client';
-import { useGlobalContext } from '@/app/Context/store';
 
 const block = "/asset/muteIcon.png";
 const addFriend = "/asset/plus.png";
