@@ -9,3 +9,7 @@ package-lock.json
 
 **/**/*.css
 **/**/**/*.map
+
+.env.local
+.env.development
+.env*

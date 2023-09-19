@@ -3,10 +3,6 @@ export interface UserInfoContainer{
     OneUser: UserProps;
 }
 
-export interface MainProps {
-    OneUser: UserProps;
-}
-
 export interface UserProps{
     id: number;
     uid: number;

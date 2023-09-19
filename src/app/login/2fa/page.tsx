@@ -19,10 +19,14 @@ export default function Input2fa() {
   return (
     <div className={styles.background}>
       <GameBackground authCode={authCode} setAuthCode={setAuthCode} qrCode={qrCode} />
-      <GameCrossDeco />
-      <GameSelectButton />
-      <GameStartButton />
-      <GameRoundDeco />
+      <div className={styles.buttonsWrapper}>
+        <GameCrossDeco />
+        <div className={styles.midButtons}>
+          <GameSelectButton />
+          <GameStartButton />
+        </div>
+        <GameRoundDeco />
+      </div>
     </div>
   )
 }
@@ -65,6 +69,26 @@ const GameBackground = ({ authCode, setAuthCode, qrCode }: { authCode: string, s
 
   return (
     <div className={styles.gameBackground}>
+      <div className={styles.displayBackground}>
+        <div></div>
+        <div className={styles.codeWrapper}>
+          <div className={styles.codeBackground}>{authCode[0] ? authCode[0] : '?'}</div>
+          <div className={styles.codeBackground}>{authCode[1] ? authCode[1] : '?'}</div>
+          <div className={styles.codeBackground}>{authCode[2] ? authCode[2] : '?'}</div>
+          <div className={styles.dash}>-</div>
+          <div className={styles.codeBackground}>{authCode[3] ? authCode[3] : '?'}</div>
+          <div className={styles.codeBackground}>{authCode[4] ? authCode[4] : '?'}</div>
+          <div className={styles.codeBackground}>{authCode[5] ? authCode[5] : '?'}</div>
+        </div>
+        <QRImg qrCode={qrCode} />
+      </div>
+    </div>
+  )
+}
+
+const QRImg = ({ qrCode }: { qrCode: string }) => {
+  return (
+    <div className={styles.qrWrapper}>
       <div className={styles.qrText}>
         <p>Scan with</p>
         <a target="_blank"
@@ -87,15 +111,6 @@ const GameBackground = ({ authCode, setAuthCode, qrCode }: { authCode: string, s
         className={styles.qrCode}
       ></Image>
       }
-      <div className={styles.displayBackground}>
-        <div className={styles.codeBackground}>{authCode[0] ? authCode[0] : '🤔'}</div>
-        <div className={styles.codeBackground}>{authCode[1] ? authCode[1] : '🤔'}</div>
-        <div className={styles.codeBackground}>{authCode[2] ? authCode[2] : '🤔'}</div>
-        <div className={styles.dash}>-</div>
-        <div className={styles.codeBackground}>{authCode[3] ? authCode[3] : '🤔'}</div>
-        <div className={styles.codeBackground}>{authCode[4] ? authCode[4] : '🤔'}</div>
-        <div className={styles.codeBackground}>{authCode[5] ? authCode[5] : '🤔'}</div>
-      </div>
     </div>
   )
 }
@@ -133,7 +148,7 @@ const GameSelectButton = () => {
 const GameStartButton = () => {
 
   return (
-    <button className={styles.container}>
+    <div className={styles.container}>
       <Image
         src="/asset/RoundRectangleButton.svg"
         alt="RoundButtonRectangleDecoB"
@@ -142,7 +157,7 @@ const GameStartButton = () => {
         className={styles.GameRoundRectangleDecoStart}>
       </Image>
       <h2 className={styles.startFont}>Start</h2>
-    </button>
+    </div>
   )
 }
 
@@ -150,24 +165,28 @@ const GameStartButton = () => {
 const GameRoundDeco = () => {
 
   return (
-    <button className={styles.roundContainer}>
-      <Image
-        src="/asset/RoundButtonDeco.svg"
-        alt="RoundButtonDecoA"
-        width={150}
-        height={150}
-        className={styles.gameRoundDecoA}
-      ></Image>
-      <Image
-        src="/asset/RoundButtonDeco.svg"
-        alt="RoundButtonDecoB"
-        width={150}
-        height={150}
-        className={styles.gameRoundDecoB}
-      ></Image>
-      <h2 className={styles.gameRoundFontA}>A</h2>
-      <h2 className={styles.gameRoundFontB}>B</h2>
-    </button>
+    <div className={styles.roundContainer}>
+      <div className={styles.roundBtnWrapper}>
+        <Image
+          src="/asset/RoundButtonDeco.svg"
+          alt="RoundButtonDecoA"
+          width={150}
+          height={150}
+          className={styles.gameRoundDecoA}
+        ></Image>
+        <h2 className={styles.gameRoundFontA}>A</h2>
+      </div>
+      <div className={styles.roundBtnWrapper}>
+        <Image
+          src="/asset/RoundButtonDeco.svg"
+          alt="RoundButtonDecoB"
+          width={150}
+          height={150}
+          className={styles.gameRoundDecoB}
+        ></Image>
+        <h2 className={styles.gameRoundFontB}>B</h2>
+      </div>
+    </div>
   )
 }
 

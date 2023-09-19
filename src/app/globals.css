@@ -7,7 +7,7 @@
   src: url('/fonts/Kyobo_Handwriting.ttf') format('truetype');
 }
 
-* {
+*:not(body):not(html) {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -15,14 +15,19 @@
   font-family: 'Kyobo_handwriting' !important;
   font-style: normal;
   font-weight: 400;
+  background-color: #adff2f50;
 }
+
+/* *:nth-child(2n) {
+  outline: 1px solid #ff000050;
+} */
+
 
 body {
-  background-color: #737274;
-}
-
-.button {
-  @apply px-4 py-2 rounded-md bg-blue-500 text-white hover:bg-blue-600 w-24 text-center;
+  /* overflow: auto; */
+  /* background-color: red; */
+  /* width: 100vw !important; */
+  /* height: 100dvh !important; */
 }
 
 input:-webkit-autofill,
