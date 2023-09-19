@@ -83,7 +83,7 @@ const Preview = (props: { setUploadedAvatar: (avatar: string | null) => void }) 
         });
     }
     return (
-        <div>
+        <>
             <label htmlFor="fileInput" className={styles.customFileUpload}>
                 Change new Avatar
             </label>
@@ -95,7 +95,7 @@ const Preview = (props: { setUploadedAvatar: (avatar: string | null) => void }) 
                 type="file"
                 onChange={e => onUpload(e)}
             />
-        </div>
+        </>
 
     )
 }

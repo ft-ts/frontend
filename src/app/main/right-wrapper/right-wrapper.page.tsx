@@ -7,7 +7,6 @@ import UserProfile from './user-profile/userProfile.page'
 import { User } from '../interface/User.interface'
 import { getMyInfo } from '@/app/axios/client';
 import { useGlobalContext } from '@/app/Context/store';
-import { set } from 'react-hook-form';
 
 export default function RightWrapper() {
 

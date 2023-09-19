@@ -2,15 +2,12 @@
   background-color: #737274;
   display: grid;
   grid-template-columns: 1fr 1280px 1fr;
-  /* width: 100vw !important; */
-  /* width: 2560px; */
-  /* height: 1361px; */
 }
 
 #main > div:first-child {
-  min-width: 500px;
+  min-width: 400px;
 }
 
 #main > div:last-child  {
-  min-width: 500px;
+  min-width: 400px;
 }
