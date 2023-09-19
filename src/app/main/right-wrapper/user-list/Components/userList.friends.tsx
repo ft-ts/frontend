@@ -1,21 +1,28 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './userList.module.scss';
 import Image from 'next/image';
-import { getStatusColor } from "../../Common/right-wrapper.utils";
+import { renderUserStatus } from "../../Common/right-wrapper.utils";
 import { UserStatus } from '@/app/main/enum/UserStatus.enum';
 import { User } from '@/app/main/interface/User.interface';
+import { deleteFriend } from '@/app/axios/client';
+import { socket } from '@/app/main/components/CheckAuth';
+
+const deleteIcon = "/asset/minus.png";
+const invite = "/asset/inviteIcon.png";
 
 export default function UserListFriends(
   {
     user,
     myInfo,
+    currentChannelID,
     setCurrentUser,
     setIsMe,
   }:{
     user: User
     myInfo: User
+    currentChannelID: number
     setCurrentUser: React.Dispatch<React.SetStateAction<User>>
     setIsMe: React.Dispatch<React.SetStateAction<boolean>>
   })
@@ -28,21 +35,49 @@ export default function UserListFriends(
       } else {
         setIsMe(false);
       }
-    }
+    };
+
+    const handleDeleteFriend = () => {
+      deleteFriend(user.uid).then((res) => {
+        alert(res.data.message);
+      });
+    };
+
+    const handleInviteChat = () => {
+      console.log('handleInviteChat', currentChannelID);
+      if (!currentChannelID) {
+        alert('You are not in any channel');
+        return;
+      } else{
+        alert('invite');
+        const targetUserUid : number = user.uid;
+        const channelID : number = currentChannelID;
+        socket.emit('channel/inviteUserToChannel', { targetUid: targetUserUid, channelId: channelID})
+      }
+    };
+
+    useEffect(() => {
+    }, [user]);
 
   return (
-    <button onClick={handleClick} className={styles.userListContainer}>
-      <div className={styles.userChatRoleBox}>
+    <div className={styles.userListContainer}>
+      <button onClick={handleClick} className={`${styles.userListBox} ${styles.friendWidth}`}>
+        {renderUserStatus({userStatus: user.status as UserStatus})}
+        <div className={styles.userAvatarBox}>
+          <Image src={user.avatar} width={60} height={60} alt={user.name} className={styles.userAvatar}></Image>
+        </div>
+        <div className={styles.userNameBox}>
+          <div className={styles.userName}>{user.name}</div>
+        </div>
+      </button>
+      <div className={styles.userListButtonContainer}>
+        <button className={styles.buttonBox}>
+          <Image src={deleteIcon} width={40} height={40} alt="deleteFriend" onClick={handleDeleteFriend}></Image>
+        </button>
+        <button className={styles.buttonBox}>
+          <Image src={invite} width={40} height={40} alt="invite" onClick={handleInviteChat}></Image>
+        </button>
       </div>
-      <div className={styles.userAvatarBox}>
-        <Image src={user.avatar} width={80} height={80} alt={user.name} className={styles.userAvatar}></Image>
-      </div>
-      <div className={styles.userNameBox}>
-        <div className={styles.userName}>{user.name}</div>
-      </div>
-      <div className={styles.userStatusBox}>
-        <div className={`styles.userStatus ${getStatusColor(user.status as UserStatus)}`}>{user.status}</div>
-      </div>
-    </button>
+    </div>
   )
 }

@@ -17,54 +17,52 @@ $SearchBoxH: 47px;
 $PanelFontWeight: 200;
 $InputFontWeight: 350;
 
-
-.createChannelBox {
-  box-sizing: border-box;
-  position: relative;
-  height: $CreChaBoxH + 5px;
-  width: $leftWrapperWidth;
-  background: #FF6161;
-  border-radius: 15px;
-  border: 3px solid #000000;
-  display: flex;
-  justify-content: center;
-  align-content: center;
+.createChannelBox{
+    box-sizing: border-box;
+    position: relative;
+    height: $CreChaBoxH + 5px;
+    width: $leftWrapperWidth;
+    background: #FF6161;
+    border-radius: 15px;
+    border: 3px solid #000000;
+    display: flex;
+    justify-content: center;
+    align-content: center;
 }
 
-.createChannelBox:hover {
-  background: #ffa3a3;
+.createChannelBox:hover{
+    background: #ffa3a3;
 }
 
-.createChannelFont {
-  box-sizing: border-box;
-  position: relative;
-  height: $CreChaBoxH + 5px;
-  width: $leftWrapperWidth;
-  left: 0px;
-  top: 0px;
-  font-family: 'ArcadeClassic';
-  font-style: normal;
-  font-weight: $PanelFontWeight + 100;
-  font-size: 35px;
-  line-height: $CreChaBoxH + 5px;
-  color: #FFFFFF;
+.createChannelFont{
+    box-sizing: border-box;
+    position: relative;
+    height: $CreChaBoxH + 5px;
+    width: $leftWrapperWidth;
+    left: 0px;
+    top: 0px;
+    font-style: normal;
+    font-weight: $PanelFontWeight + 100;
+    font-size: 35px;
+    line-height: $CreChaBoxH + 5px;
+    color: #FFFFFF;
 }
 
-.channelPanelBox {
-  box-sizing: border-box;
-  position: relative;
-  width: $leftWrapperWidth;
-  height: $ChaPanBoxH;
-  left: 0px;
-  top: 0px;
-  background: #FFFFFF;
-  border: 1px solid #000000;
-  display: flex;
-  justify-content: center;
-  align-content: center;
+.channelPanelBox{
+    box-sizing: border-box;
+    position: relative;
+    width: $leftWrapperWidth;
+    height: $ChaPanBoxH;
+    left: 0px;
+    top: 0px;
+    background: #FFFFFF;
+    border: 1px solid #000000;
+    display: flex;
+    justify-content: center;
+    align-content: center;
 }
 
-.dmPanelBox {
+.dmPanelBox{
   box-sizing: border-box;
   position: relative;
   width: $leftWrapperWidth;
@@ -78,17 +76,16 @@ $InputFontWeight: 350;
   align-content: center;
 }
 
-.channelPanelFont {
-  position: relative;
-  height: $ChaPanBoxH;
-  left: 0px;
-  top: 0px;
-  font-family: 'ArcadeClassic';
-  font-style: normal;
-  font-weight: $PanelFontWeight;
-  font-size: 29px;
-  line-height: $ChaPanBoxH;
-  color: #000000;
+.channelPanelFont{
+    position: relative;
+    height: $ChaPanBoxH;
+    left: 0px;
+    top: 0px;
+    font-style: normal;
+    font-weight: $PanelFontWeight;
+    font-size: 29px;
+    line-height: $ChaPanBoxH;
+    color: #000000;
 }
 
 .unselectedPanelTab {
@@ -120,17 +117,16 @@ $InputFontWeight: 350;
   align-content: center;
 }
 
-.unselectedPanelTab:hover {
+.unselectedPanelTab:hover{
   background: #ffffff;
 }
 
-.selectPanelFont {
+.selectPanelFont{
   position: relative;
   width: $leftWrapperWidth / 2;
   height: $SelPanBoxH;
   left: 0px;
   top: 0px;
-  font-family: 'ArcadeClassic';
   font-style: normal;
   font-weight: $PanelFontWeight - 80;
   font-size: 27px;
@@ -173,15 +169,12 @@ $InputFontWeight: 350;
   align-items: center;
   /* 입력란을 수직 중앙으로 정렬합니다. */
   justify-content: space-between;
-  border: none;
-  /* 인풋 박스의 테두리를 없앱니다. */
+  border: none; /* 인풋 박스의 테두리를 없앱니다. */
   outline: none;
-  padding: 10px;
-  /* 예시로 안쪽 여백을 추가합니다. */
+  padding: 10px; /* 예시로 안쪽 여백을 추가합니다. */
   background: transparent;
   width: 90%;
   height: $SearchBoxH - 8;
-  font-family: 'ArcadeClassic';
   font-style: normal;
   font-weight: $InputFontWeight;
   font-size: 27px;
@@ -189,7 +182,7 @@ $InputFontWeight: 350;
   color: #ffffff;
 }
 
-.channelSearchIcon {
+.channelSearchIcon{
   left: 90%;
   top: 0px;
   background: #5F5F5F;
@@ -198,20 +191,37 @@ $InputFontWeight: 350;
 
 .channelContainer {
   // 화면에 따라 조절 필요
-  max-height: 400px; // 스크롤 영역의 최대 높이 설정
-  // min-height: 400px;
+  max-height: 450px; // 스크롤 영역의 최대 높이 설정
+  min-height: 450px;
   height: auto;
   width: 100%;
   overflow-y: auto; // 세로 스크롤 적용
 }
 
-//
+
+// .channelContainer {
+//   // 화면에 따라 조절 필요
+//   max-height: 400px; // 스크롤 영역의 최대 높이 설정
+//   // min-height: 400px;
+//   height: auto;
+//   width: 100%;
+//   overflow-y: auto; // 세로 스크롤 적용
+// }
+
+.dmContainer {
+  // 화면에 따라 조절 필요
+  max-height: 450px; // 스크롤 영역의 최대 높이 설정
+  min-height: 450px;
+  height: auto;
+  width: 100%;
+  overflow-y: auto; // 세로 스크롤 적용
+}
+
 .notification {
   position: fixed;
   top: 50%;
   left: 50%;
   padding: 20px 30px;
-  font-family: 'ArcadeClassic';
   font-style: normal;
   font-weight: 100;
   font-size: 50px;

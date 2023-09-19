@@ -12,11 +12,15 @@ import { useGlobalContext } from "@/app/Context/store";
 import { TabOptions } from "@/app/Context/store";
 import { ChannelUser } from "./interfaces/channelUser.interface";
 import { ChannelRole } from "./enum/channelRole.enum";
+import UserInterface from "@/app/axios/interfaces/user.interface";
+import { getUserByUid } from "@/app/axios/client";
 
 export default function ChatMenu() {
-  const { channelId }: any = useGlobalContext();
+  const { channelId, dmId }: any = useGlobalContext();
   const { channel, setChannel }: any = useGlobalContext();
+  const { setMyRole } : any = useGlobalContext();
   const [channelUser, setChannelUser] = useState<ChannelUser | null>(null);
+  const [dmTargetUser, setDmTargetUser] = useState<UserInterface | null>(null);
 
   useEffect(() => {
     if (channelId === null) {
@@ -25,16 +29,34 @@ export default function ChatMenu() {
     }
     socket.emit("channel/getChannelUser", { channelId });
     socket.on("channel/getChannelUser", (data: ChannelUser) => {
-      setChannelUser(data);
+      if (data !== null) {
+        setChannelUser(data);
+        setMyRole(data.role);
+      }
     });
     return () => {
       socket.off("channel/getChannelUser");
     };
   }, [channelId]);
 
+  useEffect(() => {
+    if (dmId === null) {
+      return;
+    }
+
+    async function fetchDmTargetUser() {
+      const dmTargetUser = await getUserByUid(dmId);
+      setDmTargetUser(dmTargetUser.data);
+    }
+    fetchDmTargetUser();
+
+    return () => {
+    };
+  }, [dmId]);
+
   return (
     <div className={styles.chatMenuBox}>
-      {channelId !== null && (
+      {channelId && (
         <span>
           <UserlistButton />
           <h2 className={styles.chatMenuTitle}>{channel?.title}</h2>
@@ -45,15 +67,24 @@ export default function ChatMenu() {
           <ExitButton />
         </span>
       )}
+      {dmId && (
+        <span>
+          <h2 className={styles.chatMenuTitle}> DM with: <span style={{ color: 'skyblue' }}>{dmTargetUser?.name}</span></h2>
+          <CloseButton />
+        </span>
+      )}
+      
+
     </div>
   );
 }
 
 const CloseButton = () => {
-  const { setChannelId }: any = useGlobalContext();
+  const { setChannelId, setDmId }: any = useGlobalContext();
 
   const handleCloseChannel = () => {
     setChannelId(null);
+    setDmId(null);
   };
   return (
     <button className={styles.closeButton} onClick={handleCloseChannel}>

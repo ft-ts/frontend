@@ -5,7 +5,7 @@ import styles from './profile.module.scss';
 import Image from 'next/image';
 import { User } from '@/app/main/interface/User.interface';
 import { UserStatus } from '@/app/main/enum/UserStatus.enum';
-import { getStatusColor2 } from '../../Common/right-wrapper.utils';
+import { renderUserStatus } from '../../Common/right-wrapper.utils';
 
 export default function Profile({ user }: { user: User }) {
   const [ladder, setLadder] = useState(true);
@@ -41,8 +41,7 @@ export default function Profile({ user }: { user: User }) {
     setLadder(false);
   };
 
-  useEffect(() => {
-  }, [user]);
+  useEffect(() => {}, [user]);
 
   return (
     <div className={styles.userInfoWrapper}>
@@ -54,9 +53,7 @@ export default function Profile({ user }: { user: User }) {
         height={200}
       />
       <div className={styles.topContainer}>
-        <div className={styles.userStatusBox}>
-          <div className={`${styles.userStatus} ${getStatusColor2(user.status as UserStatus)}`}></div>
-        </div>
+          {renderUserStatus({userStatus: user.status as UserStatus})}
         <div className={styles.userNameBox}>
           <h2 className={styles.userName}>{user.name}</h2>
         </div>
@@ -67,10 +64,10 @@ export default function Profile({ user }: { user: User }) {
         </h2>
       </div>
       <div className={styles.tabContainer}>
-        <button className={`styles.tabBox} ${renderColor(ladder)}`} onClick={handleLadder}>
+        <button className={`${styles.tabBox} ${renderColor(ladder)}`} onClick={handleLadder}>
           <h2 className={styles.tabFont}>Ladder</h2>
         </button>
-        <button className={`styles.tabBox} ${renderColor(!ladder)}`} onClick={handleCustom}>
+        <button className={`${styles.tabBox} ${renderColor(!ladder)}`} onClick={handleCustom}>
           <h2 className={styles.tabFont}>Custom</h2>
         </button>
       </div>

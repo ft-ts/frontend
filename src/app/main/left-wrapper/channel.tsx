@@ -15,7 +15,6 @@ import { useGlobalContext } from "@/app/Context/store";
 import ChannelProps from "./interfaces/channelProps";
 
 function Channel() {
-  const [key, setKey] = useState(0); // key 상태 추가
   const [chId, setChId] = useState<number | null>(null);
   const [selectedTab, setSelectedTab] = useState(ChannelTabOptions.ALL);
   const [showPasswordModal, setShowPasswordModal] = useState<boolean>(false);
@@ -24,8 +23,9 @@ function Channel() {
   const { isChannelNotificationVisible, setIsChannelNotificationVisible }: any =
     useGlobalContext();
   const { channelId, setChannelId}: any = useGlobalContext();
-  const { channel, setChannel }: any = useGlobalContext();
+  const { channel, setChannel, setActiveTab }: any = useGlobalContext();
   const { setChannelMembers }: any = useGlobalContext();
+  const { setDmId }: any = useGlobalContext();
 
   const channels = useChannelData(selectedTab);
   const handleTabClick = (tab: ChannelTabOptions) => {
@@ -35,9 +35,10 @@ function Channel() {
   useEffect(() => {
     if (channelId === null) {
       setChannel(null);
+      setActiveTab(ChannelTabOptions.ALL);
       return;
     }
-
+      setDmId(null);
       socket.emit("channel/getChannelById", { channelId });
       socket.on("channel/getChannelById", (channel: ChannelProps) => {
         setChannel(channel);
@@ -52,6 +53,9 @@ function Channel() {
     };
   }, [channelId]);
 
+  useEffect(() => {
+  }, [channel]);
+
   const handleChannelClick = async (chId: number) => {
     const channel = channels.find((ch) => ch.id === chId);
     if (!channel) {
@@ -59,7 +63,6 @@ function Channel() {
     }
     socket.emit("channel/isChannelMember", { chId });
     socket.on("channel/isChannelMember", (isMember: boolean) => {
-
       if (isMember) {
         setChannelId(chId);
       } else if (channel.mode === ChannelMode.PUBLIC) {
@@ -88,8 +91,6 @@ function Channel() {
       socket.off("channel/error");
     };
   };
-
-  // useEffect(() => {}, [channel]);
 
   return (
     <div className={styles.channelWrapper}>
@@ -154,7 +155,7 @@ const useChannelData = (tab: ChannelTabOptions) => {
     return () => {
       socket.off("channel/channelUpdate");
     };
-  }, []);
+  }, [channel]);
 
 
   useEffect(() => {

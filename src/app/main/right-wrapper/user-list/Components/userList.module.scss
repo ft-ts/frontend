@@ -1,12 +1,28 @@
 .userListContainer{
-  background-color: #292929;
   display: flex;
-  justify-content: space-between;
+  border : 1px solid #ffffff;
+  background-color: #292929;
+}
+
+.userListBox{
+  display: flex;
   align-items: center;
   box-sizing: border-box;
   position: relative;
+  height: 80px;
+  border: 1px solid #ffffff;
+}
+
+.allWidth{
   width: 100%;
-  height: 100px;
+}
+
+.friendWidth{
+  width: 80%;
+}
+
+.channelWidth{
+  width: 70%;
 }
 
 .userListContainer:hover {
@@ -20,15 +36,14 @@
   justify-content: center;
   box-sizing: border-box;
   position: relative;
-  width: 100px;
-  height: 100px;
-}
-.userAvatar{
-  margin-left: 8%;
-  background-color: deeppink;
   width: 80px;
   height: 80px;
-  border-radius: 40%;
+}
+.userAvatar{
+  background-color: deeppink;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
 }
 
 .userNameBox{
@@ -37,38 +52,125 @@
   justify-content: center;
   box-sizing: border-box;
   position: relative;
-  width: 315px;
-  height: 100px;
+  width: 300px;
+  height: 80px;
 }
 
 .userName{
   color: #ffffff;
-  font-size: 40px;
+  font-size: 38px;
 }
-
-.userStatusBox{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-  position: relative;
-  width: 135px;
-  height: 100px;
-}
-.userStatus{
-  font-size: 20px;
-}
-
 .userChatRoleBox{
   display: flex;
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
   position: relative;
-  width: 80px;
-  height: 100px;
+  width: 40px;
+  height: 40px;
+  margin-left: 3px;
 }
 
 .userChatRole{
   color: #ffffff;
+}
+
+.userListButtonContainer{
+  display: flex;
+  width: 100%;
+  background: #292929;
+  align-items: center;
+  justify-content: center;
+}
+
+.buttonBox{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  position: relative;
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+  border-radius: 50%;
+}
+
+.buttonBox:hover{
+  background-color: #b8b7b7;
+  cursor: pointer;
+}
+
+
+
+.banModalBox{
+  display: flex;
+  position: relative;
+  margin-left: 10px;
+}
+
+.radioGroup {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  color: #000000;
+
+  label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  input[type="radio"] {
+    margin-right: 10px;
+  }
+}
+
+.radioLabel {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.radioLabel input[type="radio"] {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #FF25A8;
+  border-radius: 50%;
+  position: relative;
+  cursor: pointer;
+  transition: border-color 0.3s ease-in-out;
+}
+
+.radioLabel input[type="radio"]:checked {
+  border-color: #FF25A8;
+  background-color: #52a534;
+}
+
+.banModalFont{
+  color: #ffffff;
+  font-size: 20px;
+}
+
+.banButtonContainer{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  position: relative;
+  margin-top : 25px;
+}
+
+.banButtonBox{
+  display: flex;
+  box-sizing: border-box;
+  width: 70px;
+  height: 30px;
+  left : 25%;
+  top : 20%;
+  border: 2px solid #ffffff;
+  background: #FF6161;
+  border-radius: 10%;
+  align-items: center;
+  justify-content: center;
 }

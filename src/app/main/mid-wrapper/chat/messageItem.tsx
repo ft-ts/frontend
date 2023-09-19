@@ -9,7 +9,6 @@ import Image from "next/image";
 import { useGlobalContext } from "@/app/Context/store";
 
 function MessageItem({ chatMessage }: { chatMessage: ChatMessage }) {
-  
 
   return (
     <div>
