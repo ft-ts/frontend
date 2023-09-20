@@ -1,7 +1,8 @@
 .userProfile {
-  max-width: 400px;
-  width: 100%;
+  min-width: 400px;
+  // width: 100%;
   display: flex;
+  // grid-template-rows: calc(100% - 60px) 60px;
   flex-direction: column;
   align-items: center;
   justify-content: center;

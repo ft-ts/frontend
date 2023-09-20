@@ -3,11 +3,3 @@
   display: grid;
   grid-template-columns: 1fr 1280px 1fr;
 }
-
-#main > div:first-child {
-  min-width: 400px;
-}
-
-#main > div:last-child  {
-  min-width: 400px;
-}

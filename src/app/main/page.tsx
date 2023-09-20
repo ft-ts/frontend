@@ -10,12 +10,14 @@ import { CheckAuth } from './components/CheckAuth';
 function Main() {
 
   return (
+    <>
+      <CheckAuth />
       <div id="main">
-        <CheckAuth />
         <LeftWrapper />
         <MidWrapper />
         <RightWrapper />
       </div>
+    </>
   );
 }
 

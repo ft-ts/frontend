@@ -100,7 +100,7 @@ export default function ChatRoom() {
     setInputMessage("");
   };
 
-  useEffect(() => {}, [channelId, dmId]);
+  useEffect(() => { }, [channelId, dmId]);
 
   return (
     <div className={styles.chatRoomBox}>
@@ -110,16 +110,16 @@ export default function ChatRoom() {
           chatMessages.map((chatMessages) => (
             <MessageItem key={chatMessages.id} chatMessage={chatMessages} />
           ))}
-          {dmId &&
+        {dmId &&
           dmMessages?.map &&
           dmMessages.map((dmMessages) => (
             <DmMessageItem
               key={dmMessages.id}
-             dmMessage={dmMessages} />
+              dmMessage={dmMessages} />
           ))}
       </div>
       {(channelId || dmId) && (
-        <span className={styles.spanSendMessage}>
+        <div className={styles.spanSendMessage}>
           <input
             className={styles.inputMessageBox}
             value={inputMessage}
@@ -134,7 +134,7 @@ export default function ChatRoom() {
           <button className={styles.messageSendBox} onClick={handleSendMessage}>
             SEND
           </button>
-        </span>
+        </div>
       )}
     </div>
   );

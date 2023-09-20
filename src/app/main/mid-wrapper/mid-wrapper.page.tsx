@@ -1,13 +1,13 @@
 "use client";
 
 import ChatWrapper from './chat/page'
-import GameWrapper from './game/page'
-import './mid-wrapper.css'
+import GamePage from './game/game.page';
+import styles from './mid-wrapper.module.scss'
 
 function MidWrapper() {
   return (
-    <div id="mid-wrapper">
-      <GameWrapper />
+    <div className={styles.midWrapper}>
+      <GamePage />
       <ChatWrapper />
     </div>
   )
