@@ -4,7 +4,6 @@ import React, { useState, useEffect} from "react";
 import styles from "./gameItem.module.scss";
 import { paddleDto, ballDto } from "./game.interface";
 import { socket } from '../../components/CheckAuth'
-import { set } from "react-hook-form";
 
 export default function Game(
   {
@@ -128,7 +127,7 @@ export default function Game(
         </div>}
         {startFlag && <div>
           <div style={{
-            position: 'absolute',
+            position: 'relative',
             backgroundColor: 'blue',
             width: paddleDto.get('me')?.width,
             height: paddleDto.get('me')?.height,
@@ -137,7 +136,7 @@ export default function Game(
           }}>
           </div>
           <div style={{
-            position: 'absolute',
+            position: 'relative',
             backgroundColor: 'red',
             width: paddleDto.get('you')?.width,
             height: paddleDto.get('you')?.height,
@@ -146,7 +145,7 @@ export default function Game(
           }}>
           </div>
           <div style={{
-            position: 'absolute',
+            position: 'relative',
             backgroundColor: 'white',
             width: ballDto.width,
             height: ballDto.height,
@@ -155,13 +154,13 @@ export default function Game(
           }}>
           </div>
           <div style={{
-            position: 'absolute',
+            position: 'relative',
             left: scorePos.me,
           }}>
             <h2 className={styles.resultFont}>You : {score.me}</h2>
           </div>
           <div style={{
-            position: 'absolute',
+            position: 'relative',
             left: scorePos.you,
           }}>
             <h2 className={styles.resultFont}>Away : {score.you}</h2>

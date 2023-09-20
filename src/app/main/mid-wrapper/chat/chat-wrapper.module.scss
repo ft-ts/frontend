@@ -5,10 +5,6 @@
     grid-template-rows: 80px 100%;
 }
 
-// .chatWrapper * {
-//     border: none;
-// }
-
 .chatMenuBox {
     box-sizing: border-box;
     position: relative;
@@ -145,8 +141,6 @@
 
 .chatDisplay {
     // 화면에 따라 조절 필요
-    // max-height: 80%; // 스크롤 영역의 최대 높이 설정
-    // min-height: 80%; // !!!!!
     width: 100%;
     overflow-y: scroll; // 세로 스크롤 적용
     overflow-x: none;
@@ -159,7 +153,6 @@ $sizeSenderName: 30px;
 
 .myMessage {
     display: flex;
-    // position: relative;
     align-items: flex-start;
     /* 아래로 정렬 */
     justify-content: flex-end;
