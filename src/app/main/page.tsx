@@ -2,21 +2,22 @@
 
 import MidWrapper from './mid-wrapper/mid-wrapper.page';
 import RightWrapper from './right-wrapper/right-wrapper.page';
-import { MainProps} from './userType';
 import './main.css';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import LeftWrapper from './left-wrapper/page';
 import { CheckAuth } from './components/CheckAuth';
 
-function Main(props: MainProps) {
+function Main() {
 
   return (
+    <>
+      <CheckAuth />
       <div id="main">
-        <CheckAuth />
         <LeftWrapper />
         <MidWrapper />
         <RightWrapper />
       </div>
+    </>
   );
 }
 

@@ -8,7 +8,7 @@ import ChannelProps from "../main/left-wrapper/interfaces/channelProps";
 import { ChannelUser } from "../main/mid-wrapper/chat/interfaces/channelUser.interface";
 import DmItemProps from "../main/left-wrapper/interfaces/dmItemProps";
 import { ChannelRole } from "../main/mid-wrapper/chat/enum/channelRole.enum";
-
+import UserInterface from "../axios/interfaces/user.interface";
 
 const globalContext = createContext({});
 

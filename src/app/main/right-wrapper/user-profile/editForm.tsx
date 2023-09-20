@@ -116,7 +116,7 @@ const Preview = (props: PreviewProps) => {
     }, [isNewAvatar]); // Runs every time `isNewAvatar` changes
 
     return (
-        <div>
+        <>
             <label htmlFor="fileInput" className={styles.customFileUpload}>
                 Change new Avatar
             </label>
@@ -127,7 +127,7 @@ const Preview = (props: PreviewProps) => {
                 type="file"
                 onChange={onUpload}
             />
-        </div>
+        </>
     );
 }
 
