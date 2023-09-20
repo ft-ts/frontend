@@ -91,23 +91,16 @@ export default function GamePage() {
       <div className={styles.gameBackground}>
         {
           (!matchFlag && !inviteFlag && !gameFlag && !modalFlag) && <div className={styles.gameHistoryBackground}>
-            {/* {searchFlag && <GameHistory data={gameHistory} />} */}
             <GameHistory data={gameHistory} />
             <SearchBox setSearchFlag={setSearchFlag} setGameHistory={setGameHistory} />
           </div>
         }
-        {/* <div> */}
           {(gameFlag) && <Game matchID={matchID} isHome={isHome} />}
-        {/* </div> */}
         <div className={styles.blinking}>
           {(matchFlag && !gameFlag) && <h2 className={styles.matchingFont}>matching...</h2>}
         </div>
-        {/* <div> */}
           {(inviteFlag) && <GameFriend user={opponent} isHome={isHome} />}
-        {/* </div> */}
-        {/* <div> */}
           {modalFlag && <GameModal setModalFlag={setModalFlag} isSuper={isHome} matchID={matchID} />}
-        {/* </div> */}
       </div>
       {(!gameFlag && !inviteFlag) && <MatchButton setMatchFlag={setMatchFlag} setGameHistory={setGameHistory} matchFlag={matchFlag} />}
     </div>
