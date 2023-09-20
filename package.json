@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start -H 0.0.0.0",
+    "env": "git clone git@github.com:ft-ts/env.git && mv env/.env.local.front .env.local && rm -rf env",
     "start:dev": "next dev",
     "lint": "next lint"
   },
