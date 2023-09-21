@@ -21,7 +21,6 @@ export const GlobalContextProvider = ({ children }: any) => {
   const [ myInfo, setMyInfo ] = useState<User>(dummy);
   const [ currentUser, setCurrentUser ] = useState<User>(dummy);
   const [ myRole, setMyRole ] = useState<ChannelRole>(ChannelRole.NORMAL);
-  const [ friendsList, setFriendsList ] = useState<User[]>([]);
 
   const [ currentChannel, setCurrentChannel ] = useState<ChannelProps | null>(null);
   const [ currentChannelId, setCurrentChannelId ] = useState<number | null>(null);
@@ -40,8 +39,6 @@ export const GlobalContextProvider = ({ children }: any) => {
     setActiveTab,
     currentDmId,
     setCurrentDmId,
-    friendsList,
-    setFriendsList,
     currentChannel,
     setCurrentChannel,
     currentChannelId,
