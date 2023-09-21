@@ -3,6 +3,7 @@
 import React, {useState, useEffect } from 'react';
 import styles from './userList.module.scss';
 import { socket } from '@/app/main/components/CheckAuth';
+import { postBanUser } from '@/app/axios/client';
 
 export default function SetBanType(
   {
@@ -34,12 +35,16 @@ export default function SetBanType(
   const handleOK = () => {
     const targetUserUid : number = userUid;
     const channelID : number = channelId;
+    console.log('targetUserUid : ', targetUserUid);
+    console.log('channelID : ', channelID);
+    
     if (kick) {
-      socket.emit('channel/kickMember', {targetUserUid: targetUserUid, channelID: channelID});
+      // socket.emit('channel/kickMember', {targetUserUid: targetUserUid, channelID: channelID});
     }
     else {
       // ban
-      socket.emit('channel/banMember', {targetUserUid: targetUserUid, channelID: channelID});
+      // socket.emit('channel/banMember', {targetUserUid: targetUserUid, channelID: channelID});
+      postBanUser(targetUserUid, channelID);
     }
     handleCloseModal();
   }

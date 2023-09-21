@@ -7,9 +7,8 @@ import { User } from "@/app/main/interface/User.interface";
 import { socket } from "@/app/main/components/CheckAuth";
 import { postFriend } from "@/app/axios/client";
 import { useGlobalContext } from "@/app/Context/store";
-import UserInterface from "@/app/axios/interfaces/user.interface";
 import { getUserByUid } from "@/app/axios/client";
-import DmItemProps from "@/app/main/left-wrapper/interfaces/dmItemProps";
+import { DmListProps } from "@/app/main/left-wrapper/interfaces/dmItemProps";
 
 const block = "/asset/muteIcon.png";
 const addFriend = "/asset/plus.png";
@@ -17,9 +16,10 @@ const inviteMatch = "/asset/pongIcon.png";
 const dm = "/asset/msgIcon.png";
 
 export default function ProfileButton({ user }: { user: User }) {
-  const { dmId, setDmId, setChannelId }: any = useGlobalContext();
   const { dmList, setDmList }: any = useGlobalContext();
-  const [dmTargetUser, setDmTargetUser] = useState<UserInterface | null>(null);
+  const { setCurrentChannelId} : any = useGlobalContext();
+  const { currentDmId, setCurrentDmId }: any = useGlobalContext();
+
   const handleAddFriend = () => {
     console.log("handleAddFriend");
     postFriend(user.uid).then((res) => {
@@ -36,31 +36,25 @@ export default function ProfileButton({ user }: { user: User }) {
   };
 
   const handleDM = async () => {
-    setChannelId(null);
-    setDmId(user.uid);
-  
-    // dmTargetUser를 가져옵니다.
+    if (currentDmId === user.uid) {
+      return;
+    } 
+    setCurrentChannelId(null);
+    setCurrentDmId(user.uid);
+    if (dmList.some((dmItem: DmListProps) => dmItem.user_uid === user.uid)) {
+      return;
+    }
     const dmTargetUser = await getUserByUid(user.uid);
-
-    //이미 리스트에 있으면 추가 안해도 됨.
-    const isUserInDmList = dmList?.some((dmItem: DmItemProps) => dmItem.targetUid === dmTargetUser.data.uid);
-
-    
-    // 이미 있는 경우 추가하지 않음
-  if (!isUserInDmList) {
-    // dmTargetUser를 DmItemProps 형태로 변환합니다.
-    const dmItemProps: DmItemProps = {
-      targetUid: dmTargetUser.data.uid,
-      name: dmTargetUser.data.name,
-      avatar: dmTargetUser.data.avatar,
-      status: dmTargetUser.data.status,
-      onClick: () => handleDmClick(dmTargetUser.data.uid),
+    console.log(dmTargetUser);
+    const dmItemProps: DmListProps = {
+      user_uid: dmTargetUser.data.uid,
+      user_name: dmTargetUser.data.name,
+      user_avatar: dmTargetUser.data.avatar,
+      unread_count: 0,
     };
-
-    // 이전 dmList 상태를 기반으로 업데이트합니다.
-    setDmList((prevDmItemProps: DmItemProps[] | null) => [...(prevDmItemProps || []), dmItemProps]);
+    setDmList((prevDmItemProps: DmListProps[] | null) => [...(prevDmItemProps || []), dmItemProps]);
+    
   }
-  };
     
   return (
     <div className={styles.buttonContainer}>

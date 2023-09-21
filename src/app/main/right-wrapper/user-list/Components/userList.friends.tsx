@@ -8,6 +8,7 @@ import { UserStatus } from '@/app/main/enum/UserStatus.enum';
 import { User } from '@/app/main/interface/User.interface';
 import { deleteFriend } from '@/app/axios/client';
 import { socket } from '@/app/main/components/CheckAuth';
+import { useGlobalContext } from '@/app/Context/store';
 
 const deleteIcon = "/asset/minus.png";
 const invite = "/asset/inviteIcon.png";
@@ -15,26 +16,15 @@ const invite = "/asset/inviteIcon.png";
 export default function UserListFriends(
   {
     user,
-    myInfo,
-    currentChannelID,
-    setCurrentUser,
-    setIsMe,
   }:{
     user: User
-    myInfo: User
-    currentChannelID: number
-    setCurrentUser: React.Dispatch<React.SetStateAction<User>>
-    setIsMe: React.Dispatch<React.SetStateAction<boolean>>
   })
   {
+    const { setCurrentUser }: any = useGlobalContext();
+    const { currentChannelID }: any = useGlobalContext();
 
     const handleClick = () => {
       setCurrentUser(user);
-      if (myInfo.uid === user.uid) {
-        setIsMe(true);
-      } else {
-        setIsMe(false);
-      }
     };
 
     const handleDeleteFriend = () => {
