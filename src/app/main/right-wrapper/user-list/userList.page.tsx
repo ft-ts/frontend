@@ -23,7 +23,6 @@ export default function UserList()
   const { myRole, setMyRole }: any = useGlobalContext();
   const { currentChannelId }: any = useGlobalContext();
 
-
   useEffect(() => {
     if (activeTab === TabOptions.ALL) {
       getUserListExceptMe().then((res) => {
@@ -31,19 +30,25 @@ export default function UserList()
         setUserList(data);
       }).catch((err) => {
         console.log(err);
-        
       });
-    }
-    else if (activeTab === TabOptions.FRIENDS) {
+    } else if (activeTab === TabOptions.FRIENDS) {
       getFreiendsList().then((res) => {
         const { data } = res;
         setFriendList(data);
       }).catch((err) => {
         console.log(err);
       });
+    } else if (activeTab === TabOptions.CHANNEL) {
+      if (currentChannelId){
+        getChannelMembers(currentChannelId).then((res) => {
+          const { data } = res;
+          setChannelMembers(data);
+        }).catch((err) => {
+          console.log(err);
+        });
+      }
     }
   }, [activeTab]);
-
 
   useEffect(() => {
     if (currentChannelId){
@@ -65,10 +70,6 @@ export default function UserList()
       return renderChannelList();
     }
   };
-
-  // useEffect(() => {
-  //   renderUserList();
-  // }, [activeTab]);
 
   const renderAllList = () => {
     return (
