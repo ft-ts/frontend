@@ -32,7 +32,7 @@ export default function MatchButton(
 
     return (
       <button className={styles.matchButton} onClick={matchFlag ? handleMatchCancle : handleMatchStart}>
-        <h2 className={styles.matchButtonFont}>{matchFlag ? "cancle" : "start match"}</h2>
+        <h2 className={styles.matchButtonFont}>{matchFlag ? "cancel" : "start match"}</h2>
       </button>
     )
 }

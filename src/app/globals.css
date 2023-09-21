@@ -17,12 +17,21 @@
   font-weight: 400;
 }
 
-body {
-  background-color: #737274;
-}
+/* *:not(body):not(html) {
+  background-color: #00ffff10;
 
-.button {
-  @apply px-4 py-2 rounded-md bg-blue-500 text-white hover:bg-blue-600 w-24 text-center;
+} */
+
+/* *:nth-child(2n) {
+  outline: 1px solid #ff000050;
+} */
+
+
+body {
+  /* overflow: auto; */
+  /* background-color: red; */
+  /* width: 100vw !important; */
+  /* height: 100dvh !important; */
 }
 
 input:-webkit-autofill,

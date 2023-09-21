@@ -126,7 +126,7 @@ export default function ChatRoom() {
           dmMessages.map((dmMessages) => (
             <DmMessageItem
               key={dmMessages.id}
-             dmMessage={dmMessages} />
+              dmMessage={dmMessages} />
           ))}
       </div>
       {(currentChannelId || currentDmId) && (
@@ -145,7 +145,7 @@ export default function ChatRoom() {
           <button className={styles.messageSendBox} onClick={handleSendMessage}>
             SEND
           </button>
-        </span>
+        </div>
       )}
     </div>
   );

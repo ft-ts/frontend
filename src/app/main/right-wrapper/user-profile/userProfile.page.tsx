@@ -6,7 +6,6 @@ import EditMyProfile from './Components/userProfile.edit';
 import ProfileButton from './Components/userProfile.button';
 import { useGlobalContext } from '@/app/Context/store';
 
-
 export default function UserProfile() {
     const { currentUser }: any = useGlobalContext();
     const { myInfo } : any = useGlobalContext();

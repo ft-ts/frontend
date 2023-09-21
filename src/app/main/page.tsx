@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { CheckAuth } from './components/CheckAuth';
 import { MainProps } from './userType';
@@ -22,12 +22,14 @@ function Main(props: MainProps) {
   }, []);
 
   return (
+    <>
+      <CheckAuth />
       <div id="main">
-        <CheckAuth />
         <LeftWrapper />
         <MidWrapper />
         <RightWrapper />
       </div>
+    </>
   );
 }
 

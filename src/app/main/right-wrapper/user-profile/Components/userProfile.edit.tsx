@@ -33,7 +33,7 @@ export default function EditMyProfile() {
   };
 
   return (
-    <div>
+    <>
       <button className={styles.editButton} onClick={handleOpenModal}>
         <h2 className={styles.editFont}>
           Edit my Profile
@@ -49,6 +49,6 @@ export default function EditMyProfile() {
       >
         <EditForm onClose={handleCloseModal}/>
       </Modal>
-    </div>
+    </>
   );
 }

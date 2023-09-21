@@ -10,7 +10,7 @@ function ChatWrapper(){
   return (
     <div className={styles.chatWrapper}>
       <ChatMenu />
-      <ChatRoom />
+      <ChatRoom /> 
     </div>
   );
 }

@@ -23,7 +23,7 @@ function DmMessageItem({ dmMessage }: { dmMessage: DmMessage }) {
 
   return (
     <div
-      className={`${styles.message} ${
+      className={`${
         dmMessage.sender.uid === myInfo.uid
           ? styles.myMessage
           : styles.otherMessage

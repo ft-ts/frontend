@@ -4,14 +4,23 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width : 70%;
-  height: 550px;
+  // width : 90%;
+  // height: 550px;
+  padding: 5px 15px;
   color: white;
   background-color: #000000;
   border: 3px solid #ffffff;
-  margin-left: 15%;
-  margin-top: 5%;
+  margin-bottom: 0.5vh;
 }
+
+@media screen and (max-width: 1620px) {
+  .userInfoWrapper > img {
+    width: 150px;
+    height: 150px;
+  }
+}
+  
+
 
 .avatar {
   border-radius: 50%;
@@ -22,8 +31,8 @@
 
 .topContainer {
   display: flex;
-  width: 400px;
-  height: 90px;
+  width: 100%;
+  height: 50px;
   position : relative;
   justify-content: center;
 }
@@ -67,7 +76,7 @@
 
 .ratingBox{
   display: flex;
-  width: 400px;
+  width: 100%;
   justify-content: center;
 }
 

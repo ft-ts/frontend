@@ -6,7 +6,7 @@ import { User } from "../main/interface/User.interface";
 import ChannelProps from "../main/left-wrapper/interfaces/channelProps";
 import { DmListProps } from "../main/left-wrapper/interfaces/dmItemProps";
 import { ChannelRole } from "../main/mid-wrapper/chat/enum/channelRole.enum";
-
+import UserInterface from "../axios/interfaces/user.interface";
 
 const globalContext = createContext({});
 

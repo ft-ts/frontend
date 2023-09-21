@@ -3,7 +3,7 @@ import { io } from "socket.io-client";
 import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-export const socket = io("http://localhost:10000", {
+export const socket = io(`${process.env.NEXT_PUBLIC_BACKEND_URL}`, {
   autoConnect: false,
 });
 
@@ -29,7 +29,6 @@ export const CheckAuth = () => {
     socket.connect();
 
     socket.on("redirect", (url: string) => {
-      alert(`ws redirect to ${url}`);
       router.push(url);
     });
 
