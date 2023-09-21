@@ -3,10 +3,8 @@
 import { createContext, useContext, useState } from "react";
 import { UserStatus } from "../main/enum/UserStatus.enum";
 import { User } from "../main/interface/User.interface";
-import { getMyInfo } from "../axios/client";
 import ChannelProps from "../main/left-wrapper/interfaces/channelProps";
-import { ChannelUser } from "../main/mid-wrapper/chat/interfaces/channelUser.interface";
-import DmItemProps from "../main/left-wrapper/interfaces/dmItemProps";
+import { DmListProps } from "../main/left-wrapper/interfaces/dmItemProps";
 import { ChannelRole } from "../main/mid-wrapper/chat/enum/channelRole.enum";
 
 
@@ -19,53 +17,37 @@ export enum TabOptions {
 }
 
 export const GlobalContextProvider = ({ children }: any) => {
-  const [activeTab, setActiveTab] = useState(TabOptions.ALL);
-  const [myInfo, setMyInfo] = useState<User>(dummy);
-  const [currentUser, setCurrentUser] = useState<User>(dummy);
-  const [chId, setchId] = useState<number | null>(null);
-  const [channelId, setChannelId] = useState<number | null>(null);
-  const [channel, setChannel] = useState<ChannelProps | null>(null);
-  const [myRole, setMyRole] = useState<ChannelRole>(ChannelRole.NORMAL);
-  const [selectedDm, setSelectedDm] = useState<number | null>(null);
-  const [channelMembers, setChannelMembers] = useState<ChannelUser[]>([]);
-  const [password, setPassword] = useState<string | null>(null);
-  const [isChannelNotificationVisible, setIsChannelNotificationVisible] = useState(false);
-  const [channelErrorMessage, setChannelErrorMessage] = useState<string | null>(null);
-  const [dmId, setDmId] = useState<number | null>(null);
-  const [dmList, setDmList] = useState<DmItemProps[]>([]);
+  const [ activeTab, setActiveTab ] = useState(TabOptions.ALL);
+  const [ myInfo, setMyInfo ] = useState<User>(dummy);
+  const [ currentUser, setCurrentUser ] = useState<User>(dummy);
+  const [ myRole, setMyRole ] = useState<ChannelRole>(ChannelRole.NORMAL);
   const [ friendsList, setFriendsList ] = useState<User[]>([]);
+
+  const [ currentChannel, setCurrentChannel ] = useState<ChannelProps | null>(null);
+  const [ currentChannelId, setCurrentChannelId ] = useState<number | null>(null);
+  const [ currentDmId, setCurrentDmId ] = useState<number | null>(null);
+  const [ dmList, setDmList ] = useState<DmListProps[]>([]);
+
 
   const value = {
     myInfo,
     setMyInfo,
     currentUser,
     setCurrentUser,
-    chId,
-    setchId,
-    channelId,
-    setChannelId,
-    channel,
-    setChannel,
     myRole,
     setMyRole,
-    selectedDm,
-    setSelectedDm,
-    channelMembers,
-    setChannelMembers,
     activeTab,
     setActiveTab,
-    password,
-    setPassword,
-    isChannelNotificationVisible,
-    setIsChannelNotificationVisible,
-    channelErrorMessage,
-    setChannelErrorMessage,
-    dmId,
-    setDmId,
+    currentDmId,
+    setCurrentDmId,
+    friendsList,
+    setFriendsList,
+    currentChannel,
+    setCurrentChannel,
+    currentChannelId,
+    setCurrentChannelId,
     dmList,
     setDmList,
-    friendsList,
-    setFriendsList
   }
   return (
     <globalContext.Provider value={value}>
