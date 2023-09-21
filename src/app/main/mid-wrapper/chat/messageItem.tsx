@@ -3,16 +3,17 @@
 import React, { useEffect, useState } from "react";
 import styles from "./chat-wrapper.module.scss";
 import ChatMessage from "./interfaces/chatMessage.interface";
-import { getMyInfo, getUserByUid } from "@/app/axios/client";
+import { getUserByUid } from "@/app/axios/client";
 import UserInterface from "@/app/axios/interfaces/user.interface";
 import Image from "next/image";
 import { useGlobalContext } from "@/app/Context/store";
+import { formatTime } from "./chat.utils";
 
 function MessageItem({ chatMessage }: { chatMessage: ChatMessage }) {
 
   return (
     <div>
-    {chatMessage.isNotice === true ? (
+    {!chatMessage.sender_uid ? (
       <NotiMessage chatMessage={chatMessage}/>
     ) : (
       <UserMessage chatMessage={chatMessage}/>
@@ -23,17 +24,20 @@ function MessageItem({ chatMessage }: { chatMessage: ChatMessage }) {
 
 const UserMessage = ({ chatMessage }: { chatMessage: ChatMessage}) => {
   const { myInfo }: any = useGlobalContext();
+  const { setCurrentUser }: any = useGlobalContext();
   const [sender, setSender] = useState<UserInterface | null>(null);
 
+  const handleClickedProfile = () => {
+    setCurrentUser(sender);
+  }
+
+  /* todo */
   useEffect(() => {
     async function fetchSender() {
-        if (chatMessage.sender_uid !== null)
-        {
+        if (chatMessage.sender_uid !== null){
           const senderInfo = await getUserByUid(chatMessage.sender_uid);
           setSender(senderInfo.data);
-        }
-        else
-        {
+        } else{
           setSender(null);
         }
     }
@@ -44,14 +48,6 @@ const UserMessage = ({ chatMessage }: { chatMessage: ChatMessage}) => {
   useEffect(() => {
   }
   , [sender]);
-
-  const options = {
-    timeZone: "Asia/Seoul",
-  };
-  const formatTime = (time: Date) => {
-    const date = new Date(time);
-    return date.toLocaleString("en-US", options);
-  };
 
   return (
     <div
@@ -67,6 +63,7 @@ const UserMessage = ({ chatMessage }: { chatMessage: ChatMessage}) => {
               ? styles.myMessageProfileButton
               : styles.otherMessageProfileButton
           }
+          onClick={handleClickedProfile}
         >
           <Image
             className={styles.chatProfilePicture}
@@ -81,7 +78,7 @@ const UserMessage = ({ chatMessage }: { chatMessage: ChatMessage}) => {
         {sender && <div className={styles.chatSenderName}>{sender.name}</div>}
         <div className={styles.messageContent}>{chatMessage.content}</div>
         <div className={styles.messageTime}>
-          {formatTime(chatMessage.timeStamp)}<br></br>
+          {formatTime(chatMessage.timeStamp)}
         </div>
       </div>
     </div>
