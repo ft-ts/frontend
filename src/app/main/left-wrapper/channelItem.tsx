@@ -3,10 +3,9 @@
 import React from 'react';
 import styles from './channelItem.module.scss';
 import Image from 'next/image';
-import classnames from "classnames";
 import { UserStatus } from '../../main/enum/UserStatus.enum';
 import ChannelItemProps from './interfaces/channelItemProps';
-import DmItemProps from "./interfaces/dmItemProps";
+import  { DmListProps } from "./interfaces/dmItemProps";
 
 const ChannelItem = (props: ChannelItemProps) => {
   return (
@@ -18,40 +17,27 @@ const ChannelItem = (props: ChannelItemProps) => {
   );
 };
 
-const DmItem = (props: DmItemProps) => {
-  const itemClasses = classnames(styles.dmItemContainer, {
-    [styles.online]: props.status === UserStatus.ONLINE,
-    [styles.offline]: props.status === UserStatus.OFFLINE,
-    [styles.inGame]: props.status === UserStatus.IN_GAME,
-    [styles.deactivated]: props.status === UserStatus.DEACTIVATED,
-  });
-
-  const stateText = (() => {
-    switch (props.status) {
-      case UserStatus.ONLINE:
-        return 'Online';
-      case UserStatus.OFFLINE:
-        return 'Offline';
-      case UserStatus.IN_GAME:
-        return 'In Game';
-      case UserStatus.DEACTIVATED:
-        return 'Deactivated';
-      default:
-        return 'Unknown';
-    }
-  })();
-
+const DmItem = ({
+  props,
+  onClick,
+}:{
+  props:DmListProps
+  onClick: (targetUid: number) => void;
+}) => {
+  const unread  :number = props.unread_count;
   return (
-    <div className={classnames(styles.dmItemContainer, itemClasses)} onClick={() => props.onClick(props.targetUid)}>
+    <div className={styles.dmItemContainer} onClick={() => onClick(props.user_uid)}>
       <Image
         className={styles.profilePic}
-        src={props.avatar}
+        src={props.user_avatar}
         alt="profile"
         width={30}
         height={30}
         />
-      <p className={styles.dmUser}>{props.name}</p>
-      <p className={styles.dmState}>{stateText}</p>
+      <p className={styles.dmUser}>{props.user_name}</p>
+      {(unread > 0) && <div className={styles.unreadBox}>
+
+      </div>}
     </div>
   );
 }
