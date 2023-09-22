@@ -2,7 +2,6 @@
 
 import React from 'react';
 import styles from './channelItem.module.scss';
-import Image from 'next/image';
 import { UserStatus } from '../../main/enum/UserStatus.enum';
 import ChannelItemProps from './interfaces/channelItemProps';
 import  { DmListProps } from "./interfaces/dmItemProps";

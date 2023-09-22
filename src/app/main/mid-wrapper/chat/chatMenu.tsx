@@ -1,7 +1,6 @@
 'use client';
 
 import styles from './chat-wrapper.module.scss';
-import Image from 'next/image';
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import { ChannelSettingForm } from '../../left-wrapper/channelForm';

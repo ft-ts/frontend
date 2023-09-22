@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import styles from './search.module.scss';
 
 export default function UserListSearch() {

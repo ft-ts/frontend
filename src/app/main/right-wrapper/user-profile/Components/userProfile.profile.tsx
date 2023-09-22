@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from 'react';
 import styles from './profile.module.scss';
-import Image from 'next/image';
 import { User } from '@/app/main/interface/User.interface';
 import { UserStatus } from '@/app/main/enum/UserStatus.enum';
 import { renderUserStatus } from '../../Common/right-wrapper.utils';

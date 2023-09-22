@@ -2,7 +2,6 @@
 
 import React from 'react';
 import styles from './userList.module.scss';
-import Image from 'next/image';
 import { renderUserStatus } from "../../Common/right-wrapper.utils";
 import { UserStatus } from '@/app/main/enum/UserStatus.enum';
 import { User } from '@/app/main/interface/User.interface';

@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import styles from './myInfo.module.scss';
-import Image from 'next/image';
 import { renderUserStatus } from "../../Common/right-wrapper.utils";
 import { UserStatus } from '@/app/main/enum/UserStatus.enum';
 import { useGlobalContext } from '@/app/Context/store';
