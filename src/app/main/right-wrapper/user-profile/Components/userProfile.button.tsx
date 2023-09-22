@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from "react";
 import styles from "./button.module.scss";
-import Image from "next/image";
 import { User } from "@/app/main/interface/User.interface";
 import { socket } from "@/app/main/components/CheckAuth";
 import { postFriend } from "@/app/axios/client";
@@ -59,7 +58,7 @@ export default function ProfileButton({ user }: { user: User }) {
   return (
     <div className={styles.buttonContainer}>
       <button className={styles.buttonBox} onClick={handleAddFriend}>
-        <Image
+        <img
           className={styles.imageBox}
           src={addFriend}
           alt="addFriend"
@@ -68,7 +67,7 @@ export default function ProfileButton({ user }: { user: User }) {
         />
       </button>
       <button className={styles.buttonBox} onClick={handleDM}>
-        <Image
+        <img
           className={styles.imageBox}
           src={dm}
           alt="dm"
@@ -77,7 +76,7 @@ export default function ProfileButton({ user }: { user: User }) {
         />
       </button>
       <button className={styles.buttonBox} onClick={handleInviteMatch}>
-        <Image
+        <img
           className={styles.imageBox}
           src={inviteMatch}
           alt="inviteMatch"
@@ -86,7 +85,7 @@ export default function ProfileButton({ user }: { user: User }) {
         />
       </button>
       <button className={styles.buttonBox} onClick={handleBlock}>
-        <Image
+        <img
           className={styles.imageBox}
           src={block}
           alt="block"

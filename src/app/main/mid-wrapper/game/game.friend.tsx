@@ -44,7 +44,7 @@ export default function GameFriend(
 
   return (
     <div className={styles.inviteContainer}>
-      <Image className={styles.inviteAvatar} src={user.avatar} alt="user avatar" width={150} height={150}/>
+      <img className={styles.inviteAvatar} src={user.avatar} alt="user avatar" width={150} height={150}/>
       <br></br>
       <h2 className={styles.inviteFont}>{user.name}</h2>
       {isHome &&

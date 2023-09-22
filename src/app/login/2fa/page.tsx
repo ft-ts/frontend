@@ -2,7 +2,6 @@
 
 import loginStyles from "../login.module.scss"
 import styles from "./secondAuth.module.scss"
-import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { apiClient } from "../../axios/client";
@@ -97,20 +96,20 @@ const QRImg = ({ qrCode }: { qrCode: string }) => {
           Google Auth
         </a>
       </div>
-      <Image
+      <img
         src="/asset/pigtail.png"
         alt="pigtail"
         width={100}
         height={100}
         className={styles.pigtail}
-      ></Image>
-      {qrCode && <Image
+      />
+      {qrCode && <img
         src={qrCode}
         alt="qr code"
         width={300}
         height={300}
         className={styles.qrCode}
-      ></Image>
+      />
       }
     </div>
   )
@@ -118,13 +117,13 @@ const QRImg = ({ qrCode }: { qrCode: string }) => {
 
 const GameCrossDeco = () => {
   return (
-    <Image
+    <img
       src="/asset/Union.svg"
       alt="game cross button deco"
       width={300}
       height={300}
       className={loginStyles.gameCrossDeco}
-    ></Image>
+    />
   )
 }
 
@@ -133,13 +132,12 @@ const GameSelectButton = () => {
   return (
     <div>
       <div className={loginStyles.container}>
-        <Image
+        <img
           src="/asset/RoundRectangleButton.svg"
           alt="RoundButtonRectangleDecoA"
           width={250}
           height={100}
-          className={loginStyles.GameRoundRectangleDecoSelect}>
-        </Image>
+          className={loginStyles.GameRoundRectangleDecoSelect} />
         <h2 className={loginStyles.selectFont}>Select</h2>
       </div>
     </div>
@@ -150,13 +148,12 @@ const GameStartButton = () => {
 
   return (
     <div className={loginStyles.container}>
-      <Image
+      <img
         src="/asset/RoundRectangleButton.svg"
         alt="RoundButtonRectangleDecoB"
         width={250}
         height={100}
-        className={loginStyles.GameRoundRectangleDecoStart}>
-      </Image>
+        className={loginStyles.GameRoundRectangleDecoStart} />
       <h2 className={loginStyles.startFont}>Start</h2>
     </div>
   )
@@ -168,23 +165,23 @@ const GameRoundDeco = () => {
   return (
     <div className={loginStyles.roundContainer}>
       <div className={loginStyles.roundBtnWrapper}>
-        <Image
+        <img
           src="/asset/RoundButtonDeco.svg"
           alt="RoundButtonDecoA"
           width={150}
           height={150}
           className={loginStyles.gameRoundDecoA}
-        ></Image>
+        />
         <h2 className={loginStyles.gameRoundFontA}>A</h2>
       </div>
       <div className={loginStyles.roundBtnWrapper}>
-        <Image
+        <img
           src="/asset/RoundButtonDeco.svg"
           alt="RoundButtonDecoB"
           width={150}
           height={150}
           className={loginStyles.gameRoundDecoB}
-        ></Image>
+        />
         <h2 className={loginStyles.gameRoundFontB}>B</h2>
       </div>
     </div>

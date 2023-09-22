@@ -2,7 +2,6 @@
 
 import loginStyles from "../login.module.scss"
 import styles from "./signup.module.scss"
-import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { apiClient } from "@/app/axios/client";
@@ -72,13 +71,13 @@ const GameBackground = ({ states }: { states: [string, React.Dispatch<React.SetS
 
 const GameCrossDeco = () => {
   return (
-    <Image
+    <img
       src="/asset/Union.svg"
       alt="game cross button deco"
       width={300}
       height={300}
       className={loginStyles.gameCrossDeco}
-    ></Image>
+    />
   )
 }
 
@@ -87,13 +86,12 @@ const GameSelectButton = () => {
   return (
     <div>
       <button className={loginStyles.container}>
-        <Image
+        <img
           src="/asset/RoundRectangleButton.svg"
           alt="RoundButtonRectangleDecoA"
           width={250}
           height={100}
-          className={loginStyles.GameRoundRectangleDecoSelect}>
-        </Image>
+          className={loginStyles.GameRoundRectangleDecoSelect} />
         <h2 className={loginStyles.selectFont}>Select</h2>
       </button>
     </div>
@@ -126,15 +124,13 @@ const GameStartButton = ({ states }: { states: [string, string] }) => {
     <button 
       onClick={handleStart}
       className={loginStyles.container}>
-      <Image
+      <img
         loading={"lazy"}
-        fill
         src="/asset/RoundRectangleButton.svg"
         alt="RoundButtonRectangleDecoB"
         width={250}
         height={100}
-        className={loginStyles.GameRoundRectangleDecoStart}>
-      </Image>
+        className={loginStyles.GameRoundRectangleDecoStart} />
       <h2 className={loginStyles.startFont}>Start</h2>
     </button>
   )
@@ -146,23 +142,23 @@ const GameRoundDeco = () => {
   return (
     <button className={loginStyles.roundContainer}>
       <div className={loginStyles.roundBtnWrapper}>
-        <Image
+        <img
           src="/asset/RoundButtonDeco.svg"
           alt="RoundButtonDecoA"
           width={150}
           height={150}
           className={loginStyles.gameRoundDecoA}
-        ></Image>
+        />
         <h2 className={loginStyles.gameRoundFontA}>A</h2>
       </div>
       <div className={loginStyles.roundBtnWrapper}>
-        <Image
+        <img
           src="/asset/RoundButtonDeco.svg"
           alt="RoundButtonDecoB"
           width={150}
           height={150}
           className={loginStyles.gameRoundDecoB}
-        ></Image>
+        />
         <h2 className={loginStyles.gameRoundFontB}>B</h2>
       </div>
     </button>

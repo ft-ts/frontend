@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from "react";
 import { ChannelTabOptions } from "./enum/channelTabOptions.enum";
-import Image from "next/image";
 import styles from "./channel.module.scss";
 import { ChannelItem } from "./channelItem";
 import Modal from "react-modal";
@@ -198,7 +197,7 @@ const DisplayChannelSearch = () => {
     <div className={styles.channelSearchContainer}>
       <input className={styles.channelSearchInput}></input>
       <button className={styles.channelSearchIconContainer}>
-        <Image
+        <img
           className={styles.channelSearchIcon}
           src="/asset/search.png"
           alt="searchChannel"

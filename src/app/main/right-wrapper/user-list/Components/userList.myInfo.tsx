@@ -31,17 +31,17 @@ export default function MyInfo() {
       <button className={styles.bottomMyInfo} onClick={handleClick}>
         { renderUserStatus({userStatus: myInfo.status as UserStatus}) }
         <div className={styles.myAvatarBox}>
-          <Image className={styles.myAvatar} src={myInfo.avatar} alt={myInfo.name} width={75} height={75} />
+          <img className={styles.myAvatar} src={myInfo.avatar} alt={myInfo.name} width={75} height={75} />
         </div>
         <div className={styles.myNameBox}>
           <h2 className={styles.myName}>{myInfo.name}</h2>
         </div>
       </button>
       <button className={styles.myInfoButtonBox}>
-        <Image src={settingIcon} alt="setting" width={50} height={50}/>
+        <img src={settingIcon} alt="setting" width={50} height={50}/>
       </button>
       <button onClick={handleLogout} className={styles.myInfoButtonBox}>
-        <Image src={logoutIcon} alt="logout" width={50} height={50}/>
+        <img src={logoutIcon} alt="logout" width={50} height={50}/>
       </button>
     </div>
   );

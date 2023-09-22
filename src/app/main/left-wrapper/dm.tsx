@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./channel.module.scss";
 import { DmItem } from "./channelItem";
-import Image from "next/image";
 import { useGlobalContext, TabOptions } from "@/app/Context/store";
 import { DmListProps } from "./interfaces/dmItemProps";
 import { getDmLists, getUserByUid, postDmRead } from "@/app/axios/client";
@@ -82,7 +81,7 @@ const DisplayDmSearch = () => {
     <div className={styles.channelSearchContainer}>
       <input className={styles.channelSearchInput}></input>
       <button className={styles.channelSearchIconContainer}>
-        <Image
+        <img
           className={styles.channelSearchIcon}
           src="/asset/search.png"
           alt="searchDm"

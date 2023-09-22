@@ -54,7 +54,7 @@ export default function UserListFriends(
       <button onClick={handleClick} className={`${styles.userListBox} ${styles.friendWidth}`}>
         {renderUserStatus({userStatus: user.status as UserStatus})}
         <div className={styles.userAvatarBox}>
-          <Image src={user.avatar} width={60} height={60} alt={user.name} className={styles.userAvatar}></Image>
+          <img src={user.avatar} width={60} height={60} alt={user.name} className={styles.userAvatar}/>
         </div>
         <div className={styles.userNameBox}>
           <div className={styles.userName}>{user.name}</div>
@@ -62,10 +62,10 @@ export default function UserListFriends(
       </button>
       <div className={styles.userListButtonContainer}>
         <button className={styles.buttonBox}>
-          <Image src={deleteIcon} width={40} height={40} alt="deleteFriend" onClick={handleDeleteFriend}></Image>
+          <img src={deleteIcon} width={40} height={40} alt="deleteFriend" onClick={handleDeleteFriend}/>
         </button>
         <button className={styles.buttonBox}>
-          <Image src={invite} width={40} height={40} alt="invite" onClick={handleInviteChat}></Image>
+          <img src={invite} width={40} height={40} alt="invite" onClick={handleInviteChat}/>
         </button>
       </div>
     </div>

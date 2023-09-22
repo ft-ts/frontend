@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import styles from "./chat-wrapper.module.scss";
-import Image from "next/image";
 import { useGlobalContext } from "@/app/Context/store";
 import DmMessage from "./interfaces/dmMessage.interface";
 import { formatTime } from "./chat.utils";
@@ -38,7 +37,7 @@ function DmMessageItem({ dmMessage }: { dmMessage: DmMessage }) {
           }
           onClick={() => handleClickedProfile(dmMessage.sender)}
         >
-          <Image
+          <img
             className={styles.chatProfilePicture}
             src={dmMessage.sender.avatar}
             alt="avatar"

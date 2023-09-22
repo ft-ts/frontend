@@ -27,7 +27,7 @@ export default function UserListAll(
       <button className={`${styles.userListBox} ${styles.allWidth}`} onClick={handleClick}>
         {renderUserStatus({userStatus: user.status as UserStatus})}
         <div className={styles.userAvatarBox}>
-          <Image src={user.avatar} width={80} height={80} alt={user.name} className={styles.userAvatar}></Image>
+          <img src={user.avatar} width={80} height={80} alt={user.name} className={styles.userAvatar}/>
         </div>
         <div className={styles.userNameBox}>
           <div className={styles.userName}>{user.name}</div>

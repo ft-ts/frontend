@@ -27,7 +27,7 @@ const DmItem = ({
   const unread  :number = props.unread_count;
   return (
     <div className={styles.dmItemContainer} onClick={() => onClick(props.user_uid)}>
-      <Image
+      <img
         className={styles.profilePic}
         src={props.user_avatar}
         alt="profile"

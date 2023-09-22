@@ -44,13 +44,13 @@ export const EditForm = (props: EditProfileProps) => {
 
   return (
     <div className={styles.EditFormContainer}>
-      <Image
+      <img
         src={uploadedAvatar || myInfo.avatar}
         alt="My Image"
         className={styles.avatar}
         width={200}
         height={200}
-      ></Image>
+      />
       <Preview setUploadedAvatar={setUploadedAvatar} funMyInfo={setMyInfo} />
       <TwoFactorAuthButton twoFactorAuthMode={myInfo.twoFactorAuth} funMyInfo={setMyInfo} />
       <h2 className={styles.h2}>Chagne new NickName</h2>

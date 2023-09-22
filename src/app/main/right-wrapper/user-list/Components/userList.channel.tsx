@@ -3,7 +3,6 @@
 import React, {useState} from "react";
 import { ChannelUser } from "../../../mid-wrapper/chat/interfaces/channelUser.interface"
 import styles from './userList.module.scss';
-import Image from "next/image";
 import { User } from "@/app/main/interface/User.interface";
 import { ChannelRole } from "@/app/main/mid-wrapper/chat/enum/channelRole.enum";
 import SetBanType from "./userList.channel.modal";
@@ -93,10 +92,10 @@ export default function UserListChannel(
     <div className={styles.userListContainer}>
       <button onClick={handleClick} className={`${styles.userListBox} ${styles.channelWidth}`}>
         <div className={styles.userChatRoleBox}>
-        <Image src={userRole(item.role)} width={30} height={30} alt={item.user.name}></Image>
+        <img src={userRole(item.role)} width={30} height={30} alt={item.user.name}/>
         </div>
         <div className={styles.userAvatarBox}>
-          <Image src={item.user.avatar} width={80} height={80} alt={item.user.name} className={styles.userAvatar}></Image>
+          <img src={item.user.avatar} width={80} height={80} alt={item.user.name} className={styles.userAvatar}/>
         </div>
         <div className={styles.userNameBox}>
           <h2 className={styles.userName}>{item.user.name}</h2>
@@ -104,13 +103,13 @@ export default function UserListChannel(
       </button>
       {(!checkMe(myInfo, item.user) && checkAdmin(myRole) && !checkAdmin(item.role)) && <div className={styles.userListButtonContainer}>
         {checkOwner(myRole) && <button className={styles.buttonBox}>
-          <Image src={checkAdmin(item.role) ? revoke : admin} width={30} height={30} alt="admin" onClick={handleSetAdmin}></Image>
+          <img src={checkAdmin(item.role) ? revoke : admin} width={30} height={30} alt="admin" onClick={handleSetAdmin}/>
         </button>}
         <button className={styles.buttonBox}>
-          <Image src={mute} width={40} height={40} alt="kick" onClick={handleMute}></Image>
+          <img src={mute} width={40} height={40} alt="kick" onClick={handleMute}/>
         </button>
         <button className={styles.buttonBox}>
-          {<Image src={ban} width={40} height={40} alt="ban" onClick={handleBan}></Image>}
+          {<img src={ban} width={40} height={40} alt="ban" onClick={handleBan}/>}
         </button>
         <Modal 
           isOpen={isModalOpen}
