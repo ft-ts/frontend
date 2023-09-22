@@ -1,10 +1,12 @@
+import { UserStatus } from "../enum/UserStatus.enum";
+
 export interface User {
   uid: number,
   name: string,
   avatar: string,
   email: string,
   twoFactorAuth: boolean,
-  status: string,
+  status: UserStatus,
   rating: number,
   custom_wins: number,
   custom_losses: number,
