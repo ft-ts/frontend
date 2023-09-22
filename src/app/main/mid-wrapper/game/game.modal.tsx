@@ -18,8 +18,6 @@ export default function GameModal(
   const [power, setPower] = useState(false);
 
   const handleCloseModal = () => {
-    console.log(normal, power, matchID);
-    
     const mode : boolean = normal ? true : false;
     socket.emit('pong/game/init', {matchID: matchID, mode: mode});
     setModalFlag(false);
