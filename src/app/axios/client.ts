@@ -130,6 +130,11 @@ export async function postUnbanUser(channelId: number, uid: number): Promise<any
   return await apiClient.post(`/channels/unban`, payload);
 }
 
+export async function postMuteUser(channelId: number, uid: number): Promise<any> {
+  const payload = { channelId: channelId, targetUid: uid};
+  return await apiClient.post(`/channels/mute`, payload);
+}
+
 export async function postKickUser(channelId: number, uid: number): Promise<any> {
   const payload = { channelId: channelId, targetUid: uid};
   return await apiClient.post(`/channels/kick`, payload);
