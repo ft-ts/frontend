@@ -29,7 +29,11 @@ export default function UserListFriends(
 
     const handleDeleteFriend = () => {
       deleteFriend(user.uid).then((res) => {
-        alert(res.data.message);
+        /*
+          Update Friend List
+        */
+      }).catch((err) => {
+        console.log(err);
       });
     };
 

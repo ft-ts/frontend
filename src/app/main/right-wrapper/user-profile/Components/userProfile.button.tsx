@@ -24,10 +24,23 @@ export default function ProfileButton({ user }: { user: User }) {
     console.log("handleAddFriend");
     postFriend(user.uid).then((res) => {
       console.log(res.data);
+      //update friend list
+    }).catch((err) => {
+      console.log(err);
     });
   };
   const handleBlock = () => {
     console.log("handleBlock");
+    /*
+      Post Block
+      postBlockUser(user.uid).then((res) => {
+        console.log(res.data);
+        socket.emit();
+        Update List
+      }.catch((err) => {
+        console.log(err);
+      });
+    */
   };
 
   const handleInviteMatch = () => {
@@ -53,7 +66,6 @@ export default function ProfileButton({ user }: { user: User }) {
       unread_count: 0,
     };
     setDmList((prevDmItemProps: DmListProps[] | null) => [...(prevDmItemProps || []), dmItemProps]);
-    
   }
     
   return (

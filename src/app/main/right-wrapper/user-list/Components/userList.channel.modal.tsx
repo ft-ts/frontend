@@ -3,7 +3,7 @@
 import React, {useState, useEffect } from 'react';
 import styles from './userList.module.scss';
 import { socket } from '@/app/main/components/CheckAuth';
-import { postBanUser } from '@/app/axios/client';
+import { postBanUser, postKickUser } from '@/app/axios/client';
 
 export default function SetBanType(
   {
@@ -39,12 +39,28 @@ export default function SetBanType(
     console.log('channelID : ', channelID);
     
     if (kick) {
-      // socket.emit('channel/kickMember', {targetUserUid: targetUserUid, channelID: channelID});
+      /*
+        Post Kick
+        postKickUser(targetUserUid, channelID).then((res) => {
+          console.log(res.data);
+          socket.emit();
+          Update List
+        }.catch((err) => {
+          console.log(err);
+        });
+      */
     }
     else {
-      // ban
-      // socket.emit('channel/banMember', {targetUserUid: targetUserUid, channelID: channelID});
-      postBanUser(targetUserUid, channelID);
+      /*
+        Post Ban User
+        postBanUser(targetUserUid, channelID).then((res) => {
+          console.log(res.data);
+          socket.emit();
+          Update List
+        }.catch((err) => {
+          console.log(err);
+        }
+      */
     }
     handleCloseModal();
   }

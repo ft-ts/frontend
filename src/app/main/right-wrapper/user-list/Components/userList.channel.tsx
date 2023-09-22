@@ -10,6 +10,7 @@ import SetBanType from "./userList.channel.modal";
 import Modal from "react-modal";
 import { socket } from "@/app/main/components/CheckAuth";
 import { useGlobalContext } from "@/app/Context/store";
+import { postGrantAdmin, postRevokeAdmin, postMuteUser } from "@/app/axios/client";
 
 const owner = "/asset/crown.png";
 const admin = "/asset/admin.png";
@@ -59,22 +60,46 @@ export default function UserListChannel(
     const handleSetAdmin = () => {
       const targetUserUid : number = item.user.uid;
       const channelId : number = currentChannel.id;
-
-      socket.emit('channel/grantAdmin', {targetUserUid: targetUserUid, channelId: channelId});
+      /*
+        Post Set Admin
+        postGrantAdmin(channelId, targetUserUid).then((res) => {
+          console.log(res.data);
+          socket.emit();
+          Update List
+        }.catch((err) => {
+          console.log(err);
+        });
+      */
     }
 
     const handleRevokeAdmin = () => {
       console.log('RevokeAdmin');
       const targetUserUid : number = item.user.uid;
       const channelID : number = currentChannel.id;
-      socket.emit('channel/revokeAdmin', {targetUserUid: targetUserUid, channelId: channelID});
+      /*
+        Post Revoke Admin
+        postRevokeAdmin(channelId, targetUserUid).then((res) => {
+          console.log(res.data);
+          socket.emit();
+          Update List
+        }.catch((err) => {
+          console.log(err);
+        });
+      */
     }
 
     const handleMute = () => {
       console.log('Mute');
       const targetUserUid : number = item.user.uid;
       const channelID : number = currentChannel.id;
-      socket.emit('channel/muteMember', {targetUserUid: targetUserUid, channelId: channelID});
+      /*
+        Post Mute
+        postMuteUser(targetUserUid, channelID).then((res) => {
+          console.log(res.data);
+        }.catch((err) => {
+          console.log(err);
+        });
+      */
     }
     
     const handleBan = (e: any) => {
