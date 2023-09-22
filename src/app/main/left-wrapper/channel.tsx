@@ -13,7 +13,6 @@ import { socket } from "../components/CheckAuth";
 import { useGlobalContext, TabOptions } from "@/app/Context/store";
 import ChannelProps from "./interfaces/channelProps";
 import { getMyChannelRole, getChannelList, getMyChannelList } from "@/app/axios/client";
-import { get } from "http";
 
 function Channel()
 {
@@ -65,6 +64,7 @@ function Channel()
         }, 3000);
       }
     });
+
     return () => {
       socket.off("channel/join/success");
       socket.off("channel/join/error");

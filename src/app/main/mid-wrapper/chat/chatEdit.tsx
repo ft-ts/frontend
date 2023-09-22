@@ -5,7 +5,8 @@ import styles from './edit.module.scss';
 import { useGlobalContext } from '@/app/Context/store';
 import { ChannelMode } from '@/app/main/left-wrapper/enum/channel.enum';
 import ChannelProps from '../../left-wrapper/interfaces/channelProps';
-import { set } from 'react-hook-form';
+import { postChannelUpdate } from '@/app/axios/client';
+import { socket } from '../../components/CheckAuth';
 
 export default function ChatEdit({
   channel,
@@ -17,11 +18,13 @@ export default function ChatEdit({
   // const { currentChannel }: any = useGlobalContext();
   // const { currentChannelId }: any = useGlobalContext();
 
-  const [ newTitle, setNewTitle] = useState('');
+  const [ newTitle, setNewTitle] = useState(channel.title);
   const [ errorMessageTitle, setErrorMessageTitle ] = useState('');
   const [ errorMessagePassword, setErrorMessagePassword ] = useState('');
   const [ mode, setMode ] = useState(channel.mode);
   const [ password, setPassword ] = useState('');
+  const { channelId }: any = useGlobalContext();
+  const { setCurrentChannel }: any = useGlobalContext();
 
 
   const handleUpdate = () => {
@@ -39,15 +42,12 @@ export default function ChatEdit({
       return;
     }
     console.log('update channel', newTitle, mode, password.length);
-    /*
-      Post Update Channel
-      postUpdateChannle(newTitle, mode, password).then((res) => {
+    postChannelUpdate(channelId, newTitle, mode, password).then((res) => {
         const { data } = res;
-        socket.emit('channelUpdate', data);
-      }.catch((err) => {
-        console.log('update channel', err);
+        setCurrentChannel(data);
+      }).catch((err) => {
+        console.log('update channel error: ', err);
       });
-    */
     onClose();
   }
 
@@ -57,7 +57,7 @@ export default function ChatEdit({
       <h3 className={styles.editFormFont}>Channel Title</h3>
       <input
         type="text"
-        placeholder="Title"
+        placeholder={channel.title}
         value={newTitle}
         onChange={(e) => setNewTitle(e.target.value)}
         className={styles.editFormInput}
@@ -98,7 +98,7 @@ export default function ChatEdit({
       </div>
       {mode === ChannelMode.PROTECTED && (
         <>
-          <h3 className={styles.editFormFont}>Password</h3>
+          <h3>Password</h3>
           <input
             type="password"
             placeholder="Password"
@@ -111,7 +111,7 @@ export default function ChatEdit({
       )}
       <div className={styles.buttonContainer}>
         <button className={styles.editFormButton} onClick={handleUpdate}>Update</button>
-        <button className={styles.editFormButton} onClick={onClose}>Cancel</button>
+        <button className={styles.buttonCancel} onClick={onClose}>Cancel</button>
       </div>
     </div>
   )

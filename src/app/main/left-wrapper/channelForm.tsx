@@ -6,11 +6,13 @@ import ChannelFormProps from './interfaces/channelFormProps';
 import { ChannelMode } from './enum/channel.enum';
 import { useGlobalContext } from '@/app/Context/store';
 import { postCreateChannel } from '@/app/axios/client';
+import { ChannelRole } from '../mid-wrapper/chat/enum/channelRole.enum';
 
 const ChannelForm = (props: ChannelFormProps) => {
   const { setCurrentChannelId }: any = useGlobalContext();
   const { setCurrentChannel }: any = useGlobalContext();
   const { setCurrentDmId }: any = useGlobalContext();
+  const { setMyRole }: any = useGlobalContext();
   const [title, setTitle] = useState('');
   const [mode, setMode] = useState(ChannelMode.PUBLIC);
   const [password, setPassword] = useState('');
@@ -36,6 +38,7 @@ const ChannelForm = (props: ChannelFormProps) => {
       const {data} = res;
       setCurrentChannel(data);
       setCurrentChannelId(data.id);
+      setMyRole(ChannelRole.OWNER);
     }).catch((err) => {
       console.log('create channel',err);
     });
@@ -109,79 +112,5 @@ const ChannelForm = (props: ChannelFormProps) => {
     </div>
   );
 };
-
-// const ChannelSettingForm = (props: ChannelSettingFormProps) => {
-//   const [newTitle, setNewTitle] = useState(props.channel.title);
-//   const [newPassword, setPassword] = useState('');
-//   const [errorMessageTitle, setErrorMessageTitle] = useState('');
-//   const [errorMessagePassword, setErrorMessagePassword] = useState('');
-//   const { setCurrentChannel }: any = useGlobalContext();
-
-//   const handleUpdate = () => {
-//     if ((newTitle.length <= 1) || (newTitle.length >= 16)) {
-//       setErrorMessageTitle('Length of title must be greater than 1 and less than 16.');
-//       return ;
-//     }
-//     socket.emit('channel/editTitle', {
-//       channelId: props.channel.id,
-//       title: newTitle,
-//     });
-
-//     if (props.channel.mode === ChannelMode.PROTECTED)
-//     {
-//       if (!!!newPassword || newPassword.length <= 3 || newPassword.length >= 16) 
-//       {
-//         setErrorMessagePassword('Length of password must be greater than 3 and less than 15.');
-//         return ;
-//       }
-//       socket.emit('channel/editPassword', {
-//         channelId: props.channel.id,
-//         password: newPassword,
-//       });
-//     }
-//     socket.on("channel/channelUpdate", (channelData: ChannelProps) => {
-//       setCurrentChannel(channelData);
-//     }
-//     );
-//     props.onClose();
-//   };
-
-//   return (
-//     <div className={styles.channelFormContainer}>
-//       <h2 className={styles.h2}>Channel Settings</h2>
-//       {props.channel.id && (
-//         <>
-//           <h3 className={styles.h3}>Channel Title</h3>
-//           <input
-//             type="text"
-//             placeholder={props.channel.title}
-//             value={newTitle}
-//             onChange={(e) => setNewTitle(e.target.value)}
-//             className={styles.input}
-//           />
-//           {errorMessageTitle && <p className={styles.error}>{errorMessageTitle}</p>}
-//           {props.channel.mode === ChannelMode.PROTECTED && (
-//             <>
-//               <h3 className={styles.h3}>Password</h3>
-//               <input
-//                 type="password"
-//                 placeholder="New Password"
-//                 value={newPassword}
-//                 onChange={(e) => setPassword(e.target.value)}
-//                 className={styles.input}
-//               />
-//               {errorMessagePassword && <p className={styles.error}>{errorMessagePassword}</p>}
-//             </>
-//           )}
-//           <div className={styles.buttonContainer}>
-//             <button onClick={handleUpdate} className={styles.buttonCreate}>Edit</button>
-//             <button onClick={props.onClose} className={styles.buttonCancel}>Cancel</button>
-//           </div>
-//         </>
-//       )}
-//     </div>
-//   );
-// };
-
 
 export { ChannelForm };

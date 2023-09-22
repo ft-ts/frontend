@@ -9,6 +9,7 @@ import { User } from '@/app/main/interface/User.interface';
 import { deleteFriend } from '@/app/axios/client';
 import { socket } from '@/app/main/components/CheckAuth';
 import { useGlobalContext } from '@/app/Context/store';
+import UserInterface from '@/app/axios/interfaces/user.interface';
 
 const deleteIcon = "/asset/minus.png";
 const invite = "/asset/inviteIcon.png";
@@ -21,7 +22,7 @@ export default function UserListFriends(
   })
   {
     const { setCurrentUser }: any = useGlobalContext();
-    const { currentChannelID }: any = useGlobalContext();
+    const { currentChannelId }: any = useGlobalContext();
 
     const handleClick = () => {
       setCurrentUser(user);
@@ -38,16 +39,26 @@ export default function UserListFriends(
     };
 
     const handleInviteChat = () => {
-      console.log('handleInviteChat', currentChannelID);
-      if (!currentChannelID) {
+      if (!currentChannelId) {
         alert('You are not in any channel');
         return;
       } else{
         alert('invite');
         const targetUserUid : number = user.uid;
-        const channelID : number = currentChannelID;
+        const channelID : number = currentChannelId;
         socket.emit('channel/inviteUserToChannel', { targetUid: targetUserUid, channelId: channelID})
-      }
+        socket.on(
+          "channel/invited",
+          (data: { channelTitle: string; targetUserName: string }) => {
+            socket.emit("channel/sendNotification", {
+              channelId: data.channelTitle,
+              content: `${data.targetUserName} has joined the channel`,
+            });
+          }
+        );
+        socket.on("channel/inviteUserToChannel/fail", (data: { message: string }) => {
+          alert(data.message);
+        })}
     };
 
     useEffect(() => {

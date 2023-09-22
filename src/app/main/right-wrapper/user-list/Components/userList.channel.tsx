@@ -60,51 +60,42 @@ export default function UserListChannel(
     const handleSetAdmin = () => {
       const targetUserUid : number = item.user.uid;
       const channelId : number = currentChannel.id;
-      /*
-        Post Set Admin
         postGrantAdmin(channelId, targetUserUid).then((res) => {
           console.log(res.data);
-          socket.emit();
-          Update List
-        }.catch((err) => {
+        //   socket.emit('channel/updateUserList', {channelId: channelId});
+        }
+        ).catch((err) => {
           console.log(err);
         });
-      */
     }
 
     const handleRevokeAdmin = () => {
       console.log('RevokeAdmin');
       const targetUserUid : number = item.user.uid;
-      const channelID : number = currentChannel.id;
-      /*
-        Post Revoke Admin
+      const channelId : number = currentChannel.id;
         postRevokeAdmin(channelId, targetUserUid).then((res) => {
           console.log(res.data);
-          socket.emit();
-          Update List
-        }.catch((err) => {
+          // socket.emit('updateUserList', {channelId: channelId});
+        }).catch((err) => {
           console.log(err);
         });
-      */
     }
 
     const handleMute = () => {
       console.log('Mute');
       const targetUserUid : number = item.user.uid;
-      const channelID : number = currentChannel.id;
-      /*
-        Post Mute
-        postMuteUser(targetUserUid, channelID).then((res) => {
+      const channelId : number = currentChannel.id;
+
+        postMuteUser(channelId, targetUserUid).then((res) => {
           console.log(res.data);
-        }.catch((err) => {
+          // socket.emit('updateUserList', {channelId: channelId});
+        }).catch((err) => {
           console.log(err);
         });
-      */
     }
     
     const handleBan = (e: any) => {
       const { top, left } = e.target.getBoundingClientRect();
-      console.log('Ban');
       setIsModalOpen(true);
       setModalPosition({top: top, left: left});
     }
@@ -132,7 +123,7 @@ export default function UserListChannel(
           <Image src={checkAdmin(item.role) ? revoke : admin} width={30} height={30} alt="admin" onClick={handleSetAdmin}></Image>
         </button>}
         <button className={styles.buttonBox}>
-          <Image src={mute} width={40} height={40} alt="kick" onClick={handleMute}></Image>
+          <Image src={mute} width={40} height={40} alt="mute" onClick={handleMute}></Image>
         </button>
         <button className={styles.buttonBox}>
           {<Image src={ban} width={40} height={40} alt="ban" onClick={handleBan}></Image>}

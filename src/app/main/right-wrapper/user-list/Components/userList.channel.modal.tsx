@@ -39,28 +39,20 @@ export default function SetBanType(
     console.log('channelID : ', channelID);
     
     if (kick) {
-      /*
-        Post Kick
-        postKickUser(targetUserUid, channelID).then((res) => {
+        postKickUser(channelID, targetUserUid).then((res) => {
           console.log(res.data);
-          socket.emit();
-          Update List
-        }.catch((err) => {
+          // socket.emit('channel/updateUserList', {channelId: channelID});
+        }).catch((err) => {
           console.log(err);
         });
-      */
     }
     else {
-      /*
-        Post Ban User
         postBanUser(targetUserUid, channelID).then((res) => {
           console.log(res.data);
-          socket.emit();
-          Update List
-        }.catch((err) => {
+          // socket.emit('channel/updateUserList', {channelId: channelID});
+        }).catch((err) => {
           console.log(err);
-        }
-      */
+        });
     }
     handleCloseModal();
   }
