@@ -1,13 +1,10 @@
-"use client";
+'use client';
 
 import React, { useState } from 'react';
 import styles from './channelForm.module.scss';
-import ChannelSettingFormProps from './interfaces/channelSettingFormProps';
 import ChannelFormProps from './interfaces/channelFormProps';
 import { ChannelMode } from './enum/channel.enum';
-import { socket } from '../components/CheckAuth';
 import { useGlobalContext } from '@/app/Context/store';
-import ChannelProps from './interfaces/channelProps';
 import { postCreateChannel } from '@/app/axios/client';
 
 const ChannelForm = (props: ChannelFormProps) => {
@@ -113,78 +110,78 @@ const ChannelForm = (props: ChannelFormProps) => {
   );
 };
 
-const ChannelSettingForm = (props: ChannelSettingFormProps) => {
-  const [newTitle, setNewTitle] = useState(props.channel.title);
-  const [newPassword, setPassword] = useState('');
-  const [errorMessageTitle, setErrorMessageTitle] = useState('');
-  const [errorMessagePassword, setErrorMessagePassword] = useState('');
-  const { setCurrentChannel }: any = useGlobalContext();
+// const ChannelSettingForm = (props: ChannelSettingFormProps) => {
+//   const [newTitle, setNewTitle] = useState(props.channel.title);
+//   const [newPassword, setPassword] = useState('');
+//   const [errorMessageTitle, setErrorMessageTitle] = useState('');
+//   const [errorMessagePassword, setErrorMessagePassword] = useState('');
+//   const { setCurrentChannel }: any = useGlobalContext();
 
-  const handleUpdate = () => {
-    if ((newTitle.length <= 1) || (newTitle.length >= 16)) {
-      setErrorMessageTitle('Length of title must be greater than 1 and less than 16.');
-      return ;
-    }
-    socket.emit('channel/editTitle', {
-      channelId: props.channel.id,
-      title: newTitle,
-    });
+//   const handleUpdate = () => {
+//     if ((newTitle.length <= 1) || (newTitle.length >= 16)) {
+//       setErrorMessageTitle('Length of title must be greater than 1 and less than 16.');
+//       return ;
+//     }
+//     socket.emit('channel/editTitle', {
+//       channelId: props.channel.id,
+//       title: newTitle,
+//     });
 
-    if (props.channel.mode === ChannelMode.PROTECTED)
-    {
-      if (!!!newPassword || newPassword.length <= 3 || newPassword.length >= 16) 
-      {
-        setErrorMessagePassword('Length of password must be greater than 3 and less than 15.');
-        return ;
-      }
-      socket.emit('channel/editPassword', {
-        channelId: props.channel.id,
-        password: newPassword,
-      });
-    }
-    socket.on("channel/channelUpdate", (channelData: ChannelProps) => {
-      setCurrentChannel(channelData);
-    }
-    );
-    props.onClose();
-  };
+//     if (props.channel.mode === ChannelMode.PROTECTED)
+//     {
+//       if (!!!newPassword || newPassword.length <= 3 || newPassword.length >= 16) 
+//       {
+//         setErrorMessagePassword('Length of password must be greater than 3 and less than 15.');
+//         return ;
+//       }
+//       socket.emit('channel/editPassword', {
+//         channelId: props.channel.id,
+//         password: newPassword,
+//       });
+//     }
+//     socket.on("channel/channelUpdate", (channelData: ChannelProps) => {
+//       setCurrentChannel(channelData);
+//     }
+//     );
+//     props.onClose();
+//   };
 
-  return (
-    <div className={styles.channelFormContainer}>
-      <h2 className={styles.h2}>Channel Settings</h2>
-      {props.channel.id && (
-        <>
-          <h3 className={styles.h3}>Channel Title</h3>
-          <input
-            type="text"
-            placeholder={props.channel.title}
-            value={newTitle}
-            onChange={(e) => setNewTitle(e.target.value)}
-            className={styles.input}
-          />
-          {errorMessageTitle && <p className={styles.error}>{errorMessageTitle}</p>}
-          {props.channel.mode === ChannelMode.PROTECTED && (
-            <>
-              <h3 className={styles.h3}>Password</h3>
-              <input
-                type="password"
-                placeholder="New Password"
-                value={newPassword}
-                onChange={(e) => setPassword(e.target.value)}
-                className={styles.input}
-              />
-              {errorMessagePassword && <p className={styles.error}>{errorMessagePassword}</p>}
-            </>
-          )}
-          <div className={styles.buttonContainer}>
-            <button onClick={handleUpdate} className={styles.buttonCreate}>Edit</button>
-            <button onClick={props.onClose} className={styles.buttonCancel}>Cancel</button>
-          </div>
-        </>
-      )}
-    </div>
-  );
-};
+//   return (
+//     <div className={styles.channelFormContainer}>
+//       <h2 className={styles.h2}>Channel Settings</h2>
+//       {props.channel.id && (
+//         <>
+//           <h3 className={styles.h3}>Channel Title</h3>
+//           <input
+//             type="text"
+//             placeholder={props.channel.title}
+//             value={newTitle}
+//             onChange={(e) => setNewTitle(e.target.value)}
+//             className={styles.input}
+//           />
+//           {errorMessageTitle && <p className={styles.error}>{errorMessageTitle}</p>}
+//           {props.channel.mode === ChannelMode.PROTECTED && (
+//             <>
+//               <h3 className={styles.h3}>Password</h3>
+//               <input
+//                 type="password"
+//                 placeholder="New Password"
+//                 value={newPassword}
+//                 onChange={(e) => setPassword(e.target.value)}
+//                 className={styles.input}
+//               />
+//               {errorMessagePassword && <p className={styles.error}>{errorMessagePassword}</p>}
+//             </>
+//           )}
+//           <div className={styles.buttonContainer}>
+//             <button onClick={handleUpdate} className={styles.buttonCreate}>Edit</button>
+//             <button onClick={props.onClose} className={styles.buttonCancel}>Cancel</button>
+//           </div>
+//         </>
+//       )}
+//     </div>
+//   );
+// };
 
 
-export { ChannelForm, ChannelSettingForm };
+export { ChannelForm };
