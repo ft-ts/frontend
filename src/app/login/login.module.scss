@@ -60,7 +60,6 @@
 }
 
 .gameCrossDeco {
-    // padding-bottom: 100px;
     transform: translateY(-5vh);
     width: 10vw;
 }
@@ -69,7 +68,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    // justify-content: flex-start;
     transform: rotate(-5.57deg);
 }
 
@@ -135,8 +133,8 @@
     width: 100%;
     font-style: italic;
     font-weight: 600;
-    font-size: 4vw;
-    line-height: 45px;
+    font-size: 3vw;
+    line-height: 3vw;
     display: flex;
     align-items: flex-end;
     justify-content: center;

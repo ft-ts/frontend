@@ -30,7 +30,7 @@ export default function Login() {
 }
 
 
-const GameBackground = (props: {}) => {
+const GameBackground = () => {
   return (
     <div className={styles.gameBackground}>
       <div className={styles.displayBackground}>

@@ -1,5 +1,6 @@
 "use client";
 
+import loginStyles from "../login.module.scss"
 import styles from "./secondAuth.module.scss"
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
@@ -17,11 +18,11 @@ export default function Input2fa() {
   }, []);
 
   return (
-    <div className={styles.background}>
+    <div className={loginStyles.background}>
       <GameBackground authCode={authCode} setAuthCode={setAuthCode} qrCode={qrCode} />
-      <div className={styles.buttonsWrapper}>
+      <div className={loginStyles.buttonsWrapper}>
         <GameCrossDeco />
-        <div className={styles.midButtons}>
+        <div className={loginStyles.midButtons}>
           <GameSelectButton />
           <GameStartButton />
         </div>
@@ -68,7 +69,7 @@ const GameBackground = ({ authCode, setAuthCode, qrCode }: { authCode: string, s
   }
 
   return (
-    <div className={styles.gameBackground}>
+    <div className={loginStyles.gameBackground}>
       <div className={styles.displayBackground}>
         <div></div>
         <div className={styles.codeWrapper}>
@@ -122,7 +123,7 @@ const GameCrossDeco = () => {
       alt="game cross button deco"
       width={300}
       height={300}
-      className={styles.gameCrossDeco}
+      className={loginStyles.gameCrossDeco}
     ></Image>
   )
 }
@@ -131,15 +132,15 @@ const GameSelectButton = () => {
 
   return (
     <div>
-      <div className={styles.container}>
+      <div className={loginStyles.container}>
         <Image
           src="/asset/RoundRectangleButton.svg"
           alt="RoundButtonRectangleDecoA"
           width={250}
           height={100}
-          className={styles.GameRoundRectangleDecoSelect}>
+          className={loginStyles.GameRoundRectangleDecoSelect}>
         </Image>
-        <h2 className={styles.selectFont}>Select</h2>
+        <h2 className={loginStyles.selectFont}>Select</h2>
       </div>
     </div>
   )
@@ -148,15 +149,15 @@ const GameSelectButton = () => {
 const GameStartButton = () => {
 
   return (
-    <div className={styles.container}>
+    <div className={loginStyles.container}>
       <Image
         src="/asset/RoundRectangleButton.svg"
         alt="RoundButtonRectangleDecoB"
         width={250}
         height={100}
-        className={styles.GameRoundRectangleDecoStart}>
+        className={loginStyles.GameRoundRectangleDecoStart}>
       </Image>
-      <h2 className={styles.startFont}>Start</h2>
+      <h2 className={loginStyles.startFont}>Start</h2>
     </div>
   )
 }
@@ -165,26 +166,26 @@ const GameStartButton = () => {
 const GameRoundDeco = () => {
 
   return (
-    <div className={styles.roundContainer}>
-      <div className={styles.roundBtnWrapper}>
+    <div className={loginStyles.roundContainer}>
+      <div className={loginStyles.roundBtnWrapper}>
         <Image
           src="/asset/RoundButtonDeco.svg"
           alt="RoundButtonDecoA"
           width={150}
           height={150}
-          className={styles.gameRoundDecoA}
+          className={loginStyles.gameRoundDecoA}
         ></Image>
-        <h2 className={styles.gameRoundFontA}>A</h2>
+        <h2 className={loginStyles.gameRoundFontA}>A</h2>
       </div>
-      <div className={styles.roundBtnWrapper}>
+      <div className={loginStyles.roundBtnWrapper}>
         <Image
           src="/asset/RoundButtonDeco.svg"
           alt="RoundButtonDecoB"
           width={150}
           height={150}
-          className={styles.gameRoundDecoB}
+          className={loginStyles.gameRoundDecoB}
         ></Image>
-        <h2 className={styles.gameRoundFontB}>B</h2>
+        <h2 className={loginStyles.gameRoundFontB}>B</h2>
       </div>
     </div>
   )

@@ -193,7 +193,7 @@ const CreateChannel = () => {
   );
 };
 
-const DisplayChannelSearch = (props: {}) => {
+const DisplayChannelSearch = () => {
   return (
     <div className={styles.channelSearchContainer}>
       <input className={styles.channelSearchInput}></input>

@@ -77,7 +77,7 @@ export default function Dms() {
   );
 }
 
-const DisplayDmSearch = (props: {}) => {
+const DisplayDmSearch = () => {
   return (
     <div className={styles.channelSearchContainer}>
       <input className={styles.channelSearchInput}></input>
@@ -94,7 +94,7 @@ const DisplayDmSearch = (props: {}) => {
   );
 };
 
-const DmPanels = (props: {}) => {
+const DmPanels = () => {
   return (
     <div>
       <div className={styles.channelPanelBox}>
