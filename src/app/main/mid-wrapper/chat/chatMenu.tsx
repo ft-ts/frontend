@@ -138,7 +138,6 @@ const ChatSettingButton = ({ channel }: { channel: ChannelProps }) => {
   };
 
   const handleCloseModal = () => {
-    console.log('close modal');
     setIsModalOpen(false);
   };
   return (

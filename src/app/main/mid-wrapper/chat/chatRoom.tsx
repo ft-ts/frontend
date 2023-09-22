@@ -5,10 +5,12 @@ import styles from './chat-wrapper.module.scss';
 import MessageItem from './messageItem';
 import ChatMessage from './interfaces/chatMessage.interface';
 import { socket } from '../../components/CheckAuth';
-import { useGlobalContext } from '@/app/Context/store';
+import { TabOptions, useGlobalContext } from '@/app/Context/store';
 import DmMessage from './interfaces/dmMessage.interface';
 import DmMessageItem from './dmMessageItem';
 import { getDirectMessages, getChannelMessages, postDmRead, getDmLists } from '@/app/axios/client';
+import { Channel } from 'diagnostics_channel';
+import ChannelProps from '../../left-wrapper/interfaces/channelProps';
 
 export default function ChatRoom() {
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
@@ -16,9 +18,11 @@ export default function ChatRoom() {
   const [inputMessage, setInputMessage] = useState<string>('');
   const messageEndRef = useRef<HTMLDivElement | null>(null);
   
-  const { currentChannelId }: any = useGlobalContext();
+  const { setCurrentChannel }: any = useGlobalContext();
+  const { currentChannelId, setCurrentChannelId }: any = useGlobalContext();
   const { currentDmId }: any = useGlobalContext();
   const { setDmList }: any = useGlobalContext();
+  const { setActiveTab }: any = useGlobalContext();
   
   const scrollToBottom = (length : number) => {
     setTimeout(function() {
@@ -33,6 +37,27 @@ export default function ChatRoom() {
     const length = chatMessages.length + dmMessages.length;
     scrollToBottom(length);
   }, [chatMessages, dmMessages]);
+
+  useEffect(() => {
+    socket.on('channel/out', (payload: { channelId: number, reason: string }) => {
+      alert(payload.reason);
+      if (currentChannelId === payload.channelId) {
+        setCurrentChannelId(null);
+        setCurrentChannel(null);
+        setActiveTab(TabOptions.ALL);
+      }
+    });
+    socket.on('channel/chatRoomUpdate', (channel: ChannelProps) => {
+      if (currentChannelId === channel.id) {
+        setCurrentChannel(channel);
+      }
+    });
+  
+    return () => {
+      socket.off('channel/out');
+      socket.off('channel/chatRoomUpdate');
+    }
+  }, [currentChannelId]);
 
   useEffect(() => {
     setChatMessages([]);
@@ -62,7 +87,6 @@ export default function ChatRoom() {
 
   useEffect(() => {
     socket.on('channel/sendMessage', (message: ChatMessage) => {
-      // console.log('channel/sendMessage', message);
       if (currentChannelId === message.channel_id){
         setChatMessages((prevMessages) => [...prevMessages, message]);
       }
@@ -74,7 +98,6 @@ export default function ChatRoom() {
 
   useEffect(() => {
     socket.on('dm/msg', async (message: DmMessage) => {
-      // console.log('dm/msg',currentDmId ,message);
       if (currentDmId === message.receiver.uid || currentDmId === message.sender.uid) {
         setDmMessages((prevMessages) => [...prevMessages, message]);
         document.body.scrollTop = document.body.scrollHeight;

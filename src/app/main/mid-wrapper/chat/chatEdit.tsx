@@ -15,20 +15,16 @@ export default function ChatEdit({
   channel: ChannelProps
   onClose: () => void;
 }) {
-  // const { currentChannel }: any = useGlobalContext();
-  // const { currentChannelId }: any = useGlobalContext();
 
   const [ newTitle, setNewTitle] = useState(channel.title);
   const [ errorMessageTitle, setErrorMessageTitle ] = useState('');
   const [ errorMessagePassword, setErrorMessagePassword ] = useState('');
   const [ mode, setMode ] = useState(channel.mode);
   const [ password, setPassword ] = useState('');
-  const { channelId }: any = useGlobalContext();
-  const { setCurrentChannel }: any = useGlobalContext();
-
+  const { currentChannelId }: any = useGlobalContext();
 
   const handleUpdate = () => {
-    console.log('update channel');
+    if (currentChannelId === null) return ;
     setErrorMessageTitle('');
     setErrorMessagePassword('');
     if (!newTitle) {
@@ -41,10 +37,9 @@ export default function ChatEdit({
       setErrorMessagePassword('Password must be between 4 and 15 characters.');
       return;
     }
-    console.log('update channel', newTitle, mode, password.length);
-    postChannelUpdate(channelId, newTitle, mode, password).then((res) => {
-        const { data } = res;
-        setCurrentChannel(data);
+    postChannelUpdate(currentChannelId, newTitle, mode, password).then((res) => {
+        socket.emit('update/channelInfo');
+        socket.emit('channel/chatRoomUpdate', {channelId: currentChannelId});
       }).catch((err) => {
         console.log('update channel error: ', err);
       });
