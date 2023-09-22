@@ -130,7 +130,7 @@ export default function ChatRoom() {
           ))}
       </div>
       {(currentChannelId || currentDmId) && (
-        <span className={styles.spanSendMessage}>
+        <div className={styles.spanSendMessage}>
           <input
             className={styles.inputMessageBox}
             value={inputMessage}
