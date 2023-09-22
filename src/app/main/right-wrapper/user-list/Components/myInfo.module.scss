@@ -19,21 +19,17 @@
 }
 
 .myAvatarBox{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-  position: relative;
-  width: 90px;
-  // height: 90px;
+  // display: flex;
+  // align-items: center;
+  // justify-content: center;
 }
 
 .myAvatar {
   margin-left: 8%;
   background-color: deeppink;
-  width: 80px;
-  // height: 80px;
-  border-radius: 40%;
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
 }
 
 .myNameBox {
