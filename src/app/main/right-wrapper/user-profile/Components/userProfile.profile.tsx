@@ -45,12 +45,10 @@ export default function Profile({ user }: { user: User }) {
 
   return (
     <div className={styles.userInfoWrapper}>
-      <Image
+      <img
         className={styles.avatar}
         src={user.avatar}
         alt={user.name}
-        width={200}
-        height={200}
       />
       <div className={styles.topContainer}>
           {renderUserStatus({userStatus: user.status as UserStatus})}
