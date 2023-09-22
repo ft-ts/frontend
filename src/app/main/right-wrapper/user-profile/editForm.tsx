@@ -122,7 +122,7 @@ const Preview = (props: PreviewProps) => {
       <input
         id="fileInput"
         className="hidden"
-        accept="image/*"
+        accept="image/png image/jpeg"
         type="file"
         onChange={onUpload}
       />

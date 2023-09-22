@@ -1,3 +1,11 @@
+.profileBackground {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+}
+
 .userProfile {
   min-width: 400px;
   // width: 100%;

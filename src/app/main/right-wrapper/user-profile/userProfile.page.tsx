@@ -10,7 +10,7 @@ export default function UserProfile() {
   const { currentUser }: any = useGlobalContext();
   const { myInfo }: any = useGlobalContext();
   return (
-    <div>
+    <div className={styles.profileBackground}>
       <Profile user={currentUser} />
       <div className={styles.userProfile}>
         {(myInfo.uid === currentUser.uid) ? <EditMyProfile /> : <ProfileButton user={currentUser} />}

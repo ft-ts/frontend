@@ -50,6 +50,10 @@ const GameBackground = ({ states }: { states: [string, React.Dispatch<React.SetS
       const reader = new FileReader();
       reader.onload = function (e) {
         if (e.target?.result) {
+          if (e.target?.result.toString().length > 150000) {
+            alert("이미지 크기는 150kb 이하로 선택해주세요.");
+            return ;
+          }
           setAvatar(e.target?.result.toString());
         }
       }
