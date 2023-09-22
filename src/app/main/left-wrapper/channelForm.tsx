@@ -7,6 +7,7 @@ import { ChannelMode } from './enum/channel.enum';
 import { useGlobalContext } from '@/app/Context/store';
 import { postCreateChannel } from '@/app/axios/client';
 import { ChannelRole } from '../mid-wrapper/chat/enum/channelRole.enum';
+import { socket } from '../components/CheckAuth';
 
 const ChannelForm = (props: ChannelFormProps) => {
   const { setCurrentChannelId }: any = useGlobalContext();
@@ -39,6 +40,7 @@ const ChannelForm = (props: ChannelFormProps) => {
       setCurrentChannel(data);
       setCurrentChannelId(data.id);
       setMyRole(ChannelRole.OWNER);
+      socket.emit('update/channelInfo');
     }).catch((err) => {
       console.log('create channel',err);
     });
