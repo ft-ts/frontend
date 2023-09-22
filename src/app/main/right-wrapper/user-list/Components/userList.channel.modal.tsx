@@ -29,27 +29,21 @@ export default function SetBanType(
     if (kick) setKick(false);
   }
 
-  useEffect(() => {
-  }, [kick, ban]);
-
   const handleOK = () => {
     const targetUserUid : number = userUid;
     const channelID : number = channelId;
-    console.log('targetUserUid : ', targetUserUid);
-    console.log('channelID : ', channelID);
-    
+
     if (kick) {
         postKickUser(channelID, targetUserUid).then((res) => {
-          console.log(res.data);
-          // socket.emit('channel/updateUserList', {channelId: channelID});
+          socket.emit('update/channelInfo');
+          socket.emit('channel/innerUpdate', {channelId: channelID});
         }).catch((err) => {
           console.log(err);
         });
-    }
-    else {
-        postBanUser(targetUserUid, channelID).then((res) => {
-          console.log(res.data);
-          // socket.emit('channel/updateUserList', {channelId: channelID});
+    } else {
+        postBanUser(channelID, targetUserUid).then((res) => {
+          socket.emit('update/channelInfo', {channelId: channelID});
+          socket.emit('channel/innerUpdate', {channelId: channelID});
         }).catch((err) => {
           console.log(err);
         });

@@ -62,6 +62,11 @@ export async function postCreateChannel(title: string, mode: string, password: s
   return await apiClient.post("/channels/create", payload);
 }
 
+export async function postUpdateChannel(channelId: number, title: string, mode: string, password: string): Promise<any> {
+  const payload = { channelId: channelId, title: title, mode: mode, password: password };
+  return await apiClient.post("/channels/update", payload);
+}
+
 export async function getChannelList(): Promise<any> {
   return await apiClient.get("/channels/list/all");
 }
@@ -175,4 +180,8 @@ export async function postFriend(uid: number): Promise<any> {
 */
 export async function deleteFriend(uid: number): Promise<any> {
   return await apiClient.delete(`/users/friends`, { data: { targetUid: uid } });
+}
+
+export async function postBlockUser(targetUid: number): Promise<any> {
+  return await apiClient.post(`/users/block`, {data: {targetUid: targetUid}});
 }

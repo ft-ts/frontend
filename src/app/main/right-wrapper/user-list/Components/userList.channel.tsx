@@ -53,7 +53,6 @@ export default function UserListChannel(
     };
 
     const handleClick = () => {
-      console.log(item.role);
       setCurrentUser(item.user);
     }
 
@@ -61,8 +60,7 @@ export default function UserListChannel(
       const targetUserUid : number = item.user.uid;
       const channelId : number = currentChannel.id;
         postGrantAdmin(channelId, targetUserUid).then((res) => {
-          console.log(res.data);
-        //   socket.emit('channel/updateUserList', {channelId: channelId});
+          socket.emit('channel/innerUpdate', {channelId: channelId});
         }
         ).catch((err) => {
           console.log(err);
@@ -70,25 +68,19 @@ export default function UserListChannel(
     }
 
     const handleRevokeAdmin = () => {
-      console.log('RevokeAdmin');
       const targetUserUid : number = item.user.uid;
       const channelId : number = currentChannel.id;
         postRevokeAdmin(channelId, targetUserUid).then((res) => {
-          console.log(res.data);
-          // socket.emit('updateUserList', {channelId: channelId});
+          socket.emit('channel/innerUpdate', {channelId: channelId});
         }).catch((err) => {
           console.log(err);
         });
     }
 
     const handleMute = () => {
-      console.log('Mute');
       const targetUserUid : number = item.user.uid;
       const channelId : number = currentChannel.id;
-
         postMuteUser(channelId, targetUserUid).then((res) => {
-          console.log(res.data);
-          // socket.emit('updateUserList', {channelId: channelId});
         }).catch((err) => {
           console.log(err);
         });
@@ -118,9 +110,9 @@ export default function UserListChannel(
           <h2 className={styles.userName}>{item.user.name}</h2>
         </div>
       </button>
-      {(!checkMe(myInfo, item.user) && checkAdmin(myRole) && !checkAdmin(item.role)) && <div className={styles.userListButtonContainer}>
+      {(!checkMe(myInfo, item.user) && checkAdmin(myRole) && !checkOwner(item.role)) && <div className={styles.userListButtonContainer}>
         {checkOwner(myRole) && <button className={styles.buttonBox}>
-          <Image src={checkAdmin(item.role) ? revoke : admin} width={30} height={30} alt="admin" onClick={handleSetAdmin}></Image>
+          {checkAdmin(item.role) ? <Image src={revoke} width={30} height={30} alt="revoke" onClick={handleRevokeAdmin}></Image> : <Image src={admin} width={30} height={30} alt="admin" onClick={handleSetAdmin}></Image>}
         </button>}
         <button className={styles.buttonBox}>
           <Image src={mute} width={40} height={40} alt="mute" onClick={handleMute}></Image>

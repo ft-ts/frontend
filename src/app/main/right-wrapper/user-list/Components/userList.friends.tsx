@@ -30,9 +30,7 @@ export default function UserListFriends(
 
     const handleDeleteFriend = () => {
       deleteFriend(user.uid).then((res) => {
-        /*
-          Update Friend List
-        */
+        socket.emit('update/friends');
       }).catch((err) => {
         console.log(err);
       });

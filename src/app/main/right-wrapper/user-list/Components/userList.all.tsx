@@ -8,19 +8,13 @@ import { UserStatus } from '@/app/main/enum/UserStatus.enum';
 import { User } from '@/app/main/interface/User.interface';
 import { useGlobalContext } from '@/app/Context/store';
 
-export default function UserListAll(
-  {
-    user,
-  }:{
-    user: User
-  })
+export default function UserListAll({ user }:{ user: User })
 {
   const { setCurrentUser }: any = useGlobalContext();
   
   const handleClick = () => {
     setCurrentUser(user);
   }
-
 
   return (
     <div className={styles.userListContainer}>
