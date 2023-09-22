@@ -37,6 +37,7 @@ export default function SetBanType(
         postKickUser(channelID, targetUserUid).then((res) => {
           socket.emit('update/channelInfo');
           socket.emit('channel/innerUpdate', {channelId: channelID});
+          socket.emit('channel/sendNotification', {channelId: channelID, content: `${res.data.targetUserName} has been kicked.`});
         }).catch((err) => {
           console.log(err);
         });

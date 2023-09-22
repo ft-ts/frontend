@@ -9,7 +9,6 @@ import { User } from '@/app/main/interface/User.interface';
 import { deleteFriend } from '@/app/axios/client';
 import { socket } from '@/app/main/components/CheckAuth';
 import { useGlobalContext } from '@/app/Context/store';
-import UserInterface from '@/app/axios/interfaces/user.interface';
 
 const deleteIcon = "/asset/minus.png";
 const invite = "/asset/inviteIcon.png";
@@ -49,8 +48,8 @@ export default function UserListFriends(
           "channel/invited",
           (data: { channelTitle: string; targetUserName: string }) => {
             socket.emit("channel/sendNotification", {
-              channelId: data.channelTitle,
-              content: `${data.targetUserName} has joined the channel`,
+              channelId: channelID,
+              content: `${data.targetUserName} has been invited to the channel`,
             });
           }
         );

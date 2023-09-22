@@ -91,8 +91,16 @@ export default function ChatRoom() {
         setChatMessages((prevMessages) => [...prevMessages, message]);
       }
     });
+    socket.on('channel/sendNotification', (message: ChatMessage) => {
+      console.log('channel/sendMessage', message);
+      if (currentChannelId === message.channel_id){
+        setChatMessages((prevMessages) => [...prevMessages, message]);
+      }
+    });
+    
     return () => {
       socket.off('channel/sendMessage');
+      socket.off('channel/sendNotification');
     };
   }, [currentChannelId]);
 
