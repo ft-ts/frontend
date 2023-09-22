@@ -1,96 +1,90 @@
-"use client";
+'use client';
 
-import styles from "./chat-wrapper.module.scss";
-import React, { useContext } from "react";
-import Image from "next/image";
-import { useState, useEffect } from "react";
-import Modal from "react-modal";
-import { ChannelSettingForm } from "../../left-wrapper/channelForm";
-import ChannelProps from "../../left-wrapper/interfaces/channelProps";
-import { socket } from "../../components/CheckAuth";
-import { useGlobalContext } from "@/app/Context/store";
-import { TabOptions } from "@/app/Context/store";
-import { ChannelUser } from "./interfaces/channelUser.interface";
-import { ChannelRole } from "./enum/channelRole.enum";
-import UserInterface from "@/app/axios/interfaces/user.interface";
-import { getUserByUid } from "@/app/axios/client";
+import styles from './chat-wrapper.module.scss';
+import Image from 'next/image';
+import React, { useState, useEffect } from 'react';
+import Modal from 'react-modal';
+import { ChannelSettingForm } from '../../left-wrapper/channelForm';
+import ChannelProps from '../../left-wrapper/interfaces/channelProps';
+import { socket } from '../../components/CheckAuth';
+import { useGlobalContext } from '@/app/Context/store';
+import { TabOptions } from '@/app/Context/store';
+import { ChannelRole } from './enum/channelRole.enum';
+import UserInterface from '@/app/axios/interfaces/user.interface';
+import { getUserByUid } from '@/app/axios/client';
 
 export default function ChatMenu() {
-  const { channelId, dmId }: any = useGlobalContext();
-  const { channel, setChannel }: any = useGlobalContext();
-  const { setMyRole } : any = useGlobalContext();
-  const [channelUser, setChannelUser] = useState<ChannelUser | null>(null);
+  const { currentChannelId }: any = useGlobalContext();
+  const { currentDmId }: any = useGlobalContext();
+  const { currentChannel }: any = useGlobalContext();
+  const { myRole } : any = useGlobalContext();
+
   const [dmTargetUser, setDmTargetUser] = useState<UserInterface | null>(null);
 
   useEffect(() => {
-    if (channelId === null) {
-      setChannel(null);
+    if (currentDmId === null) {
       return;
     }
-    socket.emit("channel/getChannelUser", { channelId });
-    socket.on("channel/getChannelUser", (data: ChannelUser) => {
-      if (data !== null) {
-        setChannelUser(data);
-        setMyRole(data.role);
-      }
+    getUserByUid(currentDmId).then((res) => {
+      setDmTargetUser(res.data);
+    }).catch((err) => {
+      console.log('chatMenu.tsx', err);
     });
     return () => {
-      socket.off("channel/getChannelUser");
     };
-  }, [channelId]);
+  }, [currentDmId]);
 
   useEffect(() => {
-    if (dmId === null) {
+    if (currentChannelId === null) {
       return;
     }
-
-    async function fetchDmTargetUser() {
-      const dmTargetUser = await getUserByUid(dmId);
-      setDmTargetUser(dmTargetUser.data);
-    }
-    fetchDmTargetUser();
-
-    return () => {
-    };
-  }, [dmId]);
+  }, [currentChannelId]);
 
   return (
     <div className={styles.chatMenuBox}>
-      {channelId && (
+      {currentChannelId && (
         <span>
           <UserlistButton />
-          <h2 className={styles.chatMenuTitle}>{channel?.title}</h2>
-          {(channelUser?.role === ChannelRole.OWNER) && (
-            <ChatSettingButton channel={channel} />
+          <h2 className={styles.chatMenuTitle}>{currentChannel?.title}</h2>
+          {(myRole === ChannelRole.OWNER) && (
+            <ChatSettingButton channel={currentChannel} />
           )}
           <CloseButton />
           <ExitButton />
         </span>
       )}
-      {dmId && (
+      {currentDmId && (
         <span>
           <h2 className={styles.chatMenuTitle}> DM with: <span style={{ color: 'skyblue' }}>{dmTargetUser?.name}</span></h2>
           <CloseButton />
         </span>
       )}
       
-
     </div>
   );
 }
 
 const CloseButton = () => {
-  const { setChannelId, setDmId }: any = useGlobalContext();
+  const { setCurrentChannelId }: any = useGlobalContext();
+  const { setCurrentDmId }: any = useGlobalContext();
+  const { activeTab, setActiveTab }: any = useGlobalContext();
+  const { setCurrentUser }: any = useGlobalContext();
+  const { myInfo }: any = useGlobalContext();
 
   const handleCloseChannel = () => {
-    setChannelId(null);
-    setDmId(null);
+    if (activeTab !== TabOptions.ALL) {
+      setActiveTab(TabOptions.ALL);
+    }
+    setCurrentChannelId(null);
+    setCurrentDmId(null);
+    setCurrentUser(myInfo);
   };
+
   return (
     <button className={styles.closeButton} onClick={handleCloseChannel}>
       <Image
-        src="/asset/closeIcon.svg"
-        alt="close button"
+        src='/asset/closeIcon.svg'
+        alt='close button'
         width={55}
         height={55}
       ></Image>
@@ -99,26 +93,27 @@ const CloseButton = () => {
 };
 
 const ExitButton = () => {
-  const { channelId, setChannelId }: any = useGlobalContext();
-  const { setChannel }: any = useGlobalContext();
+  const { currentChannelId, setCurrentChannelId }: any = useGlobalContext();
+  const { setCurrentChannel }: any = useGlobalContext();
   const { activeTab, setActiveTab }: any = useGlobalContext();
+  const { setCurrentUser }: any = useGlobalContext();
+  const { myInfo }: any = useGlobalContext();
 
   const handleExitChannel = () => {
-    socket.emit("channel/leaveChannel", { channelId });
-    if (activeTab === TabOptions.CHANNEL) {
+    socket.emit('channel/leaveChannel', { channelId: currentChannelId });
+    if (activeTab !== TabOptions.ALL) {
       setActiveTab(TabOptions.ALL);
     }
-    setChannelId(null);
-    socket.on("channel/channelUpdate", (channelData: ChannelProps) => {
-      setChannel(channelData);
-    });
+    setCurrentChannelId(null);
+    setCurrentChannel(null);
+    setCurrentUser(myInfo);
   };
 
   return (
     <button className={styles.exitButton} onClick={handleExitChannel}>
       <Image
-        src="/asset/exitIcon.svg"
-        alt="exit button"
+        src='/asset/exitIcon.svg'
+        alt='exit button'
         width={55}
         height={55}
       ></Image>
@@ -131,16 +126,16 @@ const ChatSettingButton = ({ channel }: { channel: ChannelProps }) => {
 
   const customStyles = {
     content: {
-      width: "400px",
-      height: "700px",
-      border: "1px solid #ddd",
-      borderRadius: "8px",
-      padding: "20px",
-      margin: "0 auto",
-      backgroundColor: "#444444",
+      width: '400px',
+      height: '700px',
+      border: '1px solid #ddd',
+      borderRadius: '8px',
+      padding: '20px',
+      margin: '0 auto',
+      backgroundColor: '#444444',
     },
     overlay: {
-      backgroundColor: "rgba(0, 0, 0, 0.5)",
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
       zIndex: 1000,
     },
   };
@@ -155,15 +150,15 @@ const ChatSettingButton = ({ channel }: { channel: ChannelProps }) => {
     <div>
       <button className={styles.settingButton} onClick={handleOpenModal}>
         <Image
-          src="/asset/setting.svg"
-          alt="settingButton"
+          src='/asset/setting.svg'
+          alt='settingButton'
           width={55}
           height={55}
         />
       </button>
       <Modal
         isOpen={isModalOpen}
-        contentLabel="Edit Channel Modal"
+        contentLabel='Edit Channel Modal'
         style={customStyles}
         ariaHideApp={false}
         onRequestClose={handleCloseModal}
@@ -185,8 +180,8 @@ const UserlistButton = () => {
   return (
     <button className={styles.userlistButton} onClick={handleUserlist}>
       <Image
-        src="/asset/memberIcon.svg"
-        alt="userlist button"
+        src='/asset/memberIcon.svg'
+        alt='userlist button'
         width={55}
         height={55}
       ></Image>

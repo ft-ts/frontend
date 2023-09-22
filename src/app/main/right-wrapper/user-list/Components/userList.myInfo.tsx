@@ -6,25 +6,19 @@ import Image from 'next/image';
 import { getStatusColor, renderUserStatus } from "../../Common/right-wrapper.utils";
 import { UserStatus } from '@/app/main/enum/UserStatus.enum';
 import { User } from '@/app/main/interface/User.interface';
+import { useGlobalContext } from '@/app/Context/store';
 
 const logoutIcon = "/asset/logoutIcon.png";
 const settingIcon = "/asset/settingIcon.png";
 
-export default function MyInfo(
-  {
-    myInfo,
-    setCurrentUser,
-    setIsMe,
-  }:{
-    myInfo: User
-    setCurrentUser: React.Dispatch<React.SetStateAction<User>>
-    setIsMe: React.Dispatch<React.SetStateAction<boolean>>
-  }
-) {
+export default function MyInfo() {
+  const { myInfo }: any = useGlobalContext();
+  const { setCurrentUser }: any = useGlobalContext();
+
   const handleClick = () => {
     setCurrentUser(myInfo);
-    setIsMe(true);
   }
+
   return (
     <div className={styles.bottomContainer}>
       <button className={styles.bottomMyInfo} onClick={handleClick}>

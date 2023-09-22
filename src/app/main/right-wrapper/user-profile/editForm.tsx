@@ -3,21 +3,18 @@ import styles from "./editForm.module.scss"
 import EditProfileProps from './editFormProps';
 import PreviewProps from './editAvatarProps'
 import { useGlobalContext } from '@/app/Context/store';
-import { getMyInfo } from '@/app/axios/client';
-import { updateUser } from '@/app/api/client';
 import UserInterface from '@/app/axios/interfaces/user.interface';
 import Image from 'next/image';
 import { socket } from '../../components/CheckAuth';
-import { log } from 'console';
 
 const EditForm = (props: EditProfileProps) => {
     const { myInfo, setMyInfo }: any = useGlobalContext();
 
-    useEffect(() => {
-        getMyInfo().then((res) => {
-        setMyInfo(res.data);
-        });
-    }, []);
+    // useEffect(() => {
+    //     getMyInfo().then((res) => {
+    //     setMyInfo(res.data);
+    //     });
+    // }, []);
 
     useEffect(() => {
     }, [myInfo]);
@@ -34,10 +31,10 @@ const EditForm = (props: EditProfileProps) => {
                 name: newNickname
             };
             console.log(`User😘`, userData);
-            await updateUser(userData).then((res: any) => {
-                setMyInfo(res.data);
-                console.log("after update", res.data);
-            })
+            // await updateUser(userData).then((res: any) => {
+            //     setMyInfo(res.data);
+            //     console.log("after update", res.data);
+            // })
         }
         props.onClose();
     }
@@ -100,10 +97,10 @@ const Preview = (props: PreviewProps) => {
             const userData: Partial<UserInterface> = {
                 avatar: imageSrc
             };
-            await updateUser(userData).then((res: any) => {
-                console.log("data", res.data);
-                props.funMyInfo(res.data);
-            });
+            // await updateUser(userData).then((res: any) => {
+            //     console.log("data", res.data);
+            //     props.funMyInfo(res.data);
+            // });
             setIsNewAvatar(false); // Reset the flag after updating the avatar
         }
     }
@@ -145,10 +142,10 @@ const TwoFactorAuthButton = (props: FaModeButtonProps) => {
     useEffect(() => {
         async function updateUserData() {
             const userData: Partial<UserInterface> = {
-                twoFactorAuth: isFAon
+                // twoFactorAuth: isFAon
             };
-            const res = await updateUser(userData);
-            props.funMyInfo(res.data);
+            // const res = await updateUser(userData);
+            // props.funMyInfo(res.data);
         }
         
         updateUserData();

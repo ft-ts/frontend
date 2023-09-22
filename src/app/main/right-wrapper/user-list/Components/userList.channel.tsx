@@ -9,32 +9,29 @@ import { ChannelRole } from "@/app/main/mid-wrapper/chat/enum/channelRole.enum";
 import SetBanType from "./userList.channel.modal";
 import Modal from "react-modal";
 import { socket } from "@/app/main/components/CheckAuth";
+import { useGlobalContext } from "@/app/Context/store";
 
 const owner = "/asset/crown.png";
 const admin = "/asset/admin.png";
 const person = "/asset/person.png";
 const mute = "/asset/muteIcon.png";
 const ban = "/asset/banIcon.png";
+const revoke = "/asset/revoke.png"
 
 export default function UserListChannel(
   {
     item,
-    myInfo,
     myRole,
-    currentChannelID,
-    setCurrentUser,
-    setIsMe,
   }:{
     item: ChannelUser
-    myInfo: User
     myRole: ChannelRole
-    currentChannelID: number
-    setCurrentUser: React.Dispatch<React.SetStateAction<User>>
-    setIsMe: React.Dispatch<React.SetStateAction<boolean>>
   })
   {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [ modalPostion, setModalPosition ] = useState({top: 0, left: 0});
+    const { setCurrentUser } : any = useGlobalContext();
+    const { myInfo } : any = useGlobalContext();
+    const { currentChannel } : any = useGlobalContext();
 
     const customStyles = {
       content: {
@@ -55,39 +52,34 @@ export default function UserListChannel(
     };
 
     const handleClick = () => {
+      console.log(item.role);
       setCurrentUser(item.user);
-      if (myInfo.uid === item.user.uid) {
-        setIsMe(true);
-      } else {
-        setIsMe(false);
-      }
     }
 
     const handleSetAdmin = () => {
-      console.log('SetAdmin');
       const targetUserUid : number = item.user.uid;
-      const channelId : number = currentChannelID;
+      const channelId : number = currentChannel.id;
+
       socket.emit('channel/grantAdmin', {targetUserUid: targetUserUid, channelId: channelId});
     }
 
     const handleRevokeAdmin = () => {
       console.log('RevokeAdmin');
       const targetUserUid : number = item.user.uid;
-      const channelID : number = currentChannelID;
+      const channelID : number = currentChannel.id;
       socket.emit('channel/revokeAdmin', {targetUserUid: targetUserUid, channelId: channelID});
     }
 
     const handleMute = () => {
       console.log('Mute');
       const targetUserUid : number = item.user.uid;
-      const channelID : number = currentChannelID;
+      const channelID : number = currentChannel.id;
       socket.emit('channel/muteMember', {targetUserUid: targetUserUid, channelId: channelID});
     }
     
     const handleBan = (e: any) => {
       const { top, left } = e.target.getBoundingClientRect();
-      console.log('Ban', myInfo);
-      console.log(top, left);
+      console.log('Ban');
       setIsModalOpen(true);
       setModalPosition({top: top, left: left});
     }
@@ -112,7 +104,7 @@ export default function UserListChannel(
       </button>
       {(!checkMe(myInfo, item.user) && checkAdmin(myRole) && !checkAdmin(item.role)) && <div className={styles.userListButtonContainer}>
         {checkOwner(myRole) && <button className={styles.buttonBox}>
-          <Image src={admin} width={30} height={30} alt="admin" onClick={handleSetAdmin}></Image>
+          <Image src={checkAdmin(item.role) ? revoke : admin} width={30} height={30} alt="admin" onClick={handleSetAdmin}></Image>
         </button>}
         <button className={styles.buttonBox}>
           <Image src={mute} width={40} height={40} alt="kick" onClick={handleMute}></Image>
@@ -127,7 +119,7 @@ export default function UserListChannel(
           style={customStyles}
           shouldCloseOnOverlayClick={false}
         >
-          <SetBanType handleCloseModal={handleCloseModal} channelId={currentChannelID} userUid={item.user.uid}/>
+          <SetBanType handleCloseModal={handleCloseModal} channelId={currentChannel.id} userUid={item.user.uid}/>
         </Modal> 
       </div>}
     </div>

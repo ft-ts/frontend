@@ -8,52 +8,58 @@ import UserListFriends from './Components/userList.friends';
 import MyInfo from './Components/userList.myInfo';
 import UserListSearch from './Components/userList.search';
 import { User } from '@/app/main/interface/User.interface';
-import { getUserListExceptMe, getFreiendsList } from '@/app/axios/client';
+import { getUserListExceptMe, getFreiendsList, getChannelMembers } from '@/app/axios/client';
 import { useGlobalContext } from '@/app/Context/store';
 import { ChannelUser } from '../../mid-wrapper/chat/interfaces/channelUser.interface';
 import { TabOptions } from './userList.enum';
 
-export default function UserList(
-  {
-    setCurrentUser,
-    setIsMe,
-    myInfo,
-  }:{
-    setCurrentUser: React.Dispatch<React.SetStateAction<User>>
-    setIsMe: React.Dispatch<React.SetStateAction<boolean>>
-    myInfo: User
-  })
-  {
-  const { activeTab, setActiveTab }: any = useGlobalContext();
-  const { myRole, setMyRole }: any = useGlobalContext();
+export default function UserList()
+{
   const [userList, setUserList] = useState<User[]>([]);
   const [friendList, setFriendList] = useState<User[]>([]);
-  const { channelId }: any = useGlobalContext();
-  const { channelMembers }: any = useGlobalContext();
+  const [ channelMembers, setChannelMembers ] = useState<ChannelUser[]>([]);
+
+  const { activeTab, setActiveTab }: any = useGlobalContext();
+  const { myRole, setMyRole }: any = useGlobalContext();
+  const { currentChannelId }: any = useGlobalContext();
 
   useEffect(() => {
-    getUserListExceptMe().then((res) => {
-      const { data } = res;
-      setUserList(data);
-    });
-  }, []);
+    if (activeTab === TabOptions.ALL) {
+      getUserListExceptMe().then((res) => {
+        const { data } = res;
+        setUserList(data);
+      }).catch((err) => {
+        console.log(err);
+      });
+    } else if (activeTab === TabOptions.FRIENDS) {
+      getFreiendsList().then((res) => {
+        const { data } = res;
+        setFriendList(data);
+      }).catch((err) => {
+        console.log(err);
+      });
+    } else if (activeTab === TabOptions.CHANNEL) {
+      if (currentChannelId){
+        getChannelMembers(currentChannelId).then((res) => {
+          const { data } = res;
+          setChannelMembers(data);
+        }).catch((err) => {
+          console.log(err);
+        });
+      }
+    }
+  }, [activeTab]);
 
   useEffect(() => {
-    getFreiendsList().then((res) => {
-      const { data } = res;
-      console.log (data);
-      setFriendList(data);
-    });
-  }, []);
-
-  useEffect(() => {
-  }, [userList]);
-
-  useEffect(() => {
-  }, [friendList]);
-
-  useEffect(() => {
-  }, [channelMembers]);
+    if (currentChannelId){
+      getChannelMembers(currentChannelId).then((res) => {
+        const { data } = res;
+        setChannelMembers(data);
+      }).catch((err) => {
+        console.log(err);
+      });
+    }
+  }, [currentChannelId]);
 
   const renderUserList = () => {
     if (activeTab === TabOptions.ALL) {
@@ -65,12 +71,6 @@ export default function UserList(
     }
   };
 
-  useEffect(() => {
-    renderUserList();
-  }, [activeTab]);
-
-
-
   const renderAllList = () => {
     return (
       <>
@@ -78,9 +78,6 @@ export default function UserList(
           <UserListAll
             key={user.uid}
             user={user}
-            myInfo={myInfo}
-            setCurrentUser={setCurrentUser}
-            setIsMe={setIsMe}
           />
         ))}
       </>
@@ -94,10 +91,6 @@ export default function UserList(
           <UserListFriends
             key={index}
             user={item}
-            myInfo={myInfo}
-            currentChannelID={channelId}
-            setCurrentUser={setCurrentUser}
-            setIsMe={setIsMe}
           />
           ))}
       </>
@@ -111,11 +104,7 @@ export default function UserList(
           <UserListChannel 
             key={member.id}
             item={member}
-            myInfo={myInfo}
             myRole={myRole}
-            currentChannelID={channelId}
-            setCurrentUser={setCurrentUser}
-            setIsMe={setIsMe}
            />
         ))}
       </>
@@ -146,7 +135,7 @@ export default function UserList(
           <div
             className={`${styles.userListHeaderTitle} ${activeTab === TabOptions.CHANNEL ? styles.activeTab : undefined
               }`}
-            onClick={channelId !== null ? () => setActiveTab(TabOptions.CHANNEL) : undefined
+            onClick={currentChannelId !== null ? () => setActiveTab(TabOptions.CHANNEL) : undefined
             }
           >
             Channel
@@ -154,7 +143,7 @@ export default function UserList(
         </div>
         <UserListSearch />
         <div className={styles.userListBody}>{renderUserList()}</div>
-        <MyInfo myInfo={myInfo} setCurrentUser={setCurrentUser} setIsMe={setIsMe}/>
+        <MyInfo />
       </div>
     </div>
   );

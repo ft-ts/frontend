@@ -3,17 +3,23 @@ import styles from "./chat-wrapper.module.scss";
 import Image from "next/image";
 import { useGlobalContext } from "@/app/Context/store";
 import DmMessage from "./interfaces/dmMessage.interface";
+import { formatTime } from "./chat.utils";
+import { getUserByUid } from "@/app/axios/client";
 
 function DmMessageItem({ dmMessage }: { dmMessage: DmMessage }) {
   const { myInfo }: any = useGlobalContext();
+  const { setCurrentUser } : any = useGlobalContext();
 
-  const options = {
-    timeZone: "Asia/Seoul",
-  };
-  const formatTime = (time: Date) => {
-    const date = new Date(time);
-    return date.toLocaleString("en-US", options);
-  };
+  const handleClickedProfile = async (sender: any) => {
+    await getUserByUid(sender.uid)
+    .then((res) => {
+      setCurrentUser(res.data);
+    })
+    .catch((err) => {
+      console.log('dmMessageItem.tsx',err);
+    });
+    
+  }
 
   return (
     <div
@@ -30,6 +36,7 @@ function DmMessageItem({ dmMessage }: { dmMessage: DmMessage }) {
               ? styles.myMessageProfileButton
               : styles.otherMessageProfileButton
           }
+          onClick={() => handleClickedProfile(dmMessage.sender)}
         >
           <Image
             className={styles.chatProfilePicture}
@@ -46,7 +53,7 @@ function DmMessageItem({ dmMessage }: { dmMessage: DmMessage }) {
         )}
         <div className={styles.messageContent}>{dmMessage.message}</div>
         <div className={styles.messageTime}>
-          {formatTime(dmMessage.createdAt)}
+          {formatTime(dmMessage.created_at)}
           <br></br>
         </div>
       </div>

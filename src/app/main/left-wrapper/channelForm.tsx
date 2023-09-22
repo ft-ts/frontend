@@ -8,9 +8,12 @@ import { ChannelMode } from './enum/channel.enum';
 import { socket } from '../components/CheckAuth';
 import { useGlobalContext } from '@/app/Context/store';
 import ChannelProps from './interfaces/channelProps';
+import { postCreateChannel } from '@/app/axios/client';
 
 const ChannelForm = (props: ChannelFormProps) => {
-  const { setChannelId }: any = useGlobalContext();
+  const { setCurrentChannelId }: any = useGlobalContext();
+  const { setCurrentChannel }: any = useGlobalContext();
+  const { setCurrentDmId }: any = useGlobalContext();
   const [title, setTitle] = useState('');
   const [mode, setMode] = useState(ChannelMode.PUBLIC);
   const [password, setPassword] = useState('');
@@ -19,6 +22,7 @@ const ChannelForm = (props: ChannelFormProps) => {
   const [errorMessagePassword, setErrorMessagePassword] = useState('');
 
   const handleCreateChannel = () => {
+    setCurrentDmId(null);
     if (!title) {
       setErrorMessageTitle('Please fill out title fields.');
       return;
@@ -31,15 +35,13 @@ const ChannelForm = (props: ChannelFormProps) => {
       setErrorMessagePassword('Password must be between 4 and 15 characters.');
       return;
     }
-
-    socket.emit('channel/createChannel', {
-      title,
-      mode,
-      password,
+    postCreateChannel(title, mode, password).then((res) => {
+      const {data} = res;
+      setCurrentChannel(data);
+      setCurrentChannelId(data.id);
+    }).catch((err) => {
+      console.log('create channel',err);
     });
-    socket.on('channel/createChannel', 
-    (data) => setChannelId(data));
-
     props.onClose();
   };
 
@@ -116,7 +118,7 @@ const ChannelSettingForm = (props: ChannelSettingFormProps) => {
   const [newPassword, setPassword] = useState('');
   const [errorMessageTitle, setErrorMessageTitle] = useState('');
   const [errorMessagePassword, setErrorMessagePassword] = useState('');
-  const { setChannel }: any = useGlobalContext();
+  const { setCurrentChannel }: any = useGlobalContext();
 
   const handleUpdate = () => {
     if ((newTitle.length <= 1) || (newTitle.length >= 16)) {
@@ -141,7 +143,7 @@ const ChannelSettingForm = (props: ChannelSettingFormProps) => {
       });
     }
     socket.on("channel/channelUpdate", (channelData: ChannelProps) => {
-      setChannel(channelData);
+      setCurrentChannel(channelData);
     }
     );
     props.onClose();

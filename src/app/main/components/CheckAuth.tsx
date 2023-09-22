@@ -1,6 +1,6 @@
 'use client'
 import { io } from "socket.io-client";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 export const socket = io(`${process.env.NEXT_PUBLIC_BACKEND_URL}`, {

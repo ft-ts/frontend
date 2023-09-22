@@ -6,29 +6,21 @@ import Image from 'next/image';
 import { renderUserStatus } from "../../Common/right-wrapper.utils";
 import { UserStatus } from '@/app/main/enum/UserStatus.enum';
 import { User } from '@/app/main/interface/User.interface';
+import { useGlobalContext } from '@/app/Context/store';
 
 export default function UserListAll(
   {
-    myInfo,
     user,
-    setCurrentUser,
-    setIsMe,
   }:{
-    myInfo: User
     user: User
-    setCurrentUser: React.Dispatch<React.SetStateAction<User>>
-    setIsMe: React.Dispatch<React.SetStateAction<boolean>>
   })
-  {
-
+{
+  const { setCurrentUser }: any = useGlobalContext();
+  
   const handleClick = () => {
     setCurrentUser(user);
-    if (myInfo.uid === user.uid) {
-      setIsMe(true);
-    } else {
-      setIsMe(false);
-    }
   }
+
 
   return (
     <div className={styles.userListContainer}>

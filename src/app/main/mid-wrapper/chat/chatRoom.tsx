@@ -1,116 +1,127 @@
-"use client";
+'use client';
 
-import React, { useState, useEffect, useRef, useContext } from "react";
-import styles from "./chat-wrapper.module.scss";
-import MessageItem from "./messageItem";
-import ChatMessage from "./interfaces/chatMessage.interface";
-import { socket } from "../../components/CheckAuth";
-import { useGlobalContext } from "@/app/Context/store";
-import DmMessage from "./interfaces/dmMessage.interface";
-import DmMessageItem from "./dmMessageItem";
-import { getDm } from "@/app/axios/client";
+import React, { useState, useEffect, useRef   } from 'react';
+import styles from './chat-wrapper.module.scss';
+import MessageItem from './messageItem';
+import ChatMessage from './interfaces/chatMessage.interface';
+import { socket } from '../../components/CheckAuth';
+import { useGlobalContext } from '@/app/Context/store';
+import DmMessage from './interfaces/dmMessage.interface';
+import DmMessageItem from './dmMessageItem';
+import { getDirectMessages, getChannelMessages, postDmRead, getDmLists } from '@/app/axios/client';
 
 export default function ChatRoom() {
-  const { channelId, channel }: any = useGlobalContext();
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
   const [dmMessages, setDmMessages] = useState<DmMessage[]>([]);
-
-  const [inputMessage, setInputMessage] = useState<string>("");
+  const [inputMessage, setInputMessage] = useState<string>('');
   const messageEndRef = useRef<HTMLDivElement | null>(null);
-  const { dmId }: any = useGlobalContext();
-
-  const scrollToBottom = () => {
-    if (messageEndRef.current) {
-      messageEndRef.current.scrollTop = messageEndRef.current.scrollHeight;
-    }
+  
+  const { currentChannelId }: any = useGlobalContext();
+  const { currentDmId }: any = useGlobalContext();
+  const { setDmList }: any = useGlobalContext();
+  
+  const scrollToBottom = (length : number) => {
+    setTimeout(function() {
+      if (messageEndRef.current) {
+        messageEndRef.current.scrollTop = messageEndRef.current.scrollHeight;
+      }
+    }, length * 5);
   };
+  
+  useEffect(() => {
+    if (chatMessages.length === 0 && dmMessages.length === 0) return ;
+    const length = chatMessages.length + dmMessages.length;
+    scrollToBottom(length);
+  }, [chatMessages, dmMessages]);
 
   useEffect(() => {
-    scrollToBottom();
-  }, [chatMessages]);
-
-  useEffect(() => {
-    // Listen for new messages
-    if (channelId) {
-      // Request initial messages
-      socket.emit("channel/getChannelMessages", { channelId });
-      socket.on("channel/getChannelMessages", (messages: ChatMessage[]) => {
-        setChatMessages(messages);
+    setChatMessages([]);
+    setDmMessages([]);
+    if (currentChannelId){
+      getChannelMessages(currentChannelId).then((res) => {
+        const { data } = res;
+        setChatMessages(data);
+      }).catch((err) => {
+        console.log('getCM', err);
       });
+    }
+  }, [currentChannelId]);
 
-      socket.on("channel/sendMessage", (message: ChatMessage) => {
+  useEffect(()=> {
+    setChatMessages([]);
+    setDmMessages([]);
+    if (currentDmId){
+      getDirectMessages(currentDmId).then((res) => {
+        const { data } = res;
+        setDmMessages(data);
+      }).catch((err) => {
+        console.log('getDM', err)
+      });
+    }
+  }, [currentDmId]);
+
+  useEffect(() => {
+    socket.on('channel/sendMessage', (message: ChatMessage) => {
+      // console.log('channel/sendMessage', message);
+      if (currentChannelId === message.channel_id){
         setChatMessages((prevMessages) => [...prevMessages, message]);
-      });
-
-      socket.on(
-        "channel/userJoined",
-        (data: { chId: number; user: string }) => {
-          socket.emit("channel/sendNotification", {
-            channelId: data.chId,
-            content: `${data.user} has joined the channel`,
-          });
-        }
-      );
-
-      socket.on("channel/userLeft", (data: { chId: number; user: string }) => {
-        socket.emit("channel/sendNotification", {
-          channelId: data.chId,
-          content: `${data.user} has left the channel`,
-        });
-      });
-    }
-
-    if (dmId) {
-      // getDm(dmId).then((res) => {
-      //   setDmMessages(res.data);
-      // });
-
-      socket.on("dm/msg", (message: DmMessage) => {
-        setDmMessages((prevMessages) => [...prevMessages, message]);
-      });
-    }
-    document.body.scrollTop = document.body.scrollHeight;
-
+      }
+    });
     return () => {
-      // Clean up the event listener when component unmounts
-      socket.off("channel/getChannelMessages");
-      socket.off("channel/sendMessage");
-      socket.off("channel/userJoined");
-      socket.off("channel/userLeft");
-      socket.off("dm/msg");
+      socket.off('channel/sendMessage');
     };
-  }, [channelId, dmId]);
+  }, [currentChannelId]);
+
+  useEffect(() => {
+    socket.on('dm/msg', async (message: DmMessage) => {
+      // console.log('dm/msg',currentDmId ,message);
+      if (currentDmId === message.receiver.uid || currentDmId === message.sender.uid) {
+        setDmMessages((prevMessages) => [...prevMessages, message]);
+        document.body.scrollTop = document.body.scrollHeight;
+        await postDmRead(currentDmId).catch((err) => {
+          console.log('postDmRead error : ', err);
+        });
+      }
+      getDmLists().then((res) => {
+        setDmList(res.data);
+      }).catch((err) => {
+        console.log('getDmLists error : ', err);
+      });
+    });
+    return () => {
+      socket.off('dm/msg');
+    };
+  }, [currentDmId]);
 
   const handleSendMessage = () => {
-    if (inputMessage.trim() === "") {
+    if (inputMessage.trim() === '') {
       return;
     }
-    // Send the message to the backend
-    if (channelId) {
-      socket.emit("channel/sendMessage", {
-        channelId: channelId,
+    if (currentChannelId) {
+      socket.emit('channel/sendMessage', {
+        channelId: currentChannelId,
         content: inputMessage,
       });
-    } else if (dmId) {
-      socket.emit("dm/msg", {
-        targetUid: dmId,
+    } else if (currentDmId) {
+      socket.emit('dm/msg', {
+        targetUid: currentDmId,
         message: inputMessage,
       });
     }
-    setInputMessage("");
+    setInputMessage('');
   };
-
-  useEffect(() => { }, [channelId, dmId]);
 
   return (
     <div className={styles.chatRoomBox}>
       <div className={styles.chatDisplay} ref={messageEndRef}>
-        {channelId &&
+        {currentChannelId &&
           chatMessages?.map &&
           chatMessages.map((chatMessages) => (
-            <MessageItem key={chatMessages.id} chatMessage={chatMessages} />
+            <MessageItem
+             key={chatMessages.id}
+             chatMessage={chatMessages} />
           ))}
-        {dmId &&
+        {currentDmId &&
           dmMessages?.map &&
           dmMessages.map((dmMessages) => (
             <DmMessageItem
@@ -118,14 +129,14 @@ export default function ChatRoom() {
               dmMessage={dmMessages} />
           ))}
       </div>
-      {(channelId || dmId) && (
-        <div className={styles.spanSendMessage}>
+      {(currentChannelId || currentDmId) && (
+        <span className={styles.spanSendMessage}>
           <input
             className={styles.inputMessageBox}
             value={inputMessage}
             onChange={(e) => setInputMessage(e.target.value)}
             onKeyDown={(e) => {
-              if (e.key === "Enter") {
+              if (e.key === 'Enter') {
                 e.preventDefault(); // Prevent default behavior (form submission)
                 handleSendMessage();
               }
