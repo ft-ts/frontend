@@ -12,18 +12,18 @@ import { getUserListExceptMe, getFreiendsList, getChannelMembers } from '@/app/a
 import { useGlobalContext } from '@/app/Context/store';
 import { ChannelUser } from '../../mid-wrapper/chat/interfaces/channelUser.interface';
 import { TabOptions } from './userList.enum';
+import { socket } from '@/app/main/components/CheckAuth';
 
-export default function UserList()
-{
+export default function UserList(){
   const [userList, setUserList] = useState<User[]>([]);
   const [friendList, setFriendList] = useState<User[]>([]);
   const [ channelMembers, setChannelMembers ] = useState<ChannelUser[]>([]);
 
   const { activeTab, setActiveTab }: any = useGlobalContext();
-  const { myRole, setMyRole }: any = useGlobalContext();
+  const { myRole }: any = useGlobalContext();
   const { currentChannelId }: any = useGlobalContext();
 
-  useEffect(() => {
+  const setUserLists = () => {
     if (activeTab === TabOptions.ALL) {
       getUserListExceptMe().then((res) => {
         const { data } = res;
@@ -47,6 +47,36 @@ export default function UserList()
           console.log(err);
         });
       }
+    }
+  }
+
+  useEffect(() => {
+    setUserLists();
+  }, [activeTab]);
+
+  useEffect(() => {
+    socket.on('update/friends', () => {
+      if (activeTab !== TabOptions.FRIENDS){
+        setActiveTab(TabOptions.FRIENDS);
+        return ;
+      }
+      setUserLists();
+    });
+    socket.on('update/userConnection', () => {
+      if (activeTab === TabOptions.ALL){
+        setUserLists();
+      }
+    });
+    socket.on('channel/innerUpdate', () => {
+      if (activeTab === TabOptions.CHANNEL){
+        setUserLists();
+      }
+    });
+    return () => {
+      socket.off('update/friends');
+      socket.off('update/userConnection');
+      socket.off('channels/grant');
+      socket.off('channel/innerUpdate');
     }
   }, [activeTab]);
 

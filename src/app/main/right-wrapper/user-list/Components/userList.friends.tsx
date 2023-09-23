@@ -5,7 +5,7 @@ import styles from './userList.module.scss';
 import { renderUserStatus } from "../../Common/right-wrapper.utils";
 import { UserStatus } from '@/app/main/enum/UserStatus.enum';
 import { User } from '@/app/main/interface/User.interface';
-import { deleteFriend } from '@/app/axios/client';
+import { deleteFriend, postInviteUser} from '@/app/axios/client';
 import { socket } from '@/app/main/components/CheckAuth';
 import { useGlobalContext } from '@/app/Context/store';
 
@@ -20,7 +20,7 @@ export default function UserListFriends(
   })
   {
     const { setCurrentUser }: any = useGlobalContext();
-    const { currentChannelID }: any = useGlobalContext();
+    const { currentChannelId }: any = useGlobalContext();
 
     const handleClick = () => {
       setCurrentUser(user);
@@ -28,25 +28,30 @@ export default function UserListFriends(
 
     const handleDeleteFriend = () => {
       deleteFriend(user.uid).then((res) => {
-        alert(res.data.message);
+        socket.emit('update/friends');
+      }).catch((err) => {
+        console.log(err);
       });
     };
 
     const handleInviteChat = () => {
-      console.log('handleInviteChat', currentChannelID);
-      if (!currentChannelID) {
+      if (!currentChannelId) {
         alert('You are not in any channel');
         return;
       } else{
-        alert('invite');
-        const targetUserUid : number = user.uid;
-        const channelID : number = currentChannelID;
-        socket.emit('channel/inviteUserToChannel', { targetUid: targetUserUid, channelId: channelID})
+        postInviteUser(currentChannelId, user.uid).then((res) => {
+          socket.emit('update/channelInfo');
+          socket.emit('channel/innerUpdate');
+          socket.emit('channel/sendMessage', {
+            channelId: currentChannelId,
+            content: `${res.data} has been invited to this channel.`,
+            isNotice: true,
+          });
+        }).catch((err) => {
+          console.log(err);
+        });
       }
     };
-
-    useEffect(() => {
-    }, [user]);
 
   return (
     <div className={styles.userListContainer}>

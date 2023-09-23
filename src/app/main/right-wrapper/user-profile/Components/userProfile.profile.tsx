@@ -5,12 +5,12 @@ import styles from './profile.module.scss';
 import { User } from '@/app/main/interface/User.interface';
 import { UserStatus } from '@/app/main/enum/UserStatus.enum';
 import { renderUserStatus } from '../../Common/right-wrapper.utils';
+import { socket } from '@/app/main/components/CheckAuth';
 
 export default function Profile({ user }: { user: User }) {
   const [ladder, setLadder] = useState(true);
 
   const renderLadder = () => {
-
     return (
       <div className={styles.statsContainer}>
         <ul>

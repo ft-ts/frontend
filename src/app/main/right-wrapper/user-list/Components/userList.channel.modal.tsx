@@ -3,7 +3,7 @@
 import React, {useState, useEffect } from 'react';
 import styles from './userList.module.scss';
 import { socket } from '@/app/main/components/CheckAuth';
-import { postBanUser } from '@/app/axios/client';
+import { postBanUser, postKickUser } from '@/app/axios/client';
 
 export default function SetBanType(
   {
@@ -29,22 +29,26 @@ export default function SetBanType(
     if (kick) setKick(false);
   }
 
-  useEffect(() => {
-  }, [kick, ban]);
-
   const handleOK = () => {
     const targetUserUid : number = userUid;
     const channelID : number = channelId;
-    console.log('targetUserUid : ', targetUserUid);
-    console.log('channelID : ', channelID);
-    
-    if (kick) {
-      // socket.emit('channel/kickMember', {targetUserUid: targetUserUid, channelID: channelID});
-    }
-    else {
-      // ban
-      // socket.emit('channel/banMember', {targetUserUid: targetUserUid, channelID: channelID});
-      postBanUser(targetUserUid, channelID);
+
+    if (kick){
+        postKickUser(channelID, targetUserUid).then((res) => {
+          socket.emit('update/channelInfo');
+          socket.emit('channel/innerUpdate', {channelId: channelID});
+          socket.emit('channel/sendMessage', {channelId: channelID, content: `${res.data} has been kicked.`, isNotice: true})
+        }).catch((err) => {
+          console.log(err);
+        });
+    } else if (ban){
+        postBanUser(channelID, targetUserUid).then((res) => {
+          socket.emit('update/channelInfo', {channelId: channelID});
+          socket.emit('channel/innerUpdate', {channelId: channelID});
+          socket.emit('channel/sendMessage', {channelId: channelID, content: `${res.data} has been banned.`, isNotice: true})
+        }).catch((err) => {
+          console.log(err);
+        });
     }
     handleCloseModal();
   }

@@ -9,6 +9,7 @@ import SetBanType from "./userList.channel.modal";
 import Modal from "react-modal";
 import { socket } from "@/app/main/components/CheckAuth";
 import { useGlobalContext } from "@/app/Context/store";
+import { postGrantAdmin, postRevokeAdmin, postMuteUser } from "@/app/axios/client";
 
 const owner = "/asset/crown.png";
 const admin = "/asset/admin.png";
@@ -51,34 +52,41 @@ export default function UserListChannel(
     };
 
     const handleClick = () => {
-      console.log(item.role);
       setCurrentUser(item.user);
     }
 
     const handleSetAdmin = () => {
       const targetUserUid : number = item.user.uid;
       const channelId : number = currentChannel.id;
-
-      socket.emit('channel/grantAdmin', {targetUserUid: targetUserUid, channelId: channelId});
+        postGrantAdmin(channelId, targetUserUid).then((res) => {
+          socket.emit('channel/innerUpdate', {channelId: channelId});
+        }
+        ).catch((err) => {
+          console.log(err);
+        });
     }
 
     const handleRevokeAdmin = () => {
-      console.log('RevokeAdmin');
       const targetUserUid : number = item.user.uid;
-      const channelID : number = currentChannel.id;
-      socket.emit('channel/revokeAdmin', {targetUserUid: targetUserUid, channelId: channelID});
+      const channelId : number = currentChannel.id;
+        postRevokeAdmin(channelId, targetUserUid).then((res) => {
+          socket.emit('channel/innerUpdate', {channelId: channelId});
+        }).catch((err) => {
+          console.log(err);
+        });
     }
 
     const handleMute = () => {
-      console.log('Mute');
       const targetUserUid : number = item.user.uid;
-      const channelID : number = currentChannel.id;
-      socket.emit('channel/muteMember', {targetUserUid: targetUserUid, channelId: channelID});
+      const channelId : number = currentChannel.id;
+        postMuteUser(channelId, targetUserUid).then((res) => {
+        }).catch((err) => {
+          console.log(err);
+        });
     }
     
     const handleBan = (e: any) => {
       const { top, left } = e.target.getBoundingClientRect();
-      console.log('Ban');
       setIsModalOpen(true);
       setModalPosition({top: top, left: left});
     }
@@ -101,12 +109,13 @@ export default function UserListChannel(
           <h2 className={styles.userName}>{item.user.name}</h2>
         </div>
       </button>
-      {(!checkMe(myInfo, item.user) && checkAdmin(myRole) && !checkAdmin(item.role)) && <div className={styles.userListButtonContainer}>
+      {(!checkMe(myInfo, item.user) && checkAdmin(myRole) && !checkOwner(item.role)) && <div className={styles.userListButtonContainer}>
         {checkOwner(myRole) && <button className={styles.buttonBox}>
-          <img src={checkAdmin(item.role) ? revoke : admin} width={30} height={30} alt="admin" onClick={handleSetAdmin}/>
+
+          {checkAdmin(item.role) ? <img src={revoke} width={30} height={30} alt="revoke" onClick={handleRevokeAdmin} /> : <img src={admin} width={30} height={30} alt="admin" onClick={handleSetAdmin} />}
         </button>}
         <button className={styles.buttonBox}>
-          <img src={mute} width={40} height={40} alt="kick" onClick={handleMute}/>
+          <img src={mute} width={40} height={40} alt="mute" onClick={handleMute} />
         </button>
         <button className={styles.buttonBox}>
           {<img src={ban} width={40} height={40} alt="ban" onClick={handleBan}/>}

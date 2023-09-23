@@ -12,7 +12,7 @@ function MessageItem({ chatMessage }: { chatMessage: ChatMessage }) {
 
   return (
     <div>
-    {!chatMessage.sender_uid ? (
+    {chatMessage.isNotice ? (
       <NotiMessage chatMessage={chatMessage}/>
     ) : (
       <UserMessage chatMessage={chatMessage}/>
