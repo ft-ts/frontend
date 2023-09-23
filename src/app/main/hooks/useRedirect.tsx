@@ -8,8 +8,8 @@ export function useRedirect(targetUrl: string, condition: boolean): void {
   const router = useRouter();
 
   useEffect(() => {
-    if (condition) { // router.isReady를 확인
-      router.push(targetUrl);
+    if (condition) {
+      router.replace(targetUrl);
     }
   }, [condition, router, targetUrl]);
 }

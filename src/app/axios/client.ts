@@ -29,7 +29,10 @@ apiClient.interceptors.request.use((config) => {
 
 apiClient.interceptors.response.use((response) => {
   if (response.status === 200 && response.data?.redirectUrl)
+  {
     useRedirect(response.data.redirectUrl, true);
+  }
+    // window.location.href = response.data.redirectUrl;
   return response;
 });
 

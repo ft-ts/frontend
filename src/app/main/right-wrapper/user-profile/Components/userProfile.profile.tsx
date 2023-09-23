@@ -40,7 +40,8 @@ export default function Profile({ user }: { user: User }) {
     setLadder(false);
   };
 
-  useEffect(() => {}, [user]);
+  useEffect(() => {
+  }, [user]);
 
   return (
     <div className={styles.userInfoWrapper}>

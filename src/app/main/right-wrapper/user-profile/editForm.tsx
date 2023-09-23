@@ -9,7 +9,7 @@ interface EditProfileProps {
 }
 
 export const EditForm = (props: EditProfileProps) => {
-  const { myInfo, setMyInfo }: any = useGlobalContext();
+  const { myInfo, setMyInfo }: any = useGlobalContext(); // 😡😡😡 userlist 받아서 닉네임 중복체크
   const avatarRef = React.useRef<HTMLLabelElement>(null);
   const TFABtn = React.useRef<HTMLButtonElement>(null);
 
@@ -20,12 +20,11 @@ export const EditForm = (props: EditProfileProps) => {
   useEffect(() => {
     if (avatar && avatarRef.current)
       avatar ? avatarRef.current.style.backgroundImage = `url(${avatar})` : null;
-    
+
     if (TFA && TFABtn.current)
       TFABtn.current.classList.add(styles.TFAButtonOn);
     else if (!TFA && TFABtn.current)
       TFABtn.current.classList.remove(styles.TFAButtonOn);
-
   }, [avatar, name, TFA]);
 
   const handleAvatar = () => {
@@ -49,16 +48,29 @@ export const EditForm = (props: EditProfileProps) => {
     setTFA(!TFA);
   }
 
+  const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.target.value = e.target.value.replace(/[^a-zA-Z\s]/g, "");
+
+    if (e.target.value.length > 10)
+      return;
+    setname(e.target.value);
+  }
+
   const handleUpdate = () => {
+    if (name.length < 3) {
+      alert("닉네임은 3글자 이상이어야 합니다.");
+      return;
+    }
+
     const user: Partial<User> = {
-      name: name,
-      avatar: avatar,
+      name,
+      avatar,
       twoFactorAuth: TFA,
     }
     apiClient.patch(`/users`, user).then((res) => {
       setMyInfo(res.data);
-      props.onClose();
-    });
+    })
+    props.onClose();
   }
 
   return (
@@ -70,7 +82,7 @@ export const EditForm = (props: EditProfileProps) => {
         type="text"
         placeholder='NickName'
         value={name}
-        onChange={(e) => setname(e.target.value)}
+        onChange={handleName}
         className={styles.input}
       ></input>
       <div className={styles.ComponentWrapper}>

@@ -61,13 +61,21 @@ const GameBackground = ({ states }: { states: [string, React.Dispatch<React.SetS
     }
   }
 
+  const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.target.value = e.target.value.replace(/[^a-zA-Z\s]/g, "");
+
+    if (e.target.value.length > 10)
+      return ;
+    setName(e.target.value);
+  }
+
   return (
     <div className={loginStyles.gameBackground}>
       <div className={loginStyles.displayBackground}>
         <h1 className={styles.title}>Sign Up</h1>
         <input id="avatar-upload" type="file" accept="image/png, image/jpeg" onChange={handleAvatar} className={styles.avatar} />
         <label htmlFor="avatar-upload" ref={avatarRef} className={styles.avatarLabel}></label>
-        <input type="text" className={styles.nameInput} value={name} onChange={(e) => setName(e.target.value)} />
+        <input type="text" className={styles.nameInput} value={name} onChange={handleName} />
       </div>
     </div>
   )
@@ -109,8 +117,8 @@ const GameStartButton = ({ states }: { states: [string, string] }) => {
   const handleStart = () => {
     if (!name || !avatar) return;
 
-    if (name.length <= 2 || name.length >= 20) {
-      alert("이름은 3글자 이상 19글자 이하로 입력해주세요.");
+    if (name.length < 3 || name.length > 10) {
+      alert("이름은 3글자 이상 10 글자 이하로 입력해주세요.");
       return ;
     }
 
