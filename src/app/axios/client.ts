@@ -2,6 +2,7 @@
 
 import axios from "axios";
 import UserInterface from "./interfaces/user.interface";
+import { ChannelMode } from "../main/left-wrapper/enum/channel.enum";
 
 export const apiClient = axios.create({
   baseURL: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api`,
@@ -49,9 +50,21 @@ export async function getFreiendsList(): Promise<any> {
   return apiClient.get("/users/friends");
 }
 
+/* channel.tsx */
+
+export async function postChannelUpdate(channelId: number, title: string, mode: ChannelMode, password?: string): Promise<any> {
+  const payload = { channelId: channelId, title,password: password, mode };
+  return await apiClient.post("/channels/update", payload);
+}
+
 export async function postCreateChannel(title: string, mode: string, password: string): Promise<any> {
   const payload = { title: title, mode: mode, password: password };
   return await apiClient.post("/channels/create", payload);
+}
+
+export async function postUpdateChannel(channelId: number, title: string, mode: string, password: string): Promise<any> {
+  const payload = { channelId: channelId, title: title, mode: mode, password: password };
+  return await apiClient.post("/channels/update", payload);
 }
 
 export async function getChannelList(): Promise<any> {
@@ -62,7 +75,6 @@ export async function getMyChannelList(): Promise<any> {
   return await apiClient.get("/channels/list/my");
 }
 
-/* channel.tsx */
 export async function getChannelProps(channelId : number): Promise<any> {
   return await apiClient.get(`/channels/props/${channelId}`);
 }
@@ -77,6 +89,7 @@ export async function getMyChannelRole(channelId : number): Promise<any> {
 export async function getChannelMembers(channelId : number): Promise<any> {
   return await apiClient.get(`/channels/members/${channelId}`);
 }
+
 
 /*
   dm.tsx
@@ -130,6 +143,11 @@ export async function postUnbanUser(channelId: number, uid: number): Promise<any
   return await apiClient.post(`/channels/unban`, payload);
 }
 
+export async function postMuteUser(channelId: number, uid: number): Promise<any> {
+  const payload = { channelId: channelId, targetUid: uid};
+  return await apiClient.post(`/channels/mute`, payload);
+}
+
 export async function postKickUser(channelId: number, uid: number): Promise<any> {
   const payload = { channelId: channelId, targetUid: uid};
   return await apiClient.post(`/channels/kick`, payload);
@@ -146,8 +164,8 @@ export async function postGrantAdmin(channelId: number, uid: number): Promise<an
 }
 
 export async function postRevokeAdmin(channelId: number, uid: number): Promise<any> {
-  const paylaod = { channelId: channelId, targetUid: uid};
-  return await apiClient.post(`/channels/revoke/admin`, paylaod);
+  const payload = { channelId: channelId, targetUid: uid};
+  return await apiClient.post(`/channels/revoke/admin`, payload);
 }
 
 /*
@@ -162,4 +180,8 @@ export async function postFriend(uid: number): Promise<any> {
 */
 export async function deleteFriend(uid: number): Promise<any> {
   return await apiClient.delete(`/users/friends`, { data: { targetUid: uid } });
+}
+
+export async function postBlockUser(targetUid: number): Promise<any> {
+  return await apiClient.post(`/users/block`, {data: {targetUid: targetUid}});
 }

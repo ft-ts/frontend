@@ -1,0 +1,142 @@
+.editFormContainer {
+	font-style: normal;
+	font-weight: 350;
+
+	h2 {
+		display: flex;
+		justify-content: center;
+		align-content: center;
+		font-size: 40px;
+		margin-bottom: 10px;
+		color: #f8fec7;
+	}
+
+	h3 {
+		font-size: 30px;
+		margin-bottom: 10px;
+		color: #FFFFFF;
+	}
+
+	.radioGroup {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		margin-bottom: 10px;
+		color: #FFFFFF;
+
+		label {
+			display: flex;
+			align-items: center;
+			cursor: pointer;
+		}
+
+		input[type="radio"] {
+			margin-right: 10px;
+		}
+	}
+
+	input[type="text"],
+	input[type="password"],
+	select {
+		width: 300px;
+		padding: 10px;
+		margin-bottom: 10px;
+		border: 3px solid #FF25A8;
+		border-radius: 4px;
+	}
+}
+
+.radioLabel {
+	display: flex;
+	align-items: center;
+	margin-bottom: 10px;
+	cursor: pointer;
+	
+  }
+  
+  .radioLabel input[type="radio"] {
+	appearance: none;
+	width: 18px;
+	height: 18px;
+	border: 2px solid #FF25A8;
+	border-radius: 50%;
+	margin-right: 8px;
+	position: relative;
+	cursor: pointer;
+	transition: border-color 0.3s ease-in-out;
+}
+
+.radioLabel input[type="radio"]:checked {
+	border-color: #fff;
+	background-color: #a7fc88;
+  }
+  
+
+.buttonContainer {
+	display: flex;
+	justify-content: space-between; /* 버튼을 좌우로 배치 */
+  	margin-top: auto;
+  }
+  .editFormButton {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 180px;
+	padding: 5px;
+	margin: 5px;
+	color: #a7fc88;
+	border: 3px solid #a7fc88;
+	border-radius: 4px;
+	background: transparent;
+	cursor: pointer;
+	font-weight: 350;
+  }
+
+  .editFormButton:hover {
+	color: #FFFFFF;
+	border: 3px solid #FFFFFF;
+  }
+  
+  .buttonCancel {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 180px;
+	padding: 5px;
+	margin: 5px;
+	color: #eb483f;
+	border: 3px solid #eb483f;
+	border-radius: 4px;
+	background: transparent;
+	cursor: pointer;
+	font-weight: 350;
+  }
+
+  .buttonCancel:hover {
+	color: #FFFFFF;
+	border: 3px solid #FFFFFF;
+  }
+
+  .error {
+	color: #eb483f;
+	margin: 10px 0;
+	font-size: 15px;
+  }
+
+
+  .passwordContainer {
+	display: flex;
+	gap: 10px;
+	margin-bottom: 10px;
+	flex-direction: row; /* 나란히 표시하도록 변경 */
+	align-items: center; /* 수직 가운데 정렬 */
+
+	input[type="password"] {
+		width: 380px;
+		padding: 10px;
+		margin-bottom: 10px;
+		border: 3px solid #FF25A8;
+		border-radius: 4px;
+	}
+}
+

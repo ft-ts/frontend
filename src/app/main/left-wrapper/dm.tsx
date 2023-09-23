@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import React, { useEffect, useState } from "react";
-import styles from "./channel.module.scss";
-import { DmItem } from "./channelItem";
-import Image from "next/image";
-import { useGlobalContext, TabOptions } from "@/app/Context/store";
-import { DmListProps } from "./interfaces/dmItemProps";
-import { getDmLists, getUserByUid, postDmRead } from "@/app/axios/client";
+import React, { useEffect, useState } from 'react';
+import styles from './channel.module.scss';
+import { DmItem } from './channelItem';
+import Image from 'next/image';
+import { useGlobalContext, TabOptions } from '@/app/Context/store';
+import { DmListProps } from './interfaces/dmItemProps';
+import { getDmLists, getUserByUid, postDmRead } from '@/app/axios/client';
 
 export default function Dms() {
   const { setCurrentChannelId }: any = useGlobalContext();
-  const { setCurrentDmId }: any = useGlobalContext();
+  const { currentDmId, setCurrentDmId }: any = useGlobalContext();
   const { setCurrentUser } : any = useGlobalContext();
   const { setActiveTab }: any = useGlobalContext();
   const { myInfo } : any = useGlobalContext();
@@ -33,6 +33,7 @@ export default function Dms() {
   }, [myInfo]);
 
   const handleDmClick = (targetUid: number) => {
+    if (currentDmId && targetUid === currentDmId) return ;
     setActiveTab(TabOptions.ALL);
     setCurrentChannelId(null);
     setCurrentDmId(targetUid);
@@ -84,8 +85,8 @@ const DisplayDmSearch = (props: {}) => {
       <button className={styles.channelSearchIconContainer}>
         <Image
           className={styles.channelSearchIcon}
-          src="/asset/search.png"
-          alt="searchDm"
+          src='/asset/search.png'
+          alt='searchDm'
           width={30}
           height={30}
         />

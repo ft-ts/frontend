@@ -4,7 +4,7 @@ import styles from './chat-wrapper.module.scss';
 import Image from 'next/image';
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
-import { ChannelSettingForm } from '../../left-wrapper/channelForm';
+import ChatEdit from './chatEdit';
 import ChannelProps from '../../left-wrapper/interfaces/channelProps';
 import { socket } from '../../components/CheckAuth';
 import { useGlobalContext } from '@/app/Context/store';
@@ -33,12 +33,6 @@ export default function ChatMenu() {
     return () => {
     };
   }, [currentDmId]);
-
-  useEffect(() => {
-    if (currentChannelId === null) {
-      return;
-    }
-  }, [currentChannelId]);
 
   return (
     <div className={styles.chatMenuBox}>
@@ -104,6 +98,11 @@ const ExitButton = () => {
     if (activeTab !== TabOptions.ALL) {
       setActiveTab(TabOptions.ALL);
     }
+    socket.emit('channel/sendMessage', {
+      channelId: currentChannelId,
+      content: `${myInfo.name} has left the channel`,
+      isNotice: true,
+    })
     setCurrentChannelId(null);
     setCurrentChannel(null);
     setCurrentUser(myInfo);
@@ -164,7 +163,7 @@ const ChatSettingButton = ({ channel }: { channel: ChannelProps }) => {
         onRequestClose={handleCloseModal}
         shouldCloseOnOverlayClick={false}
       >
-        <ChannelSettingForm onClose={handleCloseModal} channel={channel} />
+        <ChatEdit channel={channel} onClose={handleCloseModal}/>
       </Modal>
     </div>
   );

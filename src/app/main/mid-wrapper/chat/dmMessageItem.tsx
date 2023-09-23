@@ -11,11 +11,9 @@ function DmMessageItem({ dmMessage }: { dmMessage: DmMessage }) {
   const { setCurrentUser } : any = useGlobalContext();
 
   const handleClickedProfile = async (sender: any) => {
-    await getUserByUid(sender.uid)
-    .then((res) => {
+    await getUserByUid(sender.uid).then((res) => {
       setCurrentUser(res.data);
-    })
-    .catch((err) => {
+    }).catch((err) => {
       console.log('dmMessageItem.tsx',err);
     });
     

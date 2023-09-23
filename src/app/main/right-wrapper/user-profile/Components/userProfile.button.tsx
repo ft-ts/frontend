@@ -5,7 +5,7 @@ import styles from "./button.module.scss";
 import Image from "next/image";
 import { User } from "@/app/main/interface/User.interface";
 import { socket } from "@/app/main/components/CheckAuth";
-import { postFriend } from "@/app/axios/client";
+import { postFriend, postBlockUser } from "@/app/axios/client";
 import { useGlobalContext } from "@/app/Context/store";
 import { getUserByUid } from "@/app/axios/client";
 import { DmListProps } from "@/app/main/left-wrapper/interfaces/dmItemProps";
@@ -21,17 +21,21 @@ export default function ProfileButton({ user }: { user: User }) {
   const { currentDmId, setCurrentDmId }: any = useGlobalContext();
 
   const handleAddFriend = () => {
-    console.log("handleAddFriend");
     postFriend(user.uid).then((res) => {
-      console.log(res.data);
+      socket.emit('update/friends');
+    }).catch((err) => {
+      console.log(err);
     });
   };
   const handleBlock = () => {
     console.log("handleBlock");
+    postBlockUser(user.uid).then((res) => {
+    }).catch((err) => {
+        console.log(err);
+    });
   };
 
   const handleInviteMatch = () => {
-    console.log("handleInviteMatch");
     socket.emit("pong/match/invite", { uid: user.uid });
   };
 
@@ -45,7 +49,6 @@ export default function ProfileButton({ user }: { user: User }) {
       return;
     }
     const dmTargetUser = await getUserByUid(user.uid);
-    console.log(dmTargetUser);
     const dmItemProps: DmListProps = {
       user_uid: dmTargetUser.data.uid,
       user_name: dmTargetUser.data.name,
@@ -53,7 +56,6 @@ export default function ProfileButton({ user }: { user: User }) {
       unread_count: 0,
     };
     setDmList((prevDmItemProps: DmListProps[] | null) => [...(prevDmItemProps || []), dmItemProps]);
-    
   }
     
   return (
@@ -96,9 +98,5 @@ export default function ProfileButton({ user }: { user: User }) {
       </button>
     </div>
   );
-}
-
-function handleDmClick(uid: number): void {
-  console.log("handleDmClick");
 }
 
