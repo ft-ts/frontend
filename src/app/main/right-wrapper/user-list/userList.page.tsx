@@ -13,7 +13,6 @@ import { useGlobalContext } from '@/app/Context/store';
 import { ChannelUser } from '../../mid-wrapper/chat/interfaces/channelUser.interface';
 import { TabOptions } from './userList.enum';
 import { socket } from '@/app/main/components/CheckAuth';
-import { set } from 'react-hook-form';
 
 export default function UserList(){
   const [userList, setUserList] = useState<User[]>([]);
@@ -73,11 +72,11 @@ export default function UserList(){
         setUserLists();
       }
     });
-
     return () => {
       socket.off('update/friends');
       socket.off('update/userConnection');
       socket.off('channels/grant');
+      socket.off('channel/innerUpdate');
     }
   }, [activeTab]);
 

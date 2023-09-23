@@ -33,18 +33,19 @@ export default function SetBanType(
     const targetUserUid : number = userUid;
     const channelID : number = channelId;
 
-    if (kick) {
+    if (kick){
         postKickUser(channelID, targetUserUid).then((res) => {
           socket.emit('update/channelInfo');
           socket.emit('channel/innerUpdate', {channelId: channelID});
-          socket.emit('channel/sendNotification', {channelId: channelID, content: `${res.data.targetUserName} has been kicked.`});
+          socket.emit('channel/sendMessage', {channelId: channelID, content: `${res.data} has been kicked.`, isNotice: true})
         }).catch((err) => {
           console.log(err);
         });
-    } else {
+    } else if (ban){
         postBanUser(channelID, targetUserUid).then((res) => {
           socket.emit('update/channelInfo', {channelId: channelID});
           socket.emit('channel/innerUpdate', {channelId: channelID});
+          socket.emit('channel/sendMessage', {channelId: channelID, content: `${res.data} has been banned.`, isNotice: true})
         }).catch((err) => {
           console.log(err);
         });

@@ -98,11 +98,11 @@ const ExitButton = () => {
     if (activeTab !== TabOptions.ALL) {
       setActiveTab(TabOptions.ALL);
     }
-    socket.on('channel/userLeft', (data: { chId: string, userName: string }) => {
-      console.log(data);
-      socket.emit('channel/sendNotification', { channelId: currentChannelId, content: `${data.userName} has left the channel` })
-    }
-    );
+    socket.emit('channel/sendMessage', {
+      channelId: currentChannelId,
+      content: `${myInfo.name} has left the channel`,
+      isNotice: true,
+    })
     setCurrentChannelId(null);
     setCurrentChannel(null);
     setCurrentUser(myInfo);

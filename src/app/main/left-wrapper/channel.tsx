@@ -60,7 +60,10 @@ function Channel() {
     socket.on('update/channelInfo', () => {
       setChannelLists();
     });
-
+    socket.on('channel/invite', (channelId: number)=>{
+      console.log('channel/invite', channelId);
+      socket.emit('channel/invite/accept', { channelId });
+    })
     return () => {
       socket.off('update/channelInfo');
     }

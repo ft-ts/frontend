@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import styles from './channelForm.module.scss';
 import ChannelFormProps from './interfaces/channelFormProps';
 import { ChannelMode } from './enum/channel.enum';
-import { useGlobalContext } from '@/app/Context/store';
+import { useGlobalContext, TabOptions} from '@/app/Context/store';
 import { postCreateChannel } from '@/app/axios/client';
 import { ChannelRole } from '../mid-wrapper/chat/enum/channelRole.enum';
 import { socket } from '../components/CheckAuth';
@@ -14,6 +14,7 @@ const ChannelForm = (props: ChannelFormProps) => {
   const { setCurrentChannel }: any = useGlobalContext();
   const { setCurrentDmId }: any = useGlobalContext();
   const { setMyRole }: any = useGlobalContext();
+  const { setActiveTab }: any = useGlobalContext();
   const [title, setTitle] = useState('');
   const [mode, setMode] = useState(ChannelMode.PUBLIC);
   const [password, setPassword] = useState('');
@@ -40,6 +41,7 @@ const ChannelForm = (props: ChannelFormProps) => {
       setCurrentChannel(data);
       setCurrentChannelId(data.id);
       setMyRole(ChannelRole.OWNER);
+      setActiveTab(TabOptions.CHANNEL);
       socket.emit('update/channelInfo');
     }).catch((err) => {
       console.log('create channel',err);

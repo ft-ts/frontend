@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { renderUserStatus } from "../../Common/right-wrapper.utils";
 import { UserStatus } from '@/app/main/enum/UserStatus.enum';
 import { User } from '@/app/main/interface/User.interface';
-import { deleteFriend } from '@/app/axios/client';
+import { deleteFriend, postInviteUser} from '@/app/axios/client';
 import { socket } from '@/app/main/components/CheckAuth';
 import { useGlobalContext } from '@/app/Context/store';
 
@@ -40,26 +40,19 @@ export default function UserListFriends(
         alert('You are not in any channel');
         return;
       } else{
-        alert('invite');
-        const targetUserUid : number = user.uid;
-        const channelID : number = currentChannelId;
-        socket.emit('channel/inviteUserToChannel', { targetUid: targetUserUid, channelId: channelID})
-        socket.on(
-          "channel/invited",
-          (data: { channelTitle: string; targetUserName: string }) => {
-            socket.emit("channel/sendNotification", {
-              channelId: channelID,
-              content: `${data.targetUserName} has been invited to the channel`,
-            });
-          }
-        );
-        socket.on("channel/inviteUserToChannel/fail", (data: { message: string }) => {
-          alert(data.message);
-        })}
+        postInviteUser(currentChannelId, user.uid).then((res) => {
+          socket.emit('update/channelInfo');
+          socket.emit('channel/innerUpdate');
+          socket.emit('channel/sendMessage', {
+            channelId: currentChannelId,
+            content: `${res.data} has been invited to this channel.`,
+            isNotice: true,
+          });
+        }).catch((err) => {
+          console.log(err);
+        });
+      }
     };
-
-    useEffect(() => {
-    }, [user]);
 
   return (
     <div className={styles.userListContainer}>

@@ -91,16 +91,9 @@ export default function ChatRoom() {
         setChatMessages((prevMessages) => [...prevMessages, message]);
       }
     });
-    socket.on('channel/sendNotification', (message: ChatMessage) => {
-      console.log('channel/sendMessage', message);
-      if (currentChannelId === message.channel_id){
-        setChatMessages((prevMessages) => [...prevMessages, message]);
-      }
-    });
     
     return () => {
       socket.off('channel/sendMessage');
-      socket.off('channel/sendNotification');
     };
   }, [currentChannelId]);
 
@@ -132,6 +125,7 @@ export default function ChatRoom() {
       socket.emit('channel/sendMessage', {
         channelId: currentChannelId,
         content: inputMessage,
+        isNotice: false,
       });
     } else if (currentDmId) {
       socket.emit('dm/msg', {
