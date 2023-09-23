@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import styles from './search.module.scss';
 
 export default function UserListSearch() {
@@ -8,7 +7,7 @@ export default function UserListSearch() {
     <div className={styles.userSearchContainer}>
       <input className={styles.userSearchInput}></input>
       <button className={styles.userSearchIconContainer}>
-        <Image
+        <img
           className={styles.userSearchIcon}
           src="/asset/search.png"
           alt="searchUser"

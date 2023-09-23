@@ -13,6 +13,11 @@ import { User } from '../../interface/User.interface';
 export default function UserProfile() {
   const { currentUser, setCurrentUser }: any = useGlobalContext();
   const { myInfo } : any = useGlobalContext();
+    
+  useEffect(() => {
+    if (myInfo.uid === currentUser.uid)
+      setCurrentUser(myInfo);
+  }, [myInfo]);
 
   useEffect(() => {
     socket.on('update/userConnection', (payload : {uid: number, status: UserStatus}) => {
@@ -25,11 +30,11 @@ export default function UserProfile() {
   }, [currentUser]);
 
   return (
-    <div>
+    <div className={styles.profileBackground}>
       <Profile user={currentUser} />
-        <div className={styles.userProfile}>
-          {(myInfo.uid === currentUser.uid) ? <EditMyProfile /> : <ProfileButton user={currentUser} />}
-        </div>
+      <div className={styles.userProfile}>
+        {(myInfo.uid === currentUser.uid) ? <EditMyProfile /> : <ProfileButton user={currentUser} />}
+      </div>
     </div>
   )
 }

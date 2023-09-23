@@ -2,11 +2,12 @@
   min-width: 400px;
   display: grid;
   grid-template-rows: 55dvh 45dvh;
+  background-color: #5F5F5F;
 }
 
 .channelWrapper {
   height: 55dvh !important;
-  max-height: 55dvh !important; 
+  max-height: 55dvh !important;
 }
 
 $leftWrapperWidth: 100%;

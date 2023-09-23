@@ -1,7 +1,7 @@
 "use client";
 
+import loginStyles from "../login.module.scss"
 import styles from "./secondAuth.module.scss"
-import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { apiClient } from "../../axios/client";
@@ -17,11 +17,11 @@ export default function Input2fa() {
   }, []);
 
   return (
-    <div className={styles.background}>
+    <div className={loginStyles.background}>
       <GameBackground authCode={authCode} setAuthCode={setAuthCode} qrCode={qrCode} />
-      <div className={styles.buttonsWrapper}>
+      <div className={loginStyles.buttonsWrapper}>
         <GameCrossDeco />
-        <div className={styles.midButtons}>
+        <div className={loginStyles.midButtons}>
           <GameSelectButton />
           <GameStartButton />
         </div>
@@ -68,7 +68,7 @@ const GameBackground = ({ authCode, setAuthCode, qrCode }: { authCode: string, s
   }
 
   return (
-    <div className={styles.gameBackground}>
+    <div className={loginStyles.gameBackground}>
       <div className={styles.displayBackground}>
         <div></div>
         <div className={styles.codeWrapper}>
@@ -96,20 +96,20 @@ const QRImg = ({ qrCode }: { qrCode: string }) => {
           Google Auth
         </a>
       </div>
-      <Image
+      <img
         src="/asset/pigtail.png"
         alt="pigtail"
         width={100}
         height={100}
         className={styles.pigtail}
-      ></Image>
-      {qrCode && <Image
+      />
+      {qrCode && <img
         src={qrCode}
         alt="qr code"
         width={300}
         height={300}
         className={styles.qrCode}
-      ></Image>
+      />
       }
     </div>
   )
@@ -117,13 +117,13 @@ const QRImg = ({ qrCode }: { qrCode: string }) => {
 
 const GameCrossDeco = () => {
   return (
-    <Image
+    <img
       src="/asset/Union.svg"
       alt="game cross button deco"
       width={300}
       height={300}
-      className={styles.gameCrossDeco}
-    ></Image>
+      className={loginStyles.gameCrossDeco}
+    />
   )
 }
 
@@ -131,15 +131,14 @@ const GameSelectButton = () => {
 
   return (
     <div>
-      <div className={styles.container}>
-        <Image
+      <div className={loginStyles.container}>
+        <img
           src="/asset/RoundRectangleButton.svg"
           alt="RoundButtonRectangleDecoA"
           width={250}
           height={100}
-          className={styles.GameRoundRectangleDecoSelect}>
-        </Image>
-        <h2 className={styles.selectFont}>Select</h2>
+          className={loginStyles.GameRoundRectangleDecoSelect} />
+        <h2 className={loginStyles.selectFont}>Select</h2>
       </div>
     </div>
   )
@@ -148,15 +147,14 @@ const GameSelectButton = () => {
 const GameStartButton = () => {
 
   return (
-    <div className={styles.container}>
-      <Image
+    <div className={loginStyles.container}>
+      <img
         src="/asset/RoundRectangleButton.svg"
         alt="RoundButtonRectangleDecoB"
         width={250}
         height={100}
-        className={styles.GameRoundRectangleDecoStart}>
-      </Image>
-      <h2 className={styles.startFont}>Start</h2>
+        className={loginStyles.GameRoundRectangleDecoStart} />
+      <h2 className={loginStyles.startFont}>Start</h2>
     </div>
   )
 }
@@ -165,26 +163,26 @@ const GameStartButton = () => {
 const GameRoundDeco = () => {
 
   return (
-    <div className={styles.roundContainer}>
-      <div className={styles.roundBtnWrapper}>
-        <Image
+    <div className={loginStyles.roundContainer}>
+      <div className={loginStyles.roundBtnWrapper}>
+        <img
           src="/asset/RoundButtonDeco.svg"
           alt="RoundButtonDecoA"
           width={150}
           height={150}
-          className={styles.gameRoundDecoA}
-        ></Image>
-        <h2 className={styles.gameRoundFontA}>A</h2>
+          className={loginStyles.gameRoundDecoA}
+        />
+        <h2 className={loginStyles.gameRoundFontA}>A</h2>
       </div>
-      <div className={styles.roundBtnWrapper}>
-        <Image
+      <div className={loginStyles.roundBtnWrapper}>
+        <img
           src="/asset/RoundButtonDeco.svg"
           alt="RoundButtonDecoB"
           width={150}
           height={150}
-          className={styles.gameRoundDecoB}
-        ></Image>
-        <h2 className={styles.gameRoundFontB}>B</h2>
+          className={loginStyles.gameRoundDecoB}
+        />
+        <h2 className={loginStyles.gameRoundFontB}>B</h2>
       </div>
     </div>
   )

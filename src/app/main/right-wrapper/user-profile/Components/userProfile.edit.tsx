@@ -10,13 +10,13 @@ export default function EditMyProfile() {
 
   const customStyles = {
     content: {
-      width: "800px",
-      height: "1000px",
+      width: "400px",
+      height: "600px",
       border: "1px solid #ddd",
       borderRadius: "8px",
       padding: "20px",
-      margin: "0 auto",
       backgroundColor: "#444444",
+      margin: "150px auto",
     },
     overlay: {
       backgroundColor: "rgba(0, 0, 0, 0.5)",
