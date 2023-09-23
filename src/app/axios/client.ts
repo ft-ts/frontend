@@ -3,6 +3,7 @@
 import axios from "axios";
 import UserInterface from "./interfaces/user.interface";
 import { ChannelMode } from "../main/left-wrapper/enum/channel.enum";
+import { useRedirect } from "../main/hooks/useRedirect";
 
 export const apiClient = axios.create({
   baseURL: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api`,
@@ -28,10 +29,11 @@ apiClient.interceptors.request.use((config) => {
 });
 
 apiClient.interceptors.response.use((response) => {
-  if (response.status === 200 && response.data?.redirectUrl) {
-    window.location.href = response.data.redirectUrl;
-    // alert("로그인이 필요합니다.")
+  if (response.status === 200 && response.data?.redirectUrl)
+  {
+    useRedirect(response.data.redirectUrl, true);
   }
+    // window.location.href = response.data.redirectUrl;
   return response;
 });
 

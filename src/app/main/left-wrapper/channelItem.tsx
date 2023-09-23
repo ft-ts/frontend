@@ -2,7 +2,6 @@
 
 import React from 'react';
 import styles from './channelItem.module.scss';
-import Image from 'next/image';
 import { UserStatus } from '../../main/enum/UserStatus.enum';
 import ChannelItemProps from './interfaces/channelItemProps';
 import  { DmListProps } from "./interfaces/dmItemProps";
@@ -27,7 +26,7 @@ const DmItem = ({
   const unread  :number = props.unread_count;
   return (
     <div className={styles.dmItemContainer} onClick={() => onClick(props.user_uid)}>
-      <Image
+      <img
         className={styles.profilePic}
         src={props.user_avatar}
         alt="profile"

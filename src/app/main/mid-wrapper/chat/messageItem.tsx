@@ -5,7 +5,6 @@ import styles from "./chat-wrapper.module.scss";
 import ChatMessage from "./interfaces/chatMessage.interface";
 import { getUserByUid } from "@/app/axios/client";
 import UserInterface from "@/app/axios/interfaces/user.interface";
-import Image from "next/image";
 import { useGlobalContext } from "@/app/Context/store";
 import { formatTime } from "./chat.utils";
 
@@ -65,7 +64,7 @@ const UserMessage = ({ chatMessage }: { chatMessage: ChatMessage}) => {
           }
           onClick={handleClickedProfile}
         >
-          <Image
+          <img
             className={styles.chatProfilePicture}
             src={sender.avatar}
             alt="avatar"

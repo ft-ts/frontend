@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from 'react';
 import styles from './profile.module.scss';
-import Image from 'next/image';
 import { User } from '@/app/main/interface/User.interface';
 import { UserStatus } from '@/app/main/enum/UserStatus.enum';
 import { renderUserStatus } from '../../Common/right-wrapper.utils';
@@ -41,16 +40,15 @@ export default function Profile({ user }: { user: User }) {
     setLadder(false);
   };
 
-  useEffect(() => {}, [user]);
+  useEffect(() => {
+  }, [user]);
 
   return (
     <div className={styles.userInfoWrapper}>
-      <Image
+      <img
         className={styles.avatar}
         src={user.avatar}
         alt={user.name}
-        width={200}
-        height={200}
       />
       <div className={styles.topContainer}>
           {renderUserStatus({userStatus: user.status as UserStatus})}

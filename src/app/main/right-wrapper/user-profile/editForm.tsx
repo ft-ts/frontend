@@ -1,168 +1,96 @@
 import React, { useState, useEffect } from 'react';
 import styles from "./editForm.module.scss"
-import EditProfileProps from './editFormProps';
-import PreviewProps from './editAvatarProps'
 import { useGlobalContext } from '@/app/Context/store';
-import UserInterface from '@/app/axios/interfaces/user.interface';
-import Image from 'next/image';
-import { socket } from '../../components/CheckAuth';
+import { User } from '../../interface/User.interface';
+import { apiClient } from '@/app/axios/client';
 
-const EditForm = (props: EditProfileProps) => {
-    const { myInfo, setMyInfo }: any = useGlobalContext();
-
-    // useEffect(() => {
-    //     getMyInfo().then((res) => {
-    //     setMyInfo(res.data);
-    //     });
-    // }, []);
-
-    useEffect(() => {
-    }, [myInfo]);
-
-    const [uploadedAvatar, setUploadedAvatar] = useState<string | null>(null);
-    const [ newNickname, setNewNickname ] = useState('');
-
-    
-    const handleEditNewProfile = async (e: any) => {
-
-        if (newNickname){
-            e.preventDefault();
-            const userData: Partial<UserInterface> = {
-                name: newNickname
-            };
-            console.log(`User😘`, userData);
-            // await updateUser(userData).then((res: any) => {
-            //     setMyInfo(res.data);
-            //     console.log("after update", res.data);
-            // })
-        }
-        props.onClose();
-    }
-    
-
-    return (
-        <div className={styles.EditFormContainer}>
-            <Image
-                src={uploadedAvatar || myInfo.avatar}
-                alt="My Image"
-                className={styles.avatar}
-                width={200}
-                height={200}
-            ></Image>
-            <Preview setUploadedAvatar={setUploadedAvatar} funMyInfo={setMyInfo} />
-            <TwoFactorAuthButton twoFactorAuthMode={myInfo.twoFactorAuth} funMyInfo={setMyInfo} />
-            <h2 className={styles.h2}>Chagne new NickName</h2>
-            <input
-                type="text"
-                placeholder='NickName'
-                value={newNickname}
-                onChange={(e) => setNewNickname(e.target.value)}
-                className={styles.input}
-                ></input>
-            <div className={styles.ComponentWrapper}>
-            </div>
-             <div className={styles.buttonContainer}>
-                <button onClick={handleEditNewProfile} className={styles.buttonEdit}>Edit</button>
-                <button onClick={props.onClose} className={styles.buttonCancel}>Cancel</button>
-             </div>
-        </div>
-    )
+interface EditProfileProps {
+  onClose: () => void;
 }
 
-const Preview = (props: PreviewProps) => {
-    const [imageSrc, setImageSrc]: any = useState<string | null>(null);
-    const [isNewAvatar, setIsNewAvatar] = useState<boolean>(false);
+export const EditForm = (props: EditProfileProps) => {
+  const { myInfo, setMyInfo }: any = useGlobalContext(); // 😡😡😡 userlist 받아서 닉네임 중복체크
+  const avatarRef = React.useRef<HTMLLabelElement>(null);
+  const TFABtn = React.useRef<HTMLButtonElement>(null);
 
-    const onUpload = async (e: any) => {
-        const file = e.target.files[0];
-        const reader = new FileReader();
-        
-        reader.onload = () => {	
-            const loadedImageSrc = reader.result as string;
-            setImageSrc(loadedImageSrc);
-            props.setUploadedAvatar(loadedImageSrc);
-            setIsNewAvatar(true);
-        };
-        
-        reader.readAsDataURL(file);
+  const [avatar, setAvatar] = useState<string>(myInfo.avatar);
+  const [name, setname] = useState<string>(myInfo.name);
+  const [TFA, setTFA] = useState<boolean>(myInfo.twoFactorAuth);
 
-        // If the logic below isn't necessary, you can remove the promise altogether
-        return new Promise<void>((resolve) => {
-            reader.onloadend = () => resolve();
-        });
+  useEffect(() => {
+    if (avatar && avatarRef.current)
+      avatar ? avatarRef.current.style.backgroundImage = `url(${avatar})` : null;
+
+    if (TFA && TFABtn.current)
+      TFABtn.current.classList.add(styles.TFAButtonOn);
+    else if (!TFA && TFABtn.current)
+      TFABtn.current.classList.remove(styles.TFAButtonOn);
+  }, [avatar, name, TFA]);
+
+  const handleAvatar = () => {
+    const file = document.getElementById("avatar-upload") as HTMLInputElement;
+    if (file.files && file.files[0]) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        if (e.target?.result) {
+          if (e.target?.result.toString().length > 150000) {
+            alert("이미지 크기는 150kb 이하로 선택해주세요.");
+            return;
+          }
+          setAvatar(e.target?.result.toString());
+        }
+      }
+      reader.readAsDataURL(file.files[0]);
+    }
+  }
+
+  const handleFTA = () => {
+    setTFA(!TFA);
+  }
+
+  const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.target.value = e.target.value.replace(/[^a-zA-Z\s]/g, "");
+
+    if (e.target.value.length > 10)
+      return;
+    setname(e.target.value);
+  }
+
+  const handleUpdate = () => {
+    if (name.length < 3) {
+      alert("닉네임은 3글자 이상이어야 합니다.");
+      return;
     }
 
-    const UploadNewAvatar = async () => {
-        if (isNewAvatar && imageSrc) { // Check if it's a new avatar and if imageSrc is set
-            const userData: Partial<UserInterface> = {
-                avatar: imageSrc
-            };
-            // await updateUser(userData).then((res: any) => {
-            //     console.log("data", res.data);
-            //     props.funMyInfo(res.data);
-            // });
-            setIsNewAvatar(false); // Reset the flag after updating the avatar
-        }
+    const user: Partial<User> = {
+      name,
+      avatar,
+      twoFactorAuth: TFA,
     }
+    apiClient.patch(`/users`, user).then((res) => {
+      setMyInfo(res.data);
+    })
+    props.onClose();
+  }
 
-    useEffect(() => {
-        if (isNewAvatar) {
-            console.log("data", imageSrc.size);
-            UploadNewAvatar();
-        }
-    }, [isNewAvatar]); // Runs every time `isNewAvatar` changes
-
-    return (
-        <>
-            <label htmlFor="fileInput" className={styles.customFileUpload}>
-                Change new Avatar
-            </label>
-            <input 
-                id="fileInput"
-                className="hidden"
-                accept="image/*" 
-                type="file"
-                onChange={onUpload}
-            />
-        </>
-    );
+  return (
+    <div className={styles.EditFormContainer}>
+      <input id="avatar-upload" type="file" accept="image/png, image/jpeg" onChange={handleAvatar} className={styles.avatar} />
+      <label htmlFor="avatar-upload" ref={avatarRef} className={styles.avatarLabel}></label>
+      <button onClick={handleFTA} ref={TFABtn} className={styles.TFAButton}> {TFA ? 'TwoFactorAuth On' : 'TwoFactorAuth Off'}</button>
+      <input
+        type="text"
+        placeholder='NickName'
+        value={name}
+        onChange={handleName}
+        className={styles.input}
+      ></input>
+      <div className={styles.ComponentWrapper}>
+      </div>
+      <div className={styles.buttonContainer}>
+        <button onClick={handleUpdate} className={styles.buttonEdit}>Edit</button>
+        <button onClick={props.onClose} className={styles.buttonCancel}>Cancel</button>
+      </div>
+    </div>
+  )
 }
-
-
-type FaModeButtonProps = {
-    twoFactorAuthMode: boolean;
-    funMyInfo: (newState: boolean) => void;
-};
-
-const TwoFactorAuthButton = (props: FaModeButtonProps) => {
-    const { myInfo, setMyInfo }: any = useGlobalContext();
-
-    const [isFAon, setIstFaon] = useState(props.twoFactorAuthMode);
-
-    useEffect(() => {
-        async function updateUserData() {
-            const userData: Partial<UserInterface> = {
-                // twoFactorAuth: isFAon
-            };
-            // const res = await updateUser(userData);
-            // props.funMyInfo(res.data);
-        }
-        
-        updateUserData();
-        
-    }, [isFAon]);
-
-    const handdleButton = (e: any) => {
-        e.preventDefault();
-        setIstFaon(prevState => !prevState); // Use function form for state update
-    }
-
-    return (
-        <button onClick={handdleButton} className={styles.faModeButton}>
-            {isFAon ? 'TwoFactorAuth On' : 'TwoFactorAuth Off'}
-        </button>
-    )
-}
-
-    
-export { EditForm };

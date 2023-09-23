@@ -1,7 +1,6 @@
 'use client';
 
 import styles from './chat-wrapper.module.scss';
-import Image from 'next/image';
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import ChatEdit from './chatEdit';
@@ -76,12 +75,12 @@ const CloseButton = () => {
 
   return (
     <button className={styles.closeButton} onClick={handleCloseChannel}>
-      <Image
+      <img
         src='/asset/closeIcon.svg'
         alt='close button'
         width={55}
         height={55}
-      ></Image>
+      />
     </button>
   );
 };
@@ -110,12 +109,12 @@ const ExitButton = () => {
 
   return (
     <button className={styles.exitButton} onClick={handleExitChannel}>
-      <Image
+      <img
         src='/asset/exitIcon.svg'
         alt='exit button'
         width={55}
         height={55}
-      ></Image>
+      />
     </button>
   );
 };
@@ -148,7 +147,7 @@ const ChatSettingButton = ({ channel }: { channel: ChannelProps }) => {
   return (
     <div>
       <button className={styles.settingButton} onClick={handleOpenModal}>
-        <Image
+        <img
           src='/asset/setting.svg'
           alt='settingButton'
           width={55}
@@ -178,12 +177,12 @@ const UserlistButton = () => {
 
   return (
     <button className={styles.userlistButton} onClick={handleUserlist}>
-      <Image
+      <img
         src='/asset/memberIcon.svg'
         alt='userlist button'
         width={55}
         height={55}
-      ></Image>
+      />
     </button>
   );
 };

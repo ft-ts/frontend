@@ -1,7 +1,6 @@
 "use-client";
 
 import React from "react";
-import Image from "next/image";
 import { useForm } from "react-hook-form";
 import styles from "./gameItem.module.scss";
 import { HookFormTypes, historyInterface } from "./game.interface";
@@ -44,7 +43,7 @@ export default function SearchBox(
         placeholder="Search username"
       />
       <button className={styles.searchIconContainer}>
-        <Image
+        <img
           className={styles.searchIcon}
           src="asset/RecordSearch.svg"
           alt="RecordSearch icon"

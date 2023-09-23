@@ -1,0 +1,28 @@
+.title {
+    font-size: 3vw;
+}
+
+.avatar {
+    display: none;
+}
+
+.nameInput {
+    width: 200px;
+    height: 40px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+.avatarLabel {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background-size: cover;
+    border: 1px solid #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin-bottom: 10px;
+}

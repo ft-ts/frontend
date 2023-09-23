@@ -1,70 +1,76 @@
-
 .avatar {
-  border-radius: 50%;
-  width: 400px;
-  height: 400px;
-  margin-bottom: 20px;
-  display: inline-block;
+  display: none;
 }
 
-.EditFormContainer{
-  font-style: normal;
-  font-weight: 350;
-  text-align: center;
-  h2 {
-    margin-top: 50px;
-    display: flex;
-    justify-content: center;
-    align-content: center;
-    font-size: 70px;
-    margin-bottom: 10px;
-    color: #f8fec7;
-  }
+.avatarLabel {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background-size: cover;
+  border: 1px solid #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.EditFormContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+
   input[type="text"] {
-    width: 600px;
-    height: 80px;
     padding: 10px;
     font-size: 20px;
-    margin-bottom: 70px;
-    border: 3px solid #FF25A8;
-    border-radius: 4px;
+    border-radius: 8px;
+    text-align: center;
+    width: 200px;
   }
+}
+
+.TFAButton {
+  width: 200px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 20px;
+  background-color: #eb483f;
+}
+
+.TFAButtonOn {
+  background-color: #a7fc88;
 }
 
 .buttonContainer {
   display: flex;
-  justify-content: space-between; /* 버튼을 좌우로 배치 */
-  margin-top: auto;
-}
-  
-
-  .hidden {
-  display: none;
+  justify-content: space-between;
+  gap: 50px;
 }
 
 .customFileUpload {
-  display: inline-block;
   padding: 10px 20px;
   font-size: 60px;
   cursor: pointer;
-  border: 2px solid #D3D3D3; /* Gray border */
-  background-color: #333; /* Dark gray background */
-  color: #f8fec7; /* Golden text */
+  border: 2px solid #D3D3D3;
+  background-color: #333;
+  color: #f8fec7;
   border-radius: 4px;
-  box-shadow: 2px 2px #888888; /* Shadow for depth */
+  box-shadow: 2px 2px #888888;
   transition: all 0.3s;
 }
 
 .customFileUpload:hover {
-    background-color: #555; /* Slightly lighter gray on hover */
+  background-color: #555;
 }
 
 .buttonEdit {
+  width: 100px;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 360px;
-  height: 80px;
   padding: 5px;
   margin: 5px;
   color: #a7fc88;
@@ -81,11 +87,10 @@
 }
 
 .buttonCancel {
+  width: 100px;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 360px;
-  height: 80px;
   padding: 5px;
   margin: 5px;
   color: #eb483f;
@@ -101,26 +106,19 @@
   border: 3px solid #FFFFFF;
 }
 
-  .error {
-	color: #eb483f;
-	margin: 10px 0;
-	font-size: 15px;
-  }
-
-  .faModeButton {
-    margin-top: 40px;
-    display: inline-block;
-    padding: 10px 20px;
-    font-size: 60px;
-    cursor: pointer;
-    border: 2px solid #D3D3D3; /* Gray border */
-    background-color: #333; /* Dark gray background */
-    color: #c485d4; /* Golden text */
-    border-radius: 4px;
-    box-shadow: 2px 2px #888888; /* Shadow for depth */
-    transition: all 0.3s;
+.faModeButton {
+  margin: 20px 0;
+  padding: 10px 20px;
+  font-size: 30px;
+  cursor: pointer;
+  border: 2px solid #D3D3D3;
+  background-color: #333;
+  color: #c485d4;
+  border-radius: 4px;
+  box-shadow: 2px 2px #888888;
+  transition: all 0.3s;
 }
 
 .faModeButton:hover {
-    background-color: #555; /* Slightly lighter gray on hover */
+  background-color: #555;
 }
