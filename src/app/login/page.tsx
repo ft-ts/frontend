@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import { apiClient } from "../axios/client";
 import { clearCookies } from "../utils/clearCookies";
 
-
 export default function Login() {
 
   useEffect(() => {

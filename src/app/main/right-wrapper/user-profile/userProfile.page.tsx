@@ -24,7 +24,7 @@ export default function UserProfile() {
       if (payload.uid === currentUser.uid) {
         setCurrentUser((prevUser: User) => {
             return { ...prevUser, status: payload.status };
-         });
+        });
       }
     })
   }, [currentUser]);

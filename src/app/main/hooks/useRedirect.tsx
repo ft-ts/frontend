@@ -9,7 +9,7 @@ export function useRedirect(targetUrl: string, condition: boolean): void {
 
   useEffect(() => {
     if (condition) {
-      router.replace(targetUrl);
+      router.push(targetUrl);
     }
   }, [condition, router, targetUrl]);
 }

@@ -65,10 +65,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  box-sizing: border-box;
-  position: relative;
-  width: 15%;
-  // height: 90px;
+  padding: 0 5px;
 }
 
 .myInfoButtonBox:hover{

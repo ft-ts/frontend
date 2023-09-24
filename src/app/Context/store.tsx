@@ -26,24 +26,15 @@ export const GlobalContextProvider = ({ children }: any) => {
   const [ currentDmId, setCurrentDmId ] = useState<number | null>(null);
   const [ dmList, setDmList ] = useState<DmListProps[]>([]);
 
-
   const value = {
-    myInfo,
-    setMyInfo,
-    currentUser,
-    setCurrentUser,
-    myRole,
-    setMyRole,
-    activeTab,
-    setActiveTab,
-    currentDmId,
-    setCurrentDmId,
-    currentChannel,
-    setCurrentChannel,
-    currentChannelId,
-    setCurrentChannelId,
-    dmList,
-    setDmList,
+    myInfo,setMyInfo,
+    currentUser, setCurrentUser,
+    myRole, setMyRole,
+    activeTab, setActiveTab,
+    currentDmId, setCurrentDmId,
+    currentChannel, setCurrentChannel,
+    currentChannelId, setCurrentChannelId,
+    dmList, setDmList,
   }
   return (
     <globalContext.Provider value={value}>
@@ -67,4 +58,23 @@ const dummy = {
   custom_losses: 2,
   ladder_wins: 3,
   ladder_losses: 4,
+}
+
+export interface GlobalValues {
+  myInfo: User,
+  setMyInfo: React.Dispatch<React.SetStateAction<User>>,
+  currentUser: User,
+  setCurrentUser: React.Dispatch<React.SetStateAction<User>>,
+  myRole: ChannelRole,
+  setMyRole: React.Dispatch<React.SetStateAction<ChannelRole>>,
+  activeTab: TabOptions,
+  setActiveTab: React.Dispatch<React.SetStateAction<TabOptions>>,
+  currentDmId: number | null,
+  setCurrentDmId: React.Dispatch<React.SetStateAction<number | null>>,
+  currentChannel: ChannelProps | null,
+  setCurrentChannel: React.Dispatch<React.SetStateAction<ChannelProps | null>>,
+  currentChannelId: number | null,
+  setCurrentChannelId: React.Dispatch<React.SetStateAction<number | null>>,
+  dmList: DmListProps[],
+  setDmList: React.Dispatch<React.SetStateAction<DmListProps[]>>,
 }

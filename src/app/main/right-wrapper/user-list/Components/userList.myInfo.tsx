@@ -1,20 +1,20 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import styles from './myInfo.module.scss';
 import { renderUserStatus } from "../../Common/right-wrapper.utils";
 import { UserStatus } from '@/app/main/enum/UserStatus.enum';
 import { useGlobalContext } from '@/app/Context/store';
-import { useRedirect } from '@/app/main/hooks/useRedirect';
+import { useRightWrapperContext } from '../../Context/rightWrapper.store';
+import { useRouter } from 'next/navigation';
 
 const logoutIcon = "/asset/logoutIcon.png";
 const settingIcon = "/asset/settingIcon.png";
 
 export default function MyInfo() {
-  const { myInfo }: any = useGlobalContext();
-  const { setCurrentUser }: any = useGlobalContext();
-  const [onRedirect, setRedirect] = useState<string>("");
-  useRedirect(onRedirect, onRedirect !== "");
+  const router = useRouter();
+  const { myInfo, setCurrentUser }: any = useGlobalContext();
+  const { setEditModalOn }: any = useRightWrapperContext();
 
   const handleClick = () => {
     setCurrentUser(myInfo);
@@ -22,7 +22,7 @@ export default function MyInfo() {
 
   const handleLogout = () => {
     document.cookie = "accesstoken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    setRedirect("/login");
+    router.push("/login");
   }
 
   return (
@@ -36,8 +36,8 @@ export default function MyInfo() {
           <h2 className={styles.myName}>{myInfo.name}</h2>
         </div>
       </button>
-      <button className={styles.myInfoButtonBox}>
-        <img src={settingIcon} alt="setting" width={50} height={50}/>
+      <button onClick={() => setEditModalOn(true)} className={styles.myInfoButtonBox}>
+        <img src={settingIcon} alt="setting" width={40} height={40}/>
       </button>
       <button onClick={handleLogout} className={styles.myInfoButtonBox}>
         <img src={logoutIcon} alt="logout" width={50} height={50}/>

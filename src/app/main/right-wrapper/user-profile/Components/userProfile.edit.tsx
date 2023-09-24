@@ -4,9 +4,10 @@ import React, { useState, useEffect } from 'react';
 import Modal from "react-modal";
 import styles from './edit.module.scss';
 import { EditForm } from "../editForm";
+import { useRightWrapperContext } from '../../Context/rightWrapper.store';
 
 export default function EditMyProfile() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { editModalOn, setEditModalOn }: any = useRightWrapperContext();
 
   const customStyles = {
     content: {
@@ -24,30 +25,22 @@ export default function EditMyProfile() {
     },
   };
 
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
-
   return (
     <>
-      <button className={styles.editButton} onClick={handleOpenModal}>
+      <button className={styles.editButton} onClick={() => setEditModalOn(true)}>
         <h2 className={styles.editFont}>
           Edit my Profile
         </h2>
       </button>
       <Modal
-        isOpen={isModalOpen}
+        isOpen={editModalOn}
         contentLabel="Create Channel Modal"
         style={customStyles}
         ariaHideApp={false}
-        onRequestClose={handleCloseModal}
+        onRequestClose={() => setEditModalOn(false)}
         shouldCloseOnOverlayClick={false}
       >
-        <EditForm onClose={handleCloseModal}/>
+        <EditForm onClose={() => setEditModalOn(false)}/>
       </Modal>
     </>
   );

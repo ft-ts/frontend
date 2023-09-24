@@ -1,15 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ChangeEvent } from 'react';
 import styles from "./editForm.module.scss"
 import { useGlobalContext } from '@/app/Context/store';
 import { User } from '../../interface/User.interface';
 import { apiClient } from '@/app/axios/client';
+import { ValueInterface, useRightWrapperContext } from '../Context/rightWrapper.store';
+import axios from 'axios';
 
 interface EditProfileProps {
   onClose: () => void;
 }
 
 export const EditForm = (props: EditProfileProps) => {
-  const { myInfo, setMyInfo }: any = useGlobalContext(); // 😡😡😡 userlist 받아서 닉네임 중복체크
+  const { myInfo, setMyInfo }: any = useGlobalContext();
+  const { userList }: Partial<ValueInterface> = useRightWrapperContext();
   const avatarRef = React.useRef<HTMLLabelElement>(null);
   const TFABtn = React.useRef<HTMLButtonElement>(null);
 
@@ -27,21 +30,62 @@ export const EditForm = (props: EditProfileProps) => {
       TFABtn.current.classList.remove(styles.TFAButtonOn);
   }, [avatar, name, TFA]);
 
-  const handleAvatar = () => {
-    const file = document.getElementById("avatar-upload") as HTMLInputElement;
-    if (file.files && file.files[0]) {
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        if (e.target?.result) {
-          if (e.target?.result.toString().length > 150000) {
-            alert("이미지 크기는 150kb 이하로 선택해주세요.");
-            return;
-          }
-          setAvatar(e.target?.result.toString());
+  const handleAvatar = (event: ChangeEvent<HTMLInputElement>) => {
+    const eventFiles = event.target.files;
+
+    if (!eventFiles || eventFiles.length === 0)
+      return;
+
+    uploadImage(eventFiles[0]);
+  }
+
+  const uploadImage = (file: File) => {
+
+    if (file.size > 200000)
+      return alert("200KB 이하의 이미지만 업로드 가능합니다.");
+
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      if (reader.readyState !== 2)
+        return;
+      if (typeof e.target?.result === "string") {
+
+        const userData = {
+          avatar: e.target?.result,
         }
+
+        let accessToken;
+        document.cookie.split(';').forEach((item) => {
+          if (item.includes("accessToken"))
+            accessToken = item.split('=')[1];
+        });
+
+        apiClient.patch(`/users`, userData, {
+          headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'multipart/form-data'
+          },
+        }).then((res) => {
+          if (res.status === 200 && res.data?.avatar) {
+            setMyInfo(res.data);
+            alert("이미지 업로드에 성공하였습니다. ");
+            props.onClose();
+          }
+          else
+            alert("이미지 업로드에 실패하였습니다. ");
+        });
+        setAvatar(e.target.result);
       }
-      reader.readAsDataURL(file.files[0]);
+      else
+        new Error("FileReader error");
     }
+
+    reader.onerror = (e) => {
+      new Error("FileReader error");
+    };
+
+    reader.readAsDataURL(file);
   }
 
   const handleFTA = () => {
@@ -53,23 +97,32 @@ export const EditForm = (props: EditProfileProps) => {
 
     if (e.target.value.length > 10)
       return;
+
     setname(e.target.value);
   }
 
-  const handleUpdate = () => {
+  const handleUpdate = async () => {
     if (name.length < 3) {
       alert("닉네임은 3글자 이상이어야 합니다.");
       return;
     }
 
-    const user: Partial<User> = {
-      name,
-      avatar,
-      twoFactorAuth: TFA,
+    const isExist = userList?.find((user: User) => user.name === name);
+    if (isExist) {
+      alert("이미 존재하는 닉네임입니다."); // 😡😡😡 Modal로 바꾸기
+      return;
     }
-    apiClient.patch(`/users`, user).then((res) => {
-      setMyInfo(res.data);
-    })
+
+    const userData: Partial<User> = {
+      twoFactorAuth: TFA,
+    };
+    if (name !== myInfo.name)
+      userData.name = name;
+
+    await apiClient.patch(`/users`, userData).then((res) => {
+      if (res.status === 200)
+        setMyInfo(res.data);
+    });
     props.onClose();
   }
 

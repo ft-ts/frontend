@@ -4,7 +4,7 @@ import React from 'react';
 import styles from './channelItem.module.scss';
 import { UserStatus } from '../../main/enum/UserStatus.enum';
 import ChannelItemProps from './interfaces/channelItemProps';
-import  { DmListProps } from "./interfaces/dmItemProps";
+import { DmListProps } from "./interfaces/dmItemProps";
 
 const ChannelItem = (props: ChannelItemProps) => {
   return (
@@ -19,11 +19,11 @@ const ChannelItem = (props: ChannelItemProps) => {
 const DmItem = ({
   props,
   onClick,
-}:{
-  props:DmListProps
+}: {
+  props: DmListProps
   onClick: (targetUid: number) => void;
 }) => {
-  const unread  :number = props.unread_count;
+  const unread: number = props.unread_count;
   return (
     <div className={styles.dmItemContainer} onClick={() => onClick(props.user_uid)}>
       <img
@@ -32,11 +32,11 @@ const DmItem = ({
         alt="profile"
         width={30}
         height={30}
-        />
+      />
       <p className={styles.dmUser}>{props.user_name}</p>
-      {(unread > 0) && <div className={styles.unreadBox}>
-
-      </div>}
+      <div className={styles.unreadBoxWrapper}>
+        {(unread > 0) && <div className={styles.unreadBox}></div>}
+      </div>
     </div>
   );
 }
