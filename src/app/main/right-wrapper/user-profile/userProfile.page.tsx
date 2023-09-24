@@ -11,10 +11,10 @@ import { getUserByUid } from '@/app/axios/client';
 
 export default function UserProfile() {
   const { currentUser, setCurrentUser }: any = useGlobalContext();
-  const { myInfo } : any = useGlobalContext();
+  const { myInfo }: any = useGlobalContext();
   const { setIsNotificationVisible }: any = useGlobalContext();
   const { setErrorMessage }: any = useGlobalContext();
-  
+
   useEffect(() => {
     if (myInfo.uid === currentUser.uid)
       setCurrentUser(myInfo);

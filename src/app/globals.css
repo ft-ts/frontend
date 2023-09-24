@@ -17,21 +17,8 @@
   font-weight: 400;
 }
 
-/* *:not(body):not(html) {
-  background-color: #00ffff10;
-
-} */
-
-/* *:nth-child(2n) {
-  outline: 1px solid #ff000050;
-} */
-
-
-body {
-  /* overflow: auto; */
-  /* background-color: red; */
-  /* width: 100vw !important; */
-  /* height: 100dvh !important; */
+body::-webkit-scrollbar {
+  display: none;
 }
 
 input:-webkit-autofill,

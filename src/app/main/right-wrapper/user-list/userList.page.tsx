@@ -6,23 +6,25 @@ import UserListAll from './Components/userList.all';
 import UserListChannel from './Components/userList.channel'
 import UserListFriends from './Components/userList.friends';
 import MyInfo from './Components/userList.myInfo';
-import UserListSearch from './Components/userList.search';
 import { User } from '@/app/main/interface/User.interface';
 import { getUserListExceptMe, getFriendsList, getChannelMembers } from '@/app/axios/client';
 import { useGlobalContext } from '@/app/Context/store';
 import { ChannelUser } from '../../mid-wrapper/chat/interfaces/channelUser.interface';
 import { TabOptions } from './userList.enum';
 import { socket } from '@/app/main/components/CheckAuth';
+import { useRightWrapperContext } from '../Context/rightWrapper.store';
 
-export default function UserList(){
-  const [userList, setUserList] = useState<User[]>([]);
-  const [ channelMembers, setChannelMembers ] = useState<ChannelUser[]>([]);
+export default function UserList() {
 
   const { friendList, setFriendList }: any = useGlobalContext();
   const { activeTab, setActiveTab }: any = useGlobalContext();
-  const { currentChannelId }: any = useGlobalContext();
   const { setIsNotificationVisible }: any = useGlobalContext();
   const { setErrorMessage }: any = useGlobalContext();
+  const { myRole, currentChannelId }: any = useGlobalContext();
+
+  const { userList, setUserList } : any = useRightWrapperContext();
+  const { channelMembers, setChannelMembers } : any = useRightWrapperContext();
+
 
   const setUserLists = () => {
     if (activeTab === TabOptions.ALL) {
@@ -50,7 +52,7 @@ export default function UserList(){
         }, 2000);
       });
     } else if (activeTab === TabOptions.CHANNEL) {
-      if (currentChannelId){
+      if (currentChannelId) {
         getChannelMembers(currentChannelId).then((res) => {
           const { data } = res;
           setChannelMembers(data);
@@ -72,20 +74,20 @@ export default function UserList(){
 
   useEffect(() => {
     socket.on('update/friends', () => {
-      if (activeTab !== TabOptions.FRIENDS){
+      if (activeTab !== TabOptions.FRIENDS) {
         setActiveTab(TabOptions.FRIENDS);
-        return ;
+        return;
       }
       setUserLists();
     });
     socket.on('update/userConnection', () => {
-      if (activeTab === TabOptions.ALL){
+      if (activeTab === TabOptions.ALL) {
         setUserLists();
       }
     });
     socket.on('channel/innerUpdate', (channelId: number) => {
       setActiveTab(TabOptions.CHANNEL);
-      if (currentChannelId === channelId){
+      if (currentChannelId === channelId) {
         console.log('test')
         setUserLists();
       }
@@ -99,7 +101,7 @@ export default function UserList(){
   }, [activeTab]);
 
   useEffect(() => {
-    if (currentChannelId){
+    if (currentChannelId) {
       getChannelMembers(currentChannelId).then((res) => {
         const { data } = res;
         setChannelMembers(data);
@@ -145,19 +147,19 @@ export default function UserList(){
             key={item.uid}
             user={item}
           />
-          ))}
+        ))}
       </>
     );
   };
-  
+
   const renderChannelList = () => {
     return (
       <>
         {channelMembers?.map && channelMembers.map((member: ChannelUser) => (
-          <UserListChannel 
+          <UserListChannel
             key={member.id}
             item={member}
-           />
+          />
         ))}
       </>
     );
@@ -193,7 +195,6 @@ export default function UserList(){
             Channel
           </div>
         </div>
-        <UserListSearch />
         <div className={styles.userListBody}>{renderUserList()}</div>
         <MyInfo />
       </div>

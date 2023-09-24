@@ -16,13 +16,13 @@ import { ChannelRole } from "../mid-wrapper/chat/enum/channelRole.enum";
 function Channel() {
   const [selectedTab, setSelectedTab] = useState(ChannelTabOptions.ALL);
   const [showPasswordModal, setShowPasswordModal] = useState<boolean>(false);
-  const [ tempChannelId, setTempChannelId ] = useState<number | null>(null);
-  const [ channels, setChannels ] = useState<ChannelItemProps[]>([]);
+  const [tempChannelId, setTempChannelId] = useState<number | null>(null);
+  const [channels, setChannels] = useState<ChannelItemProps[]>([]);
 
   const { setActiveTab }: any = useGlobalContext();
   const { setMyRole }: any = useGlobalContext();
   const { setCurrentDmId }: any = useGlobalContext();
-  const { currentChannel, setCurrentChannel } : any = useGlobalContext();
+  const { currentChannel, setCurrentChannel }: any = useGlobalContext();
   const { currentChannelId, setCurrentChannelId }: any = useGlobalContext();
   const { myInfo }: any = useGlobalContext();
   const { setCurrentUser }: any = useGlobalContext();
@@ -70,7 +70,7 @@ function Channel() {
     socket.on('update/channelInfo', () => {
       setChannelLists();
     });
-    socket.on('channel/invite', (channelId: number)=>{
+    socket.on('channel/invite', (channelId: number) => {
       socket.emit('channel/invite/accept', { channelId });
     })
     return () => {
@@ -85,15 +85,15 @@ function Channel() {
     }
 
     socket.on('channel/changeGranted', (data: { channelId: number, granted: ChannelRole }) => {
-      if (data.channelId === currentChannel.id){
+      if (data.channelId === currentChannel.id) {
         setMyRole(data.granted);
       }
     });
 
-    socket.on('channel/leaveChannel/success', ( channelId: number ) => {
-      if (channelId === currentChannel.id){
+    socket.on('channel/leaveChannel/success', (channelId: number) => {
+      if (channelId === currentChannel.id) {
         console.log('leave success');
-        
+
         setCurrentChannel(null);
         setCurrentChannelId(null);
         setActiveTab(TabOptions.ALL);
@@ -113,15 +113,15 @@ function Channel() {
     const channel = channels.find((ch) => ch.id === chId);
     if (!channel) {
       return;
-    } else if (currentChannelId === chId) return ;
+    } else if (currentChannelId === chId) return;
     joinChannel(chId, '').then((res) => {
       const { data } = res;
-      console.log(data.channel, data.role, data.isMember );
+      console.log(data.channel, data.role, data.isMember);
       setCurrentChannel(data.channel);
       setCurrentChannelId(data.channel.id);
       setActiveTab(TabOptions.CHANNEL);
       setMyRole(data.role);
-      if (!data.isMember){
+      if (!data.isMember) {
         socket.emit('channel/sendMessage', {
           channelId: data.channel.id,
           content: `${myInfo.name} has joined the channel.`,
@@ -130,7 +130,7 @@ function Channel() {
         socket.emit('channel/innerUpdate', { channelId: data.channel.id });
       }
     }).catch((err) => {
-      if(err.response.data.message === 'Password is required for a PROTECTED channel.'){
+      if (err.response.data.message === 'Password is required for a PROTECTED channel.') {
         setShowPasswordModal(true);
         setTempChannelId(chId);
       } else {
@@ -154,18 +154,16 @@ function Channel() {
         handleTabClick={handleTabClick}
         selectedTab={selectedTab}
       />
-      <DisplayChannelSearch />
       <div className={styles.channelContainer}>
-        {channels &&
-          channels.map((channel) => (
-            <ChannelItem
-              key={channel.id}
-              title={channel.title}
-              mode={channel.mode}
-              id={channel.id}
-              onClick={() => handleChannelClick(channel.id)}
-            />
-          ))}
+        {channels?.map && channels.map((channel) => (
+          <ChannelItem
+            key={channel.id}
+            title={channel.title}
+            mode={channel.mode}
+            id={channel.id}
+            onClick={() => handleChannelClick(channel.id)}
+          />
+        ))}
       </div>
       {isNotificationVisible && (
         <div className={styles.notification}>
@@ -174,7 +172,7 @@ function Channel() {
       )}
       <PasswordModal
         isOpen={showPasswordModal}
-        onRequestClose={() => { 
+        onRequestClose={() => {
           setShowPasswordModal(false)
         }}
         setChannelErrorMessage={setErrorMessage}
@@ -232,23 +230,6 @@ const CreateChannel = () => {
   );
 };
 
-const DisplayChannelSearch = () => {
-  return (
-    <div className={styles.channelSearchContainer}>
-      <input className={styles.channelSearchInput}></input>
-      <button className={styles.channelSearchIconContainer}>
-        <img
-          className={styles.channelSearchIcon}
-          src="/asset/search.png"
-          alt="searchChannel"
-          width={30}
-          height={30}
-        />
-      </button>
-    </div>
-  );
-};
-
 const ChannelPanels = ({
   handleTabClick,
   selectedTab,
@@ -263,17 +244,15 @@ const ChannelPanels = ({
       </div>
       <div className={styles.channelButtonsWrapper}>
         <button
-          className={`${styles.unselectedPanelTab} ${
-            selectedTab === ChannelTabOptions.ALL ? styles.selectedPanelTab : ""
-          }`}
+          className={`${styles.unselectedPanelTab} ${selectedTab === ChannelTabOptions.ALL ? styles.selectedPanelTab : ""
+            }`}
           onClick={() => handleTabClick(ChannelTabOptions.ALL)}
         >
           <h2 className={`${styles.selectPanelFont}`}>ALL</h2>
         </button>
         <button
-          className={`${styles.unselectedPanelTab} ${
-            selectedTab === ChannelTabOptions.MY ? styles.selectedPanelTab : ""
-          }`}
+          className={`${styles.unselectedPanelTab} ${selectedTab === ChannelTabOptions.MY ? styles.selectedPanelTab : ""
+            }`}
           onClick={() => handleTabClick(ChannelTabOptions.MY)}
         >
           <h2 className={`${styles.selectPanelFont}`}>MY</h2>

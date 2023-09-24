@@ -1,9 +1,8 @@
 "use client";
 
 import axios from "axios";
-import UserInterface from "./interfaces/user.interface";
 import { ChannelMode } from "../main/left-wrapper/enum/channel.enum";
-import { useRedirect } from "../main/hooks/useRedirect";
+import { useGlobalContext } from "../Context/store";
 
 export const apiClient = axios.create({
   baseURL: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api`,
@@ -24,16 +23,17 @@ apiClient.interceptors.request.use((config) => {
   }
   else {
     source.cancel('Request canceled, no token found.');
+    console.log('Request canceled, no token found.');
+    
   }
   return config;
 });
 
 apiClient.interceptors.response.use((response) => {
+
+  if (response?.data?.message)
   if (response.status === 200 && response.data?.redirectUrl)
-  {
-    useRedirect(response.data.redirectUrl, true);
-  }
-    // window.location.href = response.data.redirectUrl;
+    window.location.href = response.data.redirectUrl;
   return response;
 });
 

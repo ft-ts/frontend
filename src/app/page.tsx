@@ -4,10 +4,10 @@ import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 
 export default function Root() {
-  const router = useRouter()
+  const router = useRouter();
 
   useEffect(() => {
-    router.push('/login')
+    router.push('/login');
   }, [])
 
   return (

@@ -78,7 +78,6 @@ export default function Dms() {
   return (
     <div>
       <DmPanels />
-      <DisplayDmSearch />
       <div className={styles.dmContainer}>
         { dmList?.map &&
           dmList.map((dm: DmListProps) => {
@@ -94,23 +93,6 @@ export default function Dms() {
     </div>
   );
 }
-
-const DisplayDmSearch = () => {
-  return (
-    <div className={styles.channelSearchContainer}>
-      <input className={styles.channelSearchInput}></input>
-      <button className={styles.channelSearchIconContainer}>
-        <img
-          className={styles.channelSearchIcon}
-          src='/asset/search.png'
-          alt='searchDm'
-          width={30}
-          height={30}
-        />
-      </button>
-    </div>
-  );
-};
 
 const DmPanels = () => {
   return (

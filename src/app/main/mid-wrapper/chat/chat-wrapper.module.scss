@@ -212,14 +212,11 @@ $sizeSenderName: 30px;
     background-color: #d2f1ff;
     border-radius: 20px;
     color: #171717;
-    margin-top: 5px;
-    padding: 7px 12px;
-    margin-bottom: 5px;
-    // max-width: 450px;
-    max-width: 100%;
-    margin-inline: 10px;
+    margin: 5px 10px;
+    padding: 10px 20px;
     word-wrap: break-word;
-    /* 이 부분을 추가해 줄 바꿈을 활성화합니다. */
+    max-width: 450px;
+    width: fit-content;
 }
 
 .chatProfilePicture {
