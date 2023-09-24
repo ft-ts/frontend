@@ -16,15 +16,14 @@ import { useRightWrapperContext } from '../Context/rightWrapper.store';
 
 export default function UserList() {
 
+  const { userList, setUserList } : any = useRightWrapperContext();
   const { friendList, setFriendList }: any = useGlobalContext();
+  const { channelMembers, setChannelMembers } : any = useRightWrapperContext();
+
   const { activeTab, setActiveTab }: any = useGlobalContext();
   const { setIsNotificationVisible }: any = useGlobalContext();
   const { setErrorMessage }: any = useGlobalContext();
   const { currentChannelId }: any = useGlobalContext();
-
-  const { userList, setUserList } : any = useRightWrapperContext();
-  const { channelMembers, setChannelMembers } : any = useRightWrapperContext();
-
 
   const setUserLists = () => {
     if (activeTab === TabOptions.ALL) {

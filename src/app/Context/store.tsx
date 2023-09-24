@@ -16,20 +16,20 @@ export enum TabOptions {
 }
 
 export const GlobalContextProvider = ({ children }: any) => {
-  const [ activeTab, setActiveTab ] = useState(TabOptions.ALL);
-  const [ myInfo, setMyInfo ] = useState<User>(dummy);
-  const [ currentUser, setCurrentUser ] = useState<User>(dummy);
-  const [ myRole, setMyRole ] = useState<ChannelRole>(ChannelRole.NORMAL);
-  const [ currentUserRole, setCurrentUserRole] = useState<ChannelRole | null>(null);
-  const [ friendList, setFriendList ] = useState<User[]>([]);
-  const [ blockList, setBlockList ] = useState<number[]>([]);
+  const [activeTab, setActiveTab] = useState(TabOptions.ALL);
+  const [myInfo, setMyInfo] = useState<User>(dummy);
+  const [currentUser, setCurrentUser] = useState<User>(dummy);
+  const [myRole, setMyRole] = useState<ChannelRole>(ChannelRole.NORMAL);
+  const [currentUserRole, setCurrentUserRole] = useState<ChannelRole | null>(null);
+  const [friendList, setFriendList] = useState<User[]>([]);
+  const [blockList, setBlockList] = useState<number[]>([]);
 
-  const [ currentChannel, setCurrentChannel ] = useState<ChannelProps | null>(null);
-  const [ currentChannelId, setCurrentChannelId ] = useState<number | null>(null);
-  const [ currentDmId, setCurrentDmId ] = useState<number | null>(null);
-  const [ dmList, setDmList ] = useState<DmListProps[]>([]);
-  const [ isNotificationVisible, setIsNotificationVisible ] = useState<boolean>(false);
-  const [ errorMessage, setErrorMessage ] = useState<string>("");
+  const [currentChannel, setCurrentChannel] = useState<ChannelProps | null>(null);
+  const [currentChannelId, setCurrentChannelId] = useState<number | null>(null);
+  const [currentDmId, setCurrentDmId] = useState<number | null>(null);
+  const [dmList, setDmList] = useState<DmListProps[]>([]);
+  const [isNotificationVisible, setIsNotificationVisible] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   const value = {
     myInfo, setMyInfo,
