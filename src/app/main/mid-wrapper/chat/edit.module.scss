@@ -44,6 +44,12 @@
 		border: 3px solid #FF25A8;
 		border-radius: 4px;
 	}
+
+	.error {
+		color: #eb483f;
+		margin: 10px 0;
+		font-size: 15px;
+	  }
 }
 
 .radioLabel {
@@ -117,19 +123,18 @@
 	border: 3px solid #FFFFFF;
   }
 
-  .error {
-	color: #eb483f;
-	margin: 10px 0;
-	font-size: 15px;
-  }
-
-
   .passwordContainer {
 	display: flex;
 	gap: 10px;
 	margin-bottom: 10px;
 	flex-direction: row; /* 나란히 표시하도록 변경 */
 	align-items: center; /* 수직 가운데 정렬 */
+
+	.error {
+		color: #eb483f;
+		margin: 10px 0;
+		font-size: 15px;
+	  }
 
 	input[type="password"] {
 		width: 380px;

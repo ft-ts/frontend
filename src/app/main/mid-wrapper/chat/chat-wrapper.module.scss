@@ -207,14 +207,14 @@ $sizeSenderName: 30px;
 }
 
 .messageContent {
-    justify-content: left;
+    display: inline-block;
+    // justify-content: left;
     background-color: #d2f1ff;
     border-radius: 20px;
     color: #171717;
     margin-top: 5px;
     padding: 7px 12px;
     margin-bottom: 5px;
-    // max-width: 450px;
     max-width: 100%;
     margin-inline: 10px;
     word-wrap: break-word;
@@ -255,4 +255,5 @@ $sizeSenderName: 30px;
 
 .commonContents {
     flex-flow: column nowrap;
+
 }

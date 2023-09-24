@@ -15,6 +15,8 @@ export default function Dms() {
   const { setActiveTab }: any = useGlobalContext();
   const { myInfo } : any = useGlobalContext();
   const { dmList, setDmList }: any = useGlobalContext();
+  const { isNotificationVisible, setIsNotificationVisible }: any = useGlobalContext();
+  const { errorMessage, setErrorMessage }: any = useGlobalContext();
 
   useEffect(() => {
     if (myInfo.uid === 1000){
@@ -28,7 +30,11 @@ export default function Dms() {
         setDmList((prev: DmListProps[]) => [...prev, dm]);
       });
     }).catch((err) => {
-      console.log('getDmLists error : ', err);
+      setErrorMessage(err);
+      setIsNotificationVisible(true);
+      setTimeout(() => {
+        setIsNotificationVisible(false);
+      }, 3000);
     });
   }, [myInfo]);
 
@@ -42,11 +48,19 @@ export default function Dms() {
       const { data } = res;
       setCurrentUser(data);
     }). catch((err) => {
-      console.log('getUserByUid error : ', err);
+      setErrorMessage(err);
+      setIsNotificationVisible(true);
+      setTimeout(() => {
+        setIsNotificationVisible(false);
+      }, 3000);
     });
     postDmRead(targetUid)
     .catch((err) => {
-      console.log('postDmRead error : ', err);
+      setErrorMessage(err);
+      setIsNotificationVisible(true);
+      setTimeout(() => {
+        setIsNotificationVisible(false);
+      }, 3000);
     });
     dmList.forEach((dm: DmListProps) => {
       if (dm.user_uid === targetUid) {

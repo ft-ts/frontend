@@ -109,6 +109,7 @@ const ChannelEnterForm = ({
               e.preventDefault(); // Prevent default behavior (form submission)
               handleSubmit();
             }}}
+            maxLength={15}
         />
         <button className={styles.submitButton} onClick={handleSubmit}>
           Submit

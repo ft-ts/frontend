@@ -16,6 +16,8 @@ export const EditForm = (props: EditProfileProps) => {
   const [avatar, setAvatar] = useState<string>(myInfo.avatar);
   const [name, setname] = useState<string>(myInfo.name);
   const [TFA, setTFA] = useState<boolean>(myInfo.twoFactorAuth);
+  const [isNotificationVisible, setIsNotificationVisible] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
     if (avatar && avatarRef.current)
@@ -34,7 +36,11 @@ export const EditForm = (props: EditProfileProps) => {
       reader.onload = function (e) {
         if (e.target?.result) {
           if (e.target?.result.toString().length > 150000) {
-            alert("이미지 크기는 150kb 이하로 선택해주세요.");
+            setErrorMessage("이미지 크기는 150kb 이하로 선택해주세요.");
+            setIsNotificationVisible(true);
+            setTimeout(() => {
+              setIsNotificationVisible(false);
+            }, 3000);
             return;
           }
           setAvatar(e.target?.result.toString());
@@ -58,7 +64,11 @@ export const EditForm = (props: EditProfileProps) => {
 
   const handleUpdate = () => {
     if (name.length < 3) {
-      alert("닉네임은 3글자 이상이어야 합니다.");
+      setErrorMessage("닉네임은 3글자 이상이어야 합니다.");
+      setIsNotificationVisible(true);
+      setTimeout(() => {
+        setIsNotificationVisible(false);
+      }, 3000);
       return;
     }
 

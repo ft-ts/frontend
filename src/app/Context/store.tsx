@@ -25,6 +25,9 @@ export const GlobalContextProvider = ({ children }: any) => {
   const [ currentChannelId, setCurrentChannelId ] = useState<number | null>(null);
   const [ currentDmId, setCurrentDmId ] = useState<number | null>(null);
   const [ dmList, setDmList ] = useState<DmListProps[]>([]);
+  const [isNotificationVisible, setIsNotificationVisible] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
 
 
   const value = {
@@ -44,6 +47,10 @@ export const GlobalContextProvider = ({ children }: any) => {
     setCurrentChannelId,
     dmList,
     setDmList,
+    isNotificationVisible,
+    setIsNotificationVisible,
+    errorMessage,
+    setErrorMessage,
   }
   return (
     <globalContext.Provider value={value}>

@@ -4,6 +4,7 @@ import React, {useState, useEffect } from 'react';
 import styles from './userList.module.scss';
 import { socket } from '@/app/main/components/CheckAuth';
 import { postBanUser, postKickUser } from '@/app/axios/client';
+import { useGlobalContext } from '@/app/Context/store';
 
 export default function SetBanType(
   {
@@ -16,6 +17,9 @@ export default function SetBanType(
     userUid: number
   }
 ) {
+  const { isNotificationVisible, setIsNotificationVisible }: any = useGlobalContext();
+  const { errorMessage, setErrorMessage }: any = useGlobalContext();
+
   const [kick, setKick] = useState(true);
   const [ban, setBan] = useState(false);
 
@@ -35,19 +39,46 @@ export default function SetBanType(
 
     if (kick){
         postKickUser(channelID, targetUserUid).then((res) => {
-          socket.emit('update/channelInfo');
-          socket.emit('channel/innerUpdate', {channelId: channelID});
-          socket.emit('channel/sendMessage', {channelId: channelID, content: `${res.data} has been kicked.`, isNotice: true})
+          if (res.data && res.data.success)
+          {
+            socket.emit('update/channelInfo');
+            socket.emit('channel/innerUpdate', {channelId: channelID});
+            socket.emit('channel/sendMessage', {channelId: channelID, content: `${res.data.message}`, isNotice: true})
+          }
+          else {
+            setErrorMessage(res.data.message);
+            setIsNotificationVisible(true);
+            setTimeout(() => {
+              setIsNotificationVisible(false);
+            }, 3000);
+          }
         }).catch((err) => {
-          console.log(err);
+          setErrorMessage(err);
+          setIsNotificationVisible(true);
+          setTimeout(() => {
+            setIsNotificationVisible(false);
+          }, 3000);
         });
     } else if (ban){
         postBanUser(channelID, targetUserUid).then((res) => {
-          socket.emit('update/channelInfo', {channelId: channelID});
-          socket.emit('channel/innerUpdate', {channelId: channelID});
-          socket.emit('channel/sendMessage', {channelId: channelID, content: `${res.data} has been banned.`, isNotice: true})
+          if (res.data && res.data.success)
+          {
+            socket.emit('update/channelInfo', {channelId: channelID});
+            socket.emit('channel/innerUpdate', {channelId: channelID});
+            socket.emit('channel/sendMessage', {channelId: channelID, content: `${res.data.message}`, isNotice: true})
+          } else {
+            setErrorMessage(res.data.message);
+            setIsNotificationVisible(true);
+            setTimeout(() => {
+              setIsNotificationVisible(false);
+            }, 3000);
+          }
         }).catch((err) => {
-          console.log(err);
+          setErrorMessage(err);
+          setIsNotificationVisible(true);
+          setTimeout(() => {
+            setIsNotificationVisible(false);
+          }, 3000);
         });
     }
     handleCloseModal();

@@ -17,8 +17,6 @@ import { ChannelRole } from "../mid-wrapper/chat/enum/channelRole.enum";
 function Channel() {
   const [selectedTab, setSelectedTab] = useState(ChannelTabOptions.ALL);
   const [showPasswordModal, setShowPasswordModal] = useState<boolean>(false);
-  const [channelErrorMessage, setChannelErrorMessage] = useState<string | null>(null);
-  const [isChannelNotificationVisible, setIsChannelNotificationVisible ] = useState<boolean>(false);
   const [ tempChannelId, setTempChannelId ] = useState<number | null>(null);
   const [ channels, setChannels ] = useState<ChannelItemProps[]>([]);
 
@@ -27,6 +25,9 @@ function Channel() {
   const { setCurrentDmId }: any = useGlobalContext();
   const { currentChannel, setCurrentChannel } : any = useGlobalContext();
   const { currentChannelId, setCurrentChannelId }: any = useGlobalContext();
+  const { isNotificationVisible, setIsNotificationVisible }: any = useGlobalContext();
+  const { errorMessage, setErrorMessage }: any = useGlobalContext();
+  const { myInfo }: any = useGlobalContext();
 
   const handleTabClick = (tab: ChannelTabOptions) => {
     setSelectedTab(tab);
@@ -39,14 +40,22 @@ function Channel() {
         const { data } = res;
         setChannels(data);
       }).catch((err) => {
-        console.log('all Error', err);
+        setErrorMessage(err);
+        setIsNotificationVisible(true);
+        setTimeout(() => {
+          setIsNotificationVisible(false);
+        }, 3000);
       });
     } else if (selectedTab === ChannelTabOptions.MY) {
       getMyChannelList().then((res) => {
         const { data } = res;
         setChannels(data);
       }).catch((err) => {
-        console.log('my Error', err);
+        setErrorMessage(err);
+        setIsNotificationVisible(true);
+        setTimeout(() => {
+          setIsNotificationVisible(false);
+        }, 3000);
       });
     }
   }
@@ -82,8 +91,15 @@ function Channel() {
         socket.emit('channel/innerUpdate', { channelId: channelData.id });
         socket.emit('update/channelInfo');
       }).catch((err) => {
-        console.log('setMyrole', err);
+        setErrorMessage(err);
+        setIsNotificationVisible(true);
+        setTimeout(() => {
+          setIsNotificationVisible(false);
+        }, 3000);
       });
+    });
+    socket.on('channel/join/new', async (channelData: ChannelProps) => {
+      socket.emit('channel/sendMessage', { channelId: channelData.id, content: `${myInfo.name} has joined.`, isNotice: true });
     });
     socket.on('channel/join/fail', (data: { message: string }) => {
       if (data.message === 'Password is required for a PROTECTED channel.') {
@@ -93,10 +109,10 @@ function Channel() {
         setActiveTab(TabOptions.ALL);
         setCurrentChannel(null);
         setCurrentChannelId(null);
-        setChannelErrorMessage(data.message);
-        setIsChannelNotificationVisible(true);
+        setErrorMessage(data.message);
+        setIsNotificationVisible(true);
         setTimeout(() => {
-          setIsChannelNotificationVisible(false);
+          setIsNotificationVisible(false);
         }, 3000);
       }
     });
@@ -110,6 +126,7 @@ function Channel() {
       socket.off("channel/join/success");
       socket.off("channel/join/error");
       socket.off("channel/changeGranted");
+      socket.off("channel/join/new");
     }
   }, [currentChannel]);
 
@@ -145,9 +162,9 @@ function Channel() {
             />
           ))}
       </div>
-      {isChannelNotificationVisible && (
+      {isNotificationVisible && (
         <div className={styles.notification}>
-          <p>{channelErrorMessage}</p>
+          <p>{errorMessage}</p>
         </div>
       )}
       <PasswordModal
@@ -155,9 +172,9 @@ function Channel() {
         onRequestClose={() => { 
           setShowPasswordModal(false)
         }}
-        setChannelErrorMessage={setChannelErrorMessage}
-        channelErrorMessage={channelErrorMessage}
-        setIsChannelNotificationVisible={setIsChannelNotificationVisible}
+        setChannelErrorMessage={setErrorMessage}
+        channelErrorMessage={errorMessage}
+        setIsChannelNotificationVisible={setIsNotificationVisible}
         tempChannelId={tempChannelId}
       />
     </div>

@@ -23,6 +23,8 @@ export default function ChatRoom() {
   const { currentDmId }: any = useGlobalContext();
   const { setDmList }: any = useGlobalContext();
   const { setActiveTab }: any = useGlobalContext();
+  const { isNotificationVisible, setIsNotificationVisible }: any = useGlobalContext();
+  const { errorMessage, setErrorMessage }: any = useGlobalContext();
   
   const scrollToBottom = (length : number) => {
     setTimeout(function() {
@@ -40,7 +42,11 @@ export default function ChatRoom() {
 
   useEffect(() => {
     socket.on('channel/out', (payload: { channelId: number, reason: string }) => {
-      alert(payload.reason);
+      setErrorMessage(payload.reason);
+      setIsNotificationVisible(true);
+      setTimeout(() => {
+        setIsNotificationVisible(false);
+      }, 3000);
       if (currentChannelId === payload.channelId) {
         setCurrentChannelId(null);
         setCurrentChannel(null);
@@ -67,7 +73,11 @@ export default function ChatRoom() {
         const { data } = res;
         setChatMessages(data);
       }).catch((err) => {
-        console.log('getCM', err);
+        setErrorMessage(err);
+        setIsNotificationVisible(true);
+        setTimeout(() => {
+          setIsNotificationVisible(false);
+        }, 3000);
       });
     }
   }, [currentChannelId]);
@@ -80,7 +90,11 @@ export default function ChatRoom() {
         const { data } = res;
         setDmMessages(data);
       }).catch((err) => {
-        console.log('getDM', err)
+        setErrorMessage(err);
+        setIsNotificationVisible(true);
+        setTimeout(() => {
+          setIsNotificationVisible(false);
+        }, 3000);
       });
     }
   }, [currentDmId]);
@@ -103,13 +117,22 @@ export default function ChatRoom() {
         setDmMessages((prevMessages) => [...prevMessages, message]);
         document.body.scrollTop = document.body.scrollHeight;
         await postDmRead(currentDmId).catch((err) => {
+          setErrorMessage(err);
+          setIsNotificationVisible(true);
+          setTimeout(() => {
+            setIsNotificationVisible(false);
+          }, 3000);
           console.log('postDmRead error : ', err);
         });
       }
       getDmLists().then((res) => {
         setDmList(res.data);
       }).catch((err) => {
-        console.log('getDmLists error : ', err);
+        setErrorMessage(err);
+        setIsNotificationVisible(true);
+        setTimeout(() => {
+          setIsNotificationVisible(false);
+        }, 3000);
       });
     });
     return () => {
@@ -166,6 +189,7 @@ export default function ChatRoom() {
                 handleSendMessage();
               }
             }}
+            maxLength={50}
           ></input>
           <button className={styles.messageSendBox} onClick={handleSendMessage}>
             SEND

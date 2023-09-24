@@ -8,12 +8,18 @@ import { getUserByUid } from "@/app/axios/client";
 function DmMessageItem({ dmMessage }: { dmMessage: DmMessage }) {
   const { myInfo }: any = useGlobalContext();
   const { setCurrentUser } : any = useGlobalContext();
+  const { isNotificationVisible, setIsNotificationVisible }: any = useGlobalContext();
+  const { errorMessage, setErrorMessage }: any = useGlobalContext();
 
   const handleClickedProfile = async (sender: any) => {
     await getUserByUid(sender.uid).then((res) => {
       setCurrentUser(res.data);
     }).catch((err) => {
-      console.log('dmMessageItem.tsx',err);
+      setErrorMessage(err);
+      setIsNotificationVisible(true);
+      setTimeout(() => {
+        setIsNotificationVisible(false);
+      }, 3000);
     });
     
   }
@@ -51,7 +57,6 @@ function DmMessageItem({ dmMessage }: { dmMessage: DmMessage }) {
         <div className={styles.messageContent}>{dmMessage.message}</div>
         <div className={styles.messageTime}>
           {formatTime(dmMessage.created_at)}
-          <br></br>
         </div>
       </div>
     </div>

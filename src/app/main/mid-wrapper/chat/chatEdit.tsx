@@ -22,6 +22,8 @@ export default function ChatEdit({
   const [ mode, setMode ] = useState(channel.mode);
   const [ password, setPassword ] = useState('');
   const { currentChannelId }: any = useGlobalContext();
+  const { isNotificationVisible, setIsNotificationVisible }: any = useGlobalContext();
+  const { errorMessage, setErrorMessage }: any = useGlobalContext();
 
   const handleUpdate = () => {
     if (currentChannelId === null) return ;
@@ -41,7 +43,11 @@ export default function ChatEdit({
         socket.emit('update/channelInfo');
         socket.emit('channel/chatRoomUpdate', {channelId: currentChannelId});
       }).catch((err) => {
-        console.log('update channel error: ', err);
+        setErrorMessage(err);
+        setIsNotificationVisible(true);
+        setTimeout(() => {
+          setIsNotificationVisible(false);
+        }, 3000);
       });
     onClose();
   }
@@ -57,7 +63,7 @@ export default function ChatEdit({
         onChange={(e) => setNewTitle(e.target.value)}
         className={styles.editFormInput}
       />
-      {errorMessageTitle && <p className={styles.editFormError}>{errorMessageTitle}</p>}
+      {errorMessageTitle && <p className={styles.error}>{errorMessageTitle}</p>}
       <h3 className={styles.editFormFont}>Mode</h3>
       <div className={styles.radioGroup}>
         <label className={styles.radioLabel}>
@@ -101,7 +107,7 @@ export default function ChatEdit({
             onChange={(e) => setPassword(e.target.value)}
             className={styles.editFormInput}
           />
-          {errorMessagePassword && <p className={styles.editFormError}>{errorMessagePassword}</p>}
+          {errorMessagePassword && <p className={styles.error}>{errorMessagePassword}</p>}
         </>
       )}
       <div className={styles.buttonContainer}>

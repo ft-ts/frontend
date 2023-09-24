@@ -21,6 +21,8 @@ const ChannelForm = (props: ChannelFormProps) => {
   const [isProtectedMode, setIsProtectedMode] = useState(false);
   const [errorMessageTitle, setErrorMessageTitle] = useState('');
   const [errorMessagePassword, setErrorMessagePassword] = useState('');
+  const { isNotificationVisible, setIsNotificationVisible }: any = useGlobalContext();
+  const { errorMessage, setErrorMessage }: any = useGlobalContext();
 
   const handleCreateChannel = () => {
     setCurrentDmId(null);
@@ -32,7 +34,7 @@ const ChannelForm = (props: ChannelFormProps) => {
       setErrorMessageTitle('Title must be less than 15 characters.');
       return;
     }
-    if (isProtectedMode && password.length > 15 && password.length < 4) {
+    if (isProtectedMode && (password.length > 15 || password.length < 4)) {
       setErrorMessagePassword('Password must be between 4 and 15 characters.');
       return;
     }
@@ -44,7 +46,11 @@ const ChannelForm = (props: ChannelFormProps) => {
       setActiveTab(TabOptions.CHANNEL);
       socket.emit('update/channelInfo');
     }).catch((err) => {
-      console.log('create channel',err);
+      setErrorMessage(err);
+      setIsNotificationVisible(true);
+      setTimeout(() => {
+        setIsNotificationVisible(false);
+      }, 3000);
     });
     props.onClose();
   };
@@ -64,6 +70,7 @@ const ChannelForm = (props: ChannelFormProps) => {
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         className={styles.input}
+        maxLength={15}
       />
       {errorMessageTitle && <p className={styles.error}>{errorMessageTitle}</p>}
       <h3 className={styles.h3}>Mode</h3>
@@ -105,6 +112,7 @@ const ChannelForm = (props: ChannelFormProps) => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             className={styles.input}
+            maxLength={15}
           />
         {errorMessagePassword && <p className={styles.error}>{errorMessagePassword}</p>}
         </div>

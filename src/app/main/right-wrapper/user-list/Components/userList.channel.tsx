@@ -32,6 +32,8 @@ export default function UserListChannel(
     const { setCurrentUser } : any = useGlobalContext();
     const { myInfo } : any = useGlobalContext();
     const { currentChannel } : any = useGlobalContext();
+    const { setIsNotificationVisible }: any = useGlobalContext();
+    const { setErrorMessage }: any = useGlobalContext();
 
     const customStyles = {
       content: {
@@ -59,9 +61,23 @@ export default function UserListChannel(
       const targetUserUid : number = item.user.uid;
       const channelId : number = currentChannel.id;
         postGrantAdmin(channelId, targetUserUid).then((res) => {
-          socket.emit('channel/innerUpdate', {channelId: channelId});
+          if (res.data && res.data.success) {
+            socket.emit('channel/innerUpdate', {channelId: channelId});
+            socket.emit('channel/sendMessage', {channelId: channelId, content: `${res.data.message}`, isNotice: true})
+          } else {
+            setErrorMessage(res.data.message);
+            setIsNotificationVisible(true);
+            setTimeout(() => {
+              setIsNotificationVisible(false);
+            }, 3000);
+          }
         }
         ).catch((err) => {
+          setErrorMessage(err);
+          setIsNotificationVisible(true);
+          setTimeout(() => {
+            setIsNotificationVisible(false);
+          }, 3000);
           console.log(err);
         });
     }
@@ -70,9 +86,22 @@ export default function UserListChannel(
       const targetUserUid : number = item.user.uid;
       const channelId : number = currentChannel.id;
         postRevokeAdmin(channelId, targetUserUid).then((res) => {
-          socket.emit('channel/innerUpdate', {channelId: channelId});
+          if (res.data && res.data.success) {
+            socket.emit('channel/innerUpdate', {channelId: channelId});
+            socket.emit('channel/sendMessage', {channelId: channelId, content: `${res.data.message}`, isNotice: true})
+          } else {
+            setErrorMessage(res.data.message);
+            setIsNotificationVisible(true);
+            setTimeout(() => {
+              setIsNotificationVisible(false);
+            }, 3000);
+          }
         }).catch((err) => {
-          console.log(err);
+          setErrorMessage(err);
+          setIsNotificationVisible(true);
+          setTimeout(() => {
+            setIsNotificationVisible(false);
+          }, 3000);
         });
     }
 
@@ -80,8 +109,21 @@ export default function UserListChannel(
       const targetUserUid : number = item.user.uid;
       const channelId : number = currentChannel.id;
         postMuteUser(channelId, targetUserUid).then((res) => {
+          if (res.data && res.data.success) {
+          socket.emit('channel/sendMessage', {channelId: channelId, content: `${res.data.message}`, isNotice: true})
+          } else {
+            setErrorMessage(res.data.message);
+            setIsNotificationVisible(true);
+            setTimeout(() => {
+              setIsNotificationVisible(false);
+            }, 3000);
+          }
         }).catch((err) => {
-          console.log(err);
+          setErrorMessage(err);
+          setIsNotificationVisible(true);
+          setTimeout(() => {
+            setIsNotificationVisible(false);
+          }, 3000);
         });
     }
     

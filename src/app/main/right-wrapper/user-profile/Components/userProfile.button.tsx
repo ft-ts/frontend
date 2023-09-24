@@ -18,19 +18,29 @@ export default function ProfileButton({ user }: { user: User }) {
   const { dmList, setDmList }: any = useGlobalContext();
   const { setCurrentChannelId} : any = useGlobalContext();
   const { currentDmId, setCurrentDmId }: any = useGlobalContext();
+  const { isNotificationVisible, setIsNotificationVisible }: any = useGlobalContext();
+  const { errorMessage, setErrorMessage }: any = useGlobalContext();
 
   const handleAddFriend = () => {
     postFriend(user.uid).then((res) => {
       socket.emit('update/friends');
     }).catch((err) => {
-      console.log(err);
+      setErrorMessage(err);
+      setIsNotificationVisible(true);
+      setTimeout(() => {
+        setIsNotificationVisible(false);
+      }, 3000);
     });
   };
   const handleBlock = () => {
-    console.log("handleBlock");
     postBlockUser(user.uid).then((res) => {
     }).catch((err) => {
-        console.log(err);
+      console.log(err);
+        // setErrorMessage(err);
+        // setIsNotificationVisible(true);
+        // setTimeout(() => {
+        //   setIsNotificationVisible(false);
+        // }, 3000);
     });
   };
 

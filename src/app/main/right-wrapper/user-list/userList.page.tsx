@@ -8,7 +8,7 @@ import UserListFriends from './Components/userList.friends';
 import MyInfo from './Components/userList.myInfo';
 import UserListSearch from './Components/userList.search';
 import { User } from '@/app/main/interface/User.interface';
-import { getUserListExceptMe, getFreiendsList, getChannelMembers } from '@/app/axios/client';
+import { getUserListExceptMe, getFreiendsList as getFriendsList, getChannelMembers } from '@/app/axios/client';
 import { useGlobalContext } from '@/app/Context/store';
 import { ChannelUser } from '../../mid-wrapper/chat/interfaces/channelUser.interface';
 import { TabOptions } from './userList.enum';
@@ -22,6 +22,8 @@ export default function UserList(){
   const { activeTab, setActiveTab }: any = useGlobalContext();
   const { myRole }: any = useGlobalContext();
   const { currentChannelId }: any = useGlobalContext();
+  const { isNotificationVisible, setIsNotificationVisible }: any = useGlobalContext();
+  const { errorMessage, setErrorMessage }: any = useGlobalContext();
 
   const setUserLists = () => {
     if (activeTab === TabOptions.ALL) {
@@ -29,14 +31,22 @@ export default function UserList(){
         const { data } = res;
         setUserList(data);
       }).catch((err) => {
-        console.log(err);
+        setErrorMessage(err);
+        setIsNotificationVisible(true);
+        setTimeout(() => {
+          setIsNotificationVisible(false);
+        }, 3000);
       });
     } else if (activeTab === TabOptions.FRIENDS) {
-      getFreiendsList().then((res) => {
+      getFriendsList().then((res) => {
         const { data } = res;
         setFriendList(data);
       }).catch((err) => {
-        console.log(err);
+        setErrorMessage(err);
+        setIsNotificationVisible(true);
+        setTimeout(() => {
+          setIsNotificationVisible(false);
+        }, 3000);
       });
     } else if (activeTab === TabOptions.CHANNEL) {
       if (currentChannelId){
@@ -44,7 +54,11 @@ export default function UserList(){
           const { data } = res;
           setChannelMembers(data);
         }).catch((err) => {
-          console.log(err);
+          setErrorMessage(err);
+          setIsNotificationVisible(true);
+          setTimeout(() => {
+            setIsNotificationVisible(false);
+          }, 3000);
         });
       }
     }
@@ -86,7 +100,11 @@ export default function UserList(){
         const { data } = res;
         setChannelMembers(data);
       }).catch((err) => {
-        console.log(err);
+        setErrorMessage(err);
+        setIsNotificationVisible(true);
+        setTimeout(() => {
+          setIsNotificationVisible(false);
+        }, 3000);
       });
     }
   }, [currentChannelId]);

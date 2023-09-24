@@ -21,6 +21,8 @@ export default function UserListFriends(
   {
     const { setCurrentUser }: any = useGlobalContext();
     const { currentChannelId }: any = useGlobalContext();
+    const { isNotificationVisible, setIsNotificationVisible }: any = useGlobalContext();
+    const { errorMessage, setErrorMessage }: any = useGlobalContext();
 
     const handleClick = () => {
       setCurrentUser(user);
@@ -30,25 +32,45 @@ export default function UserListFriends(
       deleteFriend(user.uid).then((res) => {
         socket.emit('update/friends');
       }).catch((err) => {
-        console.log(err);
+        setErrorMessage(err);
+        setIsNotificationVisible(true);
+        setTimeout(() => {
+          setIsNotificationVisible(false);
+        }, 3000);
       });
     };
 
     const handleInviteChat = () => {
       if (!currentChannelId) {
-        alert('You are not in any channel');
+        setErrorMessage('You are not in any channel');
+        setIsNotificationVisible(true);
+        setTimeout(() => {
+          setIsNotificationVisible(false);
+        }, 3000);
         return;
       } else{
         postInviteUser(currentChannelId, user.uid).then((res) => {
+          if (res.data && res.data.success) {
           socket.emit('update/channelInfo');
           socket.emit('channel/innerUpdate');
           socket.emit('channel/sendMessage', {
             channelId: currentChannelId,
-            content: `${res.data} has been invited to this channel.`,
+            content: `${res.data.message}`,
             isNotice: true,
           });
-        }).catch((err) => {
-          console.log(err);
+        } else { // error in server
+          setErrorMessage(res.data.message);
+          setIsNotificationVisible(true);
+          setTimeout(() => {
+            setIsNotificationVisible(false);
+          }, 3000);
+        }
+        }).catch((err) => { // error in network or sth
+          setErrorMessage(err);
+          setIsNotificationVisible(true);
+          setTimeout(() => {
+            setIsNotificationVisible(false);
+          }, 3000);
         });
       }
     };
