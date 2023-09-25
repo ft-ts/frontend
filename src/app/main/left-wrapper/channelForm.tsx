@@ -15,6 +15,11 @@ const ChannelForm = (props: ChannelFormProps) => {
   const { setCurrentDmId }: any = useGlobalContext();
   const { setMyRole }: any = useGlobalContext();
   const { setActiveTab }: any = useGlobalContext();
+  const { myInfo }: any = useGlobalContext();
+  const { setCurrentUser }: any = useGlobalContext();
+  const { setIsNotificationVisible }: any = useGlobalContext();
+  const { setErrorMessage }: any = useGlobalContext();
+
   const [title, setTitle] = useState('');
   const [mode, setMode] = useState(ChannelMode.PUBLIC);
   const [password, setPassword] = useState('');
@@ -32,7 +37,7 @@ const ChannelForm = (props: ChannelFormProps) => {
       setErrorMessageTitle('Title must be less than 15 characters.');
       return;
     }
-    if (isProtectedMode && password.length > 15 && password.length < 4) {
+    if (isProtectedMode && (password.length > 15 || password.length < 4)) {
       setErrorMessagePassword('Password must be between 4 and 15 characters.');
       return;
     }
@@ -40,11 +45,19 @@ const ChannelForm = (props: ChannelFormProps) => {
       const {data} = res;
       setCurrentChannel(data);
       setCurrentChannelId(data.id);
+      setCurrentDmId(null);
+      setCurrentUser(myInfo);
       setMyRole(ChannelRole.OWNER);
-      setActiveTab(TabOptions.CHANNEL);
+      // setActiveTab(TabOptions.CHANNEL);
+      setActiveTab(TabOptions.ALL);
       socket.emit('update/channelInfo');
     }).catch((err) => {
-      console.log('create channel',err);
+      setErrorMessage('Channel creation failed.');
+      setIsNotificationVisible(true);
+      setTimeout(() => {
+        setIsNotificationVisible(false);
+        setErrorMessage('');
+      }, 3000);
     });
     props.onClose();
   };
@@ -64,6 +77,7 @@ const ChannelForm = (props: ChannelFormProps) => {
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         className={styles.input}
+        maxLength={15}
       />
       {errorMessageTitle && <p className={styles.error}>{errorMessageTitle}</p>}
       <h3 className={styles.h3}>Mode</h3>
@@ -105,6 +119,7 @@ const ChannelForm = (props: ChannelFormProps) => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             className={styles.input}
+            maxLength={15}
           />
         {errorMessagePassword && <p className={styles.error}>{errorMessagePassword}</p>}
         </div>

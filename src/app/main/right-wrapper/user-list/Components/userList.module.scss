@@ -6,23 +6,11 @@
 
 .userListBox{
   display: flex;
+  width: 100%;
   align-items: center;
   box-sizing: border-box;
   position: relative;
   height: 80px;
-  border: 1px solid #ffffff;
-}
-
-.allWidth{
-  width: 100%;
-}
-
-.friendWidth{
-  width: 80%;
-}
-
-.channelWidth{
-  width: 70%;
 }
 
 .userListContainer:hover {
@@ -52,7 +40,7 @@
   justify-content: center;
   box-sizing: border-box;
   position: relative;
-  width: 300px;
+  width : calc(100% - 140px);
   height: 80px;
 }
 
@@ -98,79 +86,4 @@
 .buttonBox:hover{
   background-color: #b8b7b7;
   cursor: pointer;
-}
-
-
-
-.banModalBox{
-  display: flex;
-  position: relative;
-  margin-left: 10px;
-}
-
-.radioGroup {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  color: #000000;
-
-  label {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-  }
-
-  input[type="radio"] {
-    margin-right: 10px;
-  }
-}
-
-.radioLabel {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-}
-
-.radioLabel input[type="radio"] {
-  appearance: none;
-  width: 20px;
-  height: 20px;
-  border: 2px solid #FF25A8;
-  border-radius: 50%;
-  position: relative;
-  cursor: pointer;
-  transition: border-color 0.3s ease-in-out;
-}
-
-.radioLabel input[type="radio"]:checked {
-  border-color: #FF25A8;
-  background-color: #52a534;
-}
-
-.banModalFont{
-  color: #ffffff;
-  font-size: 20px;
-}
-
-.banButtonContainer{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-sizing: border-box;
-  position: relative;
-  margin-top : 25px;
-}
-
-.banButtonBox{
-  display: flex;
-  box-sizing: border-box;
-  width: 70px;
-  height: 30px;
-  left : 25%;
-  top : 20%;
-  border: 2px solid #ffffff;
-  background: #FF6161;
-  border-radius: 10%;
-  align-items: center;
-  justify-content: center;
 }

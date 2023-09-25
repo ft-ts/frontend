@@ -207,7 +207,8 @@ $sizeSenderName: 30px;
 }
 
 .messageContent {
-    justify-content: left;
+    display: inline-block;
+    // justify-content: left;
     background-color: #d2f1ff;
     border-radius: 20px;
     color: #171717;

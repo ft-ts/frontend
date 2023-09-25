@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef   } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styles from './chat-wrapper.module.scss';
 import MessageItem from './messageItem';
 import ChatMessage from './interfaces/chatMessage.interface';
@@ -9,7 +9,6 @@ import { TabOptions, useGlobalContext } from '@/app/Context/store';
 import DmMessage from './interfaces/dmMessage.interface';
 import DmMessageItem from './dmMessageItem';
 import { getDirectMessages, getChannelMessages, postDmRead, getDmLists } from '@/app/axios/client';
-import { Channel } from 'diagnostics_channel';
 import ChannelProps from '../../left-wrapper/interfaces/channelProps';
 
 export default function ChatRoom() {
@@ -23,6 +22,8 @@ export default function ChatRoom() {
   const { currentDmId }: any = useGlobalContext();
   const { setDmList }: any = useGlobalContext();
   const { setActiveTab }: any = useGlobalContext();
+  const { setIsNotificationVisible }: any = useGlobalContext();
+  const { setErrorMessage }: any = useGlobalContext();
   
   const scrollToBottom = (length : number) => {
     setTimeout(function() {
@@ -40,12 +41,17 @@ export default function ChatRoom() {
 
   useEffect(() => {
     socket.on('channel/out', (payload: { channelId: number, reason: string }) => {
-      alert(payload.reason);
       if (currentChannelId === payload.channelId) {
         setCurrentChannelId(null);
         setCurrentChannel(null);
         setActiveTab(TabOptions.ALL);
       }
+      setErrorMessage(payload.reason);
+      setIsNotificationVisible(true);
+      setTimeout(() => {
+        setIsNotificationVisible(false);
+        setErrorMessage('');
+      }, 2000);
     });
     socket.on('channel/chatRoomUpdate', (channel: ChannelProps) => {
       if (currentChannelId === channel.id) {
@@ -67,7 +73,12 @@ export default function ChatRoom() {
         const { data } = res;
         setChatMessages(data);
       }).catch((err) => {
-        console.log('getCM', err);
+        setErrorMessage('Failed to get channel messages.');
+        setIsNotificationVisible(true);
+        setTimeout(() => {
+          setIsNotificationVisible(false);
+          setErrorMessage('');
+        }, 2000);
       });
     }
   }, [currentChannelId]);
@@ -80,7 +91,12 @@ export default function ChatRoom() {
         const { data } = res;
         setDmMessages(data);
       }).catch((err) => {
-        console.log('getDM', err)
+        setErrorMessage('Failed to get dm messages.');
+        setIsNotificationVisible(true);
+        setTimeout(() => {
+          setIsNotificationVisible(false);
+          setErrorMessage('');
+        }, 2000);
       });
     }
   }, [currentDmId]);
@@ -91,7 +107,6 @@ export default function ChatRoom() {
         setChatMessages((prevMessages) => [...prevMessages, message]);
       }
     });
-    
     return () => {
       socket.off('channel/sendMessage');
     };
@@ -101,15 +116,24 @@ export default function ChatRoom() {
     socket.on('dm/msg', async (message: DmMessage) => {
       if (currentDmId === message.receiver.uid || currentDmId === message.sender.uid) {
         setDmMessages((prevMessages) => [...prevMessages, message]);
-        document.body.scrollTop = document.body.scrollHeight;
         await postDmRead(currentDmId).catch((err) => {
-          console.log('postDmRead error : ', err);
+          setErrorMessage('Failed to read dm.');
+          setIsNotificationVisible(true);
+          setTimeout(() => {
+            setIsNotificationVisible(false);
+            setErrorMessage('');
+          }, 2000);
         });
       }
       getDmLists().then((res) => {
         setDmList(res.data);
       }).catch((err) => {
-        console.log('getDmLists error : ', err);
+        setErrorMessage('Failed to get dm lists.');
+        setIsNotificationVisible(true);
+        setTimeout(() => {
+          setIsNotificationVisible(false);
+          setErrorMessage('');
+        }, 2000);
       });
     });
     return () => {
@@ -166,6 +190,7 @@ export default function ChatRoom() {
                 handleSendMessage();
               }
             }}
+            maxLength={50}
           ></input>
           <button className={styles.messageSendBox} onClick={handleSendMessage}>
             SEND
