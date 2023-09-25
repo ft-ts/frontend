@@ -9,8 +9,8 @@ import { useRightWrapperContext } from '../../Context/rightWrapper.store';
 
 export default function EditMyProfile() {
   const { editModalOn, setEditModalOn }: any = useRightWrapperContext();
-  const { currentChannelId } : any = useGlobalContext();
-  const { activeTab } : any = useGlobalContext();
+  const { currentChannelId }: any = useGlobalContext();
+  const { activeTab }: any = useGlobalContext();
 
   const customStyles = {
     content: {
@@ -43,7 +43,7 @@ export default function EditMyProfile() {
         onRequestClose={() => setEditModalOn(false)}
         shouldCloseOnOverlayClick={false}
       >
-        <EditForm onClose={() => setEditModalOn(false)}/>
+        <EditForm onClose={() => setEditModalOn(false)} />
       </Modal>
     </>
   );

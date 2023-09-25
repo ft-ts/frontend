@@ -8,15 +8,13 @@ import { useGlobalContext } from '@/app/Context/store';
 import { useEffect } from 'react';
 import { socket } from '@/app/main/components/CheckAuth';
 import { getUserByUid } from '@/app/axios/client';
-import { UserStatus } from '../../enum/UserStatus.enum';
-import { User } from '../../interface/User.interface';
 
 export default function UserProfile() {
   const { currentUser, setCurrentUser }: any = useGlobalContext();
   const { myInfo }: any = useGlobalContext();
   const { setIsNotificationVisible }: any = useGlobalContext();
   const { setErrorMessage }: any = useGlobalContext();
-
+  
   useEffect(() => {
     if (myInfo.uid === currentUser.uid)
       setCurrentUser(myInfo);

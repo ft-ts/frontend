@@ -154,21 +154,24 @@ function Channel() {
         selectedTab={selectedTab}
       />
       <div className={styles.channelContainer}>
-        {channels?.map && channels.map((channel) => (
-          <ChannelItem
-            key={channel.id}
-            title={channel.title}
-            mode={channel.mode}
-            id={channel.id}
-            onClick={() => handleChannelClick(channel.id)}
-          />
-        ))}
-      </div>
+        {
+          channels?.map && channels.map((channel) => (
+            <ChannelItem
+              key={channel.id}
+              title={channel.title}
+              mode={channel.mode}
+              id={channel.id}
+              onClick={() => handleChannelClick(channel.id)}
+            />
+          ))
+        }
+      </div >
       {isNotificationVisible && (
         <div className={styles.notification}>
           <p>{errorMessage}</p>
         </div>
-      )}
+      )
+      }
       <PasswordModal
         isOpen={showPasswordModal}
         onRequestClose={() => {
@@ -179,7 +182,7 @@ function Channel() {
         setIsChannelNotificationVisible={setIsNotificationVisible}
         tempChannelId={tempChannelId}
       />
-    </div>
+    </div >
   );
 }
 
