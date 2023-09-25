@@ -1,12 +1,13 @@
 'use client';
-
+// Todo edit this file
 import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Modal from 'react-modal';
 import styles from './channelForm.module.scss';
-import { useGlobalContext } from '@/app/Context/store';
+import { useGlobalContext, TabOptions } from '@/app/Context/store';
 import { socket } from '../components/CheckAuth';
 import ChannelProps from './interfaces/channelProps';
+import { joinChannel } from '@/app/axios/client';
 
 interface HookFormTypes {
   password: string,
@@ -29,6 +30,14 @@ export default function PasswordModal({
 }){
   const [password, setPassword] = useState<string>('');
   const { register, handleSubmit } = useForm<HookFormTypes>();
+  const { setCurrentChannel }: any = useGlobalContext();
+  const { setCurrentChannelId }: any = useGlobalContext();
+  const { setActiveTab }: any = useGlobalContext();
+  const { setMyRole }: any = useGlobalContext();
+  const { myInfo }: any = useGlobalContext();
+  const { setErrorMessage }: any = useGlobalContext();
+  const { setIsNotificationVisible }: any = useGlobalContext();
+  const { setCurrentUser }: any = useGlobalContext();
 
   const customStyles = {
     content: {
@@ -55,13 +64,36 @@ export default function PasswordModal({
       return;
     }
     const pwd = password.password;
-    
-    socket.emit('channel/join', { channelId: tempChannelId, password: pwd });
+    joinChannel(tempChannelId, pwd).then((res) => {
+      const { data } = res;
+      console.log(data.channel, data.role, data.isMember );
+      setCurrentChannel(data.channel);
+      setCurrentChannelId(data.channel.id);
+      setActiveTab(TabOptions.CHANNEL);
+      setMyRole(data.role);
+      if (!data.isMember){
+        socket.emit('channel/sendMessage', {
+          channelId: data.channel.id,
+          content: `${myInfo.name} has joined the channel.`,
+          isNotice: true,
+        });
+        socket.emit('channel/innerUpdate', { channelId: data.channel.id });
+      }
+    }).catch((err) => {
+      setActiveTab(TabOptions.ALL);
+      setCurrentChannel(null);
+      setCurrentChannelId(null);
+      setErrorMessage(err.response.data.message);
+      setIsNotificationVisible(true);
+      setTimeout(() => {
+        setIsNotificationVisible(false);
+        setErrorMessage("");
+      }, 3000);
+    });
     onRequestClose();
   }
 
   const onInvalid = (error : any) => {
-    console.log('my',error);
   }
 
   return (
@@ -109,6 +141,7 @@ const ChannelEnterForm = ({
               e.preventDefault(); // Prevent default behavior (form submission)
               handleSubmit();
             }}}
+            maxLength={15}
         />
         <button className={styles.submitButton} onClick={handleSubmit}>
           Submit

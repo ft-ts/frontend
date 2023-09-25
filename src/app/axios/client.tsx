@@ -48,7 +48,7 @@ export async function getUserListExceptMe(): Promise<any> {
 }
 
 /*  userList.page.tsx */
-export async function getFreiendsList(): Promise<any> {
+export async function getFriendsList(): Promise<any> {
   return apiClient.get("/users/friends");
 }
 
@@ -186,4 +186,13 @@ export async function deleteFriend(uid: number): Promise<any> {
 
 export async function postBlockUser(targetUid: number): Promise<any> {
   return await apiClient.post(`/users/block`, {data: {targetUid: targetUid}});
+}
+
+export async function deleteBlockUser(targetUid: number): Promise<any> {
+  return await apiClient.delete(`/users/block`, { data: { targetUid: targetUid } });
+}
+
+export async function joinChannel(channelId: number, password: string): Promise<any> {
+  const payload = { channelId: channelId, password: password};
+  return await apiClient.post(`/channels/join`, payload);
 }

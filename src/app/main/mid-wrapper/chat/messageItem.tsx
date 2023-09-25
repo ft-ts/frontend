@@ -24,41 +24,22 @@ function MessageItem({ chatMessage }: { chatMessage: ChatMessage }) {
 const UserMessage = ({ chatMessage }: { chatMessage: ChatMessage}) => {
   const { myInfo }: any = useGlobalContext();
   const { setCurrentUser }: any = useGlobalContext();
-  const [sender, setSender] = useState<UserInterface | null>(null);
 
   const handleClickedProfile = () => {
-    setCurrentUser(sender);
+    setCurrentUser(chatMessage.sender);
   }
-
-  /* todo */
-  useEffect(() => {
-    async function fetchSender() {
-        if (chatMessage.sender_uid !== null){
-          const senderInfo = await getUserByUid(chatMessage.sender_uid);
-          setSender(senderInfo.data);
-        } else{
-          setSender(null);
-        }
-    }
-    fetchSender();
-  }
-  , []);
-
-  useEffect(() => {
-  }
-  , [sender]);
 
   return (
     <div
       className={`${styles.message} ${
-        chatMessage.sender_uid === myInfo.uid
+        chatMessage.sender?.uid === myInfo.uid
           ? styles.myMessage : styles.otherMessage
       }`}
     >
-      {sender && (
+      {chatMessage.sender && (
         <button
           className={
-            chatMessage.sender_uid === myInfo.uid
+            chatMessage.sender.uid === myInfo.uid
               ? styles.myMessageProfileButton
               : styles.otherMessageProfileButton
           }
@@ -66,7 +47,7 @@ const UserMessage = ({ chatMessage }: { chatMessage: ChatMessage}) => {
         >
           <img
             className={styles.chatProfilePicture}
-            src={sender.avatar}
+            src={chatMessage.sender.avatar}
             alt="avatar"
             width={70}
             height={70}
@@ -74,7 +55,7 @@ const UserMessage = ({ chatMessage }: { chatMessage: ChatMessage}) => {
         </button>
       )}
       <div className={styles.commonContents}>
-        {sender && <div className={styles.chatSenderName}>{sender.name}</div>}
+        {chatMessage.sender && <div className={styles.chatSenderName}>{chatMessage.sender.name}</div>}
         <div className={styles.messageContent}>{chatMessage.content}</div>
         <div className={styles.messageTime}>
           {formatTime(chatMessage.timeStamp)}

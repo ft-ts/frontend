@@ -2,7 +2,6 @@
 
 import React from 'react';
 import styles from './channelItem.module.scss';
-import { UserStatus } from '../../main/enum/UserStatus.enum';
 import ChannelItemProps from './interfaces/channelItemProps';
 import { DmListProps } from "./interfaces/dmItemProps";
 
@@ -10,7 +9,6 @@ const ChannelItem = (props: ChannelItemProps) => {
   return (
     <div className={styles.channelItemContainer} onClick={() => props.onClick(props.id)}>
       <h3 className={styles.title}>{props.title}</h3>
-      <p className={styles.members}>{props.memberCnt} / 5</p>
       <p className={styles.mode}>{props.mode}</p>
     </div>
   );

@@ -7,19 +7,22 @@ import UserListChannel from './Components/userList.channel'
 import UserListFriends from './Components/userList.friends';
 import MyInfo from './Components/userList.myInfo';
 import { User } from '@/app/main/interface/User.interface';
-import { getUserListExceptMe, getFreiendsList, getChannelMembers } from '@/app/axios/client';
+import { getUserListExceptMe, getFriendsList, getChannelMembers } from '@/app/axios/client';
 import { useGlobalContext } from '@/app/Context/store';
 import { ChannelUser } from '../../mid-wrapper/chat/interfaces/channelUser.interface';
 import { TabOptions } from './userList.enum';
 import { socket } from '@/app/main/components/CheckAuth';
 import { useRightWrapperContext } from '../Context/rightWrapper.store';
 
-export default function UserList(){
+export default function UserList() {
+
+  const { friendList, setFriendList }: any = useGlobalContext();
   const { activeTab, setActiveTab }: any = useGlobalContext();
-  const { myRole, currentChannelId }: any = useGlobalContext();
+  const { setIsNotificationVisible }: any = useGlobalContext();
+  const { setErrorMessage }: any = useGlobalContext();
+  const { currentChannelId }: any = useGlobalContext();
 
   const { userList, setUserList } : any = useRightWrapperContext();
-  const { friendList, setFriendList } : any = useRightWrapperContext();
   const { channelMembers, setChannelMembers } : any = useRightWrapperContext();
 
 
@@ -29,22 +32,37 @@ export default function UserList(){
         const { data } = res;
         setUserList(data);
       }).catch((err) => {
-        console.log(err);
+        setErrorMessage('Failed to get user list.');
+        setIsNotificationVisible(true);
+        setTimeout(() => {
+          setIsNotificationVisible(false);
+          setErrorMessage('');
+        }, 2000);
       });
     } else if (activeTab === TabOptions.FRIENDS) {
-      getFreiendsList().then((res) => {
+      getFriendsList().then((res) => {
         const { data } = res;
         setFriendList(data);
       }).catch((err) => {
-        console.log(err);
+        setErrorMessage('Failed to get friends list.');
+        setIsNotificationVisible(true);
+        setTimeout(() => {
+          setIsNotificationVisible(false);
+          setErrorMessage('');
+        }, 2000);
       });
     } else if (activeTab === TabOptions.CHANNEL) {
-      if (currentChannelId){
+      if (currentChannelId) {
         getChannelMembers(currentChannelId).then((res) => {
           const { data } = res;
           setChannelMembers(data);
         }).catch((err) => {
-          console.log(err);
+          setErrorMessage('Failed to get channel members.');
+          setIsNotificationVisible(true);
+          setTimeout(() => {
+            setIsNotificationVisible(false);
+            setErrorMessage('');
+          }, 2000);
         });
       }
     }
@@ -56,19 +74,21 @@ export default function UserList(){
 
   useEffect(() => {
     socket.on('update/friends', () => {
-      if (activeTab !== TabOptions.FRIENDS){
+      if (activeTab !== TabOptions.FRIENDS) {
         setActiveTab(TabOptions.FRIENDS);
-        return ;
+        return;
       }
       setUserLists();
     });
     socket.on('update/userConnection', () => {
-      if (activeTab === TabOptions.ALL){
+      if (activeTab === TabOptions.ALL) {
         setUserLists();
       }
     });
-    socket.on('channel/innerUpdate', () => {
-      if (activeTab === TabOptions.CHANNEL){
+    socket.on('channel/innerUpdate', (channelId: number) => {
+      setActiveTab(TabOptions.CHANNEL);
+      if (currentChannelId === channelId) {
+        console.log('test')
         setUserLists();
       }
     });
@@ -81,12 +101,17 @@ export default function UserList(){
   }, [activeTab]);
 
   useEffect(() => {
-    if (currentChannelId){
+    if (currentChannelId) {
       getChannelMembers(currentChannelId).then((res) => {
         const { data } = res;
         setChannelMembers(data);
       }).catch((err) => {
-        console.log(err);
+        setErrorMessage('Failed to get channel members.');
+        setIsNotificationVisible(true);
+        setTimeout(() => {
+          setIsNotificationVisible(false);
+          setErrorMessage('');
+        }, 2000);
       });
     }
   }, [currentChannelId]);
@@ -117,24 +142,23 @@ export default function UserList(){
   const renderFriendsList = () => {
     return (
       <>
-        {friendList?.map && friendList.map((item: User, index: number) => (
+        {friendList?.map && friendList.map((item: User) => (
           <UserListFriends
-            key={index}
+            key={item.uid}
             user={item}
           />
-          ))}
+        ))}
       </>
     );
   };
-  
+
   const renderChannelList = () => {
     return (
       <>
         {channelMembers?.map && channelMembers.map((member: ChannelUser) => (
-          <UserListChannel 
+          <UserListChannel
             key={member.id}
             item={member}
-            myRole={myRole}
           />
         ))}
       </>
