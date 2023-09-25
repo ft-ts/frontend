@@ -1,8 +1,10 @@
+import UserInterface from "@/app/axios/interfaces/user.interface";
+
 interface ChatMessage {
   id: number;
   channel_id: number;
   isNotice: boolean;
-  sender_uid: number | null;
+  sender : UserInterface;
   content: string;
   timeStamp: Date;
 } 

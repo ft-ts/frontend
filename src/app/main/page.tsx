@@ -12,11 +12,25 @@ import { getMyInfo }  from '@/app/axios/client';
 function Main() {
   const { setMyInfo } : any = useGlobalContext();
   const { setCurrentUser } : any = useGlobalContext();
+  const { setBlockList } : any = useGlobalContext();
+  const { setIsNotificationVisible }: any = useGlobalContext();
+  const { setErrorMessage }: any = useGlobalContext();
 
   useEffect(() => {
     getMyInfo().then((res) => {
-      setMyInfo(res.data);
-      setCurrentUser(res.data);
+      const { data } = res;
+      data.blocked?.forEach((blockedUser: any) => {
+        setBlockList((prev: number[]) => [...prev, blockedUser.blocked.uid]);
+      });
+      setMyInfo(data);
+      setCurrentUser(data);
+    }).catch((err) => {
+      setErrorMessage('Failed to get my info');
+      setIsNotificationVisible(true);
+      setTimeout(() => {
+        setIsNotificationVisible(false);
+        setErrorMessage('');
+      }, 2000);
     });
   }, []);
 
@@ -31,5 +45,7 @@ function Main() {
     </>
   );
 }
+
+
 
 export default Main;

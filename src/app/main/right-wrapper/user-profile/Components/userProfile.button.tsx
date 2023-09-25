@@ -5,34 +5,101 @@ import styles from "./button.module.scss";
 import { User } from "@/app/main/interface/User.interface";
 import { socket } from "@/app/main/components/CheckAuth";
 import { postFriend, postBlockUser } from "@/app/axios/client";
-import { useGlobalContext } from "@/app/Context/store";
+import { useGlobalContext, TabOptions } from "@/app/Context/store";
 import { getUserByUid } from "@/app/axios/client";
 import { DmListProps } from "@/app/main/left-wrapper/interfaces/dmItemProps";
+import { ChannelRole } from "@/app/main/mid-wrapper/chat/enum/channelRole.enum";
+import { 
+  postGrantAdmin,
+  postRevokeAdmin,
+  postMuteUser,
+  deleteFriend,
+  postInviteUser,
+  deleteBlockUser,
+  postBanUser,
+  postKickUser
+} from "@/app/axios/client";
 
-const block = "/asset/muteIcon.png";
+const block = "/asset/block.png";
+const unblock = "/asset/unblock.png";
 const addFriend = "/asset/plus.png";
+const minus = "/asset/minus.png";
 const inviteMatch = "/asset/pongIcon.png";
 const dm = "/asset/msgIcon.png";
+const invite = "/asset/inviteIcon.png";
+
+const mute = "/asset/muteIcon.png";
+const ban = "/asset/kick.png";
+const kick = "/asset/banIcon.png";
+const revoke = "/asset/revoke.png"
+const grant = "/asset/admin.png";
 
 export default function ProfileButton({ user }: { user: User }) {
   const { dmList, setDmList }: any = useGlobalContext();
-  const { setCurrentChannelId} : any = useGlobalContext();
+  const { currentChannelId, setCurrentChannelId} : any = useGlobalContext();
   const { currentDmId, setCurrentDmId }: any = useGlobalContext();
+  const { myRole }: any = useGlobalContext();
+  const { activeTab }: any = useGlobalContext();
+  const { currentUserRole, setCurrentUserRole }: any = useGlobalContext();
+  const { currentChannel }: any = useGlobalContext();
+  const { friendList }: any = useGlobalContext();
+  const { blockList, setBlockList }: any = useGlobalContext();
+  const { setIsNotificationVisible }: any = useGlobalContext();
+  const { setErrorMessage }: any = useGlobalContext();
+  const { setCurrentUser }: any = useGlobalContext();
+  const { myInfo }: any = useGlobalContext();
+
+  const checkFriend = (uid: number) => {
+    return friendList.some((friend: User) => friend.uid === uid);
+  }
 
   const handleAddFriend = () => {
     postFriend(user.uid).then((res) => {
       socket.emit('update/friends');
     }).catch((err) => {
-      console.log(err);
+      setErrorMessage('Failed to add friend.');
+      setIsNotificationVisible(true);
+      setTimeout(() => {
+        setIsNotificationVisible(false);
+        setErrorMessage('');
+      }, 2000);
     });
   };
+
+  const checkBlock = (uid: number) => {
+    if (blockList.some((blockUser: number) => blockUser === uid)) {
+      return true;
+    }
+    return false;
+  }
+
   const handleBlock = () => {
-    console.log("handleBlock");
     postBlockUser(user.uid).then((res) => {
+      const { data } = res;
+      setBlockList((prevBlockList: number[]) => [...prevBlockList, data]);
     }).catch((err) => {
-        console.log(err);
+      setErrorMessage('Failed to block user.');
+      setIsNotificationVisible(true);
+      setTimeout(() => {
+        setIsNotificationVisible(false);
+        setErrorMessage('');
+      }, 2000);
     });
   };
+
+  const handleUnblock = () => {
+    deleteBlockUser(user.uid).then((res) => {
+      const { data } = res;
+      setBlockList((prevBlockList: number[]) => prevBlockList.filter((blockUser: number) => blockUser !== data));
+    }).catch((err) => {
+      setErrorMessage('Failed to unblock user.');
+      setIsNotificationVisible(true);
+      setTimeout(() => {
+        setIsNotificationVisible(false);
+        setErrorMessage('');
+      }, 2000);
+    });
+  }
 
   const handleInviteMatch = () => {
     socket.emit("pong/match/invite", { uid: user.uid });
@@ -55,14 +122,139 @@ export default function ProfileButton({ user }: { user: User }) {
       unread_count: 0,
     };
     setDmList((prevDmItemProps: DmListProps[] | null) => [...(prevDmItemProps || []), dmItemProps]);
+  };
+
+  const handleDeleteFriend = () => {
+    deleteFriend(user.uid).then((res) => {
+      socket.emit('update/friends');
+    }).catch((err) => {
+      setErrorMessage('Failed to delete friend.');
+      setIsNotificationVisible(true);
+      setTimeout(() => {
+        setIsNotificationVisible(false);
+        setErrorMessage('');
+      }, 2000);
+    });
+  };
+
+  const handleInviteChat = () => {
+    if (!currentChannelId) {
+      setErrorMessage('You are not in any channel.');
+      setIsNotificationVisible(true);
+      setTimeout(() => {
+        setIsNotificationVisible(false);
+        setErrorMessage('');
+      }, 2000);
+      return;
+    } else{
+      postInviteUser(currentChannelId, user.uid).then((res) => {
+        socket.emit('channel/innerUpdate');
+        socket.emit('channel/sendMessage', {
+          channelId: currentChannelId,
+          content: `${res.data} has been invited to this channel.`,
+          isNotice: true,
+        });
+      }).catch((err) => {
+        setErrorMessage(err.response.data.message);
+        setIsNotificationVisible(true);
+        setTimeout(() => {
+          setIsNotificationVisible(false);
+          setErrorMessage('');
+        }, 2000);
+      });
+    }
+  };
+
+  const handleSetAdmin = () => {
+    const targetUserUid : number = user.uid;
+    const channelId : number = currentChannel.id;
+      postGrantAdmin(channelId, targetUserUid).then((res) => {
+        setCurrentUserRole(ChannelRole.ADMIN)
+        socket.emit('channel/innerUpdate', {channelId: channelId});
+      }
+      ).catch((err) => {
+        setErrorMessage('Failed to set admin.');
+        setIsNotificationVisible(true);
+        setTimeout(() => {
+          setIsNotificationVisible(false);
+          setErrorMessage('');
+        }, 2000);
+      });
   }
-    
+
+  const handleRevokeAdmin = () => {
+    const targetUserUid : number = user.uid;
+    const channelId : number = currentChannel.id;
+      postRevokeAdmin(channelId, targetUserUid).then((res) => {
+        setCurrentUserRole(ChannelRole.NORMAL)
+        socket.emit('channel/innerUpdate', {channelId: channelId});
+      }).catch((err) => {
+        setErrorMessage('Failed to revoke admin.');
+        setIsNotificationVisible(true);
+        setTimeout(() => {
+          setIsNotificationVisible(false);
+          setErrorMessage('');
+        }, 2000);
+      });
+  }
+
+  const handleMute = () => {
+    const targetUserUid : number = user.uid;
+    const channelId : number = currentChannel.id;
+      postMuteUser(channelId, targetUserUid).then((res) => {
+      }).catch((err) => {
+        setErrorMessage('Failed to mute user.');
+        setIsNotificationVisible(true);
+        setTimeout(() => {
+          setIsNotificationVisible(false);
+          setErrorMessage('');
+        }, 2000);
+      });
+  }
+
+  const handleBan = () => {
+    if (!currentChannel) return ;
+    const targetUserUid : number = user.uid;
+    const channelID : number = currentChannel.id;
+    postBanUser(channelID, targetUserUid).then((res) => {
+      setCurrentUser(myInfo);
+      socket.emit('channel/innerUpdate', {channelId: channelID});
+      socket.emit('channel/sendMessage', {channelId: channelID, content: `${res.data} has been banned.`, isNotice: true})
+    }).catch((err) => {
+      setErrorMessage('Failed to ban user.');
+      setIsNotificationVisible(true);
+      setTimeout(() => {
+        setIsNotificationVisible(false);
+        setErrorMessage('');
+      }, 2000);
+    });
+  }
+
+  const handleKick = () => {
+    if (!currentChannel) return ;
+    const targetUserUid : number = user.uid;
+    const channelID : number = currentChannel.id;
+    postKickUser(channelID, targetUserUid).then((res) => {
+      setCurrentUser(myInfo);
+      socket.emit('channel/innerUpdate', {channelId: channelID});
+      socket.emit('channel/sendMessage', {channelId: channelID, content: `${res.data} has been kicked.`, isNotice: true})
+    }).catch((err) => {
+      setErrorMessage('Failed to kick user.');
+      setIsNotificationVisible(true);
+      setTimeout(() => {
+        setIsNotificationVisible(false);
+        setErrorMessage('');
+      }, 2000);
+    });
+  }
+
   return (
+    <>
     <div className={styles.buttonContainer}>
-      <button className={styles.buttonBox} onClick={handleAddFriend}>
+      <button className={styles.buttonBox} onClick={checkFriend(user.uid) ? handleDeleteFriend : handleAddFriend}>
         <img
           className={styles.imageBox}
-          src={addFriend}
+          src={checkFriend(user.uid) ? minus : addFriend}
           alt="addFriend"
           width={60}
           height={60}
@@ -86,16 +278,80 @@ export default function ProfileButton({ user }: { user: User }) {
           height={60}
         />
       </button>
-      <button className={styles.buttonBox} onClick={handleBlock}>
+      <button className={styles.buttonBox} onClick={checkBlock(user.uid) ? handleUnblock : handleBlock}>
         <img
           className={styles.imageBox}
-          src={block}
+          src={checkBlock(user.uid)? unblock :  block}
           alt="block"
           width={60}
           height={60}
         />
       </button>
+      <button className={styles.buttonBox} onClick={handleInviteChat}>
+        <img
+          className={styles.imageBox}
+          src={invite}
+          alt="invite"
+          width={60}
+          height={60}
+        />
+      </button>
     </div>
+    {(activeTab === TabOptions.CHANNEL && !checkOwner(currentUserRole) && checkAdmin(myRole)) && <div className={styles.buttonContainer}>
+      {checkOwner(myRole) &&
+        <button className={styles.buttonBox}>
+          <img
+            className={styles.imageBox}
+            src={checkAdmin(currentUserRole) ? revoke : grant}
+            alt="grant"
+            width={60}
+            height={60}
+            onClick={checkAdmin(currentUserRole) ? handleRevokeAdmin : handleSetAdmin}
+          />
+        </button>
+      }
+      <button className={styles.buttonBox} onClick={handleMute}>
+        <img
+          className={styles.imageBox}
+          src={mute}
+          alt="mute"
+          width={60}
+          height={60}
+        />
+      </button>
+      <button className={styles.buttonBox} onClick={handleBan}>
+        <img
+          className={styles.imageBox}
+          src={ban}
+          alt="ban"
+          width={60}
+          height={60}
+        />
+      </button>
+      <button className={styles.buttonBox} onClick={handleKick}>
+        <img
+          className={styles.imageBox}
+          src={kick}
+          alt="kick"
+          width={60}
+          height={60}
+        />
+      </button>
+    </div>}
+    </>
   );
 }
 
+const checkOwner = (role: ChannelRole) : boolean => {
+  if (role === ChannelRole.OWNER) {
+    return true;
+  }
+  return false;
+}
+
+const checkAdmin = (role: ChannelRole) : boolean => {
+  if (role === ChannelRole.ADMIN || role === ChannelRole.OWNER) {
+    return true;
+  }
+  return false;
+}

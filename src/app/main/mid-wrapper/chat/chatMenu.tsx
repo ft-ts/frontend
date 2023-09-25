@@ -17,6 +17,8 @@ export default function ChatMenu() {
   const { currentDmId }: any = useGlobalContext();
   const { currentChannel }: any = useGlobalContext();
   const { myRole } : any = useGlobalContext();
+  const { setIsNotificationVisible }: any = useGlobalContext();
+  const { setErrorMessage }: any = useGlobalContext();
 
   const [dmTargetUser, setDmTargetUser] = useState<UserInterface | null>(null);
 
@@ -27,7 +29,12 @@ export default function ChatMenu() {
     getUserByUid(currentDmId).then((res) => {
       setDmTargetUser(res.data);
     }).catch((err) => {
-      console.log('chatMenu.tsx', err);
+      setErrorMessage('User not found.');
+      setIsNotificationVisible(true);
+      setTimeout(() => {
+        setIsNotificationVisible(false);
+        setErrorMessage('');
+      }, 2000);
     });
     return () => {
     };
@@ -52,7 +59,6 @@ export default function ChatMenu() {
           <CloseButton />
         </span>
       )}
-      
     </div>
   );
 }

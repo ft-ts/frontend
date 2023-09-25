@@ -4,9 +4,12 @@ import React, { useState, useEffect } from 'react';
 import Modal from "react-modal";
 import styles from './edit.module.scss';
 import { EditForm } from "../editForm";
+import { useGlobalContext } from '@/app/Context/store';
 
 export default function EditMyProfile() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { currentChannelId } : any = useGlobalContext();
+  const { activeTab } : any = useGlobalContext();
 
   const customStyles = {
     content: {

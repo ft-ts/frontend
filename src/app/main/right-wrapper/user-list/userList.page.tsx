@@ -8,7 +8,7 @@ import UserListFriends from './Components/userList.friends';
 import MyInfo from './Components/userList.myInfo';
 import UserListSearch from './Components/userList.search';
 import { User } from '@/app/main/interface/User.interface';
-import { getUserListExceptMe, getFreiendsList, getChannelMembers } from '@/app/axios/client';
+import { getUserListExceptMe, getFriendsList, getChannelMembers } from '@/app/axios/client';
 import { useGlobalContext } from '@/app/Context/store';
 import { ChannelUser } from '../../mid-wrapper/chat/interfaces/channelUser.interface';
 import { TabOptions } from './userList.enum';
@@ -16,12 +16,13 @@ import { socket } from '@/app/main/components/CheckAuth';
 
 export default function UserList(){
   const [userList, setUserList] = useState<User[]>([]);
-  const [friendList, setFriendList] = useState<User[]>([]);
   const [ channelMembers, setChannelMembers ] = useState<ChannelUser[]>([]);
 
+  const { friendList, setFriendList }: any = useGlobalContext();
   const { activeTab, setActiveTab }: any = useGlobalContext();
-  const { myRole }: any = useGlobalContext();
   const { currentChannelId }: any = useGlobalContext();
+  const { setIsNotificationVisible }: any = useGlobalContext();
+  const { setErrorMessage }: any = useGlobalContext();
 
   const setUserLists = () => {
     if (activeTab === TabOptions.ALL) {
@@ -29,14 +30,24 @@ export default function UserList(){
         const { data } = res;
         setUserList(data);
       }).catch((err) => {
-        console.log(err);
+        setErrorMessage('Failed to get user list.');
+        setIsNotificationVisible(true);
+        setTimeout(() => {
+          setIsNotificationVisible(false);
+          setErrorMessage('');
+        }, 2000);
       });
     } else if (activeTab === TabOptions.FRIENDS) {
-      getFreiendsList().then((res) => {
+      getFriendsList().then((res) => {
         const { data } = res;
         setFriendList(data);
       }).catch((err) => {
-        console.log(err);
+        setErrorMessage('Failed to get friends list.');
+        setIsNotificationVisible(true);
+        setTimeout(() => {
+          setIsNotificationVisible(false);
+          setErrorMessage('');
+        }, 2000);
       });
     } else if (activeTab === TabOptions.CHANNEL) {
       if (currentChannelId){
@@ -44,7 +55,12 @@ export default function UserList(){
           const { data } = res;
           setChannelMembers(data);
         }).catch((err) => {
-          console.log(err);
+          setErrorMessage('Failed to get channel members.');
+          setIsNotificationVisible(true);
+          setTimeout(() => {
+            setIsNotificationVisible(false);
+            setErrorMessage('');
+          }, 2000);
         });
       }
     }
@@ -67,8 +83,10 @@ export default function UserList(){
         setUserLists();
       }
     });
-    socket.on('channel/innerUpdate', () => {
-      if (activeTab === TabOptions.CHANNEL){
+    socket.on('channel/innerUpdate', (channelId: number) => {
+      setActiveTab(TabOptions.CHANNEL);
+      if (currentChannelId === channelId){
+        console.log('test')
         setUserLists();
       }
     });
@@ -86,7 +104,12 @@ export default function UserList(){
         const { data } = res;
         setChannelMembers(data);
       }).catch((err) => {
-        console.log(err);
+        setErrorMessage('Failed to get channel members.');
+        setIsNotificationVisible(true);
+        setTimeout(() => {
+          setIsNotificationVisible(false);
+          setErrorMessage('');
+        }, 2000);
       });
     }
   }, [currentChannelId]);
@@ -117,9 +140,9 @@ export default function UserList(){
   const renderFriendsList = () => {
     return (
       <>
-        {friendList?.map && friendList.map((item, index) => (
+        {friendList?.map && friendList.map((item: User) => (
           <UserListFriends
-            key={index}
+            key={item.uid}
             user={item}
           />
           ))}
@@ -134,7 +157,6 @@ export default function UserList(){
           <UserListChannel 
             key={member.id}
             item={member}
-            myRole={myRole}
            />
         ))}
       </>

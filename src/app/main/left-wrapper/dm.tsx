@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { useGlobalContext, TabOptions } from '@/app/Context/store';
 import { DmListProps } from './interfaces/dmItemProps';
 import { getDmLists, getUserByUid, postDmRead } from '@/app/axios/client';
+import { set } from 'react-hook-form';
 
 export default function Dms() {
   const { setCurrentChannelId }: any = useGlobalContext();
@@ -15,6 +16,8 @@ export default function Dms() {
   const { setActiveTab }: any = useGlobalContext();
   const { myInfo } : any = useGlobalContext();
   const { dmList, setDmList }: any = useGlobalContext();
+  const { setIsNotificationVisible }: any = useGlobalContext();
+  const { setErrorMessage }: any = useGlobalContext();
 
   useEffect(() => {
     if (myInfo.uid === 1000){
@@ -28,7 +31,12 @@ export default function Dms() {
         setDmList((prev: DmListProps[]) => [...prev, dm]);
       });
     }).catch((err) => {
-      console.log('getDmLists error : ', err);
+      setErrorMessage('Failed to get dm list');
+      setIsNotificationVisible(true);
+      setTimeout(() => {
+        setIsNotificationVisible(false);
+        setErrorMessage('');
+      }, 2000);
     });
   }, [myInfo]);
 
@@ -37,16 +45,25 @@ export default function Dms() {
     setActiveTab(TabOptions.ALL);
     setCurrentChannelId(null);
     setCurrentDmId(targetUid);
-    getUserByUid(targetUid)
-    .then((res) => {
+    getUserByUid(targetUid).then((res) => {
       const { data } = res;
       setCurrentUser(data);
     }). catch((err) => {
-      console.log('getUserByUid error : ', err);
+      setErrorMessage('User not found.');
+      setIsNotificationVisible(true);
+      setTimeout(() => {
+        setIsNotificationVisible(false);
+        setErrorMessage('');
+      }, 2000);
     });
     postDmRead(targetUid)
     .catch((err) => {
-      console.log('postDmRead error : ', err);
+      setErrorMessage('Failed to read dm.');
+      setIsNotificationVisible(true);
+      setTimeout(() => {
+        setIsNotificationVisible(false);
+        setErrorMessage('');
+      }, 2000);
     });
     dmList.forEach((dm: DmListProps) => {
       if (dm.user_uid === targetUid) {

@@ -10,14 +10,16 @@ import { useGlobalContext } from '@/app/Context/store';
 export default function UserListAll({ user }:{ user: User })
 {
   const { setCurrentUser }: any = useGlobalContext();
+  const { setCurrentUserRole }: any = useGlobalContext();
   
   const handleClick = () => {
     setCurrentUser(user);
+    setCurrentUserRole(null);
   }
 
   return (
     <div className={styles.userListContainer}>
-      <button className={`${styles.userListBox} ${styles.allWidth}`} onClick={handleClick}>
+      <button className={styles.userListBox} onClick={handleClick}>
         {renderUserStatus({userStatus: user.status as UserStatus})}
         <div className={styles.userAvatarBox}>
           <img src={user.avatar} width={80} height={80} alt={user.name} className={styles.userAvatar}/>

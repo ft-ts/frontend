@@ -10,15 +10,12 @@ import ChannelItemProps from "./interfaces/channelItemProps";
 import PasswordModal from "./passwordModal";
 import { socket } from "../components/CheckAuth";
 import { useGlobalContext, TabOptions } from "@/app/Context/store";
-import ChannelProps from "./interfaces/channelProps";
-import { getMyChannelRole, getChannelList, getMyChannelList } from "@/app/axios/client";
+import { getChannelList, getMyChannelList, joinChannel } from "@/app/axios/client";
 import { ChannelRole } from "../mid-wrapper/chat/enum/channelRole.enum";
 
 function Channel() {
   const [selectedTab, setSelectedTab] = useState(ChannelTabOptions.ALL);
   const [showPasswordModal, setShowPasswordModal] = useState<boolean>(false);
-  const [channelErrorMessage, setChannelErrorMessage] = useState<string | null>(null);
-  const [isChannelNotificationVisible, setIsChannelNotificationVisible ] = useState<boolean>(false);
   const [ tempChannelId, setTempChannelId ] = useState<number | null>(null);
   const [ channels, setChannels ] = useState<ChannelItemProps[]>([]);
 
@@ -27,6 +24,10 @@ function Channel() {
   const { setCurrentDmId }: any = useGlobalContext();
   const { currentChannel, setCurrentChannel } : any = useGlobalContext();
   const { currentChannelId, setCurrentChannelId }: any = useGlobalContext();
+  const { myInfo }: any = useGlobalContext();
+  const { setCurrentUser }: any = useGlobalContext();
+  const { isNotificationVisible, setIsNotificationVisible }: any = useGlobalContext();
+  const { errorMessage, setErrorMessage }: any = useGlobalContext();
 
   const handleTabClick = (tab: ChannelTabOptions) => {
     setSelectedTab(tab);
@@ -39,14 +40,24 @@ function Channel() {
         const { data } = res;
         setChannels(data);
       }).catch((err) => {
-        console.log('all Error', err);
+        setErrorMessage('Error occured while getting channel list');
+        setIsNotificationVisible(true);
+        setTimeout(() => {
+          setIsNotificationVisible(false);
+          setErrorMessage("");
+        }, 2000);
       });
     } else if (selectedTab === ChannelTabOptions.MY) {
       getMyChannelList().then((res) => {
         const { data } = res;
         setChannels(data);
       }).catch((err) => {
-        console.log('my Error', err);
+        setErrorMessage('Error occured while getting my channel list');
+        setIsNotificationVisible(true);
+        setTimeout(() => {
+          setIsNotificationVisible(false);
+          setErrorMessage("");
+        }, 2000);
       });
     }
   }
@@ -60,11 +71,11 @@ function Channel() {
       setChannelLists();
     });
     socket.on('channel/invite', (channelId: number)=>{
-      console.log('channel/invite', channelId);
       socket.emit('channel/invite/accept', { channelId });
     })
     return () => {
       socket.off('update/channelInfo');
+      socket.off('channel/invite');
     }
   }, [selectedTab]);
 
@@ -72,43 +83,26 @@ function Channel() {
     if (currentChannel === null) {
       return;
     }
-    socket.on('channel/join/success', async (channelData: ChannelProps) => {
-      setCurrentChannel(channelData);
-      setCurrentChannelId(channelData.id);
-      setActiveTab(TabOptions.CHANNEL);
-      await getMyChannelRole(channelData.id).then((res) => {
-        const { data } = res;
-        setMyRole(data);
-        socket.emit('channel/innerUpdate', { channelId: channelData.id });
-        socket.emit('update/channelInfo');
-      }).catch((err) => {
-        console.log('setMyrole', err);
-      });
-    });
-    socket.on('channel/join/fail', (data: { message: string }) => {
-      if (data.message === 'Password is required for a PROTECTED channel.') {
-        setShowPasswordModal(true);
-        setTempChannelId(currentChannel.id);
-      } else {
-        setActiveTab(TabOptions.ALL);
-        setCurrentChannel(null);
-        setCurrentChannelId(null);
-        setChannelErrorMessage(data.message);
-        setIsChannelNotificationVisible(true);
-        setTimeout(() => {
-          setIsChannelNotificationVisible(false);
-        }, 3000);
+
+    socket.on('channel/changeGranted', (data: { channelId: number, granted: ChannelRole }) => {
+      if (data.channelId === currentChannel.id){
+        setMyRole(data.granted);
       }
     });
-    socket.on('channel/changeGranted', (data: { channelId: number, role: ChannelRole }) => {
-      if (data.channelId === currentChannel.id){
-        setMyRole(data.role);
+
+    socket.on('channel/leaveChannel/success', ( channelId: number ) => {
+      if (channelId === currentChannel.id){
+        console.log('leave success');
+        
+        setCurrentChannel(null);
+        setCurrentChannelId(null);
+        setActiveTab(TabOptions.ALL);
+        setCurrentUser(myInfo);
+        socket.emit('channel/innerUpdate', { channelId: channelId });
       }
     });
 
     return () => {
-      socket.off("channel/join/success");
-      socket.off("channel/join/error");
       socket.off("channel/changeGranted");
     }
   }, [currentChannel]);
@@ -120,8 +114,37 @@ function Channel() {
     if (!channel) {
       return;
     } else if (currentChannelId === chId) return ;
-    socket.emit('channel/join', { channelId: chId, password: '' });
-    setCurrentChannel(channel);
+    joinChannel(chId, '').then((res) => {
+      const { data } = res;
+      console.log(data.channel, data.role, data.isMember );
+      setCurrentChannel(data.channel);
+      setCurrentChannelId(data.channel.id);
+      setActiveTab(TabOptions.CHANNEL);
+      setMyRole(data.role);
+      if (!data.isMember){
+        socket.emit('channel/sendMessage', {
+          channelId: data.channel.id,
+          content: `${myInfo.name} has joined the channel.`,
+          isNotice: true,
+        });
+        socket.emit('channel/innerUpdate', { channelId: data.channel.id });
+      }
+    }).catch((err) => {
+      if(err.response.data.message === 'Password is required for a PROTECTED channel.'){
+        setShowPasswordModal(true);
+        setTempChannelId(chId);
+      } else {
+        setActiveTab(TabOptions.ALL);
+        setCurrentChannel(null);
+        setCurrentChannelId(null);
+        setErrorMessage(err.response.data.message);
+        setIsNotificationVisible(true);
+        setTimeout(() => {
+          setIsNotificationVisible(false);
+          setErrorMessage("");
+        }, 3000);
+      }
+    });
   };
 
   return (
@@ -138,16 +161,15 @@ function Channel() {
             <ChannelItem
               key={channel.id}
               title={channel.title}
-              memberCnt={channel.memberCnt}
               mode={channel.mode}
               id={channel.id}
               onClick={() => handleChannelClick(channel.id)}
             />
           ))}
       </div>
-      {isChannelNotificationVisible && (
+      {isNotificationVisible && (
         <div className={styles.notification}>
-          <p>{channelErrorMessage}</p>
+          <p>{errorMessage}</p>
         </div>
       )}
       <PasswordModal
@@ -155,9 +177,9 @@ function Channel() {
         onRequestClose={() => { 
           setShowPasswordModal(false)
         }}
-        setChannelErrorMessage={setChannelErrorMessage}
-        channelErrorMessage={channelErrorMessage}
-        setIsChannelNotificationVisible={setIsChannelNotificationVisible}
+        setChannelErrorMessage={setErrorMessage}
+        channelErrorMessage={setErrorMessage}
+        setIsChannelNotificationVisible={setIsNotificationVisible}
         tempChannelId={tempChannelId}
       />
     </div>
