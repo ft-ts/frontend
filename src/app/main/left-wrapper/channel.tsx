@@ -170,7 +170,8 @@ function Channel() {
         <div className={styles.notification}>
           <p>{errorMessage}</p>
         </div>
-      )}
+      )
+      }
       <PasswordModal
         isOpen={showPasswordModal}
         onRequestClose={() => {
@@ -181,7 +182,7 @@ function Channel() {
         setIsChannelNotificationVisible={setIsNotificationVisible}
         tempChannelId={tempChannelId}
       />
-    </div>
+    </div >
   );
 }
 
