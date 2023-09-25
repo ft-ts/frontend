@@ -49,6 +49,7 @@ export default function Game(
       let yourPos : number = 0;
       
       if (isHome) {
+
         setPaddleDto((prev) => new Map(prev.set('me', data.home)));
         setPaddleDto((prev) => new Map(prev.set('you', data.away)));
         myPos = 10;
@@ -60,6 +61,15 @@ export default function Game(
         yourPos = 10;
       }
       setBallDto(data.ball);
+
+      const ballData = {
+        width: 20,
+        height: 20,
+        x: 0,
+        y: 0,
+        type: 'ball',
+      }
+      // setBallDto(ballData);az
       setScore({me: data.home.score, you: data.away.score})
       setScorePos({me: myPos, you: yourPos});
       });
@@ -75,7 +85,15 @@ export default function Game(
           setPaddleDto((prev) => new Map(prev.set('you', data.home)));
           setScore({me: data.away.score, you: data.home.score})
         }
+        const ballData = {
+          width: 20,
+          height: 20,
+          x: 0,
+          y: 0,
+          type: 'ball',
+        }
         setBallDto(data.ball);
+        // setBallDto(ballData);
       });
 
       socket.on('pong/game/end', ( payload : {is_win: boolean, home_score: number, away_score: number }) =>
@@ -127,7 +145,7 @@ export default function Game(
         </div>}
         {startFlag && <div>
           <div style={{
-            position: 'relative',
+            position: 'absolute',
             backgroundColor: 'blue',
             width: paddleDto.get('me')?.width,
             height: paddleDto.get('me')?.height,
@@ -136,7 +154,7 @@ export default function Game(
           }}>
           </div>
           <div style={{
-            position: 'relative',
+            position: 'absolute',
             backgroundColor: 'red',
             width: paddleDto.get('you')?.width,
             height: paddleDto.get('you')?.height,
@@ -145,7 +163,7 @@ export default function Game(
           }}>
           </div>
           <div style={{
-            position: 'relative',
+            position: 'absolute',
             backgroundColor: 'white',
             width: ballDto.width,
             height: ballDto.height,
@@ -154,14 +172,16 @@ export default function Game(
           }}>
           </div>
           <div style={{
-            position: 'relative',
+            position: 'absolute',
             left: scorePos.me,
+            top: 0,
           }}>
             <h2 className={styles.resultFont}>You : {score.me}</h2>
           </div>
           <div style={{
-            position: 'relative',
-            left: scorePos.you,
+            position: 'absolute',
+            left: scorePos.you - 20,
+            top: 0,
           }}>
             <h2 className={styles.resultFont}>Away : {score.you}</h2>
           </div>
