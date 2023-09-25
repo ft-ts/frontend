@@ -16,6 +16,8 @@ import { ChannelRole } from "../mid-wrapper/chat/enum/channelRole.enum";
 function Channel() {
   const [selectedTab, setSelectedTab] = useState(ChannelTabOptions.ALL);
   const [showPasswordModal, setShowPasswordModal] = useState<boolean>(false);
+  const [channelErrorMessage, setChannelErrorMessage] = useState<string | null>(null);
+  const [isChannelNotificationVisible, setIsChannelNotificationVisible] = useState<boolean>(false);
   const [tempChannelId, setTempChannelId] = useState<number | null>(null);
   const [channels, setChannels] = useState<ChannelItemProps[]>([]);
 
@@ -154,18 +156,16 @@ function Channel() {
         selectedTab={selectedTab}
       />
       <div className={styles.channelContainer}>
-        {
-          channels?.map && channels.map((channel) => (
-            <ChannelItem
-              key={channel.id}
-              title={channel.title}
-              mode={channel.mode}
-              id={channel.id}
-              onClick={() => handleChannelClick(channel.id)}
-            />
-          ))
-        }
-      </div >
+        {channels?.map && channels.map((channel) => (
+          <ChannelItem
+            key={channel.id}
+            title={channel.title}
+            mode={channel.mode}
+            id={channel.id}
+            onClick={() => handleChannelClick(channel.id)}
+          />
+        ))}
+      </div>
       {isNotificationVisible && (
         <div className={styles.notification}>
           <p>{errorMessage}</p>

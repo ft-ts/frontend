@@ -43,7 +43,7 @@ export default function EditMyProfile() {
         onRequestClose={() => setEditModalOn(false)}
         shouldCloseOnOverlayClick={false}
       >
-        <EditForm onClose={() => setEditModalOn(false)} />
+        <EditForm onClose={() => setEditModalOn(false)}/>
       </Modal>
     </>
   );
