@@ -20,7 +20,7 @@ export default function UserList() {
   const { activeTab, setActiveTab }: any = useGlobalContext();
   const { setIsNotificationVisible }: any = useGlobalContext();
   const { setErrorMessage }: any = useGlobalContext();
-  const { myRole, currentChannelId }: any = useGlobalContext();
+  const { currentChannelId }: any = useGlobalContext();
 
   const { userList, setUserList } : any = useRightWrapperContext();
   const { channelMembers, setChannelMembers } : any = useRightWrapperContext();

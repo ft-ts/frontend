@@ -92,7 +92,6 @@ function Channel() {
 
     socket.on('channel/leaveChannel/success', (channelId: number) => {
       if (channelId === currentChannel.id) {
-        console.log('leave success');
 
         setCurrentChannel(null);
         setCurrentChannelId(null);
