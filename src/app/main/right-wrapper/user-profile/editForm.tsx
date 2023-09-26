@@ -30,6 +30,7 @@ export const EditForm = (props: EditProfileProps) => {
       TFABtn.current.classList.add(styles.TFAButtonOn);
     else if (!TFA && TFABtn.current)
       TFABtn.current.classList.remove(styles.TFAButtonOn);
+
   }, [avatar, name, TFA]);
 
   const handleAvatar = (event: ChangeEvent<HTMLInputElement>) => {
@@ -120,6 +121,8 @@ export const EditForm = (props: EditProfileProps) => {
     if (name !== myInfo.name)
       userData.name = name;
 
+    console.log("🤬 userData: ", userData);
+    
     await apiClient.patch(`/users`, userData).then((res) => {
       if (res.status === 200)
         setMyInfo(res.data);

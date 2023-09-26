@@ -22,9 +22,6 @@ export const CheckAuth = () => {
       router.replace("/login");
     }
 
-    console.log(`socketToken: ${socketToken}`);
-    console.log(`cookieToken: ${cookieToken}`);
-
     socket.emit = (ev: string, ...args: any[]): any => {
 
       if (socketToken && socketToken !== cookieToken) {

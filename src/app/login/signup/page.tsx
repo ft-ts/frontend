@@ -155,7 +155,7 @@ const GameSelectButton = () => {
 
 const GameStartButton = ({ states }: { states: [string, string] }) => {
   const router = useRouter();
-  const [name, avatar] = states;
+  const [name] = states;
 
   const handleStart = () => {
     if (!name) return;
