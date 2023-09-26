@@ -73,7 +73,7 @@ function Channel() {
     });
     socket.on('channel/invite', (channelId: number) => {
       socket.emit('channel/invite/accept', { channelId });
-      setIsNewMyChannel(+1);
+      setIsNewMyChannel(true);
     })
     return () => {
       socket.off('update/channelInfo');
