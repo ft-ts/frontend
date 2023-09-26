@@ -8,8 +8,6 @@ import { useGlobalContext } from '@/app/Context/store';
 import { useEffect } from 'react';
 import { socket } from '@/app/main/components/CheckAuth';
 import { getUserByUid } from '@/app/axios/client';
-import { UserStatus } from '../../enum/UserStatus.enum';
-import { User } from '../../interface/User.interface';
 
 export default function UserProfile() {
   const { currentUser, setCurrentUser }: any = useGlobalContext();

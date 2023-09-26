@@ -5,12 +5,14 @@ import { User } from '../../interface/User.interface';
 import { apiClient } from '@/app/axios/client';
 import { ValueInterface, useRightWrapperContext } from '../Context/rightWrapper.store';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
 interface EditProfileProps {
   onClose: () => void;
 }
 
 export const EditForm = (props: EditProfileProps) => {
+  const router = useRouter();
   const { myInfo, setMyInfo }: any = useGlobalContext();
   const { userList }: Partial<ValueInterface> = useRightWrapperContext();
   const avatarRef = React.useRef<HTMLLabelElement>(null);
@@ -55,11 +57,10 @@ export const EditForm = (props: EditProfileProps) => {
           avatar: e.target?.result,
         }
 
-        let accessToken;
-        document.cookie.split(';').forEach((item) => {
-          if (item.includes("accessToken"))
-            accessToken = item.split('=')[1];
-        });
+        const accessToken = document.cookie?.split('; ')?.find(item => item.startsWith('accessToken'))?.split('=')[1];
+        if (!accessToken) {
+          router.push("/login");
+        }
 
         apiClient.patch(`/users`, userData, {
           headers: {
@@ -69,11 +70,11 @@ export const EditForm = (props: EditProfileProps) => {
         }).then((res) => {
           if (res.status === 200 && res.data?.avatar) {
             setMyInfo(res.data);
-            alert("이미지 업로드에 성공하였습니다. ");
+            alert("이미지 업로드에 성공했습니다.. ");
             props.onClose();
           }
           else
-            alert("이미지 업로드에 실패하였습니다. ");
+            alert("이미지 업로드에 실패했습니다.. ");
         });
         setAvatar(e.target.result);
       }

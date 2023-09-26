@@ -16,6 +16,7 @@ export enum TabOptions {
 }
 
 export const GlobalContextProvider = ({ children }: any) => {
+
   const [activeTab, setActiveTab] = useState(TabOptions.ALL);
   const [myInfo, setMyInfo] = useState<User>(dummy);
   const [currentUser, setCurrentUser] = useState<User>(dummy);
@@ -58,16 +59,16 @@ export const useGlobalContext = () => useContext(globalContext);
 
 const dummy = {
   uid: 1000,
-  name: "dummy",
+  name: "loading... ",
   avatar: "/asset/profile_dummy.png",
-  email: "dummy@dummy.com",
-  twoFactorAuth: true,
+  email: "loading@dummy.com",
+  twoFactorAuth: false,
   status: UserStatus.ONLINE,
-  rating: 1234,
-  custom_wins: 1,
-  custom_losses: 2,
-  ladder_wins: 3,
-  ladder_losses: 4,
+  rating: 1000,
+  custom_wins: 0,
+  custom_losses: 0,
+  ladder_wins: 0,
+  ladder_losses: 0,
 }
 
 export interface GlobalValues {

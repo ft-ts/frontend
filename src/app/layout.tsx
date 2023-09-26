@@ -16,7 +16,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <meta charSet="utf-8" />
           <meta name="description" content='ft_transcendence project' />
           <title>ft-ts</title>
-          <link rel="icon" href="/favicon.ico" />
+          <link rel="icon" href="/app_icon.ico" />
         </Head>
         <body>
           <GlobalContextProvider>

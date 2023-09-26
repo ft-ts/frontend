@@ -2,14 +2,22 @@
 
 import loginStyles from "../login.module.scss"
 import styles from "./signup.module.scss"
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { apiClient } from "@/app/axios/client";
+import { User } from "@/app/main/interface/User.interface";
 
 export default function SignUp() {
-
+  const router = useRouter();
   const [name, setName] = useState<string>("");
   const [avatar, setAvatar] = useState<string>("");
+
+  useEffect(() => {
+    try {
+    } catch (error) {
+      router.push("/login");
+    }
+  }, []);
 
   return (
     <>
@@ -29,6 +37,7 @@ export default function SignUp() {
 }
 
 const GameBackground = ({ states }: { states: [string, React.Dispatch<React.SetStateAction<string>>, string, React.Dispatch<React.SetStateAction<string>>] }) => {
+  const router = useRouter();
   const avatarRef = React.useRef<HTMLLabelElement>(null);
   const [name, setName, avatar, setAvatar] = states;
 
@@ -44,28 +53,62 @@ const GameBackground = ({ states }: { states: [string, React.Dispatch<React.SetS
       avatar ? avatarRef.current.style.backgroundImage = `url(${avatar})` : null;
   }, [name, avatar]);
 
-  const handleAvatar = () => {
-    const file = document.getElementById("avatar-upload") as HTMLInputElement;
-    if (file.files && file.files[0]) {
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        if (e.target?.result) {
-          if (e.target?.result.toString().length > 150000) {
-            alert("이미지 크기는 150kb 이하로 선택해주세요.");
-            return ;
-          }
-          setAvatar(e.target?.result.toString());
+  const handleAvatar = (event: ChangeEvent<HTMLInputElement>) => {
+    const eventFiles = event.target.files;
+
+    if (!eventFiles || eventFiles.length === 0)
+      return;
+
+    uploadImage(eventFiles[0]);
+  }
+
+  const uploadImage = (file: File) => {
+
+    if (file.size > 200000)
+      return alert("200KB 이하의 이미지만 업로드 가능합니다.");
+
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      if (reader.readyState !== 2)
+        return;
+      if (typeof e.target?.result === "string") {
+
+        const accessToken = document.cookie?.split('; ')?.find(item => item.startsWith('accessToken'))?.split('=')[1];
+        if (!accessToken) {
+          router.push("/login");
         }
+
+        apiClient.patch(`/users`, { avatar: e.target?.result }, {
+          headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'multipart/form-data'
+          },
+        }).then((res) => {
+          if (res.status === 200 && res.data?.avatar) {
+            setAvatar(res.data.avatar);
+            alert("이미지 업로드에 성공했습니다.. ");
+          }
+          else
+            alert("이미지 업로드에 실패했습니다.. ");
+        });
       }
-      reader.readAsDataURL(file.files[0]);
+      else
+        new Error("FileReader error");
     }
+
+    reader.onerror = (e) => {
+      new Error("FileReader error");
+    };
+
+    reader.readAsDataURL(file);
   }
 
   const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.target.value = e.target.value.replace(/[^a-zA-Z\s]/g, "");
 
     if (e.target.value.length > 10)
-      return ;
+      return;
     setName(e.target.value);
   }
 
@@ -115,25 +158,25 @@ const GameStartButton = ({ states }: { states: [string, string] }) => {
   const [name, avatar] = states;
 
   const handleStart = () => {
-    if (!name || !avatar) return;
+    if (!name) return;
 
     if (name.length < 3 || name.length > 10) {
       alert("이름은 3글자 이상 10 글자 이하로 입력해주세요.");
-      return ;
+      return;
     }
 
     if (name.match(/[^a-zA-Z0-9]/)) {
       alert("이름은 영어와 숫자만 입력해주세요.");
-      return ;
+      return;
     }
-    
-    apiClient.patch("/users", { name, avatar }).then((res) => {
+
+    apiClient.patch("/users", { name }).then((res) => {
       router.push("/main");
     });
   }
 
   return (
-    <button 
+    <button
       onClick={handleStart}
       className={loginStyles.container}>
       <img

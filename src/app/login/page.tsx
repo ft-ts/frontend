@@ -1,7 +1,7 @@
 "use client";
 
 import styles from "./login.module.scss"
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { apiClient } from "../axios/client";
 import { clearCookies } from "../utils/clearCookies";

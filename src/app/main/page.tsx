@@ -13,8 +13,7 @@ function Main() {
   const { setMyInfo } : any = useGlobalContext();
   const { setCurrentUser } : any = useGlobalContext();
   const { setBlockList } : any = useGlobalContext();
-  const { setIsNotificationVisible }: any = useGlobalContext();
-  const { setErrorMessage }: any = useGlobalContext();
+  const { setIsNotificationVisible, setErrorMessage }: any = useGlobalContext();
 
   useEffect(() => {
     getMyInfo().then((res) => {
