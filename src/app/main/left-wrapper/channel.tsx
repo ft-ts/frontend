@@ -30,6 +30,7 @@ function Channel() {
   const { setCurrentUser }: any = useGlobalContext();
   const { isNotificationVisible, setIsNotificationVisible }: any = useGlobalContext();
   const { errorMessage, setErrorMessage }: any = useGlobalContext();
+  const { setIsNewMyChannel }: any = useGlobalContext();
 
   const handleTabClick = (tab: ChannelTabOptions) => {
     setSelectedTab(tab);
@@ -74,6 +75,7 @@ function Channel() {
     });
     socket.on('channel/invite', (channelId: number) => {
       socket.emit('channel/invite/accept', { channelId });
+      setIsNewMyChannel(true);
     })
     return () => {
       socket.off('update/channelInfo');
@@ -239,6 +241,7 @@ const ChannelPanels = ({
   handleTabClick: (tab: ChannelTabOptions) => void;
   selectedTab: ChannelTabOptions;
 }) => {
+  const { isNewMyChannel, setIsNewMyChannel }: any = useGlobalContext();
   return (
     <div>
       <div className={styles.channelPanelBox}>
@@ -248,17 +251,22 @@ const ChannelPanels = ({
         <button
           className={`${styles.unselectedPanelTab} ${selectedTab === ChannelTabOptions.ALL ? styles.selectedPanelTab : ""
             }`}
-          onClick={() => handleTabClick(ChannelTabOptions.ALL)}
-        >
+          onClick={() => {handleTabClick(ChannelTabOptions.ALL)
+          }}>
           <h2 className={`${styles.selectPanelFont}`}>ALL</h2>
         </button>
         <button
           className={`${styles.unselectedPanelTab} ${selectedTab === ChannelTabOptions.MY ? styles.selectedPanelTab : ""
             }`}
-          onClick={() => handleTabClick(ChannelTabOptions.MY)}
-        >
+          onClick={() => {handleTabClick(ChannelTabOptions.MY)
+          setIsNewMyChannel(false)
+          }}>
           <h2 className={`${styles.selectPanelFont}`}>MY</h2>
-        </button>
+          <div className={styles.newChannelDotWrapper}>
+            {isNewMyChannel && <div className={styles.newChannelDot}>
+              </div>}
+          </div>
+          </button>
       </div>
     </div>
   );
