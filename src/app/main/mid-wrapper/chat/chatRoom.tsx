@@ -24,6 +24,7 @@ export default function ChatRoom() {
   const { setActiveTab }: any = useGlobalContext();
   const { setIsNotificationVisible }: any = useGlobalContext();
   const { setErrorMessage }: any = useGlobalContext();
+  const { blockList }: any = useGlobalContext();
   
   const scrollToBottom = (length : number) => {
     setTimeout(function() {
@@ -81,7 +82,7 @@ export default function ChatRoom() {
         }, 2000);
       });
     }
-  }, [currentChannelId]);
+  }, [currentChannelId, blockList]);
 
   useEffect(()=> {
     setChatMessages([]);
@@ -103,6 +104,9 @@ export default function ChatRoom() {
 
   useEffect(() => {
     socket.on('channel/sendMessage', (message: ChatMessage) => {
+      console.log("blockList: ", blockList)
+      if (blockList.includes(message.sender.uid))   return ;
+
       if (currentChannelId === message.channel_id){
         setChatMessages((prevMessages) => [...prevMessages, message]);
       }
@@ -110,7 +114,7 @@ export default function ChatRoom() {
     return () => {
       socket.off('channel/sendMessage');
     };
-  }, [currentChannelId]);
+  }, [currentChannelId, blockList]);
 
   useEffect(() => {
     socket.on('dm/msg', async (message: DmMessage) => {
