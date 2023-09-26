@@ -3,7 +3,6 @@
 import styles from "./login.module.scss"
 import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { apiClient } from "../axios/client";
 import { clearCookies } from "../utils/clearCookies";
 
 export default function Login() {
@@ -90,25 +89,11 @@ const GameStartButton = () => {
 
 
 const GameRoundDeco = () => {
-  const router = useRouter();
-  const loginasDemoUser = (name: string, uid: number): void => {
-    apiClient.post('login/addDemoUser', {
-      "email": `${name}@gmail.com`,
-      "avatar": "/asset/profile_dummy.png",
-      "name": name,
-      "uid": uid,
-    }).then((res) => {
-      document.cookie = `accessToken=${res.data.accessToken}`;
-      document.cookie = `refreshToken=${res.data.refreshToken}`;
-      router.push('/main');
-    });
-  };
 
   return (
     <button className={styles.roundContainer}>
       <div className={styles.roundBtnWrapper}>
         <img
-          onClick={() => loginasDemoUser('AAAA', 1111)}
           src="/asset/RoundButtonDeco.svg"
           alt="RoundButtonDecoA"
           width={150}
@@ -119,7 +104,6 @@ const GameRoundDeco = () => {
       </div>
       <div className={styles.roundBtnWrapper}>
         <img
-          onClick={() => loginasDemoUser('BBBB', 2222)}
           src="/asset/RoundButtonDeco.svg"
           alt="RoundButtonDecoB"
           width={150}

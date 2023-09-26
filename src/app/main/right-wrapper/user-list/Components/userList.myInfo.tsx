@@ -7,6 +7,7 @@ import { UserStatus } from '@/app/main/enum/UserStatus.enum';
 import { useGlobalContext } from '@/app/Context/store';
 import { useRightWrapperContext } from '../../Context/rightWrapper.store';
 import { useRouter } from 'next/navigation';
+import { apiClient } from '@/app/axios/client';
 
 const logoutIcon = "/asset/logoutIcon.png";
 const settingIcon = "/asset/settingIcon.png";
@@ -24,14 +25,18 @@ export default function MyInfo() {
   }
 
   const handleLogout = () => {
-    document.cookie = "accesstoken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    router.push("/login");
+    apiClient.get('/login/logout').then((res) => {
+      document.cookie = "accesstoken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      router.push("/login");
+    }).catch((err) => {
+      console.log(err);
+    });
   }
 
   return (
     <div className={styles.bottomContainer}>
       <button className={styles.bottomMyInfo} onClick={handleClick}>
-        { renderUserStatus({userStatus: myInfo.status as UserStatus}) }
+        {renderUserStatus({ userStatus: myInfo.status as UserStatus })}
         <div className={styles.myAvatarBox}>
           <img className={styles.myAvatar} src={myInfo.avatar} alt={myInfo.name} width={75} height={75} />
         </div>
@@ -40,10 +45,10 @@ export default function MyInfo() {
         </div>
       </button>
       <button onClick={() => setEditModalOn(true)} className={styles.myInfoButtonBox}>
-        <img src={settingIcon} alt="setting" width={40} height={40}/>
+        <img src={settingIcon} alt="setting" width={40} height={40} />
       </button>
       <button onClick={handleLogout} className={styles.myInfoButtonBox}>
-        <img src={logoutIcon} alt="logout" width={50} height={50}/>
+        <img src={logoutIcon} alt="logout" width={50} height={50} />
       </button>
     </div>
   );

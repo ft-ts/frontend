@@ -5,15 +5,27 @@ import styles from "./secondAuth.module.scss"
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { apiClient } from "../../axios/client";
+import { clearCookies } from "@/app/utils/clearCookies";
 
 export default function Input2fa() {
+  const router = useRouter();
   const [authCode, setAuthCode] = useState<string>("");
   const [qrCode, setQrCode] = useState<string>("");
 
   useEffect(() => {
-    apiClient.get("login/2fa").then((res) => {
-      setQrCode(res.data);
-    })
+    try {
+      apiClient.get("login/2fa").then((res) => {
+        setQrCode(res.data);
+      })
+      const main = document.cookie?.split('; ')?.find(item => item.startsWith('main'))?.split('=')[1];
+      if (main) {
+        clearCookies();
+        router.push("/login");
+      }
+    } catch (error) {
+      console.log(error);
+      router.push("/login");
+    }
   }, []);
 
   return (
