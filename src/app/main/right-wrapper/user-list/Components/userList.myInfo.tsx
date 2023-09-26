@@ -16,9 +16,12 @@ export default function MyInfo() {
   const router = useRouter();
   const { myInfo, setCurrentUser }: any = useGlobalContext();
   const { setEditModalOn }: any = useRightWrapperContext();
+  const { blockList }: any = useGlobalContext();
 
   const handleClick = () => {
     setCurrentUser(myInfo);
+    console.log('block',blockList);
+    
   }
 
   const handleLogout = () => {

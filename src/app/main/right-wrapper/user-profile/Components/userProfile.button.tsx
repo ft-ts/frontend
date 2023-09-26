@@ -75,7 +75,7 @@ export default function ProfileButton({ user }: { user: User }) {
 
   const handleBlock = () => {
     postBlockUser(user.uid).then((res) => {
-      const { data } = res;
+      const { data }: { data: number } = res;
       setBlockList((prevBlockList: number[]) => [...prevBlockList, data]);
     }).catch((err) => {
       setErrorMessage('Failed to block user.');
@@ -89,8 +89,10 @@ export default function ProfileButton({ user }: { user: User }) {
 
   const handleUnblock = () => {
     deleteBlockUser(user.uid).then((res) => {
-      const { data } = res;
-      setBlockList((prevBlockList: number[]) => prevBlockList.filter((blockUser: number) => blockUser !== data));
+      const { data }: { data: number } = res;
+      setBlockList((prevBlockList: number[]) =>
+      prevBlockList.filter((blockUser: number) => blockUser !== data)
+    );
     }).catch((err) => {
       setErrorMessage('Failed to unblock user.');
       setIsNotificationVisible(true);

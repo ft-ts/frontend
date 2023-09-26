@@ -24,6 +24,7 @@ export const GlobalContextProvider = ({ children }: any) => {
   const [currentUserRole, setCurrentUserRole] = useState<ChannelRole | null>(null);
   const [friendList, setFriendList] = useState<User[]>([]);
   const [blockList, setBlockList] = useState<number[]>([]);
+  const [isNewMyChannel, setIsNewMyChannel] = useState<boolean>(false);
 
   const [currentChannel, setCurrentChannel] = useState<ChannelProps | null>(null);
   const [currentChannelId, setCurrentChannelId] = useState<number | null>(null);
@@ -46,6 +47,7 @@ export const GlobalContextProvider = ({ children }: any) => {
     blockList, setBlockList,
     isNotificationVisible, setIsNotificationVisible,
     errorMessage, setErrorMessage,
+    isNewMyChannel, setIsNewMyChannel,
   }
   return (
     <globalContext.Provider value={value}>
