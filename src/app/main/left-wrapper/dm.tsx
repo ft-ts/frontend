@@ -3,11 +3,9 @@
 import React, { useEffect, useState } from 'react';
 import styles from './channel.module.scss';
 import { DmItem } from './channelItem';
-import Image from 'next/image';
 import { useGlobalContext, TabOptions } from '@/app/Context/store';
 import { DmListProps } from './interfaces/dmItemProps';
 import { getDmLists, getUserByUid, postDmRead } from '@/app/axios/client';
-import { set } from 'react-hook-form';
 
 export default function Dms() {
   const { setCurrentChannelId }: any = useGlobalContext();
@@ -18,6 +16,7 @@ export default function Dms() {
   const { dmList, setDmList }: any = useGlobalContext();
   const { setIsNotificationVisible }: any = useGlobalContext();
   const { setErrorMessage }: any = useGlobalContext();
+  const { initFlag }: any = useGlobalContext();
 
   useEffect(() => {
     if (myInfo.uid === 1000){
@@ -25,7 +24,7 @@ export default function Dms() {
     }
     getDmLists().then((res) => {
       res.data.forEach((dm: DmListProps) => {
-        if (dmList.some((dmItem: DmListProps) => dmItem.user_uid === dm.user_uid)) {
+        if (dmList.some((dmItem: DmListProps) =>(dmItem.user_uid === dm.user_uid))) {
           return;
         }
         setDmList((prev: DmListProps[]) => [...prev, dm]);
@@ -38,7 +37,7 @@ export default function Dms() {
         setErrorMessage('');
       }, 2000);
     });
-  }, [myInfo]);
+  }, [initFlag]);
 
   const handleDmClick = (targetUid: number) => {
     if (currentDmId && targetUid === currentDmId) return ;
@@ -71,9 +70,6 @@ export default function Dms() {
       }
     });
   };
-
-  useEffect(() => {
-  }, [dmList]);
 
   return (
     <div>

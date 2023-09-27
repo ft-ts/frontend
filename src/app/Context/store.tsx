@@ -22,7 +22,6 @@ export const GlobalContextProvider = ({ children }: any) => {
   const [currentUser, setCurrentUser] = useState<User>(dummy);
   const [myRole, setMyRole] = useState<ChannelRole>(ChannelRole.NORMAL);
   const [currentUserRole, setCurrentUserRole] = useState<ChannelRole | null>(null);
-  const [friendList, setFriendList] = useState<User[]>([]);
   const [blockList, setBlockList] = useState<number[]>([]);
   const [isNewMyChannel, setIsNewMyChannel] = useState<boolean>(false);
 
@@ -32,6 +31,14 @@ export const GlobalContextProvider = ({ children }: any) => {
   const [dmList, setDmList] = useState<DmListProps[]>([]);
   const [isNotificationVisible, setIsNotificationVisible] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
+
+  const [ channelFlag, setChannelFlag ] = useState<boolean>(false);
+  const [ channelListFlag, setChannelListFlag ] = useState<boolean>(false);
+  const [ userListFlag, setUserListFlag ] = useState<boolean>(false);
+  const [ userProfileFlag, setUserProfileFlag ] = useState<boolean>(false);
+  const [ myInfoFlag, setMyInfoFlag ] = useState<boolean>(false);
+  const [ userInfoFlag, setUserInfoFlag ] = useState<boolean>(false);
+  const [ initFlag, setInitFlag ] = useState<boolean>(false);
 
   const value = {
     myInfo, setMyInfo,
@@ -43,11 +50,17 @@ export const GlobalContextProvider = ({ children }: any) => {
     currentChannel, setCurrentChannel,
     currentChannelId, setCurrentChannelId,
     dmList, setDmList,
-    friendList, setFriendList,
     blockList, setBlockList,
     isNotificationVisible, setIsNotificationVisible,
     errorMessage, setErrorMessage,
     isNewMyChannel, setIsNewMyChannel,
+    channelFlag, setChannelFlag,
+    channelListFlag, setChannelListFlag,
+    userListFlag, setUserListFlag,
+    userProfileFlag, setUserProfileFlag,
+    myInfoFlag, setMyInfoFlag,
+    userInfoFlag, setUserInfoFlag,
+    initFlag, setInitFlag,
   }
   return (
     <globalContext.Provider value={value}>

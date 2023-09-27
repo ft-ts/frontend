@@ -1,10 +1,9 @@
-"use-client";
+'use-client';
 
-import React from "react";
-import { useForm } from "react-hook-form";
-import styles from "./gameItem.module.scss";
-import { HookFormTypes, historyInterface } from "./game.interface";
-import { getGameHistory } from "../../../../app/axios/client";
+import React, {useState} from 'react';
+import styles from './gameItem.module.scss';
+import { historyInterface } from './game.interface';
+import { getGameHistory } from '../../../../app/axios/client';
 
 export default function SearchBox(
   {
@@ -16,13 +15,13 @@ export default function SearchBox(
     setGameHistory:React.Dispatch<React.SetStateAction<historyInterface>>
   }
 ){
-  const { register, handleSubmit } = useForm<HookFormTypes>();
+  const [ searchName, setSearchName] = useState<string>('');
 
-  const onVaild = async ( name : HookFormTypes) => {
-    setGameHistory({history : []});
-    const res = await getGameHistory(name.name);
+  const handleSubmit = async () => {
+    const res = await getGameHistory(searchName);
     const json = res.data;
     if (json.history === null || json.history.length === 0 || json.history === undefined) {
+      setGameHistory({history : []});
       return;
     } else {
       setSearchFlag(true);
@@ -30,27 +29,36 @@ export default function SearchBox(
     }
   }
 
-  const onInvalid = (error : any) => {
-    setSearchFlag(false);
+  const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.target.value = e.target.value.replace(/[^a-zA-Z]/g, '');
+    if (e.target.value.length > 10)
+      return;
+    setSearchName(e.target.value);
   }
-
   return (
-    <form className={styles.searchContainer} onSubmit={handleSubmit(onVaild, onInvalid)}>
+    <div className={styles.searchContainer}>
       <input 
         className={styles.searchBox}
-        {...register("name", { required: true })}
-        type="text"
-        placeholder="Search username"
+        type='text'
+        placeholder='Search username'
+        onChange={handleName}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            handleSubmit();
+          }
+        }}
+        maxLength={10}
       />
-      <button className={styles.searchIconContainer}>
+      <button className={styles.searchIconContainer} onClick={handleSubmit}>
         <img
           className={styles.searchIcon}
-          src="asset/RecordSearch.svg"
-          alt="RecordSearch icon"
+          src='asset/RecordSearch.svg'
+          alt='RecordSearch icon'
           width={40}
           height={40}
         />
       </button>
-    </form>
+    </div>
   )
 }

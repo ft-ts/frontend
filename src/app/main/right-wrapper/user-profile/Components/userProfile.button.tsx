@@ -6,6 +6,7 @@ import { User } from "@/app/main/interface/User.interface";
 import { socket } from "@/app/main/components/CheckAuth";
 import { postFriend, postBlockUser } from "@/app/axios/client";
 import { useGlobalContext, TabOptions } from "@/app/Context/store";
+import { useRightWrapperContext } from "../../Context/rightWrapper.store";
 import { getUserByUid } from "@/app/axios/client";
 import { DmListProps } from "@/app/main/left-wrapper/interfaces/dmItemProps";
 import { ChannelRole } from "@/app/main/mid-wrapper/chat/enum/channelRole.enum";
@@ -42,12 +43,13 @@ export default function ProfileButton({ user }: { user: User }) {
   const { activeTab }: any = useGlobalContext();
   const { currentUserRole, setCurrentUserRole }: any = useGlobalContext();
   const { currentChannel }: any = useGlobalContext();
-  const { friendList }: any = useGlobalContext();
+  const { friendList } : any = useRightWrapperContext();
   const { blockList, setBlockList }: any = useGlobalContext();
   const { setIsNotificationVisible }: any = useGlobalContext();
   const { setErrorMessage }: any = useGlobalContext();
   const { setCurrentUser }: any = useGlobalContext();
   const { myInfo }: any = useGlobalContext();
+  const { channelFlag, setChannelFlag }: any = useGlobalContext();
 
   const checkFriend = (uid: number) => {
     return friendList.some((friend: User) => friend.uid === uid);
@@ -150,7 +152,7 @@ export default function ProfileButton({ user }: { user: User }) {
       return;
     } else{
       postInviteUser(currentChannelId, user.uid).then((res) => {
-        socket.emit('channel/innerUpdate');
+        socket.emit('channel/joinUpdate', { channelId: currentChannelId });
         socket.emit('channel/sendMessage', {
           channelId: currentChannelId,
           content: `${res.data} has been invited to this channel.`,
@@ -171,8 +173,8 @@ export default function ProfileButton({ user }: { user: User }) {
     const targetUserUid : number = user.uid;
     const channelId : number = currentChannel.id;
       postGrantAdmin(channelId, targetUserUid).then((res) => {
-        setCurrentUserRole(ChannelRole.ADMIN)
-        socket.emit('channel/innerUpdate', {channelId: channelId});
+        setCurrentUserRole(ChannelRole.ADMIN);
+        socket.emit('channel/leaveUpdate', {channelId: channelId, targetUid: targetUserUid, granted: ChannelRole.ADMIN});
       }
       ).catch((err) => {
         setErrorMessage('Failed to set admin.');
@@ -188,8 +190,8 @@ export default function ProfileButton({ user }: { user: User }) {
     const targetUserUid : number = user.uid;
     const channelId : number = currentChannel.id;
       postRevokeAdmin(channelId, targetUserUid).then((res) => {
-        setCurrentUserRole(ChannelRole.NORMAL)
-        socket.emit('channel/innerUpdate', {channelId: channelId});
+        setCurrentUserRole(ChannelRole.NORMAL);
+        socket.emit('channel/leaveUpdate', {channelId: channelId, targetUid: targetUserUid, granted: ChannelRole.NORMAL});
       }).catch((err) => {
         setErrorMessage('Failed to revoke admin.');
         setIsNotificationVisible(true);
@@ -220,7 +222,7 @@ export default function ProfileButton({ user }: { user: User }) {
     const channelID : number = currentChannel.id;
     postBanUser(channelID, targetUserUid).then((res) => {
       setCurrentUser(myInfo);
-      socket.emit('channel/innerUpdate', {channelId: channelID});
+      socket.emit('channel/leaveUpdate', {channelId: channelID, targetUid: null, granted: null})
       socket.emit('channel/sendMessage', {channelId: channelID, content: `${res.data} has been banned.`, isNotice: true})
     }).catch((err) => {
       setErrorMessage('Failed to ban user.');
@@ -238,7 +240,7 @@ export default function ProfileButton({ user }: { user: User }) {
     const channelID : number = currentChannel.id;
     postKickUser(channelID, targetUserUid).then((res) => {
       setCurrentUser(myInfo);
-      socket.emit('channel/innerUpdate', {channelId: channelID});
+      socket.emit('channel/leaveUpdate', {channelId: channelID, targetUid: null, granted: null});
       socket.emit('channel/sendMessage', {channelId: channelID, content: `${res.data} has been kicked.`, isNotice: true})
     }).catch((err) => {
       setErrorMessage('Failed to kick user.');

@@ -49,7 +49,6 @@ export default function Game(
       let yourPos : number = 0;
       
       if (isHome) {
-
         setPaddleDto((prev) => new Map(prev.set('me', data.home)));
         setPaddleDto((prev) => new Map(prev.set('you', data.away)));
         myPos = 10;
@@ -61,13 +60,13 @@ export default function Game(
         yourPos = 10;
       }
       setBallDto(data.ball);
-
       setScore({me: data.home.score, you: data.away.score})
       setScorePos({me: myPos, you: yourPos});
       });
 
       socket.on('pong/game/update', ( data : { home: paddleDto, away: paddleDto, ball: ballDto }) =>
       {
+        console.log('update');
         if (isHome) {
           setPaddleDto((prev) => new Map(prev.set('me', data.home)));
           setPaddleDto((prev) => new Map(prev.set('you', data.away)));
@@ -82,20 +81,21 @@ export default function Game(
 
       socket.on('pong/game/end', ( payload : {is_win: boolean, home_score: number, away_score: number }) =>
       {
+        console.log('end');
         if (payload.is_win) setIsWin("YOU WIN");
         else setIsWin("YOU LOSE");
         
         if (isHome) setScore({me: payload.home_score, you: payload.away_score});
         else setScore({me: payload.away_score, you: payload.home_score});
+        setPaddleDto(new Map());
+        setBallDto({width: 0, height: 0, x: 0, y: 0, type: ''});
         setGameResult(true);
       });
-
       return () => {
         socket.off('pong/game/start');
         socket.off('pong/game/update');
         socket.off('pong/game/end');
       }
-
     }, [paddleDto, ballDto, isWin, score]);
 
     useEffect(() => {
