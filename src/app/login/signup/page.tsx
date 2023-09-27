@@ -5,6 +5,7 @@ import styles from "./signup.module.scss"
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { apiClient } from "@/app/axios/client";
+import { clearCookies } from "@/app/utils/clearCookies";
 
 export default function SignUp() {
   const router = useRouter();
@@ -13,7 +14,13 @@ export default function SignUp() {
 
   useEffect(() => {
     try {
+      const main = document.cookie?.split('; ')?.find(item => item.startsWith('main'))?.split('=')[1];
+      if (main) {
+        clearCookies();
+        router.push("/login");
+      }
     } catch (error) {
+      console.log(error);
       router.push("/login");
     }
   }, []);
@@ -154,7 +161,7 @@ const GameSelectButton = () => {
 
 const GameStartButton = ({ states }: { states: [string, string] }) => {
   const router = useRouter();
-  const [name, avatar] = states;
+  const [name] = states;
 
   const handleStart = () => {
     if (!name) return;

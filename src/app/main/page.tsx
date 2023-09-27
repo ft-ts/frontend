@@ -34,6 +34,8 @@ function Main() {
         setErrorMessage('');
       }, 2000);
     });
+
+    document.cookie = `main=true;`;
   }, []);
 
   return (

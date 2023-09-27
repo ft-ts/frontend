@@ -1,4 +1,4 @@
-"use-client";
+"use client";
 
 import React, { useState, useEffect} from "react";
 import styles from "./gameItem.module.scss";
@@ -91,13 +91,12 @@ export default function Game(
         setBallDto({width: 0, height: 0, x: 0, y: 0, type: ''});
         setGameResult(true);
       });
-
-      // return () => {
-      //   socket.off('pong/game/start');
-      //   socket.off('pong/game/update');
-      //   socket.off('pong/game/end');
-      // }
-    }, [ isWin, score]);
+      return () => {
+        socket.off('pong/game/start');
+        socket.off('pong/game/update');
+        socket.off('pong/game/end');
+      }
+    }, [paddleDto, ballDto, isWin, score]);
 
     useEffect(() => {
       const handleKeyPress = (e: KeyboardEvent) => {
