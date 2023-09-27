@@ -1,35 +1,22 @@
 'use client';
-// Todo edit this file
+
 import React, { useContext, useState } from 'react';
-import { useForm } from 'react-hook-form';
 import Modal from 'react-modal';
 import styles from './channelForm.module.scss';
 import { useGlobalContext, TabOptions } from '@/app/Context/store';
 import { socket } from '../components/CheckAuth';
-import ChannelProps from './interfaces/channelProps';
 import { joinChannel } from '@/app/axios/client';
-
-interface HookFormTypes {
-  password: string,
-}
 
 export default function PasswordModal({
   isOpen,
   onRequestClose,
-  setChannelErrorMessage,
-  channelErrorMessage,
-  setIsChannelNotificationVisible,
   tempChannelId,
 }:{
   isOpen: boolean,
   onRequestClose: () => void,
-  setChannelErrorMessage: (message: string | null) => void,
-  channelErrorMessage: string | null
-  setIsChannelNotificationVisible: (isVisible: boolean) => void
   tempChannelId: number | null
 }){
   const [password, setPassword] = useState<string>('');
-  const { register, handleSubmit } = useForm<HookFormTypes>();
   const { setCurrentChannel }: any = useGlobalContext();
   const { setCurrentChannelId }: any = useGlobalContext();
   const { setActiveTab }: any = useGlobalContext();
@@ -37,7 +24,6 @@ export default function PasswordModal({
   const { myInfo }: any = useGlobalContext();
   const { setErrorMessage }: any = useGlobalContext();
   const { setIsNotificationVisible }: any = useGlobalContext();
-  const { setCurrentUser }: any = useGlobalContext();
 
   const customStyles = {
     content: {
@@ -51,7 +37,7 @@ export default function PasswordModal({
     },
     overlay: {
       backgroundColor: 'rgba(0, 0, 0, 0.5)',
-      zIndex: 1000,
+      zIndex: 500,
     },
   }
 
@@ -59,14 +45,13 @@ export default function PasswordModal({
     setPassword(event.target.value);
   };
 
-  const onVaild = async ( password: HookFormTypes ) => {
+  const handleSubmit = async () => {
     if (!tempChannelId) {
       return;
     }
-    const pwd = password.password;
-    joinChannel(tempChannelId, pwd).then((res) => {
+    console.log(password);
+    joinChannel(tempChannelId, password).then((res) => {
       const { data } = res;
-      console.log(data.channel, data.role, data.isMember );
       setCurrentChannel(data.channel);
       setCurrentChannelId(data.channel.id);
       setActiveTab(TabOptions.CHANNEL);
@@ -77,7 +62,7 @@ export default function PasswordModal({
           content: `${myInfo.name} has joined the channel.`,
           isNotice: true,
         });
-        socket.emit('channel/innerUpdate', { channelId: data.channel.id });
+        socket.emit('channel/joinUpdate', { channelId: data.channel.id });
       }
     }).catch((err) => {
       setActiveTab(TabOptions.ALL);
@@ -90,10 +75,8 @@ export default function PasswordModal({
         setErrorMessage("");
       }, 3000);
     });
+    setPassword('');
     onRequestClose();
-  }
-
-  const onInvalid = (error : any) => {
   }
 
   return (
@@ -106,22 +89,18 @@ export default function PasswordModal({
       shouldCloseOnOverlayClick={false}
     >
       <ChannelEnterForm
-        password={password}
         handlePasswordChange={handlePasswordChange}
-        handleSubmit={handleSubmit(onVaild, onInvalid)}
+        handleSubmit={handleSubmit}
         onRequestClose={onRequestClose}
-        register={register}
       />
     </Modal>
   );
 };
 
 const ChannelEnterForm = ({
-  password,
   handlePasswordChange,
   handleSubmit,
   onRequestClose,
-  register,
 }: any) => {
   return (
     <div className={styles.channelEnterContainer}>
@@ -135,7 +114,6 @@ const ChannelEnterForm = ({
           type='password'
           placeholder='Password'
           onChange={handlePasswordChange}
-          {...register('password', { required: true })}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
               e.preventDefault(); // Prevent default behavior (form submission)

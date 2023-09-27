@@ -4,13 +4,10 @@ import React, { useState, useEffect } from 'react';
 import Modal from "react-modal";
 import styles from './edit.module.scss';
 import { EditForm } from "../editForm";
-import { useGlobalContext } from '@/app/Context/store';
 import { useRightWrapperContext } from '../../Context/rightWrapper.store';
 
 export default function EditMyProfile() {
   const { editModalOn, setEditModalOn }: any = useRightWrapperContext();
-  const { currentChannelId }: any = useGlobalContext();
-  const { activeTab }: any = useGlobalContext();
 
   const customStyles = {
     content: {
@@ -24,7 +21,7 @@ export default function EditMyProfile() {
     },
     overlay: {
       backgroundColor: "rgba(0, 0, 0, 0.5)",
-      zIndex: 1000,
+      zIndex: 500,
     },
   };
 

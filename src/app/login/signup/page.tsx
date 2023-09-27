@@ -5,7 +5,6 @@ import styles from "./signup.module.scss"
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { apiClient } from "@/app/axios/client";
-import { User } from "@/app/main/interface/User.interface";
 
 export default function SignUp() {
   const router = useRouter();
