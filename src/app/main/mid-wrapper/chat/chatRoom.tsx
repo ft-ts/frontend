@@ -25,14 +25,13 @@ export default function ChatRoom() {
   const { setIsNotificationVisible }: any = useGlobalContext();
   const { setErrorMessage }: any = useGlobalContext();
   const { blockList }: any = useGlobalContext();
-  const { userInfoFlag }: any = useGlobalContext();
   
   const scrollToBottom = (length : number) => {
     setTimeout(function() {
       if (messageEndRef.current) {
         messageEndRef.current.scrollTop = messageEndRef.current.scrollHeight;
       }
-    }, length);
+    }, length * 5);
   };
   
   useEffect(() => {
@@ -83,7 +82,7 @@ export default function ChatRoom() {
         }, 2000);
       });
     }
-  }, [currentChannelId, blockList, userInfoFlag]);
+  }, [currentChannelId, blockList]);
 
   useEffect(()=> {
     setChatMessages([]);
@@ -101,11 +100,13 @@ export default function ChatRoom() {
         }, 2000);
       });
     }
-  }, [currentDmId, userInfoFlag]);
+  }, [currentDmId]);
 
   useEffect(() => {
     socket.on('channel/sendMessage', (message: ChatMessage) => {
+      console.log("blockList: ", blockList)
       if (blockList.includes(message.sender.uid))   return ;
+
       if (currentChannelId === message.channel_id){
         setChatMessages((prevMessages) => [...prevMessages, message]);
       }
@@ -189,7 +190,7 @@ export default function ChatRoom() {
             onChange={(e) => setInputMessage(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
-                e.preventDefault(); 
+                e.preventDefault(); // Prevent default behavior (form submission)
                 handleSendMessage();
               }
             }}

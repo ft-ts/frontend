@@ -10,8 +10,7 @@ import { useGlobalContext } from '@/app/Context/store';
 import { TabOptions } from '@/app/Context/store';
 import { ChannelRole } from './enum/channelRole.enum';
 import UserInterface from '@/app/axios/interfaces/user.interface';
-import { getUserByUid, leaveChannel } from '@/app/axios/client';
-import { userInfo } from 'os';
+import { getUserByUid } from '@/app/axios/client';
 
 export default function ChatMenu() {
   const { currentChannelId }: any = useGlobalContext();
@@ -20,7 +19,6 @@ export default function ChatMenu() {
   const { myRole } : any = useGlobalContext();
   const { setIsNotificationVisible }: any = useGlobalContext();
   const { setErrorMessage }: any = useGlobalContext();
-  const { userInfoFlag }: any = useGlobalContext();
 
   const [dmTargetUser, setDmTargetUser] = useState<UserInterface | null>(null);
 
@@ -40,7 +38,7 @@ export default function ChatMenu() {
     });
     return () => {
     };
-  }, [currentDmId, userInfoFlag]);
+  }, [currentDmId]);
 
   return (
     <div className={styles.chatMenuBox}>
@@ -96,30 +94,23 @@ const CloseButton = () => {
 const ExitButton = () => {
   const { currentChannelId, setCurrentChannelId }: any = useGlobalContext();
   const { setCurrentChannel }: any = useGlobalContext();
-  const { setActiveTab }: any = useGlobalContext();
+  const { activeTab, setActiveTab }: any = useGlobalContext();
   const { setCurrentUser }: any = useGlobalContext();
   const { myInfo }: any = useGlobalContext();
 
   const handleExitChannel = () => {
-    leaveChannel(currentChannelId).then((res) => {
-      const data : {isDeleted:boolean, channelId: number, targetUid: number|null}= res.data;
-      if (data.isDeleted){
-        socket.emit('update/channelInfo'); 
-      } else if (!data.isDeleted) {
-        socket.emit('channel/leaveUpdate', { channelId: data.channelId, targetUid: data.targetUid, granted: ChannelRole.OWNER });
-        socket.emit('channel/sendMessage', {
-          channelId: data.channelId,
-          content: `${myInfo.name} has left the channel`,
-          isNotice: true,
-        });
-      }
-      setCurrentChannelId(null);
-      setCurrentChannel(null);
-      setCurrentUser(myInfo);
+    socket.emit('channel/leaveChannel', { channelId: currentChannelId });
+    if (activeTab !== TabOptions.ALL) {
       setActiveTab(TabOptions.ALL);
-    }).catch((err) => {
-      console.log('err',err);
-    });
+    }
+    socket.emit('channel/sendMessage', {
+      channelId: currentChannelId,
+      content: `${myInfo.name} has left the channel`,
+      isNotice: true,
+    })
+    setCurrentChannelId(null);
+    setCurrentChannel(null);
+    setCurrentUser(myInfo);
   };
 
   return (

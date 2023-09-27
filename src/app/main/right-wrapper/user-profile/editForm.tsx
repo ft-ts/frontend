@@ -4,9 +4,8 @@ import { useGlobalContext } from '@/app/Context/store';
 import { User } from '../../interface/User.interface';
 import { apiClient } from '@/app/axios/client';
 import { ValueInterface, useRightWrapperContext } from '../Context/rightWrapper.store';
+import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import { socket } from '../../components/CheckAuth';
-import { set } from 'react-hook-form';
 
 interface EditProfileProps {
   onClose: () => void;
@@ -15,9 +14,6 @@ interface EditProfileProps {
 export const EditForm = (props: EditProfileProps) => {
   const router = useRouter();
   const { myInfo, setMyInfo }: any = useGlobalContext();
-  const { userInfoFlag, setUserInfoFlag }: any = useGlobalContext();
-  const { isNotificationVisible, setIsNotificationVisible }: any = useGlobalContext();
-  const { errorMessage, setErrorMessage }: any = useGlobalContext();
   const { userList }: Partial<ValueInterface> = useRightWrapperContext();
   const avatarRef = React.useRef<HTMLLabelElement>(null);
   const TFABtn = React.useRef<HTMLButtonElement>(null);
@@ -48,15 +44,8 @@ export const EditForm = (props: EditProfileProps) => {
 
   const uploadImage = (file: File) => {
 
-    if (file.size > 200000){
-      setErrorMessage('200KB 이하의 이미지만 업로드 가능합니다.');
-      setIsNotificationVisible(true);
-      setTimeout(() => {
-        setErrorMessage('');
-        setIsNotificationVisible(false);
-      }, 2000);
-      return;
-    }
+    if (file.size > 200000)
+      return alert("200KB 이하의 이미지만 업로드 가능합니다.");
 
     const reader = new FileReader();
 
@@ -82,19 +71,11 @@ export const EditForm = (props: EditProfileProps) => {
         }).then((res) => {
           if (res.status === 200 && res.data?.avatar) {
             setMyInfo(res.data);
-            setUserInfoFlag(!userInfoFlag);
-            socket.emit('update/userInfo');
             alert("이미지 업로드에 성공했습니다.. ");
             props.onClose();
           }
-          else{
-            setErrorMessage('이미지 업로드에 실패했습니다.. ');
-            setIsNotificationVisible(true);
-            setTimeout(() => {
-              setErrorMessage('');
-              setIsNotificationVisible(false);
-            }, 2000);
-          }
+          else
+            alert("이미지 업로드에 실패했습니다.. ");
         });
         setAvatar(e.target.result);
       }
@@ -114,42 +95,26 @@ export const EditForm = (props: EditProfileProps) => {
   }
 
   const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.target.value = e.target.value.replace(/[^a-zA-Z]/g, "");
+    e.target.value = e.target.value.replace(/[^a-zA-Z\s]/g, "");
+
     if (e.target.value.length > 10)
       return;
+
     setname(e.target.value);
   }
 
   const handleUpdate = async () => {
-    //
-    if (name === myInfo.name) {
-      setErrorMessage('닉네임이 변경되지 않았습니다.');
-      setIsNotificationVisible(true);
-      setTimeout(() => {
-        setErrorMessage('');
-        setIsNotificationVisible(false);
-      }, 2000);
-      return;
-    }
     if (name.length < 3) {
-      setErrorMessage('닉네임은 3글자 이상이어야 합니다.');
-      setIsNotificationVisible(true);
-      setTimeout(() => {
-        setErrorMessage('');
-        setIsNotificationVisible(false);
-      }, 2000);
+      alert("닉네임은 3글자 이상이어야 합니다.");
       return;
     }
+
     const isExist = userList?.find((user: User) => user.name === name);
     if (isExist) {
-      setErrorMessage('이미 존재하는 닉네임입니다.');
-      setIsNotificationVisible(true);
-      setTimeout(() => {
-        setErrorMessage('');
-        setIsNotificationVisible(false);
-      }, 2000);
+      alert("이미 존재하는 닉네임입니다."); // 😡😡😡 Modal로 바꾸기
       return;
     }
+
     const userData: Partial<User> = {
       twoFactorAuth: TFA,
     };
@@ -159,11 +124,8 @@ export const EditForm = (props: EditProfileProps) => {
     console.log("🤬 userData: ", userData);
     
     await apiClient.patch(`/users`, userData).then((res) => {
-      if (res.status === 200){
+      if (res.status === 200)
         setMyInfo(res.data);
-        setUserInfoFlag(!userInfoFlag);
-        socket.emit('update/userInfo');
-      }
     });
     props.onClose();
   }

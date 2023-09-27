@@ -195,8 +195,3 @@ export async function joinChannel(channelId: number, password: string): Promise<
   const payload = { channelId: channelId, password: password };
   return await apiClient.post(`/channels/join`, payload);
 }
-
-export async function leaveChannel(channelId: number) {
-  const payload = { channelId: channelId};
-  return await apiClient.post(`/channels/leave`, payload);
-}

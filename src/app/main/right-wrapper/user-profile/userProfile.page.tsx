@@ -7,14 +7,13 @@ import ProfileButton from './Components/userProfile.button';
 import { useGlobalContext } from '@/app/Context/store';
 import { useEffect } from 'react';
 import { socket } from '@/app/main/components/CheckAuth';
-import { getUserByUid, getMyInfo } from '@/app/axios/client';
+import { getUserByUid } from '@/app/axios/client';
 
 export default function UserProfile() {
   const { currentUser, setCurrentUser }: any = useGlobalContext();
-  const { myInfo, setMyInfo }: any = useGlobalContext();
+  const { myInfo }: any = useGlobalContext();
   const { setIsNotificationVisible }: any = useGlobalContext();
   const { setErrorMessage }: any = useGlobalContext();
-  const { userInfoFlag, setUserInfoFlag }: any = useGlobalContext();
 
   useEffect(() => {
     if (myInfo.uid === currentUser.uid)
@@ -22,26 +21,9 @@ export default function UserProfile() {
   }, [myInfo]);
 
   useEffect(() => {
-    socket.on('update/userInfo', (data:{uid: number}) => {
-      console.log('updateUserInfo123', data.uid, myInfo.uid, currentUser.uid);
-      if (data.uid === myInfo.uid) {
-        console.log('updateMyInfo');
-        getMyInfo().then((res) => {
-          const { data } = res;
-          setMyInfo(data);
-        }).catch((err) => {
-          setErrorMessage('Failed to get my info');
-          setIsNotificationVisible(true);
-          setTimeout(() => {
-            setIsNotificationVisible(false);
-            setErrorMessage('');
-          }, 2000);
-        });
-      } else if (data.uid === currentUser.uid) {
-        getUserByUid(data.uid).then((res) => {
-
-          console.log('updateUserInfo', res.data);
-          setUserInfoFlag(!userInfoFlag);
+    socket.on('update/userInfo', (uid: number) => {
+      if (uid === currentUser.uid) {
+        getUserByUid(uid).then((res) => {
           setCurrentUser(res.data);
         }).catch((err) => {
           setErrorMessage('Failed to get user info');
@@ -56,7 +38,7 @@ export default function UserProfile() {
     return () => {
       socket.off('update/userInfo');
     }
-  }, [currentUser, userInfoFlag]);
+  }, [currentUser]);
 
   return (
     <div className={styles.profileBackground}>

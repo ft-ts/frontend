@@ -3,6 +3,8 @@
 import React, { useEffect, useState } from 'react';
 import styles from './profile.module.scss';
 import { User } from '@/app/main/interface/User.interface';
+import { UserStatus } from '@/app/main/enum/UserStatus.enum';
+import { renderUserStatus } from '../../Common/right-wrapper.utils';
 
 export default function Profile({ user }: { user: User }) {
   const [ladder, setLadder] = useState(true);
@@ -48,6 +50,7 @@ export default function Profile({ user }: { user: User }) {
         alt={user.name}
       />
       <div className={styles.topContainer}>
+          {renderUserStatus({userStatus: user.status as UserStatus})}
         <div className={styles.userNameBox}>
           <h2 className={styles.userName}>{user.name}</h2>
         </div>

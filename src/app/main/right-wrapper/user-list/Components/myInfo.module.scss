@@ -18,8 +18,15 @@
   background-color: #3c3c3c;
 }
 
+.myAvatarBox{
+  // display: flex;
+  // align-items: center;
+  // justify-content: center;
+}
+
 .myAvatar {
   margin-left: 8%;
+  background-color: deeppink;
   width: 75px;
   height: 75px;
   border-radius: 50%;
@@ -32,6 +39,7 @@
   box-sizing: border-box;
   position: relative;
   width: 280px;
+  // height: 90px;
 }
 
 .myName {
@@ -46,6 +54,7 @@
   box-sizing: border-box;
   position: relative;
   width: 130px;
+  // height: 80px;
 }
 
 .myStatus {

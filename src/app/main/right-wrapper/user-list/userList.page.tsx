@@ -13,23 +13,17 @@ import { ChannelUser } from '../../mid-wrapper/chat/interfaces/channelUser.inter
 import { TabOptions } from './userList.enum';
 import { socket } from '@/app/main/components/CheckAuth';
 import { useRightWrapperContext } from '../Context/rightWrapper.store';
-import { ChannelRole } from '../../mid-wrapper/chat/enum/channelRole.enum';
-import { userInfo } from 'os';
 
 export default function UserList() {
 
   const { userList, setUserList }: any = useRightWrapperContext();
-  const { friendList, setFriendList }: any = useRightWrapperContext();
+  const { friendList, setFriendList }: any = useGlobalContext();
   const { channelMembers, setChannelMembers }: any = useRightWrapperContext();
 
   const { activeTab, setActiveTab }: any = useGlobalContext();
   const { setIsNotificationVisible }: any = useGlobalContext();
   const { setErrorMessage }: any = useGlobalContext();
   const { currentChannelId }: any = useGlobalContext();
-  const { channelFlag, setChannelFlag }: any = useGlobalContext();
-  const { myInfo }: any = useGlobalContext();
-  const { setMyRole }: any = useGlobalContext();
-  const { userInfoFlag, setUserInfoFlag }: any = useGlobalContext();
 
   const setUserLists = () => {
     if (activeTab === TabOptions.ALL) {
@@ -75,7 +69,7 @@ export default function UserList() {
 
   useEffect(() => {
     setUserLists();
-  }, [activeTab, userInfoFlag]);
+  }, [activeTab]);
 
   useEffect(() => {
     socket.on('update/friends', () => {
@@ -86,36 +80,24 @@ export default function UserList() {
       setUserLists();
     });
     socket.on('update/userConnection', () => {
-      console.log('update/userConnection');
       if (activeTab === TabOptions.ALL) {
         setUserLists();
       }
     });
-
-    socket.on('channel/joinUpdate', (data: {channelId: number}) => {
-      if (currentChannelId === data.channelId) {
+    socket.on('channel/innerUpdate', (channelId: number) => {
+      setActiveTab(TabOptions.CHANNEL);
+      if (currentChannelId === channelId) {
+        console.log('test')
         setUserLists();
-        setChannelFlag(!channelFlag);
-      }
-    });
-
-    socket.on('channel/leaveUpdate', (data: {channelId: number, targetUid: number|null, granted: ChannelRole|null}) => {
-      if (currentChannelId === data.channelId) {
-        setUserLists();
-        if (data.targetUid && data.granted){
-          if (data.targetUid === myInfo.uid) {
-            setMyRole(data.granted);
-          }
-        }
       }
     });
     return () => {
       socket.off('update/friends');
       socket.off('update/userConnection');
-      socket.off('channel/joinUpdate')
-      socket.off('channel/leaveUpdate')
+      socket.off('channels/grant');
+      socket.off('channel/innerUpdate');
     }
-  }, [activeTab, channelFlag]);
+  }, [activeTab]);
 
   useEffect(() => {
     if (currentChannelId) {

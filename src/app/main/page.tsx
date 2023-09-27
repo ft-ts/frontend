@@ -14,10 +14,8 @@ function Main() {
   const { setCurrentUser } : any = useGlobalContext();
   const { setBlockList } : any = useGlobalContext();
   const { setIsNotificationVisible, setErrorMessage }: any = useGlobalContext();
-  const { initFlag, setInitFlag }: any = useGlobalContext();
 
   useEffect(() => {
-    console.log('main page');
     getMyInfo().then((res) => {
       const { data } = res;
       data.blocked?.forEach((blockedUser: any) => {
@@ -25,7 +23,6 @@ function Main() {
       });
       setMyInfo(data);
       setCurrentUser(data);
-      setInitFlag(!initFlag);
     }).catch((err) => {
       setErrorMessage('Failed to get my info');
       setIsNotificationVisible(true);
