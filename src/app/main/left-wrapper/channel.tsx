@@ -11,10 +11,13 @@ import PasswordModal from "./passwordModal";
 import { socket } from "../components/CheckAuth";
 import { useGlobalContext, TabOptions } from "@/app/Context/store";
 import { getChannelList, getMyChannelList, joinChannel } from "@/app/axios/client";
+import { ChannelRole } from "../mid-wrapper/chat/enum/channelRole.enum";
 
 function Channel() {
   const [selectedTab, setSelectedTab] = useState(ChannelTabOptions.ALL);
   const [showPasswordModal, setShowPasswordModal] = useState<boolean>(false);
+  const [channelErrorMessage, setChannelErrorMessage] = useState<string | null>(null);
+  const [isChannelNotificationVisible, setIsChannelNotificationVisible] = useState<boolean>(false);
   const [tempChannelId, setTempChannelId] = useState<number | null>(null);
   const [channels, setChannels] = useState<ChannelItemProps[]>([]);
 
@@ -24,10 +27,10 @@ function Channel() {
   const { currentChannel, setCurrentChannel }: any = useGlobalContext();
   const { currentChannelId, setCurrentChannelId }: any = useGlobalContext();
   const { myInfo }: any = useGlobalContext();
+  const { setCurrentUser }: any = useGlobalContext();
   const { isNotificationVisible, setIsNotificationVisible }: any = useGlobalContext();
   const { errorMessage, setErrorMessage }: any = useGlobalContext();
   const { setIsNewMyChannel }: any = useGlobalContext();
-  const { channelFlag } : any = useGlobalContext();
 
   const handleTabClick = (tab: ChannelTabOptions) => {
     setSelectedTab(tab);
@@ -80,14 +83,43 @@ function Channel() {
     }
   }, [selectedTab]);
 
+  useEffect(() => {
+    if (currentChannel === null) {
+      return;
+    }
+
+    socket.on('channel/changeGranted', (data: { channelId: number, granted: ChannelRole }) => {
+      if (data.channelId === currentChannel.id) {
+        setMyRole(data.granted);
+      }
+    });
+
+    socket.on('channel/leaveChannel/success', (channelId: number) => {
+      if (channelId === currentChannel.id) {
+
+        setCurrentChannel(null);
+        setCurrentChannelId(null);
+        setActiveTab(TabOptions.ALL);
+        setCurrentUser(myInfo);
+        socket.emit('channel/innerUpdate', { channelId: channelId });
+      }
+    });
+
+    return () => {
+      socket.off("channel/changeGranted");
+    }
+  }, [currentChannel]);
+
+
   const handleChannelClick = async (chId: number) => {
     setCurrentDmId(null);
     const channel = channels.find((ch) => ch.id === chId);
-    if (!channel) return ;
-    else if (currentChannelId === chId) return;
-  
+    if (!channel) {
+      return;
+    } else if (currentChannelId === chId) return;
     joinChannel(chId, '').then((res) => {
       const { data } = res;
+      console.log(data.channel, data.role, data.isMember);
       setCurrentChannel(data.channel);
       setCurrentChannelId(data.channel.id);
       setActiveTab(TabOptions.CHANNEL);
@@ -98,7 +130,7 @@ function Channel() {
           content: `${myInfo.name} has joined the channel.`,
           isNotice: true,
         });
-        socket.emit('channel/joinUpdate', { channelId: data.channel.id });
+        socket.emit('channel/innerUpdate', { channelId: data.channel.id });
       }
     }).catch((err) => {
       if (err.response.data.message === 'Password is required for a PROTECTED channel.') {
@@ -147,6 +179,9 @@ function Channel() {
         onRequestClose={() => {
           setShowPasswordModal(false)
         }}
+        setChannelErrorMessage={setErrorMessage}
+        channelErrorMessage={setErrorMessage}
+        setIsChannelNotificationVisible={setIsNotificationVisible}
         tempChannelId={tempChannelId}
       />
     </div >

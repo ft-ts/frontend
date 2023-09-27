@@ -7,7 +7,6 @@ import { getUserByUid } from "@/app/axios/client";
 import UserInterface from "@/app/axios/interfaces/user.interface";
 import { useGlobalContext } from "@/app/Context/store";
 import { formatTime } from "./chat.utils";
-import { userInfo } from "os";
 
 function MessageItem({ chatMessage }: { chatMessage: ChatMessage }) {
 
@@ -26,7 +25,6 @@ const UserMessage = ({ chatMessage }: { chatMessage: ChatMessage}) => {
   const { myInfo }: any = useGlobalContext();
   const { setCurrentUser }: any = useGlobalContext();
 
-  
   const handleClickedProfile = () => {
     setCurrentUser(chatMessage.sender);
   }
